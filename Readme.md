@@ -1,7 +1,7 @@
 # Личный проект «TaskForce»
 
 * Студент: [Аня Куликова](https://up.htmlacademy.ru/yii/1/user/1005307).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Титаков] (https://htmlacademy.ru/profile/id1243803).
 
 ---
 
