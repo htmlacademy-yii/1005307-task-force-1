@@ -1,5 +1,6 @@
 <?php
-require 'task.php';
+set_include_path('class');
+spl_autoload_register();
 
 $idDoer = 1;
 $idClient = 2;
@@ -10,5 +11,5 @@ $isTaskActionsAll = $task->getActionsAll();
 $isPosibleActionForClient = $task->getPosibleActionForClient($currentStatus);
 $isPosibleActionsForDoer = $task->getPosibleActionForDoer(Task::STATUS_NEW);
 $isPosibleStatus = $task->getPosibleStatus($currentStatus);
-var_dump($isPosibleActionsForDoer); 
+var_dump($isPosibleActionForClient);
 ?>
