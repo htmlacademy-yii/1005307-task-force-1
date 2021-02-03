@@ -1,7 +1,6 @@
 <?php
 
-
-class task {
+class Task {
   
   const STATUS_NEW = 'НОВЫЙ';
   const STATUS_WORK = 'В РАБОТЕ';
@@ -9,7 +8,7 @@ class task {
   const STATUS_DONE = 'ВЫПОЛНЕНО';
   const STATUS_FAILED = 'ПРОВАЛЕНО';
   const ACTION_CANCEL = 'ОТМЕНИТЬ';
-  const ACTION_RESPOND= 'ОТКЛИКНУТЬСЯ';
+  const ACTION_RESPOND = 'ОТКЛИКНУТЬСЯ';
   const ACTION_DONE = 'ВЫПОЛНЕНО';
   const ACTION_REFUSE = 'ОТКАЗАТЬСЯ';
 
@@ -17,12 +16,13 @@ class task {
   public $idClient;
   public $currentStatus;
   
-  public function __construct() {
-    $this -> $idDoer = $idDoer;
-    $this -> $currentStatus = STATUS_NEW;    
-}
+  public function __construct($idDoer, $idClient, $currentStatus) {
+    $this->idDoer = $idDoer; 
+    $this->idClient = $idClient;
+    $this->currentStatus = $currentStatus; 
+  }
   
-   function getStatusAll() {
+  public function getStatusAll() {
     $statusAll = ['new' => STATUS_NEW,
                  'work' => STATUS_WORK,
                  'cancelled' => STATUS_CANCELLED, 'done' => STATUS_DONE,
@@ -38,25 +38,28 @@ class task {
                   ];
     return $actionAll;
   }
-  
+
   public function getPosibleStatus($currentStatus) {
-    switch($this -> $currentStatus) {
-      case STATUS_NEW: { return(['work' => STATUS_WORK, 'canceled' => STATUS_CANCELLED]);}
-      case STATUS_WORK:  return (['done' => STATUS_DONE, 'failed' => STATUS_FAILED]);
-    }    
+    switch($currentStatus) {
+      case self::STATUS_NEW: return ['work' => STATUS_WORK, 'canceled' => STATUS_CANCELLED];
+      case self::STATUS_WORK: return ['done' => STATUS_DONE, 'failed' => STATUS_FAILED];      
+    } 
+    return null;    
   }
   
-  public function getPosibleActionForClient() {
-    switch($this -> $currentStatus) {
-      case STATUS_NEW: return ['cancel' => ACTION_CANCEL];
-      case STATUS_WORK: return ['done' => ACTION_DONE];
+  public function getPosibleActionForClient($currentStatus) {   
+    switch($currentStatus) {
+      case self::STATUS_NEW: return ['cancel' => ACTION_CANCEL];
+      case self::STATUS_WORK: return ['done' => ACTION_DONE];
     }
+    return null;
   }
   
-  public function getPosibleActionForDoer() {
-    switch($this -> $currentStatus) {
-      case STATUS_NEW:  return['respond' => ACTION_RESPOND];
-      case STATUS_WORK:  return (['refuse' -> ACTION_REFUSE]);
+  public function getPosibleActionForDoer($currentStatus) {
+    switch($currentStatus) {
+      case self::STATUS_NEW: return ['respond' => ACTION_RESPOND];
+      case self::STATUS_WORK: return ['refuse' => ACTION_REFUSE];
+      return null; 
     }
   }
 }
