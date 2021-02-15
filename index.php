@@ -1,8 +1,9 @@
 <?php
 declare(strict_types = 1);
-//set_include_path('class');
-//spl_autoload_register();
-require 'class/task.php';
+spl_autoload_register(function ($class) {
+    require_once 'src/businesslogic/' . $class . '.php';
+});
+
 
 $idDoer                   = 1;
 $idClient                 = 2;
