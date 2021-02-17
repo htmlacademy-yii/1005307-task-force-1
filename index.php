@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 spl_autoload_register(function ($class) {
-    require_once 'src/businesslogic/' . $class . '.php';
+    require_once 'src/base/' . $class . '.php';
 });
 
 

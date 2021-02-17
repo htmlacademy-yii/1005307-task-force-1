@@ -7,12 +7,9 @@
             "email": "anyakulikova111@gmail.com"
         }
     ],
-    "require": {
-        "friendsofphp/php-cs-fixer": "^2.18"
-    },
   "autoload": {
     "psr-4": {
-      "localhost\\": "src/businesslogic/"
+      "localhost\\": "src/base/"
     }
   }
 }

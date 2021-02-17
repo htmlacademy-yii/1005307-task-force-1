@@ -17,7 +17,7 @@ class Task
     public $idClient;
     public $currentStatus;
 
-    public function __construct($idDoer, $idClient, $currentStatus)
+    public function __construct(int $idDoer, int $idClient, string $currentStatus)
     {
         $this->idDoer        = $idDoer;
         $this->idClient      = $idClient;
@@ -45,7 +45,7 @@ class Task
         ];
     }
 
-    public function getPossibleStatus($currentStatus): array
+    public function getPossibleStatus(string $currentStatus): array
     {
         switch ($currentStatus) {
             case self::STATUS_NEW:
@@ -54,10 +54,10 @@ class Task
                 return ['done' => self::STATUS_DONE, 'failed' => self::STATUS_FAILED];
         }
 
-        return array();
+        return [];
     }
 
-    public function getPossibleActionForClient($currentStatus): array
+    public function getPossibleActionForClient(string $currentStatus): array
     {
         switch ($currentStatus) {
             case self::STATUS_NEW:
@@ -66,10 +66,10 @@ class Task
                 return ['done' => self::ACTION_DONE];
         }
 
-        return array();
+        return [];
     }
 
-    public function getPossibleActionForDoer($currentStatus): array
+    public function getPossibleActionForDoer(string $currentStatus): array
     {
         switch ($currentStatus) {
             case self::STATUS_NEW:
@@ -78,6 +78,6 @@ class Task
                 return ['refuse' => self::ACTION_REFUSE];
         }
 
-        return array();
+        return [];
     }
 }
