@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS work_example
     photo   varchar(128)
 );
 
-CREATE IF NOT EXISTS TABLE file_task
+CREATE TABLE IF NOT EXISTS file_task
 (
     id        INT AUTO_INCREMENT PRIMARY KEY,
     task_id   int(10),
