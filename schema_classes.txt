@@ -6,7 +6,7 @@
 - LandingPageHeader - хедер лэндинг страницы
 - MainPageHeader - хедер страниц авторизированного пользователя
 
-2) landingPage - содержание лэндинга со вставкой последних заданий
+2) LandingPage - содержание лэндинга со вставкой последних заданий
 
 3) Tasks -
 - NewTasksPage - список новых заданий с фильтрами и поиском
@@ -24,26 +24,33 @@
 - SignUpModal - модальное окно входа на сайт
 
 КОНТРОЛЛЕРЫ
+- AccountController - работа аккаунтом пользователя
 - LandingController - работа с лэндингом
 - LogoutController - выход пользователя
 - SignUpController - регистрация пользователя
 - TaskController - работа с заданиями
 - UserController - работа с пользователями
+- MessageController - работа с сообщениями
+- OpinionsController - работа с отзывами
 
 MOДЕЛИ для таблиц базы данных
 
 папка forms
-- loginForm - форма авторизации
-- signupForm - форма регистрации
+- LoginForm - форма авторизации
+- SignupForm - форма регистрации
 - TaskForm - форма создания задания
-- userForm - форма настроек аккаунты
+- MessageForm - форма отправки сообщения
+- ReviewForm - форма отправки отклика на задание
+- UserForm - форма отправки отзыва
 
 вне папок:
 - Categories  категории
 - Cities города
 - Favourites - избанные
+- FileTask - файлы заданий
 - Message - сообщения
 - Notifications - уведомления
+- Opinions - отзывы
 - PortfolioPhoto - фото портфолио
 - Response - отклики
 - Task - задания
