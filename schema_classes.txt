@@ -2,17 +2,22 @@
 
 ШАБЛОНЫ.
 1) layouts
-- layout - теги <head> <footer> с содержанием, $headerContent, $mainContent переменные для вставки header и main.
+- layout - теги <head> <footer> с содержанием, $headerContent, $mainContent, $modal, $script, переменные для вставки header и main, скриптов и модальных окон.
 - LandingPageHeader - хедер лэндинг страницы
 - MainPageHeader - хедер страниц авторизированного пользователя
 
 2) LandingPage - содержание лэндинга со вставкой последних заданий
+- LandingPage - основное содержание
+- SignUpModal - модальное окно входа на сайт
+- Script - подключение js
 
 3) Tasks -
 - NewTasksPage - список новых заданий с фильтрами и поиском
 - CreateTaskPage - страница создания нового задания
 - MyTasksPage - страница моих заданий
 - ViewTaskPage - страница просмотра задания - инфа о задании, отклики, чат
+- Script - подключение js
+- Modal - модальные окна на страницах заданий
 
 4) Users
 - UsersPage - страница списка исполнителей с фильтами
@@ -21,7 +26,6 @@
 5) Account
 - RegistrationPage - страница регистрации пользователя
 - SettingPage - страница настроек пользователя
-- SignUpModal - модальное окно входа на сайт
 
 КОНТРОЛЛЕРЫ
 - AccountController - работа аккаунтом пользователя
