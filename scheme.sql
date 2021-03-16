@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS response_task
 
 CREATE TABLE IF NOT EXISTS tasks (
     id               INT AUTO_INCREMENT PRIMARY KEY,
-    nameTask         varchar(128),
+    name_task         varchar(128),
     id_category      int(10),
     date_create      DATETIME,
     price            int(5),
