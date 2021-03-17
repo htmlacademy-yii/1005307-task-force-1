@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS file_task
 
 CREATE TABLE IF NOT EXISTS messages
 (
-    messages_id  INT AUTO_INCREMENT PRIMARY KEY,
+    message_id  INT AUTO_INCREMENT PRIMARY KEY,
     text         text,
     doer_id      int(10),
     client_id    int(10),
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS messages
 
 CREATE TABLE IF NOT EXISTS notifications
 (
-    notifications_id  INT AUTO_INCREMENT PRIMARY KEY,
+    notification_id  INT AUTO_INCREMENT PRIMARY KEY,
     user_id           int(10),
     title             varchar(128),
     is_view           TINYINT(1),
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS notifications
 
 CREATE TABLE IF NOT EXISTS opinions
 (
-    opinions_id  INT AUTO_INCREMENT PRIMARY KEY,
+    opinion_id  INT AUTO_INCREMENT PRIMARY KEY,
     title        varchar(128),
     text_opinion text,
     doer_id      int(10),
