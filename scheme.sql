@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS cities
     name_city varchar(128)
 );
 
-
 CREATE TABLE IF NOT EXISTS users (
     user_id                   INT AUTO_INCREMENT PRIMARY KEY,
     date_registration         DATE,
@@ -71,9 +70,6 @@ CREATE TABLE IF NOT EXISTS tasks (
     FOREIGN KEY (client_id) REFERENCES users(user_id)
 );
 
-
-
-
 CREATE TABLE IF NOT EXISTS favourites
 (
     favourite_id   INT AUTO_INCREMENT PRIMARY KEY,
@@ -120,7 +116,6 @@ CREATE TABLE IF NOT EXISTS notifications
     FOREIGN KEY (task_id) REFERENCES tasks(task_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-
 
 CREATE TABLE IF NOT EXISTS opinions
 (
