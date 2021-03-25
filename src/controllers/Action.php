@@ -1,0 +1,26 @@
+<?php
+
+namespace TaskForce\controllers;
+
+abstract class Action
+{
+    public $doer_id;
+    public $client_id;
+    public $user_id;
+
+    public function __construct(int $doer_id, int $client_id, int $user_id)
+    {
+        $this->doer_id = $doer_id;
+        $this->client_id = $client_id;
+        $this->user_id = $user_id;
+
+    }
+
+    abstract protected function getTitle();
+
+    abstract protected function getVar();
+
+    abstract protected function getAccess(): bool;
+}
+
+
