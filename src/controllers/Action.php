@@ -4,10 +4,6 @@ namespace TaskForce\controllers;
 
 abstract class Action
 {
-    public $doer_id;
-    public $client_id;
-    public $user_id;
-
     public function __construct(int $doer_id, int $client_id, int $user_id)
     {
         $this->doer_id = $doer_id;

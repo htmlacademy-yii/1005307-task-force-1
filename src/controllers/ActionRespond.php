@@ -9,12 +9,12 @@ class ActionRespond extends Action
         return 'ОТКЛИКНУТЬСЯ';
     }
 
-    function getVar(): string
+    public function getVar(): string
     {
         return 'ACTION_RESPOND';
     }
 
-    function getAccess(): bool
+    public function getAccess(): bool
     {
         return $this->user_id === $this->doer_id;
     }

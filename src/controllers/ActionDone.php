@@ -1,6 +1,7 @@
 <?php
 
 namespace TaskForce\controllers;
+
 class ActionDone extends Action
 {
     public function getTitle(): string
