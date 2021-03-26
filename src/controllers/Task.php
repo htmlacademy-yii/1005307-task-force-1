@@ -59,10 +59,10 @@ class Task
     public function getActionsAll(): array
     {
         return [
-          'cancel' => self::ACTION_CANCEL,
-          'respond' => self::ACTION_RESPOND,
-          'done' => self::ACTION_DONE,
-          'refuse' => self::ACTION_REFUSE,
+            'cancel' => self::ACTION_CANCEL,
+            'respond' => self::ACTION_RESPOND,
+            'done' => self::ACTION_DONE,
+            'refuse' => self::ACTION_REFUSE,
         ];
     }
 
