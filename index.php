@@ -1,17 +1,20 @@
 <?php
-declare(strict_types = 1);
-spl_autoload_register(function ($class) {
-    require_once 'src/base/' . $class . '.php';
-});
+declare(strict_types=1);
+require_once __DIR__ . '/vendor/autoload.php';
 
+use TaskForce\controllers\Task;
 
-$idDoer                   = 1;
-$idClient                 = 2;
-$currentStatus            = Task::STATUS_WORK;
-$task                     = new Task($idDoer, $idClient, $currentStatus);
-$isTaskStatusAll          = $task->getStatusAll();
-$isTaskActionsAll         = $task->getActionsAll();
-$isPossibleActionForClient = $task->getPossibleActionForClient($currentStatus);
-$isPossibleActionsForDoer  = $task->getPossibleActionForDoer(Task::STATUS_NEW);
+$idDoer                    = 2;
+$idClient                  = 3;
+$idUser                    = 3;
+$currentStatus             = Task::STATUS_NEW;
+$task                      = new Task($idDoer, $idClient, $idUser, $currentStatus);
+$isTaskStatusAll           = $task->getStatusAll();
+$isTaskActionsAll          = $task->getActionsAll();
+$isPossibleActionsForUser  = $task->getActionsUser($currentStatus);
 $isPossibleStatus          = $task->getPossibleStatus($currentStatus);
-var_dump($isPossibleActionForClient);
+
+if ( $isPossibleActionsForUser ) var_dump($isPossibleActionsForUser->getTitle());
+else var_dump('Для данного пользователя не возможных действий');
+
+
