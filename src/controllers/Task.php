@@ -24,6 +24,14 @@ class Task
     public const ROLE_DOER = 'ИСПОЛНИТЕЛЬ';
     public const ROLE_CLIENT = 'ЗАКАЗЧИК';
 
+    public $status = [
+        'НОВЫЙ' => 'NEW',
+        'В РАБОТЕ' => 'WORK',
+        'ОТМЕНЕНО' => 'CANCELLED',
+        'ВЫПОЛНЕНО' => 'DONE',
+        'ПРОВАЛЕНО' => 'FAILED'
+    ];
+
     public $nextAction = [
         self::STATUS_NEW => [
             self::ROLE_DOER => ActionRespond::class,
@@ -40,7 +48,7 @@ class Task
         $this->idDoer = $idDoer;
         $this->idClient = $idClient;
         $this->idUser = $idUser;
-        if ($currentStatus !== self::STATUS_WORK and $currentStatus !== self::STATUS_CANCELLED and $currentStatus !== self::STATUS_DONE and $currentStatus !== self::STATUS_FAILED and $currentStatus !== self::STATUS_NEW) {
+        if (!isset($this->status[$currentStatus])) {
             throw new  StatusException('Задан невозможный текущий статус в конструкторе класса Task');
         }
         $this->currentStatus = $currentStatus;
@@ -74,7 +82,7 @@ class Task
 
     public function getPossibleStatus(string $currentStatus): array
     {
-        if ($currentStatus !== self::STATUS_NEW and $currentStatus !== self::STATUS_WORK) {
+        if (!isset($this->status[$currentStatus])) {
             throw new  StatusException('Задан невозможный текущий статус в методе getPosibleStatus класса Task');
         }
         switch ($currentStatus) {
@@ -89,11 +97,14 @@ class Task
 
     public function getActionsUser(string $currentStatus): ?Action
     {
-        if ($currentStatus !== self::STATUS_NEW and $currentStatus !== self::STATUS_WORK) {
+        if (!isset($this->status[$currentStatus])) {
             throw new  StatusException('Задан невозможный текущий статус в методе getActionsUser класса Task');
         }
         if ($this->isClientOrDoer()) {
             $role = $this->idUser === $this->idClient ? self::ROLE_CLIENT : self::ROLE_DOER;
+            if (!isset($this->nextAction[$currentStatus])) {
+                throw new  StatusException('Для данного статуса в методе getActionsUser класса Task нет доступныхдействий');
+            }
             return new $this->nextAction[$currentStatus][$role]($this->idDoer, $this->idClient, $this->idUser);
         }
         return null;
