@@ -19,11 +19,10 @@ try {
     $isTaskActionsAll = $task->getActionsAll();
 
     try {
-        $isPossibleActionsForUser = $task->getActionsUser( Task::STATUS_NEW);
+        $isPossibleActionsForUser = $task->getActionsUser(Task::STATUS_NEW);
         if ($isPossibleActionsForUser) {
             var_dump($isPossibleActionsForUser->getTitle());
-        }
-        else {
+        } else {
             var_dump('Для данного пользователя нет возможных действий');
         }
     } catch (StatusException $e) {
@@ -36,8 +35,6 @@ try {
     } catch (StatusException $e) {
         var_dump('Выброшено исключение:' . $e->getMessage(), "\n");
     }
-}
-
-catch (StatusException $e) {
+} catch (StatusException $e) {
     var_dump('Выброшено исключение:' . $e->getMessage(), "\n");
 }
