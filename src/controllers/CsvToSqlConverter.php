@@ -32,7 +32,6 @@ final class CsvToSqlConverter
         $this->dataBaseTable = $dataBaseTable;
         $this->sqlName = 'data/' . 'sql/' . $this->dataBaseTable . '.sql';
         $this->csvName = 'data/' . $csvName;
-// 		var_dump($dataBaseTable, $this->sqlName,$this->csvName);
     }
 
     public function convert(): void
@@ -54,7 +53,6 @@ final class CsvToSqlConverter
         );
 
         $firstSqlLine = "INSERT INTO $this->dataBaseTable (" . $columns . ")\r\n" . 'VALUES ("' . $firstValues . '"),';
-//		var_dump($firstSqlLine);
         $this->writeLine($sqlFileObject, $firstSqlLine);
 
         foreach ($this->getNextLine($csvFileObject) as $insertingValues) {
