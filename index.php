@@ -3,8 +3,22 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+use TaskForce\controllers\CsvToSqlConverter; 
+ 
+use TaskForce\exceptions\StatusException as StatusException;
+ 
+
+$tables = [ 'categories', 'cities', 'users', 'profiles', 'tasks', 'replies', 'opinions'];
+
+foreach ($tables as $table) {
+    (new CsvToSqlConverter($table . '.csv'))->convert();
+}
+
+echo 'finished';
+    /*
 use TaskForce\controllers\Task;
 use TaskForce\exceptions\StatusException as StatusException;
+
 
 $idDoer = 2;
 $idClient = 3;
@@ -38,3 +52,4 @@ try {
 } catch (StatusException $e) {
     var_dump('Выброшено исключение:' . $e->getMessage(), "\n");
 }
+*/;
