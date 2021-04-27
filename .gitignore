@@ -41,3 +41,9 @@ phpunit.phar
 /backend/web/index.php
 /backend/web/index-test.php
 /backend/web/robots.txt
+
+*.ai
+*.log
+*.pdf
+*.psd
+*.sublime*
