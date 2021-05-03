@@ -5,18 +5,18 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "replies".
+ * This is the model class for table "{{%replies}}".
  *
  * @property int $id
- * @property string|null $dt_add
+ * @property string $dt_add
  * @property float|null $rate
- * @property string|null $description
- * @property int|null $task_id
- * @property int|null $doer_id
- * @property string|null $title
+ * @property string $title
+ * @property string $description
+ * @property int $doer_id
+ * @property int $task_id
  *
- * @property Tasks $task
  * @property Users $doer
+ * @property Tasks $task
  */
 class Replies extends \yii\db\ActiveRecord
 {
@@ -25,7 +25,7 @@ class Replies extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'replies';
+        return '{{%replies}}';
     }
 
     /**
@@ -36,11 +36,12 @@ class Replies extends \yii\db\ActiveRecord
         return [
             [['dt_add'], 'safe'],
             [['rate'], 'number'],
+            [['title', 'description', 'doer_id', 'task_id'], 'required'],
             [['description'], 'string'],
-            [['task_id', 'doer_id'], 'integer'],
+            [['doer_id', 'task_id'], 'integer'],
             [['title'], 'string', 'max' => 128],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
             [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['doer_id' => 'id']],
+            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
         ];
     }
 
@@ -53,21 +54,11 @@ class Replies extends \yii\db\ActiveRecord
             'id' => 'ID',
             'dt_add' => 'Dt Add',
             'rate' => 'Rate',
-            'description' => 'Description',
-            'task_id' => 'Task ID',
-            'doer_id' => 'Doer ID',
             'title' => 'Title',
+            'description' => 'Description',
+            'doer_id' => 'Doer ID',
+            'task_id' => 'Task ID',
         ];
-    }
-
-    /**
-     * Gets query for [[Task]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTask()
-    {
-        return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
     }
 
     /**
@@ -78,5 +69,15 @@ class Replies extends \yii\db\ActiveRecord
     public function getDoer()
     {
         return $this->hasOne(Users::className(), ['id' => 'doer_id']);
+    }
+
+    /**
+     * Gets query for [[Task]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTask()
+    {
+        return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
     }
 }

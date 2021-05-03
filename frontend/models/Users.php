@@ -8,17 +8,16 @@ use Yii;
  * This is the model class for table "{{%users}}".
  *
  * @property int $id
- * @property string|null $email
- * @property string|null $name
- * @property string|null $password
- * @property string|null $dt_add
+ * @property string $email
+ * @property string $name
+ * @property string $password
+ * @property string $dt_add
  *
  * @property Favourites[] $favourites
+ * @property Favourites[] $favourites0
  * @property Messages[] $messages
- * @property Messages[] $messages0
  * @property Notifications[] $notifications
  * @property Opinions[] $opinions
- * @property Opinions[] $opinions0
  * @property PortfolioPhoto[] $portfolioPhotos
  * @property Profiles[] $profiles
  * @property Replies[] $replies
@@ -42,8 +41,11 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['email', 'name', 'password'], 'required'],
             [['dt_add'], 'safe'],
             [['email', 'name', 'password'], 'string', 'max' => 128],
+            [['email'], 'unique'],
+            [['name'], 'unique'],
         ];
     }
 
@@ -68,6 +70,16 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getFavourites()
     {
+        return $this->hasMany(Favourites::className(), ['favourite_person_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Favourites0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFavourites0()
+    {
         return $this->hasMany(Favourites::className(), ['user_id' => 'id']);
     }
 
@@ -78,17 +90,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getMessages()
     {
-        return $this->hasMany(Messages::className(), ['doer_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Messages0]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMessages0()
-    {
-        return $this->hasMany(Messages::className(), ['client_id' => 'id']);
+        return $this->hasMany(Messages::className(), ['writer_id' => 'id']);
     }
 
     /**
@@ -108,17 +110,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getOpinions()
     {
-        return $this->hasMany(Opinions::className(), ['doer_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Opinions0]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getOpinions0()
-    {
-        return $this->hasMany(Opinions::className(), ['client_id' => 'id']);
+        return $this->hasMany(Opinions::className(), ['writer_id' => 'id']);
     }
 
     /**
@@ -158,7 +150,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::className(), ['doer_id' => 'id']);
+        return $this->hasMany(Tasks::className(), ['client_id' => 'id']);
     }
 
     /**
@@ -168,7 +160,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getTasks0()
     {
-        return $this->hasMany(Tasks::className(), ['client_id' => 'id']);
+        return $this->hasMany(Tasks::className(), ['doer_id' => 'id']);
     }
 
     /**

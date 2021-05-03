@@ -5,20 +5,18 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "opinions".
+ * This is the model class for table "{{%opinions}}".
  *
  * @property int $id
- * @property string|null $dt_add
- * @property string|null $title
- * @property string|null $description
+ * @property string $dt_add
+ * @property string $title
+ * @property string $description
  * @property float|null $rate
- * @property int|null $doer_id
- * @property int|null $client_id
- * @property int|null $task_id
+ * @property int $writer_id
+ * @property int $task_id
  *
  * @property Tasks $task
- * @property Users $doer
- * @property Users $client
+ * @property Users $writer
  */
 class Opinions extends \yii\db\ActiveRecord
 {
@@ -27,7 +25,7 @@ class Opinions extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'opinions';
+        return '{{%opinions}}';
     }
 
     /**
@@ -37,13 +35,13 @@ class Opinions extends \yii\db\ActiveRecord
     {
         return [
             [['dt_add'], 'safe'],
+            [['title', 'description', 'writer_id', 'task_id'], 'required'],
             [['description'], 'string'],
             [['rate'], 'number'],
-            [['doer_id', 'client_id', 'task_id'], 'integer'],
+            [['writer_id', 'task_id'], 'integer'],
             [['title'], 'string', 'max' => 128],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
-            [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['doer_id' => 'id']],
-            [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['client_id' => 'id']],
+            [['writer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['writer_id' => 'id']],
         ];
     }
 
@@ -58,8 +56,7 @@ class Opinions extends \yii\db\ActiveRecord
             'title' => 'Title',
             'description' => 'Description',
             'rate' => 'Rate',
-            'doer_id' => 'Doer ID',
-            'client_id' => 'Client ID',
+            'writer_id' => 'Writer ID',
             'task_id' => 'Task ID',
         ];
     }
@@ -75,22 +72,12 @@ class Opinions extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Doer]].
+     * Gets query for [[Writer]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getDoer()
+    public function getWriter()
     {
-        return $this->hasOne(Users::className(), ['id' => 'doer_id']);
-    }
-
-    /**
-     * Gets query for [[Client]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getClient()
-    {
-        return $this->hasOne(Users::className(), ['id' => 'client_id']);
+        return $this->hasOne(Users::className(), ['id' => 'writer_id']);
     }
 }

@@ -5,18 +5,16 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "messages".
+ * This is the model class for table "{{%messages}}".
  *
  * @property int $id
- * @property int|null $doer_id
- * @property int|null $client_id
- * @property string|null $text
- * @property int|null $task_id
- * @property string|null $dt_add
+ * @property string $text
+ * @property string $dt_add
+ * @property int $writer_id
+ * @property int $task_id
  *
- * @property Users $doer
- * @property Users $client
  * @property Tasks $task
+ * @property Users $writer
  */
 class Messages extends \yii\db\ActiveRecord
 {
@@ -25,7 +23,7 @@ class Messages extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'messages';
+        return '{{%messages}}';
     }
 
     /**
@@ -34,12 +32,12 @@ class Messages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['doer_id', 'client_id', 'task_id'], 'integer'],
+            [['text', 'writer_id', 'task_id'], 'required'],
             [['text'], 'string'],
             [['dt_add'], 'safe'],
-            [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['doer_id' => 'id']],
-            [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['client_id' => 'id']],
+            [['writer_id', 'task_id'], 'integer'],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
+            [['writer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['writer_id' => 'id']],
         ];
     }
 
@@ -50,32 +48,11 @@ class Messages extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'doer_id' => 'Doer ID',
-            'client_id' => 'Client ID',
             'text' => 'Text',
-            'task_id' => 'Task ID',
             'dt_add' => 'Dt Add',
+            'writer_id' => 'Writer ID',
+            'task_id' => 'Task ID',
         ];
-    }
-
-    /**
-     * Gets query for [[Doer]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDoer()
-    {
-        return $this->hasOne(Users::className(), ['id' => 'doer_id']);
-    }
-
-    /**
-     * Gets query for [[Client]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getClient()
-    {
-        return $this->hasOne(Users::className(), ['id' => 'client_id']);
     }
 
     /**
@@ -86,5 +63,15 @@ class Messages extends \yii\db\ActiveRecord
     public function getTask()
     {
         return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+    }
+
+    /**
+     * Gets query for [[Writer]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWriter()
+    {
+        return $this->hasOne(Users::className(), ['id' => 'writer_id']);
     }
 }

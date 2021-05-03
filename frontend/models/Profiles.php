@@ -5,19 +5,19 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "profiles".
+ * This is the model class for table "{{%profiles}}".
  *
  * @property int $id
  * @property string|null $address
  * @property string|null $bd
+ * @property string|null $avatar
  * @property string|null $about
  * @property int|null $phone
  * @property string|null $skype
  * @property string|null $telegram
- * @property int|null $user_id
+ * @property float|null $rate
+ * @property int $user_id
  * @property int|null $city_id
- * @property string|null $avatar
- * @property float|null $rating
  *
  * @property Cities $city
  * @property Users $user
@@ -29,7 +29,7 @@ class Profiles extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'profiles';
+        return '{{%profiles}}';
     }
 
     /**
@@ -41,8 +41,9 @@ class Profiles extends \yii\db\ActiveRecord
             [['bd'], 'safe'],
             [['about'], 'string'],
             [['phone', 'user_id', 'city_id'], 'integer'],
-            [['rating'], 'number'],
-            [['address', 'skype', 'telegram', 'avatar'], 'string', 'max' => 128],
+            [['rate'], 'number'],
+            [['user_id'], 'required'],
+            [['address', 'avatar', 'skype', 'telegram'], 'string', 'max' => 128],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -57,14 +58,14 @@ class Profiles extends \yii\db\ActiveRecord
             'id' => 'ID',
             'address' => 'Address',
             'bd' => 'Bd',
+            'avatar' => 'Avatar',
             'about' => 'About',
             'phone' => 'Phone',
             'skype' => 'Skype',
             'telegram' => 'Telegram',
+            'rate' => 'Rate',
             'user_id' => 'User ID',
             'city_id' => 'City ID',
-            'avatar' => 'Avatar',
-            'rating' => 'Rating',
         ];
     }
 

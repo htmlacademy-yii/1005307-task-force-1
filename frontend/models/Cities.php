@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "cities".
+ * This is the model class for table "{{%cities}}".
  *
  * @property int $id
- * @property string|null $city
- * @property float|null $lat
- * @property float|null $long
+ * @property string $city
+ * @property float $lat
+ * @property float $long
  *
  * @property Profiles[] $profiles
  * @property Tasks[] $tasks
@@ -22,7 +22,7 @@ class Cities extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'cities';
+        return '{{%cities}}';
     }
 
     /**
@@ -31,8 +31,12 @@ class Cities extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['city', 'lat', 'long'], 'required'],
             [['lat', 'long'], 'number'],
             [['city'], 'string', 'max' => 128],
+            [['city'], 'unique'],
+            [['lat'], 'unique'],
+            [['long'], 'unique'],
         ];
     }
 

@@ -5,17 +5,15 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "favourites".
+ * This is the model class for table "{{%favourites}}".
  *
  * @property int $id
- * @property int|null $user_id
- * @property string|null $title
- * @property int|null $is_view
- * @property string|null $dt_add
+ * @property string $dt_add
  * @property string|null $type_favourite
- * @property int|null $task_id
+ * @property int $user_id
+ * @property int $favourite_person_id
  *
- * @property Tasks $task
+ * @property Users $favouritePerson
  * @property Users $user
  */
 class Favourites extends \yii\db\ActiveRecord
@@ -25,7 +23,7 @@ class Favourites extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'favourites';
+        return '{{%favourites}}';
     }
 
     /**
@@ -34,10 +32,11 @@ class Favourites extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'is_view', 'task_id'], 'integer'],
             [['dt_add'], 'safe'],
-            [['title', 'type_favourite'], 'string', 'max' => 128],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
+            [['user_id', 'favourite_person_id'], 'required'],
+            [['user_id', 'favourite_person_id'], 'integer'],
+            [['type_favourite'], 'string', 'max' => 128],
+            [['favourite_person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['favourite_person_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -49,23 +48,21 @@ class Favourites extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
-            'title' => 'Title',
-            'is_view' => 'Is View',
             'dt_add' => 'Dt Add',
             'type_favourite' => 'Type Favourite',
-            'task_id' => 'Task ID',
+            'user_id' => 'User ID',
+            'favourite_person_id' => 'Favourite Person ID',
         ];
     }
 
     /**
-     * Gets query for [[Task]].
+     * Gets query for [[FavouritePerson]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTask()
+    public function getFavouritePerson()
     {
-        return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+        return $this->hasOne(Users::className(), ['id' => 'favourite_person_id']);
     }
 
     /**

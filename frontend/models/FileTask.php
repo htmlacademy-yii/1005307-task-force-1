@@ -5,11 +5,11 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "file_task".
+ * This is the model class for table "{{%file_task}}".
  *
  * @property int $id
- * @property int|null $task_id
- * @property string|null $file_item
+ * @property string $file_item
+ * @property int $task_id
  *
  * @property Tasks $task
  */
@@ -20,7 +20,7 @@ class FileTask extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'file_task';
+        return '{{%file_task}}';
     }
 
     /**
@@ -29,6 +29,7 @@ class FileTask extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['file_item', 'task_id'], 'required'],
             [['task_id'], 'integer'],
             [['file_item'], 'string', 'max' => 128],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
@@ -42,8 +43,8 @@ class FileTask extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'task_id' => 'Task ID',
             'file_item' => 'File Item',
+            'task_id' => 'Task ID',
         ];
     }
 

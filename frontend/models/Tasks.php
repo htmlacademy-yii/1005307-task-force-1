@@ -8,11 +8,11 @@ use Yii;
  * This is the model class for table "{{%tasks}}".
  *
  * @property int $id
- * @property string|null $dt_add
+ * @property string $dt_add
  * @property int|null $category_id
- * @property string|null $description
+ * @property string $description
  * @property string|null $expire
- * @property string|null $name
+ * @property string $name
  * @property int|null $city_id
  * @property string|null $address
  * @property int|null $budget
@@ -52,6 +52,7 @@ class Tasks extends \yii\db\ActiveRecord
         return [
             [['dt_add', 'expire'], 'safe'],
             [['category_id', 'city_id', 'budget', 'doer_id', 'client_id'], 'integer'],
+            [['description', 'name'], 'required'],
             [['description'], 'string'],
             [['lat', 'long'], 'number'],
             [['name', 'address', 'location_comment', 'statusTask'], 'string', 'max' => 128],
