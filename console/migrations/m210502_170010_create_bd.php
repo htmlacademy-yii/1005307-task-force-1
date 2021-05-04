@@ -333,9 +333,19 @@ class m210502_170010_create_bd extends Migration
      */
     public function safeDown()
     {
-        echo "m210502_170010_crate_bd cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('categories');
+        $this->dropTable('cities');
+        $this->dropTable('favourites');
+        $this->dropTable('file_task');
+        $this->dropTable('messages');
+        $this->dropTable('notifications');
+        $this->dropTable('opinions');
+        $this->dropTable('portfolio_photo');
+        $this->dropTable('profiles');
+        $this->dropTable('replies');
+        $this->dropTable('status_task');
+        $this->dropTable('user_categories');
+        $this->dropTable('users');
     }
 
     /*
