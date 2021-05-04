@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%tasks}}".
+ * This is the model class for table "tasks".
  *
  * @property int $id
  * @property string $dt_add
@@ -13,17 +13,16 @@ use Yii;
  * @property string $description
  * @property string|null $expire
  * @property string $name
- * @property int|null $city_id
  * @property string|null $address
  * @property int|null $budget
- * @property float|null $lat
- * @property float|null $long
+ * @property string|null $latitude
+ * @property string|null $longitude
  * @property string|null $location_comment
+ * @property int|null $city_id
  * @property int|null $doer_id
- * @property int|null $client_id
- * @property string|null $statusTask
+ * @property int $client_id
+ * @property int $status_task_id
  *
- * @property Favourites[] $favourites
  * @property FileTask[] $fileTasks
  * @property Messages[] $messages
  * @property Notifications[] $notifications
@@ -31,8 +30,9 @@ use Yii;
  * @property Replies[] $replies
  * @property Categories $category
  * @property Cities $city
- * @property Users $doer
  * @property Users $client
+ * @property Users $doer
+ * @property StatusTask $statusTask
  */
 class Tasks extends \yii\db\ActiveRecord
 {
@@ -41,7 +41,7 @@ class Tasks extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%tasks}}';
+        return 'tasks';
     }
 
     /**
@@ -51,15 +51,15 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return [
             [['dt_add', 'expire'], 'safe'],
-            [['category_id', 'city_id', 'budget', 'doer_id', 'client_id'], 'integer'],
-            [['description', 'name'], 'required'],
+            [['category_id', 'budget', 'city_id', 'doer_id', 'client_id', 'status_task_id'], 'integer'],
+            [['description', 'name', 'client_id', 'status_task_id'], 'required'],
             [['description'], 'string'],
-            [['lat', 'long'], 'number'],
-            [['name', 'address', 'location_comment', 'statusTask'], 'string', 'max' => 128],
+            [['name', 'address', 'latitude', 'longitude', 'location_comment'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
-            [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['doer_id' => 'id']],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['client_id' => 'id']],
+            [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['doer_id' => 'id']],
+            [['status_task_id'], 'exist', 'skipOnError' => true, 'targetClass' => StatusTask::className(), 'targetAttribute' => ['status_task_id' => 'id']],
         ];
     }
 
@@ -75,26 +75,16 @@ class Tasks extends \yii\db\ActiveRecord
             'description' => 'Description',
             'expire' => 'Expire',
             'name' => 'Name',
-            'city_id' => 'City ID',
             'address' => 'Address',
             'budget' => 'Budget',
-            'lat' => 'Lat',
-            'long' => 'Long',
+            'latitude' => 'Latitude',
+            'longitude' => 'Longitude',
             'location_comment' => 'Location Comment',
+            'city_id' => 'City ID',
             'doer_id' => 'Doer ID',
             'client_id' => 'Client ID',
-            'statusTask' => 'Status Task',
+            'status_task_id' => 'Status Task ID',
         ];
-    }
-
-    /**
-     * Gets query for [[Favourites]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFavourites()
-    {
-        return $this->hasMany(Favourites::className(), ['task_id' => 'id']);
     }
 
     /**
@@ -168,6 +158,16 @@ class Tasks extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Client]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getClient()
+    {
+        return $this->hasOne(Users::className(), ['id' => 'client_id']);
+    }
+
+    /**
      * Gets query for [[Doer]].
      *
      * @return \yii\db\ActiveQuery
@@ -178,12 +178,12 @@ class Tasks extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Client]].
+     * Gets query for [[StatusTask]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getClient()
+    public function getStatusTask()
     {
-        return $this->hasOne(Users::className(), ['id' => 'client_id']);
+        return $this->hasOne(StatusTask::className(), ['id' => 'status_task_id']);
     }
 }

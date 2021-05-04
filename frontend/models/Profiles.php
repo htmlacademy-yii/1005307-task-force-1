@@ -5,14 +5,14 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%profiles}}".
+ * This is the model class for table "profiles".
  *
  * @property int $id
  * @property string|null $address
  * @property string|null $bd
  * @property string|null $avatar
  * @property string|null $about
- * @property int|null $phone
+ * @property string|null $phone
  * @property string|null $skype
  * @property string|null $telegram
  * @property float|null $rate
@@ -29,7 +29,7 @@ class Profiles extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%profiles}}';
+        return 'profiles';
     }
 
     /**
@@ -40,10 +40,10 @@ class Profiles extends \yii\db\ActiveRecord
         return [
             [['bd'], 'safe'],
             [['about'], 'string'],
-            [['phone', 'user_id', 'city_id'], 'integer'],
             [['rate'], 'number'],
             [['user_id'], 'required'],
-            [['address', 'avatar', 'skype', 'telegram'], 'string', 'max' => 128],
+            [['user_id', 'city_id'], 'integer'],
+            [['address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];

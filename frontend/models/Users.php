@@ -5,13 +5,14 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%users}}".
+ * This is the model class for table "users".
  *
  * @property int $id
  * @property string $email
  * @property string $name
  * @property string $password
  * @property string $dt_add
+ * @property int $user_role_id
  *
  * @property Favourites[] $favourites
  * @property Favourites[] $favourites0
@@ -24,6 +25,7 @@ use Yii;
  * @property Tasks[] $tasks
  * @property Tasks[] $tasks0
  * @property UserCategory[] $userCategories
+ * @property UserRole $userRole
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -32,7 +34,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%users}}';
+        return 'users';
     }
 
     /**
@@ -41,11 +43,13 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email', 'name', 'password'], 'required'],
+            [['email', 'name', 'password', 'user_role_id'], 'required'],
             [['dt_add'], 'safe'],
-            [['email', 'name', 'password'], 'string', 'max' => 128],
+            [['user_role_id'], 'integer'],
+            [['email', 'name', 'password'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['name'], 'unique'],
+            [['user_role_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserRole::className(), 'targetAttribute' => ['user_role_id' => 'id']],
         ];
     }
 
@@ -60,6 +64,7 @@ class Users extends \yii\db\ActiveRecord
             'name' => 'Name',
             'password' => 'Password',
             'dt_add' => 'Dt Add',
+            'user_role_id' => 'User Role ID',
         ];
     }
 
@@ -171,5 +176,15 @@ class Users extends \yii\db\ActiveRecord
     public function getUserCategories()
     {
         return $this->hasMany(UserCategory::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[UserRole]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserRole()
+    {
+        return $this->hasOne(UserRole::className(), ['id' => 'user_role_id']);
     }
 }

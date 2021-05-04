@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%messages}}".
+ * This is the model class for table "messages".
  *
  * @property int $id
  * @property string $text
@@ -23,7 +23,7 @@ class Messages extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%messages}}';
+        return 'messages';
     }
 
     /**
