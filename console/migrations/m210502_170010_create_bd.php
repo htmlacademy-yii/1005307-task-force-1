@@ -39,7 +39,19 @@ class m210502_170010_create_bd extends Migration
             'name' => $this->string(255)->notNull()->unique(),
             'password' => $this->string(255)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'user_role_id' => $this->integer(11)->notNull()
+            'user_role_id' => $this->integer(11)->notNull(),
+            'address' => $this->string(255),
+            'bd' => $this->date(),
+            'avatar' => $this->string(255),
+            'about' => $this->text(),
+            'phone' => $this->string(255),
+            'skype' => $this->string(255),
+            'telegram' => $this->string(255),
+            'rate' => $this->float(3,2)->unsigned(),
+            'city_id' => $this->integer(11),
+            'last_activity_time' => $this->date()->notNull(),
+            'finished_task_count' => $this->integer(11)->notNull(),
+            'opinions_count' => $this->integer(11)->notNull()
         ]);
 
         $this->addForeignKey(
@@ -51,32 +63,9 @@ class m210502_170010_create_bd extends Migration
             'cascade'
         );
 
-        $this->createTable('profiles', [
-            'id' => $this->primaryKey(),
-            'address' => $this->string(255),
-            'bd' => $this->date(),
-            'avatar' => $this->string(255),
-            'about' => $this->text(),
-            'phone' => $this->string(255),
-            'skype' => $this->string(255),
-            'telegram' => $this->string(255),
-            'rate' => $this->float(3,2)->unsigned(),
-            'user_id' => $this->integer(11)->notNull(),
-            'city_id' => $this->integer(11)
-        ]);
-
-        $this->addForeignKey(
-            'user_id',
-            'profiles',
-            'user_id',
-            'users',
-            'id',
-            'cascade'
-        );
-
         $this->addForeignKey(
             'city_id',
-            'profiles',
+            'users',
             'city_id',
             'cities',
             'id',

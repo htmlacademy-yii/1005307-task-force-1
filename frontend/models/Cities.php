@@ -12,8 +12,8 @@ use Yii;
  * @property string $latitude
  * @property string $longitude
  *
- * @property Profiles[] $profiles
  * @property Tasks[] $tasks
+ * @property Users[] $users
  */
 class Cities extends \yii\db\ActiveRecord
 {
@@ -50,16 +50,6 @@ class Cities extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Profiles]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProfiles()
-    {
-        return $this->hasMany(Profiles::className(), ['city_id' => 'id']);
-    }
-
-    /**
      * Gets query for [[Tasks]].
      *
      * @return \yii\db\ActiveQuery
@@ -67,5 +57,15 @@ class Cities extends \yii\db\ActiveRecord
     public function getTasks()
     {
         return $this->hasMany(Tasks::className(), ['city_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Users]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsers()
+    {
+        return $this->hasMany(Users::className(), ['city_id' => 'id']);
     }
 }

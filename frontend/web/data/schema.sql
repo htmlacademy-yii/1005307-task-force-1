@@ -31,11 +31,6 @@ CREATE TABLE IF NOT EXISTS `users` (
     `password`      varchar(128) NOT NULL,
     `dt_add`        timestamp DEFAULT CURRENT_TIMESTAMP() NOT NULL,
     `user_role_id`  varchar(128) NOT NULL,
-    KEY `user_role_id` (`user_role_id`),
-    CONSTRAINT `profiles_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `cities`(`id`),
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-
-CREATE TABLE IF NOT EXISTS `profiles` (
     `id`        INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `address`   varchar(128),
     `bd`        DATE,
@@ -45,12 +40,9 @@ CREATE TABLE IF NOT EXISTS `profiles` (
     `telegram`  varchar(128),
     `avatar`    varchar(128),
     `rate`      float(3, 2) NOT NULL,
-    `user_id`   int(10),
     `city_id`   int(10),
-    KEY `city_id` (`city_id`),
-    KEY `user_id` (`user_id`),
+    KEY `user_role_id` (`user_role_id`),
     CONSTRAINT `profiles_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `cities`(`id`),
-    CONSTRAINT `profiles_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE IF NOT EXISTS `user_category`

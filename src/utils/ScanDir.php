@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TaskForce\controllers;
+namespace TaskForce\utils;
 
 use TaskForce\exceptions\FileSourceException;
 

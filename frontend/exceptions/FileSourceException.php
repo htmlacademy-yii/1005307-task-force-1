@@ -1,5 +1,5 @@
 <?php
-namespace TaskForce\exceptions;
+namespace frontend\exceptions;
 
 class FileSourceException extends \Exception   {
  }

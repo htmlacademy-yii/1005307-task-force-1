@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace TaskForce\controllers;
+namespace TaskForce\utils;
 
 class ActionRespond extends Action
 {

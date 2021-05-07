@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace frontend\controllers;
+namespace frontend\utils;
 
-//use TaskForce\exceptions\FileSourceException;
+use frontend\exceptions\FileSourceException;
 
 class ScanDir
 {
     public function __construct(string $dirName)
     {
-        if (!$dirName) {
-      //      throw new FileSourceException("Папки '$dirName' нет");
+        if (!file_exists($dirName)) {
+            throw new FileSourceException("Папки '$dirName' нет");
         }
         $this->dirName = $dirName;
     }

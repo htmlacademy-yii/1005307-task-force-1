@@ -47,3 +47,4 @@ phpunit.phar
 *.pdf
 *.psd
 *.sublime*
+schema_project.txt

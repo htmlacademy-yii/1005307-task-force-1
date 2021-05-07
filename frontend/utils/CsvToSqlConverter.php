@@ -1,12 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace frontend\controllers;
+namespace frontend\utils;
 
 use \SplFileObject;
 use \RuntimeException;
-use TaskForce\exceptions\FileSourceException;
-use TaskForce\exceptions\GivenArgumentException;
+use frontend\exceptions\FileSourceException;
 
 final class CsvToSqlConverter
 {
@@ -27,6 +26,7 @@ final class CsvToSqlConverter
             $fileNames = explode('.', $namePath)[0] ?? null;
             $fileName = $this->dir . $fileNames . '.sql';
             $sqlFileObject = new SplFileObject($fileName, "w");
+       //     echo( $namePath);
 
         } catch (RuntimeException $exception) {
             throw new FileSourceException("Не удалось создать sql файл для записи");

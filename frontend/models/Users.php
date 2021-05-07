@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use yii\behaviors\AttributeTypecastBehavior;
+
 use Yii;
 
 /**
@@ -13,6 +15,18 @@ use Yii;
  * @property string $password
  * @property string $dt_add
  * @property int $user_role_id
+ * @property string|null $address
+ * @property string|null $bd
+ * @property string|null $avatar
+ * @property string|null $about
+ * @property string|null $phone
+ * @property string|null $skype
+ * @property string|null $telegram
+ * @property float|null $rate
+ * @property int|null $city_id
+ * @property string $last_activity_time
+ * @property int $finished_task_count
+ * @property int $opinions_count
  *
  * @property Favourites[] $favourites
  * @property Favourites[] $favourites0
@@ -20,15 +34,16 @@ use Yii;
  * @property Notifications[] $notifications
  * @property Opinions[] $opinions
  * @property PortfolioPhoto[] $portfolioPhotos
- * @property Profiles[] $profiles
  * @property Replies[] $replies
  * @property Tasks[] $tasks
  * @property Tasks[] $tasks0
  * @property UserCategory[] $userCategories
+ * @property Cities $city
  * @property UserRole $userRole
  */
 class Users extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -43,13 +58,28 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email', 'name', 'password', 'user_role_id'], 'required'],
-            [['dt_add'], 'safe'],
-            [['user_role_id'], 'integer'],
-            [['email', 'name', 'password'], 'string', 'max' => 255],
+            [['email', 'name', 'password', 'user_role_id', 'last_activity_time', 'finished_task_count', 'opinions_count'], 'required'],
+            [['dt_add', 'bd', 'last_activity_time'], 'safe'],
+            [['user_role_id', 'city_id', 'finished_task_count', 'opinions_count'], 'integer'],
+            [['about'], 'string'],
+            [['rate'], 'number'],
+            [['email', 'name', 'password', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['name'], 'unique'],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['user_role_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserRole::className(), 'targetAttribute' => ['user_role_id' => 'id']],
+        ];
+    }
+    public function behaviors()
+    {
+        return [
+            'typecast' => [
+                'class' => AttributeTypecastBehavior::className(),
+                'attributeTypes' => [
+                    'finished_task_count' => AttributeTypecastBehavior::TYPE_INTEGER,
+                    'opinions_count' => AttributeTypecastBehavior::TYPE_INTEGER
+                ]
+            ],
         ];
     }
 
@@ -65,6 +95,18 @@ class Users extends \yii\db\ActiveRecord
             'password' => 'Password',
             'dt_add' => 'Dt Add',
             'user_role_id' => 'User Role ID',
+            'address' => 'Address',
+            'bd' => 'Bd',
+            'avatar' => 'Avatar',
+            'about' => 'About',
+            'phone' => 'Phone',
+            'skype' => 'Skype',
+            'telegram' => 'Telegram',
+            'rate' => 'Rate',
+            'city_id' => 'City ID',
+            'last_activity_time' => 'Last Activity Time',
+            'finished_task_count' => 'Finished Task Count',
+            'opinions_count' => 'Opinions Count',
         ];
     }
 
@@ -129,16 +171,6 @@ class Users extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Profiles]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProfiles()
-    {
-        return $this->hasMany(Profiles::className(), ['user_id' => 'id']);
-    }
-
-    /**
      * Gets query for [[Replies]].
      *
      * @return \yii\db\ActiveQuery
@@ -176,6 +208,16 @@ class Users extends \yii\db\ActiveRecord
     public function getUserCategories()
     {
         return $this->hasMany(UserCategory::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[City]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCity()
+    {
+        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
     }
 
     /**
