@@ -5,6 +5,6 @@
  * @var $index integer
  */
 return [
-    'photo' => $faker->file($sourceDir = 'frontend/web/img/', $targetDir = 'frontend/web/img1/'),
+    'photo' => 'man-hat.jpg',
     'user_id' => $faker->numberBetween(1, 40),
 ];

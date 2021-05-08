@@ -7,7 +7,7 @@ return [
     'dt_add' => $faker->dateTimeThisYear($max = 'now')->format('Y-m-d H:i:s'),
     'category_id' => $faker->numberBetween(1, 8),
     'description' => $faker->text,
-    'expire' =>  $faker->dateTimeThisYear($max = '+1 year')->format('Y-m-d H:i:s'),
+    'expire' =>  $faker->dateTimeThisYear($min = 'now', $max = '+1 year')->format('Y-m-d H:i:s'),
     'name' =>  $faker->name,
     'address' => $faker->streetAddress,
     'budget' => $faker->numberBetween(1, 10000),
