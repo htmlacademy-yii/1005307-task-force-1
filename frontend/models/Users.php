@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use yii\behaviors\AttributeTypecastBehavior;
-
 use Yii;
 
 /**
@@ -43,7 +41,6 @@ use Yii;
  */
 class Users extends \yii\db\ActiveRecord
 {
-
     /**
      * {@inheritdoc}
      */
@@ -68,18 +65,6 @@ class Users extends \yii\db\ActiveRecord
             [['name'], 'unique'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['user_role_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserRole::className(), 'targetAttribute' => ['user_role_id' => 'id']],
-        ];
-    }
-    public function behaviors()
-    {
-        return [
-            'typecast' => [
-                'class' => AttributeTypecastBehavior::className(),
-                'attributeTypes' => [
-                    'finished_task_count' => AttributeTypecastBehavior::TYPE_INTEGER,
-                    'opinions_count' => AttributeTypecastBehavior::TYPE_INTEGER
-                ]
-            ],
         ];
     }
 
