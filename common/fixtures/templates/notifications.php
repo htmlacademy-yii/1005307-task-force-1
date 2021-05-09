@@ -8,6 +8,6 @@ return [
     'is_view' => $faker->numberBetween(1, 2),
     'dt_add' => $faker->dateTimeThisYear($max = 'now')->format('Y-m-d H:i:s'),
     'type' => $faker->name,
-    'user_id' => $faker->numberBetween(1, 40),
+    'user_id' => $faker->numberBetween(1, 20),
     'task_id' => $faker->numberBetween(1, 40),
 ];

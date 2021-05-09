@@ -6,5 +6,5 @@
  */
 return [
     'category_id' => $faker->numberBetween(1, 8),
-    'user_id' => $faker->numberBetween(1, 40),
+    'user_id' => $faker->numberBetween(1, 20),
 ];
