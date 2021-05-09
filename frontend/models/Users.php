@@ -223,4 +223,12 @@ class Users extends \yii\db\ActiveRecord
     {
         return new UsersQuery(get_called_class());
     }
+
+    final public static function getDoersByDate()
+    {
+        return self::find()
+            ->where(['user_role_id' => '1'])
+            ->orderBy(['dt_add' => SORT_DESC])
+            ->asArray()->all();
+    }
 }

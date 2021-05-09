@@ -195,4 +195,11 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return new TasksQuery(get_called_class());
     }
+
+    final public static function getNewTasksByDate() {
+        return self::find()
+            ->where(['status_task_id' => '1'])
+            ->orderBy(['dt_add' => SORT_DESC])
+            ->asArray()->all();
+    }
 }

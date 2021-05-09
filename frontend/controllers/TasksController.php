@@ -17,10 +17,7 @@ class TasksController extends Controller
 {
     public function actionIndex(): string
     {
-        $tasks = Tasks::find()
-            ->where(['status_task_id' => '1'])->asArray()->all();
-        {
-            return $this->render('index', ['tasks' => $tasks]);
-        }
+       $tasks = Tasks::getNewTasksByDate();
+       return $this->render('index', ['tasks' => $tasks]);
     }
 }
