@@ -8,6 +8,6 @@ return [
     'title' => $faker->name,
     'description' => $faker->text,
     'rate' => $faker->randomFloat($nbMaxDecimals = 2, $min = 3, $max = 5),
-    'writer_id' => $faker->numberBetween(1, 20),
-    'task_id' => $faker->numberBetween(1, 40),
+    'writer_id' => $faker->numberBetween(1, 10),
+    'task_id' => $faker->numberBetween(11, 30),
 ];
