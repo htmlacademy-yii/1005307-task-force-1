@@ -51,10 +51,19 @@ class PortfolioPhoto extends \yii\db\ActiveRecord
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return PortfolioPhotoQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new PortfolioPhotoQuery(get_called_class());
     }
 }

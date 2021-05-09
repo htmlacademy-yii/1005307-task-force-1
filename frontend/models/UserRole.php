@@ -48,10 +48,19 @@ class UserRole extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Users]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getUsers()
     {
         return $this->hasMany(Users::className(), ['user_role_id' => 'id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return UserRoleQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UserRoleQuery(get_called_class());
     }
 }

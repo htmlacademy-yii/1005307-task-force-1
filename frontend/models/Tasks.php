@@ -90,7 +90,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[FileTasks]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|FileTaskQuery
      */
     public function getFileTasks()
     {
@@ -100,7 +100,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Messages]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|MessagesQuery
      */
     public function getMessages()
     {
@@ -110,7 +110,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Notifications]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|NotificationsQuery
      */
     public function getNotifications()
     {
@@ -120,7 +120,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Opinions]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|OpinionsQuery
      */
     public function getOpinions()
     {
@@ -130,7 +130,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Replies]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|RepliesQuery
      */
     public function getReplies()
     {
@@ -140,7 +140,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Category]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|CategoriesQuery
      */
     public function getCategory()
     {
@@ -150,7 +150,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[City]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|CitiesQuery
      */
     public function getCity()
     {
@@ -160,7 +160,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Client]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getClient()
     {
@@ -170,7 +170,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Doer]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getDoer()
     {
@@ -180,10 +180,19 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[StatusTask]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|StatusTaskQuery
      */
     public function getStatusTask()
     {
         return $this->hasOne(StatusTask::className(), ['id' => 'status_task_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return TasksQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new TasksQuery(get_called_class());
     }
 }

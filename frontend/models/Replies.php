@@ -64,7 +64,7 @@ class Replies extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Doer]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getDoer()
     {
@@ -74,10 +74,19 @@ class Replies extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Task]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getTask()
     {
         return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return RepliesQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new RepliesQuery(get_called_class());
     }
 }

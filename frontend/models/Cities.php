@@ -52,7 +52,7 @@ class Cities extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Tasks]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getTasks()
     {
@@ -62,10 +62,19 @@ class Cities extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Users]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getUsers()
     {
         return $this->hasMany(Users::className(), ['city_id' => 'id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return CitiesQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new CitiesQuery(get_called_class());
     }
 }

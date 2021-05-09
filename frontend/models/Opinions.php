@@ -1,4 +1,4 @@
-,<?php
+<?php
 
 namespace app\models;
 
@@ -64,7 +64,7 @@ class Opinions extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Task]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getTask()
     {
@@ -74,10 +74,19 @@ class Opinions extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Writer]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getWriter()
     {
         return $this->hasOne(Users::className(), ['id' => 'writer_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return OpinionsQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new OpinionsQuery(get_called_class());
     }
 }

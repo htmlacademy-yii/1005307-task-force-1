@@ -98,7 +98,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Favourites]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|FavouritesQuery
      */
     public function getFavourites()
     {
@@ -108,7 +108,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Favourites0]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|FavouritesQuery
      */
     public function getFavourites0()
     {
@@ -118,7 +118,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Messages]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|MessagesQuery
      */
     public function getMessages()
     {
@@ -128,7 +128,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Notifications]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|NotificationsQuery
      */
     public function getNotifications()
     {
@@ -138,7 +138,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Opinions]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|OpinionsQuery
      */
     public function getOpinions()
     {
@@ -148,7 +148,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[PortfolioPhotos]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|PortfolioPhotoQuery
      */
     public function getPortfolioPhotos()
     {
@@ -158,7 +158,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Replies]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|RepliesQuery
      */
     public function getReplies()
     {
@@ -168,7 +168,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Tasks]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|TasksQuery
      */
     public function getTasks()
     {
@@ -178,7 +178,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Tasks0]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|TasksQuery
      */
     public function getTasks0()
     {
@@ -188,7 +188,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UserCategories]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|UserCategoryQuery
      */
     public function getUserCategories()
     {
@@ -198,7 +198,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[City]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|CitiesQuery
      */
     public function getCity()
     {
@@ -208,10 +208,19 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UserRole]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|UserRoleQuery
      */
     public function getUserRole()
     {
         return $this->hasOne(UserRole::className(), ['id' => 'user_role_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return UsersQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UsersQuery(get_called_class());
     }
 }
