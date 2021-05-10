@@ -21,5 +21,5 @@ return [
     'city_id' => $faker->numberBetween(1, 10),
     'last_activity_time' => $faker->dateTimeThisYear($max = 'now')->format('Y-m-d H:i:s'),
     'finished_task_count' => $faker->numberBetween(0, 40),
-    'opinions_count'  => $faker->numberBetween(0, 40),
+    'opinions_count' => $faker->numberBetween(0, 40),
 ];

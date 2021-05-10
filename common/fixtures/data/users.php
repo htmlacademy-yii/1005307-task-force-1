@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'users0' => [
+    [
         'email' => 'ptreutel@fahey.com',
         'name' => 'Elnora Hills III',
         'password' => '8DB+459&M%%8vL7p',
@@ -20,7 +20,7 @@ return [
         'finished_task_count' => 3,
         'opinions_count' => 15,
     ],
-    'users1' => [
+    [
         'email' => 'dkris@braun.com',
         'name' => 'Tevin Kuhn',
         'password' => '!Vw\'-g{_1+vADHiGY',
@@ -39,7 +39,7 @@ return [
         'finished_task_count' => 17,
         'opinions_count' => 23,
     ],
-    'users2' => [
+    [
         'email' => 'wiley17@damore.com',
         'name' => 'Prof. Diamond Weimann',
         'password' => '$$k+i|I]j.K|;)tg+s(',
@@ -58,7 +58,7 @@ return [
         'finished_task_count' => 16,
         'opinions_count' => 25,
     ],
-    'users3' => [
+    [
         'email' => 'robin42@yahoo.com',
         'name' => 'Dr. Yadira Hodkiewicz',
         'password' => ')VkLQmtMn',
@@ -77,7 +77,7 @@ return [
         'finished_task_count' => 22,
         'opinions_count' => 39,
     ],
-    'users4' => [
+    [
         'email' => 'satterfield.merritt@hotmail.com',
         'name' => 'Prof. Elijah Terry',
         'password' => 'Y9T!;bqV##0',
@@ -96,7 +96,7 @@ return [
         'finished_task_count' => 12,
         'opinions_count' => 19,
     ],
-    'users5' => [
+    [
         'email' => 'perry.raynor@pollich.com',
         'name' => 'Prof. Hazel Von',
         'password' => '$G,g+XH\'<1P1;X9M5;',
@@ -115,7 +115,7 @@ return [
         'finished_task_count' => 30,
         'opinions_count' => 13,
     ],
-    'users6' => [
+    [
         'email' => 'hahn.craig@satterfield.com',
         'name' => 'Nina Koepp',
         'password' => '?P`c<w',
@@ -134,7 +134,7 @@ return [
         'finished_task_count' => 40,
         'opinions_count' => 2,
     ],
-    'users7' => [
+    [
         'email' => 'miracle.brown@gmail.com',
         'name' => 'Javier Crooks',
         'password' => 'CoP(v2YQU*#4zr',
@@ -153,7 +153,7 @@ return [
         'finished_task_count' => 28,
         'opinions_count' => 0,
     ],
-    'users8' => [
+    [
         'email' => 'edmund95@hotmail.com',
         'name' => 'Hilma Jones',
         'password' => 'Q1qlS)F5+6.t,`',
@@ -172,7 +172,7 @@ return [
         'finished_task_count' => 20,
         'opinions_count' => 25,
     ],
-    'users9' => [
+    [
         'email' => 'elias97@hotmail.com',
         'name' => 'Liza Harris',
         'password' => '#NAjDBHq#dN;mo+{#RT8',
@@ -191,7 +191,7 @@ return [
         'finished_task_count' => 5,
         'opinions_count' => 37,
     ],
-    'users10' => [
+    [
         'email' => 'edythe60@lindgren.com',
         'name' => 'Prof. Mazie Emard V',
         'password' => '7Cx>^e[\'gRqyk8s8',
@@ -210,7 +210,7 @@ return [
         'finished_task_count' => 39,
         'opinions_count' => 32,
     ],
-    'users11' => [
+    [
         'email' => 'gkassulke@boehm.info',
         'name' => 'Chanelle Lang II',
         'password' => 'E(G|8QDF/#N8m:`IB',
@@ -229,7 +229,7 @@ return [
         'finished_task_count' => 4,
         'opinions_count' => 29,
     ],
-    'users12' => [
+    [
         'email' => 'lockman.esteban@maggio.info',
         'name' => 'Keven Baumbach',
         'password' => '^RL\':[v',
@@ -248,7 +248,7 @@ return [
         'finished_task_count' => 5,
         'opinions_count' => 9,
     ],
-    'users13' => [
+    [
         'email' => 'hettie45@swaniawski.org',
         'name' => 'Lowell Abbott',
         'password' => 'z*cIIFSr5Iu',
@@ -267,7 +267,7 @@ return [
         'finished_task_count' => 25,
         'opinions_count' => 17,
     ],
-    'users14' => [
+    [
         'email' => 'ratke.kristopher@funk.info',
         'name' => 'Fiona Turcotte',
         'password' => 'M\\c.[g-xQ2U@ehnd',
@@ -286,7 +286,7 @@ return [
         'finished_task_count' => 20,
         'opinions_count' => 4,
     ],
-    'users15' => [
+    [
         'email' => 'nelda.pfeffer@hermann.com',
         'name' => 'Mrs. Kenna Schulist V',
         'password' => '~W%g6vgK<',
@@ -305,7 +305,7 @@ return [
         'finished_task_count' => 1,
         'opinions_count' => 25,
     ],
-    'users16' => [
+    [
         'email' => 'feeney.herta@thompson.net',
         'name' => 'Bernice Tromp',
         'password' => ']mHHw-bDo!XX&wZKDa1',
@@ -324,7 +324,7 @@ return [
         'finished_task_count' => 16,
         'opinions_count' => 1,
     ],
-    'users17' => [
+    [
         'email' => 'jeramie.pacocha@jenkins.com',
         'name' => 'Mattie Hackett',
         'password' => '\\taxp{:w*1\'s{',
@@ -343,7 +343,7 @@ return [
         'finished_task_count' => 5,
         'opinions_count' => 3,
     ],
-    'users18' => [
+    [
         'email' => 'maxine.jacobson@terry.com',
         'name' => 'Rita Lehner',
         'password' => '^JM4Iu_&[{lzG:7',
@@ -362,7 +362,7 @@ return [
         'finished_task_count' => 31,
         'opinions_count' => 11,
     ],
-    'users19' => [
+    [
         'email' => 'brandy14@wolff.com',
         'name' => 'Fermin Crist IV',
         'password' => 'F/e\\}^pyYZ7g',

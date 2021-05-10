@@ -1,5 +1,7 @@
 <?php
+
 namespace frontend\exceptions;
 
-class InverseTimeException extends \Exception   {
- }
+class InverseTimeException extends \Exception
+{
+}

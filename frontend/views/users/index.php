@@ -1,5 +1,6 @@
 <?php
-  require_once '../utils/my_functions.php';
+require_once '../utils/my_functions.php';
+$this->title = 'Список исполнителей';
 ?>
 <main class="page-main">
     <div class="main-container page-container">
@@ -22,14 +23,15 @@
                 <div class="content-view__feedback-card user__search-wrapper">
                     <div class="feedback-card__top">
                         <div class="user__search-icon">
-                            <a href="#"><img src="./img/<?= $user['avatar'] ?>" width="65" height="65" alt="<?= $user['name'] ?>"></a>
+                            <a href="#"><img src="./img/<?= $user['avatar'] ?>" width="65" height="65"
+                                             alt="<?= $user['name'] ?>"></a>
                             <span><?= $user['finished_task_count'] ?> <?= get_noun_plural_form(intval($user['finished_task_count']), 'задание', 'задания', 'заданий') ?></span>
                             <span><?= $user['opinions_count'] ?> <?= get_noun_plural_form(intval($user['opinions_count']), 'отзыв', 'отзыва', 'отзывов') ?></span>
                         </div>
                         <div class="feedback-card__top--name user__search-card">
                             <p class="link-name"><a href="#" class="link-regular"><?= $user['name'] ?></a></p>
-                            <?php $starCount = round((float) $user['rate']) ?>
-                            <?php for($i = 1; $i <= 5; $i++): ?>
+                            <?php $starCount = round((float)$user['rate']) ?>
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
                                 <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                             <?php endfor; ?>
                             <b><?= $user['rate'] ?></b>
@@ -37,7 +39,8 @@
                                 <?= $user['about'] ?>
                             </p>
                         </div>
-                        <span class="new-task__time">Был на сайте <?= getPassedTimeSinceLastActivity($user['last_activity_time']) ?></span>
+                        <span
+                            class="new-task__time">Был на сайте <?= getPassedTimeSinceLastActivity($user['last_activity_time']) ?></span>
                     </div>
                     <div class="link-specialization user__search-link--bottom">
                         <a href="#" class="link-regular">Ремонт</a>

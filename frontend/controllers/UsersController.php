@@ -1,20 +1,17 @@
 <?php
 
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use yii\web\Controller;
 use Yii;
+use yii\web\Controller;
 use yii\db\Query;
-use app\models\Users as Users;
-/**
- * Users controller
- */
+use app\models\Users;
+
 class UsersController extends Controller
 {
-    public function actionIndex() : string
+    public function actionIndex(): string
     {
         $users = Users::getDoersByDate();
         {

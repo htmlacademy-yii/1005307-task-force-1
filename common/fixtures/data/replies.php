@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'replies0' => [
+    [
         'dt_add' => '2021-04-16 15:41:20',
         'rate' => 4.7,
         'title' => 'Jordan Swaniawski',
@@ -9,7 +9,7 @@ return [
         'doer_id' => 4,
         'task_id' => 5,
     ],
-    'replies1' => [
+    [
         'dt_add' => '2021-03-26 01:41:00',
         'rate' => 4.06,
         'title' => 'Ms. Lorna Baumbach',
@@ -17,7 +17,7 @@ return [
         'doer_id' => 5,
         'task_id' => 8,
     ],
-    'replies2' => [
+    [
         'dt_add' => '2021-01-23 22:16:44',
         'rate' => 3.14,
         'title' => 'Mr. Juvenal Weimann IV',
@@ -25,7 +25,7 @@ return [
         'doer_id' => 1,
         'task_id' => 9,
     ],
-    'replies3' => [
+    [
         'dt_add' => '2021-01-17 00:13:55',
         'rate' => 4.67,
         'title' => 'Prof. Selina Pouros',
@@ -33,7 +33,7 @@ return [
         'doer_id' => 3,
         'task_id' => 3,
     ],
-    'replies4' => [
+    [
         'dt_add' => '2021-03-25 13:48:42',
         'rate' => 3.78,
         'title' => 'Loraine Bernier',
@@ -41,7 +41,7 @@ return [
         'doer_id' => 6,
         'task_id' => 3,
     ],
-    'replies5' => [
+    [
         'dt_add' => '2021-01-24 19:36:13',
         'rate' => 4.48,
         'title' => 'Tate Ebert DDS',
@@ -49,7 +49,7 @@ return [
         'doer_id' => 6,
         'task_id' => 4,
     ],
-    'replies6' => [
+    [
         'dt_add' => '2021-04-11 23:38:44',
         'rate' => 3.92,
         'title' => 'Dr. Durward Considine Jr.',
@@ -57,7 +57,7 @@ return [
         'doer_id' => 5,
         'task_id' => 8,
     ],
-    'replies7' => [
+    [
         'dt_add' => '2021-01-30 12:20:21',
         'rate' => 3.02,
         'title' => 'Robbie Leffler',
@@ -65,7 +65,7 @@ return [
         'doer_id' => 3,
         'task_id' => 5,
     ],
-    'replies8' => [
+    [
         'dt_add' => '2021-01-21 09:08:55',
         'rate' => 3.74,
         'title' => 'Ms. Else Herzog PhD',
@@ -73,7 +73,7 @@ return [
         'doer_id' => 10,
         'task_id' => 7,
     ],
-    'replies9' => [
+    [
         'dt_add' => '2021-04-29 08:49:34',
         'rate' => 3.89,
         'title' => 'Ottilie Nader',
@@ -81,7 +81,7 @@ return [
         'doer_id' => 5,
         'task_id' => 7,
     ],
-    'replies10' => [
+    [
         'dt_add' => '2021-02-09 04:55:47',
         'rate' => 4.63,
         'title' => 'Kylee Wolf',
@@ -89,7 +89,7 @@ return [
         'doer_id' => 5,
         'task_id' => 5,
     ],
-    'replies11' => [
+    [
         'dt_add' => '2021-05-07 12:30:21',
         'rate' => 4.19,
         'title' => 'Ena Stroman',
@@ -97,7 +97,7 @@ return [
         'doer_id' => 8,
         'task_id' => 7,
     ],
-    'replies12' => [
+    [
         'dt_add' => '2021-04-30 07:10:27',
         'rate' => 4.04,
         'title' => 'Mr. Arlo Gerhold',
@@ -105,7 +105,7 @@ return [
         'doer_id' => 6,
         'task_id' => 6,
     ],
-    'replies13' => [
+    [
         'dt_add' => '2021-01-08 22:52:36',
         'rate' => 3.8,
         'title' => 'Stanton Gutkowski',
@@ -113,7 +113,7 @@ return [
         'doer_id' => 7,
         'task_id' => 9,
     ],
-    'replies14' => [
+    [
         'dt_add' => '2021-05-09 19:53:47',
         'rate' => 3.98,
         'title' => 'Ocie Schumm I',
@@ -121,7 +121,7 @@ return [
         'doer_id' => 8,
         'task_id' => 9,
     ],
-    'replies15' => [
+    [
         'dt_add' => '2021-01-22 00:49:31',
         'rate' => 4.61,
         'title' => 'Gianni Nolan',
@@ -129,7 +129,7 @@ return [
         'doer_id' => 7,
         'task_id' => 9,
     ],
-    'replies16' => [
+    [
         'dt_add' => '2021-05-08 05:29:34',
         'rate' => 4.46,
         'title' => 'Dangelo Rodriguez',
@@ -137,7 +137,7 @@ return [
         'doer_id' => 2,
         'task_id' => 2,
     ],
-    'replies17' => [
+    [
         'dt_add' => '2021-03-30 20:48:08',
         'rate' => 3.47,
         'title' => 'Cruz Quigley',
@@ -145,7 +145,7 @@ return [
         'doer_id' => 6,
         'task_id' => 2,
     ],
-    'replies18' => [
+    [
         'dt_add' => '2021-04-06 08:05:39',
         'rate' => 3.11,
         'title' => 'Kieran McKenzie DDS',
@@ -153,7 +153,7 @@ return [
         'doer_id' => 5,
         'task_id' => 4,
     ],
-    'replies19' => [
+    [
         'dt_add' => '2021-03-27 22:39:02',
         'rate' => 4.18,
         'title' => 'Ivory Heathcote',
