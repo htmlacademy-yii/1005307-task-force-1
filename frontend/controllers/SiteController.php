@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace frontend\controllers;
 
 use Yii;
-use yii\base\InvalidArgumentException;
+use yii\web\Controller;
 use yii\web\BadRequestHttpException;
+use yii\base\InvalidArgumentException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use common\models\LoginForm;
 use frontend\models\forms\ResendVerificationEmailForm;
 use frontend\models\forms\VerifyEmailForm;
