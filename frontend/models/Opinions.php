@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%opinions}}".
+ * This is the model class for table "opinions".
  *
  * @property int $id
  * @property string $dt_add
@@ -25,7 +25,7 @@ class Opinions extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%opinions}}';
+        return 'opinions';
     }
 
     /**
@@ -39,7 +39,7 @@ class Opinions extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['rate'], 'number'],
             [['writer_id', 'task_id'], 'integer'],
-            [['title'], 'string', 'max' => 128],
+            [['title'], 'string', 'max' => 255],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
             [['writer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['writer_id' => 'id']],
         ];
@@ -64,7 +64,7 @@ class Opinions extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Task]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getTask()
     {
@@ -74,10 +74,19 @@ class Opinions extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Writer]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getWriter()
     {
         return $this->hasOne(Users::className(), ['id' => 'writer_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return OpinionsQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new OpinionsQuery(get_called_class());
     }
 }

@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%notifications}}".
+ * This is the model class for table "notifications".
  *
  * @property int $id
  * @property string $title
@@ -25,7 +25,7 @@ class Notifications extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%notifications}}';
+        return 'notifications';
     }
 
     /**
@@ -37,7 +37,7 @@ class Notifications extends \yii\db\ActiveRecord
             [['title', 'is_view', 'type', 'user_id', 'task_id'], 'required'],
             [['is_view', 'user_id', 'task_id'], 'integer'],
             [['dt_add'], 'safe'],
-            [['title', 'type'], 'string', 'max' => 128],
+            [['title', 'type'], 'string', 'max' => 255],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -62,7 +62,7 @@ class Notifications extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Task]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getTask()
     {
@@ -72,10 +72,19 @@ class Notifications extends \yii\db\ActiveRecord
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return NotificationsQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new NotificationsQuery(get_called_class());
     }
 }

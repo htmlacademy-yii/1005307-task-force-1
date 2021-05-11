@@ -5,13 +5,26 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%users}}".
+ * This is the model class for table "users".
  *
  * @property int $id
  * @property string $email
  * @property string $name
  * @property string $password
  * @property string $dt_add
+ * @property int $user_role_id
+ * @property string|null $address
+ * @property string|null $bd
+ * @property string|null $avatar
+ * @property string|null $about
+ * @property string|null $phone
+ * @property string|null $skype
+ * @property string|null $telegram
+ * @property float|null $rate
+ * @property int|null $city_id
+ * @property string $last_activity_time
+ * @property int $finished_task_count
+ * @property int $opinions_count
  *
  * @property Favourites[] $favourites
  * @property Favourites[] $favourites0
@@ -19,11 +32,12 @@ use Yii;
  * @property Notifications[] $notifications
  * @property Opinions[] $opinions
  * @property PortfolioPhoto[] $portfolioPhotos
- * @property Profiles[] $profiles
  * @property Replies[] $replies
  * @property Tasks[] $tasks
  * @property Tasks[] $tasks0
  * @property UserCategory[] $userCategories
+ * @property Cities $city
+ * @property UserRole $userRole
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -32,7 +46,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%users}}';
+        return 'users';
     }
 
     /**
@@ -41,11 +55,16 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email', 'name', 'password'], 'required'],
-            [['dt_add'], 'safe'],
-            [['email', 'name', 'password'], 'string', 'max' => 128],
+            [['email', 'name', 'password', 'user_role_id', 'last_activity_time', 'finished_task_count', 'opinions_count'], 'required'],
+            [['dt_add', 'bd', 'last_activity_time'], 'safe'],
+            [['user_role_id', 'city_id', 'finished_task_count', 'opinions_count'], 'integer'],
+            [['about'], 'string'],
+            [['rate'], 'number'],
+            [['email', 'name', 'password', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['name'], 'unique'],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['user_role_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserRole::className(), 'targetAttribute' => ['user_role_id' => 'id']],
         ];
     }
 
@@ -60,13 +79,26 @@ class Users extends \yii\db\ActiveRecord
             'name' => 'Name',
             'password' => 'Password',
             'dt_add' => 'Dt Add',
+            'user_role_id' => 'User Role ID',
+            'address' => 'Address',
+            'bd' => 'Bd',
+            'avatar' => 'Avatar',
+            'about' => 'About',
+            'phone' => 'Phone',
+            'skype' => 'Skype',
+            'telegram' => 'Telegram',
+            'rate' => 'Rate',
+            'city_id' => 'City ID',
+            'last_activity_time' => 'Last Activity Time',
+            'finished_task_count' => 'Finished Task Count',
+            'opinions_count' => 'Opinions Count',
         ];
     }
 
     /**
      * Gets query for [[Favourites]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|FavouritesQuery
      */
     public function getFavourites()
     {
@@ -76,7 +108,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Favourites0]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|FavouritesQuery
      */
     public function getFavourites0()
     {
@@ -86,7 +118,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Messages]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|MessagesQuery
      */
     public function getMessages()
     {
@@ -96,7 +128,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Notifications]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|NotificationsQuery
      */
     public function getNotifications()
     {
@@ -106,7 +138,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Opinions]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|OpinionsQuery
      */
     public function getOpinions()
     {
@@ -116,7 +148,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[PortfolioPhotos]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|PortfolioPhotoQuery
      */
     public function getPortfolioPhotos()
     {
@@ -124,19 +156,9 @@ class Users extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Profiles]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProfiles()
-    {
-        return $this->hasMany(Profiles::className(), ['user_id' => 'id']);
-    }
-
-    /**
      * Gets query for [[Replies]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|RepliesQuery
      */
     public function getReplies()
     {
@@ -146,7 +168,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Tasks]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|TasksQuery
      */
     public function getTasks()
     {
@@ -156,7 +178,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Tasks0]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|TasksQuery
      */
     public function getTasks0()
     {
@@ -166,10 +188,47 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UserCategories]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|UserCategoryQuery
      */
     public function getUserCategories()
     {
         return $this->hasMany(UserCategory::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[City]].
+     *
+     * @return \yii\db\ActiveQuery|CitiesQuery
+     */
+    public function getCity()
+    {
+        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+    }
+
+    /**
+     * Gets query for [[UserRole]].
+     *
+     * @return \yii\db\ActiveQuery|UserRoleQuery
+     */
+    public function getUserRole()
+    {
+        return $this->hasOne(UserRole::className(), ['id' => 'user_role_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return UsersQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UsersQuery(get_called_class());
+    }
+
+    final public static function getDoersByDate()
+    {
+        return self::find()
+            ->where(['user_role_id' => '1'])
+            ->orderBy(['dt_add' => SORT_DESC])
+            ->asArray()->all();
     }
 }

@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%portfolio_photo}}".
+ * This is the model class for table "portfolio_photo".
  *
  * @property int $id
  * @property string $photo
@@ -20,7 +20,7 @@ class PortfolioPhoto extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%portfolio_photo}}';
+        return 'portfolio_photo';
     }
 
     /**
@@ -31,7 +31,7 @@ class PortfolioPhoto extends \yii\db\ActiveRecord
         return [
             [['photo', 'user_id'], 'required'],
             [['user_id'], 'integer'],
-            [['photo'], 'string', 'max' => 128],
+            [['photo'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -51,10 +51,19 @@ class PortfolioPhoto extends \yii\db\ActiveRecord
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return PortfolioPhotoQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new PortfolioPhotoQuery(get_called_class());
     }
 }

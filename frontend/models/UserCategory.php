@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%user_category}}".
+ * This is the model class for table "user_category".
  *
  * @property int $id
  * @property int $user_id
@@ -21,7 +21,7 @@ class UserCategory extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%user_category}}';
+        return 'user_category';
     }
 
     /**
@@ -52,7 +52,7 @@ class UserCategory extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Category]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|CategoriesQuery
      */
     public function getCategory()
     {
@@ -62,10 +62,19 @@ class UserCategory extends \yii\db\ActiveRecord
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return UserCategoryQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UserCategoryQuery(get_called_class());
     }
 }

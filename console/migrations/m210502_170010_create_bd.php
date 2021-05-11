@@ -16,52 +16,56 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('categories', [
             'id' => $this->primaryKey(),
-            'name' => $this->string(128)->notNull()->unique(),
-            'icon' => $this->string(128)->notNull()->unique(),
-            'profession' => $this->string(128)->unique()
+            'name' => $this->string(255)->notNull()->unique(),
+            'icon' => $this->string(255)->notNull()->unique(),
+            'profession' => $this->string(255)->unique()
         ]);
 
         $this->createTable('cities', [
             'id' => $this->primaryKey(),
-            'city' => $this->string(128)->notNull()->unique(),
-            'lat' => $this->float(8.6)->notNull()->unique(),
-            'long' => $this->float(8.6)->notNull()->unique()
+            'city' => $this->string(255)->notNull(),
+            'latitude' => $this->string(255)->notNull(),
+            'longitude' => $this->string(255)->notNull()
+        ]);
+
+        $this->createTable('user_role', [
+            'id' => $this->primaryKey(),
+            'name' => $this->string(255)->notNull()->unique()
         ]);
 
         $this->createTable('users', [
             'id' => $this->primaryKey(),
-            'email' => $this->string(128)->notNull()->unique(),
-            'name' => $this->string(128)->notNull()->unique(),
-            'password' => $this->string(128)->notNull(),
+            'email' => $this->string(255)->notNull()->unique(),
+            'name' => $this->string(255)->notNull()->unique(),
+            'password' => $this->string(255)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-        ]);
-
-        $this->createTable('profiles', [
-            'id' => $this->primaryKey(),
-            'address' => $this->string(128),
+            'user_role_id' => $this->integer(11)->notNull(),
+            'address' => $this->string(255),
             'bd' => $this->date(),
-            'avatar' => $this->string(128),
+            'avatar' => $this->string(255),
             'about' => $this->text(),
-            'phone' => $this->integer(10)->unsigned(),
-            'skype' => $this->string(128),
-            'telegram' => $this->string(128),
-            'rate' => $this->float(3.2)->unsigned(),
-            'user_id' => $this->integer(11)->notNull(),
-            'city_id' => $this->integer(11)
+            'phone' => $this->string(255),
+            'skype' => $this->string(255),
+            'telegram' => $this->string(255),
+            'rate' => $this->float(3,2)->unsigned(),
+            'city_id' => $this->integer(11),
+            'last_activity_time' => $this->date()->notNull(),
+            'finished_task_count' => $this->integer(11)->notNull(),
+            'opinions_count' => $this->integer(11)->notNull()
         ]);
 
         $this->addForeignKey(
-            'user_id',
-            'profiles',
-            'user_id',
+            'user_role_id',
             'users',
+            'user_role_id',
+            'user_role',
             'id',
             'cascade'
         );
 
         $this->addForeignKey(
             'city_id',
-            'profiles',
+            'users',
             'city_id',
             'cities',
             'id',
@@ -95,7 +99,8 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('status_task', [
             'id' => $this->primaryKey(),
-            'name' => $this->string(128)->notNull()->unique()
+            'name' => $this->string(255)->notNull()->unique(),
+            'type' => $this->string(255)->notNull()->unique()
         ]);
 
         $this->createTable('tasks', [
@@ -104,12 +109,12 @@ class m210502_170010_create_bd extends Migration
             'category_id' => $this->integer(11),
             'description' => $this->text()->notNull(),
             'expire' => $this->date(),
-            'name' => $this->string(128)->notNull(),
-            'address' => $this->string(128),
+            'name' => $this->string(255)->notNull(),
+            'address' => $this->string(255),
             'budget' => $this->integer(5),
-            'lat' => $this->float(8.6),
-            'long' => $this->float(8.6),
-            'location_comment' => $this->string(128),
+            'latitude' => $this->string(255),
+            'longitude' => $this->string(255),
+            'location_comment' => $this->string(255),
             'city_id' => $this->integer(11),
             'doer_id' => $this->integer(11),
             'client_id' => $this->integer(11)->notNull(),
@@ -164,7 +169,7 @@ class m210502_170010_create_bd extends Migration
         $this->createTable('favourites', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'type_favourite' => $this->string(128),
+            'type_favourite' => $this->string(255),
             'user_id' => $this->integer(11)->notNull(),
             'favourite_person_id' => $this->integer(11)->notNull()
         ]);
@@ -189,7 +194,7 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('file_task', [
             'id' => $this->primaryKey(),
-            'file_item' => $this->string(128)->notNull(),
+            'file_item' => $this->string(255)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);
 
@@ -230,10 +235,10 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('notifications', [
             'id' => $this->primaryKey(),
-            'title' => $this->string(128)->notNull(),
+            'title' => $this->string(255)->notNull(),
             'is_view' => $this->integer(1)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'type' => $this->string(128)->notNull(),
+            'type' => $this->string(255)->notNull(),
             'user_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);
@@ -259,7 +264,7 @@ class m210502_170010_create_bd extends Migration
         $this->createTable('opinions', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'title' => $this->string(128)->notNull(),
+            'title' => $this->string(255)->notNull(),
             'description' => $this->text()->notNull(),
             'rate' => $this->float(3.2),
             'writer_id' => $this->integer(11)->notNull(),
@@ -286,7 +291,7 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('portfolio_photo', [
             'id' => $this->primaryKey(),
-            'photo' => $this->string(128)->notNull(),
+            'photo' => $this->string(255)->notNull(),
             'user_id' => $this->integer(11)->notNull()
         ]);
 
@@ -303,7 +308,7 @@ class m210502_170010_create_bd extends Migration
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'rate' => $this->float(3.2),
-            'title' => $this->string(128)->notNull(),
+            'title' => $this->string(255)->notNull(),
             'description' => $this->text()->notNull(),
             'doer_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
@@ -333,9 +338,20 @@ class m210502_170010_create_bd extends Migration
      */
     public function safeDown()
     {
-        echo "m210502_170010_crate_bd cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('categories');
+        $this->dropTable('cities');
+        $this->dropTable('favourites');
+        $this->dropTable('file_task');
+        $this->dropTable('messages');
+        $this->dropTable('notifications');
+        $this->dropTable('opinions');
+        $this->dropTable('portfolio_photo');
+        $this->dropTable('profiles');
+        $this->dropTable('replies');
+        $this->dropTable('status_task');
+        $this->dropTable('tasks');
+        $this->dropTable('user_categories');
+        $this->dropTable('users');
     }
 
     /*

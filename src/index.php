@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use TaskForce\controllers\CsvToSqlConverter;
-use TaskForce\controllers\ScanDir;
+use TaskForce\utils\CsvToSqlConverter;
+use TaskForce\utils\ScanDir;
 
 use TaskForce\exceptions\StatusException as StatusException;
 

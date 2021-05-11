@@ -5,15 +5,15 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%cities}}".
+ * This is the model class for table "cities".
  *
  * @property int $id
  * @property string $city
- * @property float $lat
- * @property float $long
+ * @property string $latitude
+ * @property string $longitude
  *
- * @property Profiles[] $profiles
  * @property Tasks[] $tasks
+ * @property Users[] $users
  */
 class Cities extends \yii\db\ActiveRecord
 {
@@ -22,7 +22,7 @@ class Cities extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%cities}}';
+        return 'cities';
     }
 
     /**
@@ -31,12 +31,8 @@ class Cities extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['city', 'lat', 'long'], 'required'],
-            [['lat', 'long'], 'number'],
-            [['city'], 'string', 'max' => 128],
-            [['city'], 'unique'],
-            [['lat'], 'unique'],
-            [['long'], 'unique'],
+            [['city', 'latitude', 'longitude'], 'required'],
+            [['city', 'latitude', 'longitude'], 'string', 'max' => 255],
         ];
     }
 
@@ -48,28 +44,37 @@ class Cities extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'city' => 'City',
-            'lat' => 'Lat',
-            'long' => 'Long',
+            'latitude' => 'Latitude',
+            'longitude' => 'Longitude',
         ];
-    }
-
-    /**
-     * Gets query for [[Profiles]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProfiles()
-    {
-        return $this->hasMany(Profiles::className(), ['city_id' => 'id']);
     }
 
     /**
      * Gets query for [[Tasks]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getTasks()
     {
         return $this->hasMany(Tasks::className(), ['city_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Users]].
+     *
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     */
+    public function getUsers()
+    {
+        return $this->hasMany(Users::className(), ['city_id' => 'id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return CitiesQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new CitiesQuery(get_called_class());
     }
 }

@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%replies}}".
+ * This is the model class for table "replies".
  *
  * @property int $id
  * @property string $dt_add
@@ -25,7 +25,7 @@ class Replies extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%replies}}';
+        return 'replies';
     }
 
     /**
@@ -39,7 +39,7 @@ class Replies extends \yii\db\ActiveRecord
             [['title', 'description', 'doer_id', 'task_id'], 'required'],
             [['description'], 'string'],
             [['doer_id', 'task_id'], 'integer'],
-            [['title'], 'string', 'max' => 128],
+            [['title'], 'string', 'max' => 255],
             [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['doer_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
         ];
@@ -64,7 +64,7 @@ class Replies extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Doer]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getDoer()
     {
@@ -74,10 +74,19 @@ class Replies extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Task]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getTask()
     {
         return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return RepliesQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new RepliesQuery(get_called_class());
     }
 }

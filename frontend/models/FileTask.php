@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%file_task}}".
+ * This is the model class for table "file_task".
  *
  * @property int $id
  * @property string $file_item
@@ -20,7 +20,7 @@ class FileTask extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%file_task}}';
+        return 'file_task';
     }
 
     /**
@@ -31,7 +31,7 @@ class FileTask extends \yii\db\ActiveRecord
         return [
             [['file_item', 'task_id'], 'required'],
             [['task_id'], 'integer'],
-            [['file_item'], 'string', 'max' => 128],
+            [['file_item'], 'string', 'max' => 255],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
         ];
     }
@@ -51,10 +51,19 @@ class FileTask extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Task]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getTask()
     {
         return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return FileTaskQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new FileTaskQuery(get_called_class());
     }
 }
