@@ -62,7 +62,7 @@ class Favourites extends \yii\db\ActiveRecord
      */
     public function getFavouritePerson()
     {
-        return $this->hasOne(Users::className(), ['id' => 'favourite_person_id']);
+        return $this->hasOne(Users::class, ['id' => 'favourite_person_id']);
     }
 
     /**
@@ -72,7 +72,7 @@ class Favourites extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
 
     /**

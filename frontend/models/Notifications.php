@@ -66,7 +66,7 @@ class Notifications extends \yii\db\ActiveRecord
      */
     public function getTask()
     {
-        return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+        return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
     /**
@@ -76,7 +76,7 @@ class Notifications extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
 
     /**

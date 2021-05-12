@@ -102,7 +102,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getFavourites()
     {
-        return $this->hasMany(Favourites::className(), ['favourite_person_id' => 'id']);
+        return $this->hasMany(Favourites::class, ['favourite_person_id' => 'id']);
     }
 
     /**
@@ -112,7 +112,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getFavourites0()
     {
-        return $this->hasMany(Favourites::className(), ['user_id' => 'id']);
+        return $this->hasMany(Favourites::class, ['user_id' => 'id']);
     }
 
     /**
@@ -122,7 +122,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getMessages()
     {
-        return $this->hasMany(Messages::className(), ['writer_id' => 'id']);
+        return $this->hasMany(Messages::class, ['writer_id' => 'id']);
     }
 
     /**
@@ -132,7 +132,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getNotifications()
     {
-        return $this->hasMany(Notifications::className(), ['user_id' => 'id']);
+        return $this->hasMany(Notifications::class, ['user_id' => 'id']);
     }
 
     /**
@@ -142,7 +142,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getOpinions()
     {
-        return $this->hasMany(Opinions::className(), ['writer_id' => 'id']);
+        return $this->hasMany(Opinions::class, ['writer_id' => 'id']);
     }
 
     /**
@@ -152,7 +152,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getPortfolioPhotos()
     {
-        return $this->hasMany(PortfolioPhoto::className(), ['user_id' => 'id']);
+        return $this->hasMany(PortfolioPhoto::class, ['user_id' => 'id']);
     }
 
     /**
@@ -162,7 +162,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getReplies()
     {
-        return $this->hasMany(Replies::className(), ['doer_id' => 'id']);
+        return $this->hasMany(Replies::class, ['doer_id' => 'id']);
     }
 
     /**
@@ -172,7 +172,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::className(), ['client_id' => 'id']);
+        return $this->hasMany(Tasks::class, ['client_id' => 'id']);
     }
 
     /**
@@ -182,7 +182,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getTasks0()
     {
-        return $this->hasMany(Tasks::className(), ['doer_id' => 'id']);
+        return $this->hasMany(Tasks::class, ['doer_id' => 'id']);
     }
 
     /**
@@ -192,7 +192,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getUserCategories()
     {
-        return $this->hasMany(UserCategory::className(), ['user_id' => 'id']);
+        return $this->hasMany(UserCategory::class, ['user_id' => 'id']);
     }
 
     /**
@@ -202,7 +202,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getCity()
     {
-        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+        return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
     /**
@@ -212,7 +212,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getUserRole()
     {
-        return $this->hasOne(UserRole::className(), ['id' => 'user_role_id']);
+        return $this->hasOne(UserRole::class, ['id' => 'user_role_id']);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
-require_once '../utils/my_functions.php';
-$this->title = 'Список заданий';
+    require_once '../utils/my_functions.php';
+    $this->title = 'Список заданий';
 ?>
 
 <main class="page-main">
@@ -12,14 +12,15 @@ $this->title = 'Список заданий';
                     <div class="new-task__card">
                         <div class="new-task__title">
                             <a href="#" class="link-regular"><h2><?= $task['name'] ?></h2></a>
-                            <a class="new-task__type link-regular" href="#"><p>Категория</p></a>
+                            <a class="new-task__type link-regular" href="#"><p><?= $task['category']['name'] ?></p></a>
                         </div>
-                        <div class="new-task__icon new-task__icon--translation"></div>
+
+                        <div class="new-task__icon new-task__icon--<?= $task['category']['icon'] ?>"></div>
                         <p class="new-task_description">
                             <?= $task['description'] ?>
                         </p>
-                        <b class="new-task__price new-task__price--translation"><?= $task['budget'] ?><b> ₽</b></b>
-                        <p class="new-task__place">Санкт-Петербург, <?= $task['address'] ?></p>
+                        <b class="new-task__price new-task__price--<?= $task['category']['icon']?>"><?= $task['budget'] ?><b> ₽</b></b>
+                        <p class="new-task__place"><?= $task['city']['city'] ?>, <?= $task['address'] ?></p>
                         <span class="new-task__time"><?= getPassedTimeSinceLastActivity($task['dt_add']) ?></span>
                     </div>
                 <?php endforeach; ?>

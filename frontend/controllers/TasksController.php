@@ -13,6 +13,6 @@ class TasksController extends Controller
     public function actionIndex(): string
     {
         $tasks = Tasks::getNewTasksByDate();
-        return $this->render('index', ['tasks' => $tasks]);
+        return $this->render('index', compact('tasks'));
     }
 }
