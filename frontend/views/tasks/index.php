@@ -1,6 +1,13 @@
 <?php
 require_once '../utils/my_functions.php';
 $this->title = 'Список заданий';
+
+use yii\widgets\ActiveForm;
+use yii\widgets\ActiveField;
+
+$categoriesFilter = $searchForm->getCategoriesFilter();
+$additionalFilter = $searchForm->getAdditionalOptions();
+$periodFilter = $searchForm->getPeriodFilter();
 ?>
 
 <main class="page-main">
@@ -38,37 +45,79 @@ $this->title = 'Список заданий';
         </section>
         <section class="search-task">
             <div class="search-task__wrapper">
-                <form class="search-task__form" name="test" method="post" action="#">
-                    <fieldset class="search-task__categories">
-                        <legend>Категории</legend>
-                        <input class="visually-hidden checkbox__input" id="1" type="checkbox" name="" value="" checked>
-                        <label for="1">Курьерские услуги </label>
-                        <input class="visually-hidden checkbox__input" id="2" type="checkbox" name="" value="" checked>
-                        <label for="2">Грузоперевозки </label>
-                        <input class="visually-hidden checkbox__input" id="3" type="checkbox" name="" value="">
-                        <label for="3">Переводы </label>
-                        <input class="visually-hidden checkbox__input" id="4" type="checkbox" name="" value="">
-                        <label for="4">Строительство и ремонт </label>
-                        <input class="visually-hidden checkbox__input" id="5" type="checkbox" name="" value="">
-                        <label for="5">Выгул животных </label>
-                    </fieldset>
-                    <fieldset class="search-task__categories">
-                        <legend>Дополнительно</legend>
-                        <input class="visually-hidden checkbox__input" id="6" type="checkbox" name="" value="">
-                        <label for="6">Без откликов</label>
-                        <input class="visually-hidden checkbox__input" id="7" type="checkbox" name="" value="" checked>
-                        <label for="7">Удаленная работа </label>
-                    </fieldset>
-                    <label class="search-task__name" for="8">Период</label>
-                    <select class="multiple-select input" id="8" size="1" name="time[]">
-                        <option value="day">За день</option>
-                        <option selected value="week">За неделю</option>
-                        <option value="month">За месяц</option>
-                    </select>
-                    <label class="search-task__name" for="9">Поиск по названию</label>
-                    <input class="input-middle input" id="9" type="search" name="q" placeholder="">
-                    <button class="button" type="submit">Искать</button>
-                </form>
+                <?php $form = ActiveForm::begin([
+                    'id' => 'searchForm',
+                    'method' => 'get',
+                    'options' => [
+                        'name' => 'test',
+                        'class' => 'search-task__form'
+                    ]
+                ]); ?>
+                <fieldset class="search-task__categories">
+                    <legend>Категории</legend>
+                    <?php $i = 1; ?>
+                    <?php foreach ($categoriesFilter as $id => $name) : ?>
+                        <?= $form->field($searchForm, 'categoriesFilter', [
+                            'template' => '{input}',
+                            'options' => ['tag' => false]
+                        ])->checkbox([
+                            'label' => false,
+                            'value' => $id,
+                            'uncheck' => null,
+                            'id' => $id,
+                            'class' => 'visually-hidden checkbox__input'
+                        ]) ?>
+                        <?php $i++; ?>
+                        <label for="<?= $id ?>"><?= $name ?></label>
+                    <?php endforeach; ?>
+                </fieldset>
+                <fieldset class="search-task__categories">
+                    <legend>Дополнительно</legend>
+                    <?php foreach ($additionalFilter as $id => $name) : ?>
+                        <?= $form->field($searchForm, 'additionalFilter', [
+                            'template' => '{input}',
+                            'options' => ['tag' => false]
+                        ])->checkbox([
+                            'label' => false,
+                            'value' => $id,
+                            'uncheck' => null,
+                            'id' => $i,
+                            'class' => 'visually-hidden checkbox__input'
+                        ]) ?>
+                        <label for="<?= $i ?>"><?= $name ?></label>
+                        <?php $i++; ?>
+                    <?php endforeach; ?>
+                </fieldset>
+                <label class="search-task__name" for="<?= $i ?>">Период</label>
+                <?= $form->field($searchForm, "periodFilter", [
+                    'template' => "{input}",
+                    'options' => ['tag' => false]
+                ])->dropDownList([
+                    'day' => 'За день',
+                    'week' => 'За неделю',
+                    'month' => 'За месяц'
+                ], [
+                    'class' => 'multiple-select input',
+                    'id' => ($i),
+                    'size' => 1,
+                    'prompt' => [
+                        'text' => 'За всё вреня',
+                        'options' => ['value' => 'all']
+                    ]
+                ]); ?>
+                <?php $i++; ?>
+                <label class="search-task__name" for="<?= $i ?>">Поиск по названию</label>
+                <?= $form->field($searchForm, 'searchName', [
+                    'template' => "{input}",
+                    'options' => ['tag' => false],
+                    'inputOptions' => [
+                        'class' => 'input-middle input',
+                        'type' => 'search',
+                        'id' => $i
+                    ]
+                ]); ?>
+                <button class="button" type="submit">Искать</button>
+                <?php ActiveForm::end(); ?>
             </div>
         </section>
     </div>

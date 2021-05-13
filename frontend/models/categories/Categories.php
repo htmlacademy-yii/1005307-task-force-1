@@ -97,4 +97,9 @@ class Categories extends \yii\db\ActiveRecord
     {
         return new CategoriesQuery(get_called_class());
     }
+
+    final public static function getAll()
+    {
+        return self::find()->asArray()->all();
+    }
 }
