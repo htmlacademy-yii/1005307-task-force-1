@@ -38,6 +38,7 @@ use Yii;
  * @property UserCategory[] $userCategories
  * @property Cities $city
  * @property UserRole $userRole
+ * @property Categories[] $categories
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -190,9 +191,24 @@ class Users extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery|UserCategoryQuery
      */
-    public function getUserCategories()
+ //   public function getUserCategory()
+  //  {
+  //      return $this->hasMany(UserCategory::class, ['user_id' => 'id']);
+ //   }
+
+    /**
+     * Gets query for [[UserSpecializations]].
+     *
+     * @return \yii\db\ActiveQuery|UserCategoryQuery
+     */
+    public function getCategories()
     {
         return $this->hasMany(UserCategory::class, ['user_id' => 'id']);
+    }
+
+    public function getUserCategories()
+    {
+        return $this->hasMany(Categories::class, ['id' => 'category_id'])->viaTable('user_category', ['user_id' => 'id']);
     }
 
     /**
@@ -228,6 +244,10 @@ class Users extends \yii\db\ActiveRecord
     {
         return self::find()
             ->where(['user_role_id' => '1'])
+           // ->with('сategories')
+            ->with('userCategories')
+       //     ->joinWith('categories')
+            ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray()->all();
     }

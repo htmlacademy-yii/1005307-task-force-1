@@ -67,9 +67,19 @@ class Categories extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
-    public function getUserCategories()
+    public function getUserCategory()
     {
         return $this->hasMany(UserCategory::class, ['category_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Users]].
+     *
+     * @return \yii\db\ActiveQuery|UsersQuery
+     */
+    public function getUsers()
+    {
+        return $this->hasMany(Users::class, ['id' => 'user_id'])->viaTable('user_category', ['categories_id' => 'id']);
     }
 
     /**

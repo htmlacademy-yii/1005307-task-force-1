@@ -9,7 +9,7 @@ return [
     [
         'name' => 'Уборка',
         'icon' => 'clean',
-        'profession' => 'уборка',
+        'profession' => 'Уборка',
     ],
     [
         'name' => 'Переезды',

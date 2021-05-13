@@ -43,9 +43,9 @@ $this->title = 'Список исполнителей';
                             class="new-task__time">Был на сайте <?= getPassedTimeSinceLastActivity($user['last_activity_time']) ?></span>
                     </div>
                     <div class="link-specialization user__search-link--bottom">
-                        <a href="#" class="link-regular">Ремонт</a>
-                        <a href="#" class="link-regular">Курьер</a>
-                        <a href="#" class="link-regular">Оператор ПК</a>
+                        <?php foreach ($user['userCategories'] as $category): ?>
+                            <a href="#" class="link-regular"><?= $category['profession'] ?></a>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             <?php endforeach; ?>
