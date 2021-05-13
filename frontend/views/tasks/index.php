@@ -18,7 +18,8 @@ $this->title = 'Список заданий';
                         <p class="new-task_description">
                             <?= $task['description'] ?>
                         </p>
-                        <b class="new-task__price new-task__price--<?= $task['category']['icon']?>"><?= $task['budget'] ?><b> ₽</b></b>
+                        <b class="new-task__price new-task__price--<?= $task['category']['icon'] ?>"><?= $task['budget'] ?>
+                            <b> ₽</b></b>
                         <p class="new-task__place"><?= $task['city']['city'] ?>, <?= $task['address'] ?></p>
                         <span class="new-task__time"><?= getPassedTimeSinceLastActivity($task['dt_add']) ?></span>
                     </div>
