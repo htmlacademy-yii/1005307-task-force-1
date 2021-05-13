@@ -5,11 +5,17 @@ namespace app\models\tasks;
 use Yii;
 use app\models\{
     cities\Cities,
+    cities\CitiesQuery,
     categories\Categories,
+    categories\CategoriesQuery,
     messages\Messages,
+    messages\MessagesQuery,
     notifications\Notifications,
+    notifications\NotificationsQuery,
     opinions\Opinions,
+    opinions\OpinionsQuery,
     replies\Replies,
+    replies\RepliesQuery,
     users\Users
 };
 

@@ -5,7 +5,9 @@ namespace app\models\categories;
 use Yii;
 use app\models\{
     tasks\Tasks,
-    users\UserCategory
+    users\UserCategory,
+    users\Users,
+    users\UsersQuery
 };
 
 /**
@@ -16,7 +18,7 @@ use app\models\{
  * @property string $icon
  * @property string|null $profession
  *
- * @property Tasks $tasks
+ * @property Tasks[] $tasks
  * @property UserCategory[] $userCategories
  */
 

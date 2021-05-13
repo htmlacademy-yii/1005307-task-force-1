@@ -5,12 +5,18 @@ namespace app\models\users;
 use Yii;
 use app\models\{
     cities\Cities,
+    cities\CitiesQuery,
     categories\Categories,
     messages\Messages,
+    messages\MessagesQuery,
     notifications\Notifications,
+    notifications\NotificationsQuery,
     opinions\Opinions,
+    opinions\OpinionsQuery,
     replies\Replies,
-    tasks\Tasks
+    replies\RepliesQuery,
+    tasks\Tasks,
+    tasks\TasksQuery
 };
 
 /**
@@ -196,7 +202,7 @@ class Users extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[UserSpecializations]].
+     * Gets query for [[UserCategories]].
      *
      * @return \yii\db\ActiveQuery|UserCategoryQuery
      */
