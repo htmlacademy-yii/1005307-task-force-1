@@ -92,11 +92,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                 <?= $form->field($searchForm, "periodFilter", [
                     'template' => "{input}",
                     'options' => ['tag' => false]
-                ])->dropDownList([
-                    'day' => 'За день',
-                    'week' => 'За неделю',
-                    'month' => 'За месяц'
-                ], [
+                ])->dropDownList($periodFilter, [
                     'class' => 'multiple-select input',
                     'id' => ($i),
                     'size' => 1,
