@@ -66,16 +66,6 @@ class Replies extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Doer]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
-    public function getDoer()
-    {
-        return $this->hasOne(Users::class, ['id' => 'doer_id']);
-    }
-
-    /**
      * Gets query for [[Task]].
      *
      * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
@@ -83,6 +73,16 @@ class Replies extends \yii\db\ActiveRecord
     public function getTask()
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
+    }
+
+    /**
+     * Gets query for [[Doer]].
+     *
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     */
+    public function getDoer()
+    {
+        return $this->hasOne(Users::class, ['id' => 'doer_id']);
     }
 
     /**

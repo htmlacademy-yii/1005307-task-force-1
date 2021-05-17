@@ -103,6 +103,36 @@ class Tasks extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Category]].
+     *
+     * @return \yii\db\ActiveQuery|CategoriesQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Categories::class, ['id' => 'category_id']);
+    }
+
+    /**
+     * Gets query for [[City]].
+     *
+     * @return \yii\db\ActiveQuery|CitiesQuery
+     */
+    public function getCity()
+    {
+        return $this->hasOne(Cities::class, ['id' => 'city_id']);
+    }
+
+    /**
+     * Gets query for [[Client]].
+     *
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     */
+    public function getClient()
+    {
+        return $this->hasOne(Users::class, ['id' => 'client_id']);
+    }
+
+    /**
      * Gets query for [[FileTasks]].
      *
      * @return \yii\db\ActiveQuery|FileTaskQuery
@@ -153,33 +183,13 @@ class Tasks extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Category]].
+     * Gets query for [[StatusTask]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery|StatusTaskQuery
      */
-    public function getCategory()
+    public function getStatusTask()
     {
-        return $this->hasOne(Categories::class, ['id' => 'category_id']);
-    }
-
-    /**
-     * Gets query for [[City]].
-     *
-     * @return \yii\db\ActiveQuery|CitiesQuery
-     */
-    public function getCity()
-    {
-        return $this->hasOne(Cities::class, ['id' => 'city_id']);
-    }
-
-    /**
-     * Gets query for [[Client]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
-    public function getClient()
-    {
-        return $this->hasOne(Users::class, ['id' => 'client_id']);
+        return $this->hasOne(StatusTask::class, ['id' => 'status_task_id']);
     }
 
     /**
@@ -190,16 +200,6 @@ class Tasks extends \yii\db\ActiveRecord
     public function getDoer()
     {
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
-    }
-
-    /**
-     * Gets query for [[StatusTask]].
-     *
-     * @return \yii\db\ActiveQuery|StatusTaskQuery
-     */
-    public function getStatusTask()
-    {
-        return $this->hasOne(StatusTask::class, ['id' => 'status_task_id']);
     }
 
     /**

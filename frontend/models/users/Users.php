@@ -245,6 +245,20 @@ class Users extends \yii\db\ActiveRecord
         return new UsersQuery(get_called_class());
     }
 
+    final public static function findDoersByFilters(UserSearchForm $form): ?array
+    {
+        $query = self::find()
+            ->where(['user_role_id' => '1'])
+            ->with('userCategories')
+            ->groupBy('users.id')
+            ->orderBy(['dt_add' => SORT_DESC])
+            ->asArray();
+            $query->withOpinionsFilter(0);
+
+
+        return $query->all();
+    }
+
     final public static function getDoersByDate()
     {
         return self::find()

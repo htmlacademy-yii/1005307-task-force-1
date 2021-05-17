@@ -11,15 +11,10 @@ class TaskSearchForm extends \yii\db\ActiveRecord
     public $additionalFilter = [];
     public $periodFilter = [];
     public $searchName = null;
-    private $categories;
 
     public function getCategoriesFilter(): array
     {
-        if (!isset($this->categories)) {
-            $this->categories = ArrayHelper::map(Categories::getAll(), 'id', 'name');
-        }
-
-        return $this->categories;
+        return Categories::getCategoriesFilters();
     }
 
     public function getAdditionalOptions(): array

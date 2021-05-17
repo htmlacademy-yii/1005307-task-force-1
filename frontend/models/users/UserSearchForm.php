@@ -2,27 +2,50 @@
 
 namespace app\models\users;
 
-use app\models\categories\Categories;
-use yii\helpers\ArrayHelper;
+use Yii;
 
+use app\models\categories\Categories;
+
+/**
+ * This is the model class for table "user_search_form".
+ *
+ * @property int|null $free_now
+ * @property int|null $online_now
+ * @property int|null $has_opinions
+ * @property int|null $is_favourite
+ */
 class UserSearchForm extends \yii\db\ActiveRecord
 {
     public $categoriesFilter = [];
     public $additionalFilter = [];
     public $periodFilter = [];
-    public $searchName = null;
+    public $searchName;
+    public $hasOpinions;
     private $categories;
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'user_search_form';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['categoriesFilter', 'additionalFilter', 'search_name', 'free_now', 'online_now', 'has_opinions', 'is_favourite'], 'integer'],
+        ];
+    }
 
     public function getCategoriesFilter(): array
     {
-        if (!isset($this->categories)) {
-            $this->categories = ArrayHelper::map(Categories::getAll(), 'id', 'name');
-        }
-
-        return $this->categories;
+        return Categories::getCategoriesFilters();
     }
 
-    public function getAdditionalOptions(): array
+    public function getAdditionalOptions() : array
     {
         return [
             'free_now' => 'Сейчас свободен',
@@ -32,10 +55,12 @@ class UserSearchForm extends \yii\db\ActiveRecord
         ];
     }
 
-    public function rules()
+    /**
+     * {@inheritdoc}
+     * @return UserSearchFormQuery the active query used by this AR class.
+     */
+    public static function find()
     {
-        return [
-            [['categoriesFilter', 'additionalFilter', 'period_filter', 'searchName', 'free_now', 'online_now', 'has_opinions', 'is_favourite'], 'safe']
-        ];
+        return new UserSearchFormQuery(get_called_class());
     }
 }

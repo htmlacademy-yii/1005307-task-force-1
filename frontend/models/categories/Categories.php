@@ -3,6 +3,7 @@
 namespace app\models\categories;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use app\models\{
     tasks\Tasks,
     users\UserCategory,
@@ -21,7 +22,6 @@ use app\models\{
  * @property Tasks[] $tasks
  * @property UserCategory[] $userCategories
  */
-
 class Categories extends \yii\db\ActiveRecord
 {
     /**
@@ -87,6 +87,15 @@ class Categories extends \yii\db\ActiveRecord
     public function getUsers()
     {
         return $this->hasMany(Users::class, ['id' => 'user_id'])->viaTable('user_category', ['categories_id' => 'id']);
+    }
+
+    public static function getCategoriesFilters(): array
+    {
+        if (!isset($categories)) {
+            $categories = ArrayHelper::map(Categories::getAll(), 'id', 'name');
+        }
+
+        return $categories;
     }
 
     /**
