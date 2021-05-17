@@ -54,13 +54,4 @@ class UserSearchForm extends \yii\db\ActiveRecord
             'is_favourite' => 'В избранном'
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     * @return UserSearchFormQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserSearchFormQuery(get_called_class());
-    }
 }

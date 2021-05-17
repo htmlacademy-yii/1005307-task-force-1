@@ -49,9 +49,7 @@ class m210502_170010_create_bd extends Migration
             'telegram' => $this->string(255),
             'rate' => $this->float(3,2)->unsigned(),
             'city_id' => $this->integer(11),
-            'last_activity_time' => $this->date()->notNull(),
-            'finished_task_count' => $this->integer(11)->notNull(),
-            'opinions_count' => $this->integer(11)->notNull()
+            'last_activity_time' => $this->date()->notNull()
         ]);
 
         $this->addForeignKey(
@@ -95,7 +93,6 @@ class m210502_170010_create_bd extends Migration
             'id',
             'CASCADE'
         );
-
 
         $this->createTable('status_task', [
             'id' => $this->primaryKey(),
@@ -268,6 +265,7 @@ class m210502_170010_create_bd extends Migration
             'description' => $this->text()->notNull(),
             'rate' => $this->float(3.2),
             'writer_id' => $this->integer(11)->notNull(),
+            'about_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);
 
@@ -275,6 +273,15 @@ class m210502_170010_create_bd extends Migration
             'writer_o_id',
             'opinions',
             'writer_id',
+            'users',
+            'id',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            'about_o_id',
+            'opinions',
+            'about_id',
             'users',
             'id',
             'CASCADE'

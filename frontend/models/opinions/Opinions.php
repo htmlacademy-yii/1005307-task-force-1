@@ -5,7 +5,9 @@ namespace app\models\opinions;
 use Yii;
 use app\models\{
     tasks\Tasks,
-    users\Users
+    users\Users,
+    tasks\TasksQuery,
+    users\UsersQuery
 };
 
 /**
@@ -17,8 +19,10 @@ use app\models\{
  * @property string $description
  * @property float|null $rate
  * @property int $writer_id
+ * @property int $about_id
  * @property int $task_id
  *
+ * @property Users $about
  * @property Tasks $task
  * @property Users $writer
  */
@@ -39,11 +43,12 @@ class Opinions extends \yii\db\ActiveRecord
     {
         return [
             [['dt_add'], 'safe'],
-            [['title', 'description', 'writer_id', 'task_id'], 'required'],
+            [['title', 'description', 'writer_id', 'about_id', 'task_id'], 'required'],
             [['description'], 'string'],
             [['rate'], 'number'],
-            [['writer_id', 'task_id'], 'integer'],
+            [['writer_id', 'about_id', 'task_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
+            [['about_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['about_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
             [['writer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['writer_id' => 'id']],
         ];
@@ -61,28 +66,43 @@ class Opinions extends \yii\db\ActiveRecord
             'description' => 'Description',
             'rate' => 'Rate',
             'writer_id' => 'Writer ID',
+            'about_id' => 'About ID',
             'task_id' => 'Task ID',
         ];
     }
 
     /**
+     * Gets query for [[About]].
+     *
+     * @return \yii\db\ActiveQuery|UsersQuery
+     */
+    public function getAbout()
+    {
+        return $this->hasOne(Users::className(), ['id' => 'about_id']);
+    }
+
+    /**
      * Gets query for [[Task]].
      *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|TasksQuery
      */
     public function getTask()
     {
-        return $this->hasOne(Tasks::class, ['id' => 'task_id']);
+        return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
     }
 
     /**
      * Gets query for [[Writer]].
      *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|UsersQuery
      */
     public function getWriter()
     {
-        return $this->hasOne(Users::class, ['id' => 'writer_id']);
+        return $this->hasOne(Users::className(), ['id' => 'writer_id']);
+    }
+
+    public static function countUserOpinions($id) {
+        return self::find()->where(['about_id' => $id])->count();
     }
 
     /**

@@ -211,6 +211,10 @@ class Tasks extends \yii\db\ActiveRecord
         return new TasksQuery(get_called_class());
     }
 
+    public static function countUserTasks($id) {
+        return self::find()->where(['doer_id' => $id])->count();
+    }
+
     final public static function getNewTasksByDate() {
         return self::find()
             ->where(['status_task_id' => '1'])

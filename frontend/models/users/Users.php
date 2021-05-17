@@ -253,11 +253,11 @@ class Users extends \yii\db\ActiveRecord
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
-            $query->withOpinionsFilter(0);
-
+        $query->withOpinionsFilter(0);
 
         return $query->all();
     }
+
 
     final public static function getDoersByDate()
     {

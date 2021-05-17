@@ -17,8 +17,6 @@ return [
         'rate' => 2.91,
         'city_id' => 9,
         'last_activity_time' => '2021-01-15 01:43:38',
-        'finished_task_count' => 3,
-        'opinions_count' => 15,
     ],
     [
         'email' => 'dkris@braun.com',
@@ -36,8 +34,6 @@ return [
         'rate' => 4.72,
         'city_id' => 7,
         'last_activity_time' => '2021-04-01 20:08:11',
-        'finished_task_count' => 17,
-        'opinions_count' => 23,
     ],
     [
         'email' => 'wiley17@damore.com',
@@ -55,8 +51,6 @@ return [
         'rate' => 3.57,
         'city_id' => 1,
         'last_activity_time' => '2021-02-18 09:59:07',
-        'finished_task_count' => 16,
-        'opinions_count' => 25,
     ],
     [
         'email' => 'robin42@yahoo.com',
@@ -74,8 +68,6 @@ return [
         'rate' => 2.48,
         'city_id' => 6,
         'last_activity_time' => '2021-04-27 02:00:40',
-        'finished_task_count' => 22,
-        'opinions_count' => 39,
     ],
     [
         'email' => 'satterfield.merritt@hotmail.com',
@@ -93,8 +85,6 @@ return [
         'rate' => 4.96,
         'city_id' => 7,
         'last_activity_time' => '2021-03-01 11:10:07',
-        'finished_task_count' => 12,
-        'opinions_count' => 19,
     ],
     [
         'email' => 'perry.raynor@pollich.com',
@@ -112,8 +102,6 @@ return [
         'rate' => 3.78,
         'city_id' => 2,
         'last_activity_time' => '2021-04-21 14:56:44',
-        'finished_task_count' => 30,
-        'opinions_count' => 13,
     ],
     [
         'email' => 'hahn.craig@satterfield.com',
@@ -131,8 +119,6 @@ return [
         'rate' => 4.95,
         'city_id' => 6,
         'last_activity_time' => '2021-04-07 05:53:33',
-        'finished_task_count' => 40,
-        'opinions_count' => 2,
     ],
     [
         'email' => 'miracle.brown@gmail.com',
@@ -150,8 +136,6 @@ return [
         'rate' => 2.7,
         'city_id' => 2,
         'last_activity_time' => '2021-02-24 12:00:25',
-        'finished_task_count' => 28,
-        'opinions_count' => 0,
     ],
     [
         'email' => 'edmund95@hotmail.com',
@@ -169,8 +153,6 @@ return [
         'rate' => 4.82,
         'city_id' => 4,
         'last_activity_time' => '2021-02-28 11:39:24',
-        'finished_task_count' => 20,
-        'opinions_count' => 25,
     ],
     [
         'email' => 'elias97@hotmail.com',
@@ -188,8 +170,6 @@ return [
         'rate' => 3.75,
         'city_id' => 8,
         'last_activity_time' => '2021-03-19 21:23:45',
-        'finished_task_count' => 5,
-        'opinions_count' => 37,
     ],
     [
         'email' => 'edythe60@lindgren.com',
@@ -207,8 +187,6 @@ return [
         'rate' => 4.91,
         'city_id' => 5,
         'last_activity_time' => '2021-05-03 05:26:30',
-        'finished_task_count' => 39,
-        'opinions_count' => 32,
     ],
     [
         'email' => 'gkassulke@boehm.info',
@@ -226,8 +204,6 @@ return [
         'rate' => 3.9,
         'city_id' => 9,
         'last_activity_time' => '2021-01-24 18:54:59',
-        'finished_task_count' => 4,
-        'opinions_count' => 29,
     ],
     [
         'email' => 'lockman.esteban@maggio.info',
@@ -245,8 +221,6 @@ return [
         'rate' => 3.42,
         'city_id' => 7,
         'last_activity_time' => '2021-04-16 14:00:47',
-        'finished_task_count' => 5,
-        'opinions_count' => 9,
     ],
     [
         'email' => 'hettie45@swaniawski.org',
@@ -264,8 +238,6 @@ return [
         'rate' => 2.37,
         'city_id' => 6,
         'last_activity_time' => '2021-01-15 18:19:22',
-        'finished_task_count' => 25,
-        'opinions_count' => 17,
     ],
     [
         'email' => 'ratke.kristopher@funk.info',
@@ -283,8 +255,6 @@ return [
         'rate' => 4.83,
         'city_id' => 7,
         'last_activity_time' => '2021-03-04 14:16:48',
-        'finished_task_count' => 20,
-        'opinions_count' => 4,
     ],
     [
         'email' => 'nelda.pfeffer@hermann.com',
@@ -302,8 +272,6 @@ return [
         'rate' => 2.83,
         'city_id' => 7,
         'last_activity_time' => '2021-04-06 13:26:32',
-        'finished_task_count' => 1,
-        'opinions_count' => 25,
     ],
     [
         'email' => 'feeney.herta@thompson.net',
@@ -321,8 +289,6 @@ return [
         'rate' => 2.85,
         'city_id' => 5,
         'last_activity_time' => '2021-05-04 18:55:34',
-        'finished_task_count' => 16,
-        'opinions_count' => 1,
     ],
     [
         'email' => 'jeramie.pacocha@jenkins.com',
@@ -340,8 +306,6 @@ return [
         'rate' => 3.34,
         'city_id' => 3,
         'last_activity_time' => '2021-04-29 02:05:50',
-        'finished_task_count' => 5,
-        'opinions_count' => 3,
     ],
     [
         'email' => 'maxine.jacobson@terry.com',
@@ -359,8 +323,6 @@ return [
         'rate' => 4.34,
         'city_id' => 9,
         'last_activity_time' => '2021-03-13 01:05:25',
-        'finished_task_count' => 31,
-        'opinions_count' => 11,
     ],
     [
         'email' => 'brandy14@wolff.com',
@@ -378,7 +340,5 @@ return [
         'rate' => 3.8,
         'city_id' => 9,
         'last_activity_time' => '2021-01-14 21:58:46',
-        'finished_task_count' => 10,
-        'opinions_count' => 24,
     ],
 ];
