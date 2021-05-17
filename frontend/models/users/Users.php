@@ -245,7 +245,7 @@ class Users extends \yii\db\ActiveRecord
         return new UsersQuery(get_called_class());
     }
 
-    final public static function findDoersByFilters(UserSearchForm $form): ?array
+    final public static function getDoersByFilters(UserSearchForm $form): ?array
     {
         $query = self::find()
             ->where(['user_role_id' => '1'])

@@ -10,5 +10,5 @@ return [
     'rate' => $faker->randomFloat($nbMaxDecimals = 2, $min = 3, $max = 5),
     'writer_id' => $faker->numberBetween(1, 10),
     'task_id' => $faker->numberBetween(11, 30),
-    'about_id' => $faker->numberBetween(11, 30),
+    'about_id' => $faker->numberBetween(1, 10),
 ];

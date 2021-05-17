@@ -338,6 +338,14 @@ class m210502_170010_create_bd extends Migration
             'id',
             'CASCADE'
         );
+
+        $this->createTable('user_search_form', [
+            'id' => $this->primaryKey(),
+            'free_now' => $this->integer(1)->notNull(),
+            'online_now' => $this->integer(1)->notNull(),
+            'has_opinions' => $this->integer(1)->notNull(),
+            'is_favourite' => $this->integer(1)->notNull()
+        ]);
     }
 
     /**

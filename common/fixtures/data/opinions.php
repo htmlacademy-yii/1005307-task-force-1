@@ -143,7 +143,7 @@ return [
         'rate' => 3.6,
         'writer_id' => 6,
         'task_id' => 11,
-        'about_id' => 1
+        'about_id' => 5
     ],
     [
         'dt_add' => '2021-04-22 07:47:22',
