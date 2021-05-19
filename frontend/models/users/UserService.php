@@ -20,11 +20,11 @@ class UserService extends BaseObject
 
     public function getUsers(UserSearchForm $form): array
     {
-    //    if (array_filter($form->attributes)) {
+        if (array_filter($form->attributes)) {
           return Users::getDoersByFilters($form);
-     //   }
+        }
 
-      // return Users::getDoersByDate();
+       return Users::getDoersByDate();
     }
 
     private function getFiltering(UserSearchForm $form)

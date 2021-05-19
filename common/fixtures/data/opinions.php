@@ -44,7 +44,7 @@ return [
         'rate' => 3.09,
         'writer_id' => 9,
         'task_id' => 14,
-        'about_id' => 6
+        'about_id' => 4
     ],
     [
         'dt_add' => '2021-04-03 07:33:41',
@@ -71,7 +71,7 @@ return [
         'rate' => 4.89,
         'writer_id' => 5,
         'task_id' => 19,
-        'about_id' => 1
+        'about_id' => 5
     ],
     [
         'dt_add' => '2021-02-19 15:10:14',
@@ -98,7 +98,7 @@ return [
         'rate' => 4.53,
         'writer_id' => 8,
         'task_id' => 28,
-        'about_id' => 1
+        'about_id' => 5
     ],
     [
         'dt_add' => '2021-05-03 07:10:03',
@@ -125,7 +125,7 @@ return [
         'rate' => 3.02,
         'writer_id' => 9,
         'task_id' => 16,
-        'about_id' => 6
+        'about_id' => 4
     ],
     [
         'dt_add' => '2021-02-07 23:57:30',
@@ -134,7 +134,7 @@ return [
         'rate' => 3.99,
         'writer_id' => 6,
         'task_id' => 23,
-        'about_id' => 1
+        'about_id' => 5
     ],
     [
         'dt_add' => '2021-02-11 14:45:11',

@@ -79,8 +79,8 @@ class Users extends \yii\db\ActiveRecord
             [['email', 'name', 'password', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['name'], 'unique'],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
-            [['user_role_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserRole::className(), 'targetAttribute' => ['user_role_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::class, 'targetAttribute' => ['city_id' => 'id']],
+            [['user_role_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserRole::class, 'targetAttribute' => ['user_role_id' => 'id']],
         ];
     }
 
@@ -157,7 +157,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getOpinions()
     {
-        return $this->hasMany(Opinions::class, ['writer_id' => 'id']);
+        return $this->hasMany(Opinions::class, ['about_id' => 'id']);
     }
 
 
@@ -249,9 +249,8 @@ class Users extends \yii\db\ActiveRecord
     {
         $query = self::find()
             ->joinWith('opinions')
-            ->where(['opinions.about_id => id'])
             ->select([
-                'users.*',
+                'opinions.*',
                 'count(description) as opinions_count'
             ])
             ->where(['user_role_id' => '1'])
@@ -269,10 +268,9 @@ class Users extends \yii\db\ActiveRecord
     {
         return $query = self::find()
             ->joinWith('opinions')
-            ->where(['opinions.about_id => id'])
             ->select([
                 'users.*',
-                'count(description) as opinions_count'
+                'count(opinions.description) as opinions_count'
             ])
             ->where(['user_role_id' => '1'])
             ->with('userCategories')
