@@ -3,6 +3,7 @@
 namespace app\models\users;
 
 use yii;
+use app\models\opinions\Opinions;
 
 /**
  * This is the ActiveQuery class for [[Users]].

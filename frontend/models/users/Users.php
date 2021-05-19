@@ -107,7 +107,6 @@ class Users extends \yii\db\ActiveRecord
             'city_id' => 'City ID',
             'last_activity_time' => 'Last Activity Time',
             'finished_task_count' => 'Finished Task Count',
-            'opinions_count' => 'Opinions Count',
         ];
     }
 
@@ -160,6 +159,7 @@ class Users extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Opinions::class, ['writer_id' => 'id']);
     }
+
 
     /**
      * Gets query for [[PortfolioPhotos]].
@@ -248,6 +248,12 @@ class Users extends \yii\db\ActiveRecord
     final public static function getDoersByFilters(UserSearchForm $form): ?array
     {
         $query = self::find()
+            ->joinWith('opinions')
+            ->where(['opinions.about_id => id'])
+            ->select([
+                'users.*',
+                'count(description) as opinions_count'
+            ])
             ->where(['user_role_id' => '1'])
             ->with('userCategories')
             ->groupBy('users.id')
@@ -261,7 +267,13 @@ class Users extends \yii\db\ActiveRecord
 
     final public static function getDoersByDate()
     {
-        return self::find()
+        return $query = self::find()
+            ->joinWith('opinions')
+            ->where(['opinions.about_id => id'])
+            ->select([
+                'users.*',
+                'count(description) as opinions_count'
+            ])
             ->where(['user_role_id' => '1'])
             ->with('userCategories')
             ->groupBy('users.id')

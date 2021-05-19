@@ -49,7 +49,8 @@ class m210502_170010_create_bd extends Migration
             'telegram' => $this->string(255),
             'rate' => $this->float(3,2)->unsigned(),
             'city_id' => $this->integer(11),
-            'last_activity_time' => $this->date()->notNull()
+            'last_activity_time' => $this->date()->notNull(),
+            'opinions_count' => $this->integer(11),
         ]);
 
         $this->addForeignKey(

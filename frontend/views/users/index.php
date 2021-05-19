@@ -32,7 +32,7 @@ $additionalFilter = $searchForm->getAdditionalOptions();
                             <a href="#"><img src="../img/<?= $user['avatar'] ?>" width="65" height="65"
                                              alt="<?= $user['name'] ?>"></a>
                             <span><?= $tasks->countUserTasks($user['id']) ?> <?= get_noun_plural_form($tasks->countUserTasks($user['id']), 'задание', 'задания', 'заданий') ?></span>
-                            <span><?= $opinions->countUserOpinions($user['id']) ?> <?= get_noun_plural_form($opinions->countUserOpinions($user['id']), 'отзыв', 'отзыва', 'отзывов') ?></span>
+                            <span><?= $user['opinions_count'] ?> <?= get_noun_plural_form($user['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?></span>
                         </div>
                         <div class="feedback-card__top--name user__search-card">
                             <p class="link-name"><a href="#" class="link-regular"><?= $user['name'] ?></a></p>
