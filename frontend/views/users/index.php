@@ -31,7 +31,7 @@ $additionalFilter = $searchForm->getAdditionalOptions();
                         <div class="user__search-icon">
                             <a href="#"><img src="../img/<?= $user['avatar'] ?>" width="65" height="65"
                                              alt="<?= $user['name'] ?>"></a>
-                            <span><?= $tasks->countUserTasks($user['id']) ?> <?= get_noun_plural_form($tasks->countUserTasks($user['id']), 'задание', 'задания', 'заданий') ?></span>
+                            <span><?= $user['finished_task_count'] ?> <?= get_noun_plural_form($user['finished_task_count'], 'задание', 'задания', 'заданий') ?></span>
                             <span><?= $user['opinions_count'] ?> <?= get_noun_plural_form($user['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?></span>
                         </div>
                         <div class="feedback-card__top--name user__search-card">

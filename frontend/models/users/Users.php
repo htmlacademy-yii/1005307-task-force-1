@@ -272,6 +272,7 @@ class Users extends \yii\db\ActiveRecord
             ->select([
                 'users.*',
                 'AVG(opinions.rate) as rating',
+                'count(opinions.rate) as finished_task_count',
                 'count(opinions.description) as opinions_count'
             ])
             ->where(['user_role_id' => '1'])
