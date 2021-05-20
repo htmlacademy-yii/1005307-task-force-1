@@ -20,18 +20,19 @@ class UserService extends BaseObject
 
     public function getUsers(UserSearchForm $form): array
     {
-        if (array_filter($form->attributes)) {
-          return Users::getDoersByFilters($form);
-        }
+      //  $this->request->isGet ? $this->getFiltering($form) : $this->postFiltering($form);
+       // if (array_filter($form->attributes)) {
+         // return Users::getDoersByFilters($form);
+       // }
 
        return Users::getDoersByDate();
     }
 
     private function getFiltering(UserSearchForm $form)
     {
-        $id = $this->request->get('category_id');
+        $id = $this->request->get('categories_id');
 
-        if (key_exists($id, $form->getCategoriesFilter())) {
+        if (key_exists($id, $form->getAdditionalOptions())) {
             $form->categoriesFilter[$id] = $id;
         }
     }

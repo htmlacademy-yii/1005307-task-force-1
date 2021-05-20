@@ -36,11 +36,11 @@ $additionalFilter = $searchForm->getAdditionalOptions();
                         </div>
                         <div class="feedback-card__top--name user__search-card">
                             <p class="link-name"><a href="#" class="link-regular"><?= $user['name'] ?></a></p>
-                            <?php $starCount = round((float)$user['rate']) ?>
+                            <?php $starCount = round((float)$user['rating']) ?>
                             <?php for ($i = 1; $i <= 5; $i++): ?>
                                 <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                             <?php endfor; ?>
-                            <b><?= $user['rate'] ?></b>
+                            <b><?= floor($user['rating'] * 100) / 100 ?></b>
                             <p class="user__search-content">
                                 <?= $user['about'] ?>
                             </p>

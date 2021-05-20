@@ -35,7 +35,6 @@ use app\models\{
  * @property string|null $phone
  * @property string|null $skype
  * @property string|null $telegram
- * @property float|null $rate
  * @property int|null $city_id
  * @property string $last_activity_time
  * @property int $finished_task_count
@@ -75,7 +74,6 @@ class Users extends \yii\db\ActiveRecord
             [['dt_add', 'bd', 'last_activity_time'], 'safe'],
             [['user_role_id', 'city_id', 'finished_task_count', 'opinions_count'], 'integer'],
             [['about'], 'string'],
-            [['rate'], 'number'],
             [['email', 'name', 'password', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['name'], 'unique'],
@@ -247,11 +245,13 @@ class Users extends \yii\db\ActiveRecord
 
     final public static function getDoersByFilters(UserSearchForm $form): ?array
     {
-        $query = self::find()
+         $query = self::find()
             ->joinWith('opinions')
+            ->where(['tasks.doer_id' => 'id'])
             ->select([
-                'opinions.*',
-                'count(description) as opinions_count'
+                'users.*',
+                'AVG(opinions.rate) as rating',
+                'count(opinions.description) as opinions_count'
             ])
             ->where(['user_role_id' => '1'])
             ->with('userCategories')
@@ -268,8 +268,10 @@ class Users extends \yii\db\ActiveRecord
     {
         return $query = self::find()
             ->joinWith('opinions')
+            ->where(['tasks.doer_id' => 'id'])
             ->select([
                 'users.*',
+                'AVG(opinions.rate) as rating',
                 'count(opinions.description) as opinions_count'
             ])
             ->where(['user_role_id' => '1'])
