@@ -28,18 +28,13 @@ class m210502_170010_create_bd extends Migration
             'longitude' => $this->string(255)->notNull()
         ]);
 
-        $this->createTable('user_role', [
-            'id' => $this->primaryKey(),
-            'name' => $this->string(255)->notNull()->unique()
-        ]);
-
         $this->createTable('users', [
             'id' => $this->primaryKey(),
             'email' => $this->string(255)->notNull()->unique(),
             'name' => $this->string(255)->notNull()->unique(),
             'password' => $this->string(255)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'user_role_id' => $this->integer(11)->notNull(),
+            'user_role' => $this->string(255)->notNull(),
             'address' => $this->string(255),
             'bd' => $this->date(),
             'avatar' => $this->string(255),
@@ -50,15 +45,6 @@ class m210502_170010_create_bd extends Migration
             'city_id' => $this->integer(11),
             'last_activity_time' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
         ]);
-
-        $this->addForeignKey(
-            'user_role_id',
-            'users',
-            'user_role_id',
-            'user_role',
-            'id',
-            'cascade'
-        );
 
         $this->addForeignKey(
             'city_id',
@@ -93,12 +79,6 @@ class m210502_170010_create_bd extends Migration
             'CASCADE'
         );
 
-        $this->createTable('status_task', [
-            'id' => $this->primaryKey(),
-            'name' => $this->string(255)->notNull()->unique(),
-            'type' => $this->string(255)->notNull()->unique()
-        ]);
-
         $this->createTable('tasks', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
@@ -114,7 +94,7 @@ class m210502_170010_create_bd extends Migration
             'city_id' => $this->integer(11),
             'doer_id' => $this->integer(11),
             'client_id' => $this->integer(11)->notNull(),
-            'status_task_id' => $this->integer(11)->notNull()
+            'status_task' => $this->string(255)
         ]);
 
         $this->addForeignKey(
@@ -149,15 +129,6 @@ class m210502_170010_create_bd extends Migration
             'tasks',
             'client_id',
             'users',
-            'id',
-            'CASCADE'
-        );
-
-        $this->addForeignKey(
-            'status_task_id',
-            'tasks',
-            'status_task_id',
-            'status_task',
             'id',
             'CASCADE'
         );

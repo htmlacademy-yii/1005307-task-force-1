@@ -27,7 +27,7 @@ use app\models\{
  * @property string $name
  * @property string $password
  * @property string $dt_add
- * @property int $user_role_id
+ * @property string $user_role
  * @property string|null $address
  * @property string|null $bd
  * @property string|null $avatar
@@ -43,14 +43,13 @@ use app\models\{
  * @property Messages[] $messages
  * @property Notifications[] $notifications
  * @property Opinions[] $opinions
+ * @property Opinions[] $opinions0
  * @property PortfolioPhoto[] $portfolioPhotos
  * @property Replies[] $replies
  * @property Tasks[] $tasks
  * @property Tasks[] $tasks0
  * @property UserCategory[] $userCategories
  * @property Cities $city
- * @property UserRole $userRole
- * @property Categories[] $categories
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -68,15 +67,14 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email', 'name', 'password', 'user_role_id', 'last_activity_time', 'finished_task_count', 'opinions_count'], 'required'],
+            [['email', 'name', 'password', 'user_role'], 'required'],
             [['dt_add', 'bd', 'last_activity_time'], 'safe'],
-            [['user_role_id', 'city_id', 'finished_task_count', 'opinions_count'], 'integer'],
             [['about'], 'string'],
-            [['email', 'name', 'password', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
+            [['city_id'], 'integer'],
+            [['email', 'name', 'password', 'user_role', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['name'], 'unique'],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::class, 'targetAttribute' => ['city_id' => 'id']],
-            [['user_role_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserRole::class, 'targetAttribute' => ['user_role_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
         ];
     }
 
@@ -91,7 +89,7 @@ class Users extends \yii\db\ActiveRecord
             'name' => 'Name',
             'password' => 'Password',
             'dt_add' => 'Dt Add',
-            'user_role_id' => 'User Role ID',
+            'user_role' => 'User Role',
             'address' => 'Address',
             'bd' => 'Bd',
             'avatar' => 'Avatar',
@@ -99,10 +97,8 @@ class Users extends \yii\db\ActiveRecord
             'phone' => 'Phone',
             'skype' => 'Skype',
             'telegram' => 'Telegram',
-            'rate' => 'Rate',
             'city_id' => 'City ID',
             'last_activity_time' => 'Last Activity Time',
-            'finished_task_count' => 'Finished Task Count',
         ];
     }
 
@@ -156,6 +152,15 @@ class Users extends \yii\db\ActiveRecord
         return $this->hasMany(Opinions::class, ['about_id' => 'id']);
     }
 
+    /**
+     * Gets query for [[Opinions0]].
+     *
+     * @return \yii\db\ActiveQuery|OpinionsQuery
+     */
+    public function getOpinions0()
+    {
+        return $this->hasMany(Opinions::class, ['writer_id' => 'id']);
+    }
 
     /**
      * Gets query for [[PortfolioPhotos]].
@@ -180,21 +185,11 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Tasks]].
      *
-     * @return \yii\db\ActiveQuery|TasksQuery
+     * @return \yii\db\ActiveQuery|\app\models\TasksQuery
      */
-    public function getTasks0()
+    public function getTasks()
     {
-        return $this->hasMany(Tasks::class, ['client_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[UserCategories]].
-     *
-     * @return \yii\db\ActiveQuery|UserCategoryQuery
-     */
-    public function getCategories()
-    {
-        return $this->hasMany(UserCategory::class, ['user_id' => 'id']);
+        return $this->hasMany(\app\models\Tasks::class, ['client_id' => 'id']);
     }
 
     /**
@@ -202,9 +197,9 @@ class Users extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery|TasksQuery
      */
-    public function getDoerTasks()
+    public function getTasks0()
     {
-        return $this->hasOne(Tasks::class, ['doer_id' => 'id'])->where(['status_task_id' => 0]);///->viaTable('opinions', ['about_id' => 'id']);
+        return $this->hasMany(Tasks::class, ['doer_id' => 'id']);
     }
 
     public function getUserCategories()
@@ -217,19 +212,14 @@ class Users extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery|CitiesQuery
      */
+    /**
+     * Gets query for [[City]].
+     *
+     * @return \yii\db\ActiveQuery|CitiesQuery
+     */
     public function getCity()
     {
-        return $this->hasOne(Cities::class, ['id' => 'city_id']);
-    }
-
-    /**
-     * Gets query for [[UserRole]].
-     *
-     * @return \yii\db\ActiveQuery|UserRoleQuery
-     */
-    public function getUserRole()
-    {
-        return $this->hasOne(UserRole::class, ['id' => 'user_role_id']);
+        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
     }
 
     /**
@@ -252,15 +242,14 @@ class Users extends \yii\db\ActiveRecord
                 'count(opinions.rate) as finished_task_count',
                 'count(opinions.description) as opinions_count'
             ])
-            ->where(['user_role_id' => '1'])
+            ->where(['user_role' => 'doer'])
             ->with('userCategories')
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
 
-        //  $query->withOpinionsFilter(0);
-          $query->withOpinionsFilter(0);
-          $query->isOnlineNow();
+     //     $query->withOpinionsFilter(0);
+    //      $query->isOnlineNow();
         return $query->all();
     }
 
@@ -276,7 +265,7 @@ class Users extends \yii\db\ActiveRecord
                 'count(opinions.rate) as finished_task_count',
                 'count(opinions.description) as opinions_count'
             ])
-            ->where(['user_role_id' => '1'])
+            ->where(['user_role' => 'doer'])
             ->with('userCategories')
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])

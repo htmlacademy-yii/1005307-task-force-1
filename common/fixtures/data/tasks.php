@@ -14,7 +14,7 @@ return [
         'location_comment' => 'Lizzie Christiansen',
         'city_id' => 2,
         'client_id' => 2,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-01-09 15:24:26',
@@ -29,7 +29,7 @@ return [
         'location_comment' => 'Dr. Jerome Klein',
         'city_id' => 7,
         'client_id' => 2,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-03-25 07:59:37',
@@ -44,7 +44,7 @@ return [
         'location_comment' => 'Kassandra Bashirian',
         'city_id' => 6,
         'client_id' => 5,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-02-10 22:58:33',
@@ -59,7 +59,7 @@ return [
         'location_comment' => 'Kiley Sauer',
         'city_id' => 6,
         'client_id' => 10,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-02-14 14:34:51',
@@ -74,7 +74,7 @@ return [
         'location_comment' => 'Maya Haag',
         'city_id' => 9,
         'client_id' => 5,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-04-29 18:59:33',
@@ -89,7 +89,7 @@ return [
         'location_comment' => 'Mrs. Marta Lockman',
         'city_id' => 7,
         'client_id' => 8,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-01-04 08:11:31',
@@ -104,7 +104,7 @@ return [
         'location_comment' => 'Mr. Darrel Beer Jr.',
         'city_id' => 3,
         'client_id' => 3,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-03-31 09:41:50',
@@ -119,7 +119,7 @@ return [
         'location_comment' => 'Ezequiel Kertzmann',
         'city_id' => 4,
         'client_id' => 1,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-05-04 17:52:38',
@@ -134,7 +134,7 @@ return [
         'location_comment' => 'Devon Mosciski',
         'city_id' => 2,
         'client_id' => 10,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-01-30 16:29:06',
@@ -149,7 +149,7 @@ return [
         'location_comment' => 'Toby Conroy IV',
         'city_id' => 9,
         'client_id' => 3,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-03-19 04:03:49',
@@ -165,7 +165,7 @@ return [
         'city_id' => 6,
         'doer_id' => 7,
         'client_id' => 9,
-        'status_task_id' => 2,
+        'status_task' => 'work',
     ],
     [
         'dt_add' => '2021-02-16 00:30:45',
@@ -179,9 +179,8 @@ return [
         'longitude' => 126.890125,
         'location_comment' => 'Marty Rodriguez',
         'city_id' => 7,
-        'doer_id' => 2,
         'client_id' => 8,
-        'status_task_id' => 3,
+        'status_task' => 'cancelled',
     ],
     [
         'dt_add' => '2021-03-22 08:45:49',
@@ -195,9 +194,8 @@ return [
         'longitude' => 83.574527,
         'location_comment' => 'Maegan Larkin',
         'city_id' => 10,
-        'doer_id' => 3,
         'client_id' => 1,
-        'status_task_id' => 3,
+        'status_task' => 'cancelled',
     ],
     [
         'dt_add' => '2021-04-20 19:51:11',
@@ -212,7 +210,7 @@ return [
         'location_comment' => 'Mr. Jonathan Thiel DVM',
         'city_id' => 3,
         'client_id' => 6,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-04-14 13:44:54',
@@ -227,7 +225,7 @@ return [
         'location_comment' => 'Luigi Lowe',
         'city_id' => 3,
         'client_id' => 1,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-03-16 01:13:32',
@@ -242,7 +240,7 @@ return [
         'location_comment' => 'Katheryn Green DVM',
         'city_id' => 10,
         'client_id' => 9,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-03-16 11:13:51',
@@ -258,7 +256,7 @@ return [
         'city_id' => 9,
         'doer_id' => 2,
         'client_id' => 5,
-        'status_task_id' => 2,
+        'status_task' => 'work',
     ],
     [
         'dt_add' => '2021-03-24 18:00:54',
@@ -273,7 +271,7 @@ return [
         'location_comment' => 'Kenna Leannon',
         'city_id' => 1,
         'client_id' => 2,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-03-31 21:06:33',
@@ -288,7 +286,7 @@ return [
         'location_comment' => 'Dr. Spencer Ruecker V',
         'city_id' => 8,
         'client_id' => 4,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-05-01 16:25:06',
@@ -303,7 +301,7 @@ return [
         'location_comment' => 'Prof. Will Bahringer MD',
         'city_id' => 6,
         'client_id' => 2,
-        'status_task_id' => 1,
+        'status_task' => 'new',
     ],
     [
         'dt_add' => '2021-05-09 12:40:32',
@@ -319,7 +317,7 @@ return [
         'city_id' => 2,
         'doer_id' => 2,
         'client_id' => 8,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-03-25 02:57:55',
@@ -335,7 +333,7 @@ return [
         'city_id' => 2,
         'client_id' => 9,
         'doer_id' => 8,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-04-27 22:41:46',
@@ -351,7 +349,7 @@ return [
         'city_id' => 7,
         'doer_id' => 1,
         'client_id' => 7,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-02-13 01:23:33',
@@ -367,7 +365,7 @@ return [
         'city_id' => 2,
         'doer_id' => 9,
         'client_id' => 10,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-01-04 20:06:37',
@@ -383,7 +381,7 @@ return [
         'city_id' => 4,
         'doer_id' => 4,
         'client_id' => 1,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-04-01 01:33:59',
@@ -399,7 +397,7 @@ return [
         'city_id' => 10,
         'doer_id' => 9,
         'client_id' => 4,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-03-20 13:44:19',
@@ -415,7 +413,7 @@ return [
         'city_id' => 4,
         'doer_id' => 3,
         'client_id' => 7,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-01-22 21:28:22',
@@ -431,7 +429,7 @@ return [
         'city_id' => 10,
         'doer_id' => 3,
         'client_id' => 7,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-01-26 10:38:01',
@@ -447,7 +445,7 @@ return [
         'city_id' => 4,
         'doer_id' => 10,
         'client_id' => 8,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-02-09 01:50:14',
@@ -463,7 +461,7 @@ return [
         'city_id' => 5,
         'doer_id' => 6,
         'client_id' => 7,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-03-29 02:58:17',
@@ -479,7 +477,7 @@ return [
         'city_id' => 8,
         'doer_id' => 7,
         'client_id' => 1,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-03-14 22:03:40',
@@ -495,7 +493,7 @@ return [
         'city_id' => 1,
         'doer_id' => 9,
         'client_id' => 8,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-01-29 23:44:37',
@@ -511,7 +509,7 @@ return [
         'city_id' => 4,
         'doer_id' => 7,
         'client_id' => 1,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-03-27 06:02:06',
@@ -527,7 +525,7 @@ return [
         'city_id' => 7,
         'doer_id' => 8,
         'client_id' => 5,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-01-01 13:23:12',
@@ -543,7 +541,7 @@ return [
         'city_id' => 9,
         'doer_id' => 6,
         'client_id' => 1,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-03-27 08:09:08',
@@ -559,7 +557,7 @@ return [
         'city_id' => 5,
         'doer_id' => 9,
         'client_id' => 6,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-02-02 15:47:48',
@@ -575,7 +573,7 @@ return [
         'city_id' => 10,
         'doer_id' => 8,
         'client_id' => 6,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-02-05 05:22:15',
@@ -591,7 +589,7 @@ return [
         'city_id' => 5,
         'doer_id' => 9,
         'client_id' => 1,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-02-08 23:21:38',
@@ -607,7 +605,7 @@ return [
         'city_id' => 8,
         'doer_id' => 6,
         'client_id' => 10,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
     [
         'dt_add' => '2021-03-25 10:17:26',
@@ -623,6 +621,6 @@ return [
         'city_id' => 8,
         'doer_id' => 5,
         'client_id' => 6,
-        'status_task_id' => 4,
+        'status_task' => 'done',
     ],
 ];
