@@ -17,4 +17,19 @@ class UsersQuery extends \yii\db\ActiveQuery
     {
         return $this->andFilterHaving(['>', 'opinions_count', $min]);
     }
+
+    public function isFreeNow(): self
+    {
+            return $this->andWhere(['tasks.id' => null]);
+    }
+
+    public function isOnlineNow(): self
+    {
+        return $this->andWhere([
+            'between',
+            'last_activity_time',
+            strftime("%F %T", strtotime("-30 min")),
+            strftime("%F %T")
+        ]);
+    }
 }

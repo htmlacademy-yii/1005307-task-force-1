@@ -127,10 +127,10 @@ class Tasks extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
-    public function getClient()
-    {
-        return $this->hasOne(Users::class, ['id' => 'client_id']);
-    }
+  //  public function getClient()
+  //  {
+   //     return $this->hasOne(Users::class, ['id' => 'client_id']);
+//    }
 
     /**
      * Gets query for [[FileTasks]].
@@ -197,10 +197,10 @@ class Tasks extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
-    public function getDoer()
-    {
-        return $this->hasOne(Users::class, ['id' => 'doer_id']);
-    }
+  //  public function getDoer()
+ //   {
+  //      return $this->hasOne(Users::class, ['id' => 'doer_id']);
+ //   }
 
     /**
      * {@inheritdoc}

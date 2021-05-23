@@ -37,8 +37,6 @@ use app\models\{
  * @property string|null $telegram
  * @property int|null $city_id
  * @property string $last_activity_time
- * @property int $finished_task_count
- * @property int $opinions_count
  *
  * @property Favourites[] $favourites
  * @property Favourites[] $favourites0
@@ -184,19 +182,9 @@ class Users extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery|TasksQuery
      */
-    public function getTasks()
-    {
-        return $this->hasMany(Tasks::class, ['client_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Tasks0]].
-     *
-     * @return \yii\db\ActiveQuery|TasksQuery
-     */
     public function getTasks0()
     {
-        return $this->hasMany(Tasks::class, ['doer_id' => 'id']);
+        return $this->hasMany(Tasks::class, ['client_id' => 'id']);
     }
 
     /**
@@ -207,6 +195,16 @@ class Users extends \yii\db\ActiveRecord
     public function getCategories()
     {
         return $this->hasMany(UserCategory::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Tasks0]].
+     *
+     * @return \yii\db\ActiveQuery|TasksQuery
+     */
+    public function getDoerTasks()
+    {
+        return $this->hasOne(Tasks::class, ['doer_id' => 'id'])->where(['status_task_id' => 0]);///->viaTable('opinions', ['about_id' => 'id']);
     }
 
     public function getUserCategories()
@@ -245,12 +243,13 @@ class Users extends \yii\db\ActiveRecord
 
     final public static function getDoersByFilters(UserSearchForm $form): ?array
     {
-         $query = self::find()
+        $query = self::find()
             ->joinWith('opinions')
             ->where(['tasks.doer_id' => 'id'])
             ->select([
                 'users.*',
                 'AVG(opinions.rate) as rating',
+                'count(opinions.rate) as finished_task_count',
                 'count(opinions.description) as opinions_count'
             ])
             ->where(['user_role_id' => '1'])
@@ -258,8 +257,10 @@ class Users extends \yii\db\ActiveRecord
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
-        $query->withOpinionsFilter(0);
 
+        //  $query->withOpinionsFilter(0);
+          $query->withOpinionsFilter(0);
+          $query->isOnlineNow();
         return $query->all();
     }
 

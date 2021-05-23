@@ -22,10 +22,10 @@ class UserService extends BaseObject
     {
       //  $this->request->isGet ? $this->getFiltering($form) : $this->postFiltering($form);
        // if (array_filter($form->attributes)) {
-         // return Users::getDoersByFilters($form);
+          return Users::getDoersByFilters($form);
        // }
 
-       return Users::getDoersByDate();
+   //    return Users::getDoersByDate();
     }
 
     private function getFiltering(UserSearchForm $form)

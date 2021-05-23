@@ -48,7 +48,7 @@ class m210502_170010_create_bd extends Migration
             'skype' => $this->string(255),
             'telegram' => $this->string(255),
             'city_id' => $this->integer(11),
-            'last_activity_time' => $this->date()->notNull(),
+            'last_activity_time' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
         ]);
 
         $this->addForeignKey(
