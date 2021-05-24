@@ -27,7 +27,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                         </p>
                         <b class="new-task__price new-task__price--<?= $task['category']['icon'] ?>"><?= $task['budget'] ?>
                             <b> ₽</b></b>
-                        <p class="new-task__place"><?= $task['city']['city'] ?>, <?= $task['address'] ?></p>
+                        <p class="new-task__place"><?= $task['city'] ? ($task['city']['city']) : 'Удаленная работа' ?>, <?= $task['address'] ?></p>
                         <span class="new-task__time"><?= getPassedTimeSinceLastActivity($task['dt_add']) ?></span>
                     </div>
                 <?php endforeach; ?>

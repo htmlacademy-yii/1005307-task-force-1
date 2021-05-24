@@ -216,7 +216,8 @@ class Tasks extends \yii\db\ActiveRecord
             ->asArray();
 
      //   $query->withoutRepliesFilter();
-     //   $query->onlineFilter();
+        //   $query->onlineFilter();
+        //   $query->periodFilter();
 
         return $query->all();
     }
