@@ -199,8 +199,30 @@ class Tasks extends \yii\db\ActiveRecord
         return new TasksQuery(get_called_class());
     }
 
+    final public static function getNewTasksByFilters(TaskSearchForm $form) {
+        $query = self::find()
+            ->joinWith('replies')
+            ->joinWith('city')
+            ->where(['tasks.doer_id' => 'id'])
+            ->select([
+                'tasks.*',
+                'count(replies.description) as replies_count'
+            ])
+            ->where(['status_task' => 'new'])
+            ->with('category')
+            ->with('city')
+            ->groupBy('tasks.id')
+            ->orderBy(['dt_add' => SORT_DESC])
+            ->asArray();
+
+     //   $query->withoutRepliesFilter();
+     //   $query->onlineFilter();
+
+        return $query->all();
+    }
+
     final public static function getNewTasksByDate() {
-        return self::find()
+        return $query = self::find()
             ->where(['status_task' => 'new'])
             ->with('category')
             ->with('city')

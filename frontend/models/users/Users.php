@@ -235,7 +235,6 @@ class Users extends \yii\db\ActiveRecord
     {
         $query = self::find()
             ->joinWith('opinions')
-            ->where(['tasks.doer_id' => 'id'])
             ->select([
                 'users.*',
                 'AVG(opinions.rate) as rating',

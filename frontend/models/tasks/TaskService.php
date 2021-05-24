@@ -22,10 +22,10 @@ class TaskService extends BaseObject
     {
         //  $this->request->isGet ? $this->getFiltering($form) : $this->postFiltering($form);
         // if (array_filter($form->attributes)) {
-        return Tasks::getNewTasksByDate();
+        return Tasks::getNewTasksByFilters($form);
         // }
 
-        //    return Users::getDoersByDate();
+          //  return Users::getNewTasksByDate();
     }
 
     private function getFiltering(TaskSearchForm $form)

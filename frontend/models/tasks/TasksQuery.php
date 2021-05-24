@@ -9,4 +9,14 @@ namespace app\models\tasks;
  */
 class TasksQuery extends \yii\db\ActiveQuery
 {
+
+    public function withoutRepliesFilter(): self
+    {
+        return $this->andFilterHaving(['=', 'replies_count', '0']);
+    }
+
+    public function onlineFilter(): self
+    {
+        return $this->andWhere(['city' => null]);
+    }
 }
