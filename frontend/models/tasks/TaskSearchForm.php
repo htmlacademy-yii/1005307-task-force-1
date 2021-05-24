@@ -13,17 +13,16 @@ class TaskSearchForm extends \yii\db\ActiveRecord
     public $periodFilter = [];
     public $searchName = null;
 
+    public function rules()
+    {
+        return [
+            [['searchName', 'noReplies', 'online', 'day', 'week', 'month', 'all'], 'safe'],
+        ];
+    }
+
     public function getCategoriesFilter(): array
     {
         return Categories::getCategoriesFilters();
-    }
-
-    public function attributeLabels(): array
-    {
-        return [
-            'no_replies' => 'Без откликов',
-            'online' => 'Удаленная работа'
-        ];
     }
 
     public function getPeriodFilter(): array
@@ -32,13 +31,6 @@ class TaskSearchForm extends \yii\db\ActiveRecord
             'day' => 'за день',
             'week' => 'за неделю',
             'month' => 'за месяц'
-        ];
-    }
-
-    public function rules()
-    {
-        return [
-            [['categoriesFilter', 'additionalFilter', 'period_filter', 'searchName', 'noReplies', 'online', 'day', 'week', 'month', 'all'], 'safe']
         ];
     }
 }

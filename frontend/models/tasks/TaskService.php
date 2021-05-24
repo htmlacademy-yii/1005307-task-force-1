@@ -20,24 +20,22 @@ class TaskService extends BaseObject
 
     public function getTasks(TaskSearchForm $form): array
     {
-        //  $this->request->isGet ? $this->getFiltering($form) : $this->postFiltering($form);
-        // if (array_filter($form->attributes)) {
+        $this->request->isGet ? $this->getFiltering($form) : $this->postFiltering($form);
         return Tasks::getNewTasksByFilters($form);
-        // }
-
-          //  return Users::getNewTasksByDate();
     }
 
-    private function getFiltering(TaskSearchForm $form)
+    private
+    function getFiltering(TaskSearchForm $form)
     {
         $id = $this->request->get('categories_id');
 
-        if (key_exists($id, $form->getAdditionalOptions())) {
+        if (key_exists($id, $form->getCategoriesFilter())) {
             $form->categoriesFilter[$id] = $id;
         }
     }
 
-    private function postFiltering(TaskSearchForm $form)
+    private
+    function postFiltering(TaskSearchForm $form)
     {
         $form->load($this->request->post());
     }

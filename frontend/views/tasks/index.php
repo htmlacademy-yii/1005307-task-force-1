@@ -26,7 +26,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                         </p>
                         <b class="new-task__price new-task__price--<?= $task['category']['icon'] ?>"><?= $task['budget'] ?>
                             <b> ₽</b></b>
-                        <p class="new-task__place"><?= $task['city'] ? ($task['city']['city']) : 'Удаленная работа' ?>, <?= $task['address'] ?></p>
+                        <p class="new-task__place"><?= $task['city'] ? ($task['city']['city']) : 'Удаленная работа' ?> <?= $task['address'] ?></p>
                         <span class="new-task__time"><?= getPassedTimeSinceLastActivity($task['dt_add']) ?></span>
                     </div>
                 <?php endforeach; ?>
@@ -95,7 +95,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                     ]) ?>
                     <label for="online">Удаленная работа</label>
                 </fieldset>
-                <label class="search-task__name" for="online">Период</label>
+                <label class="search-task__name" for="<?= $i ?>">Период</label>
                 <?= $form->field($searchForm, "periodFilter", [
                     'template' => "{input}",
                     'options' => ['tag' => false]

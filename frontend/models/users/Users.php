@@ -250,30 +250,15 @@ class Users extends \yii\db\ActiveRecord
         if ($form->hasOpinions) {
             $query->withOpinionsFilter(0);
         }
-        //$query->categoriesFilter($form->categoriesFilter);
 
         if ($form->isOnlineNow) {
             $query->isOnlineNow();
         }
+
+        if ($form->searchName) {
+            $query->nameSearch($form->searchName);
+        }
+        //$query->categoriesFilter($form->categoriesFilter);
         return $query->all();
-    }
-
-
-    final public static function getDoersByDate()
-    {
-        return $query = self::find()
-            ->joinWith('opinions')
-            ->where(['tasks.doer_id' => 'id'])
-            ->select([
-                'users.*',
-                'AVG(opinions.rate) as rating',
-                'count(opinions.rate) as finished_task_count',
-                'count(opinions.description) as opinions_count'
-            ])
-            ->where(['user_role' => 'doer'])
-            ->with('userCategories')
-            ->groupBy('users.id')
-            ->orderBy(['dt_add' => SORT_DESC])
-            ->asArray()->all();
     }
 }

@@ -21,13 +21,7 @@ class UserService extends BaseObject
     public function getUsers(UserSearchForm $form): array
     {
         $this->request->isGet ? $this->getFiltering($form) : $this->postFiltering($form);
-     //   if (array_filter($form->attributes)) {
-          return Users::getDoersByFilters($form);
-    //    }
-      //  var_dump($this->request->isGet);
-        //var_dump($form->attributes);
-
-  //     return Users::getDoersByDate();
+        return Users::getDoersByFilters($form);
     }
 
     private function getFiltering(UserSearchForm $form)

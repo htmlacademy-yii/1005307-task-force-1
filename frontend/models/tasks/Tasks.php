@@ -220,20 +220,15 @@ class Tasks extends \yii\db\ActiveRecord
         if ($form->online) {
             $query->onlineFilter();
         }
-     //
-        //   $query->onlineFilter();
-        //   $query->periodFilter();
-       //    $query->nameSearch('Mr');
+
+        if ($form->searchName) {
+            $query->nameSearch($form->searchName);
+        }
+
+  //      if ($form->periodFilter) {
+  //          $query->periodFilter($form->periodFilter);
+  //      }
 
         return $query->all();
-    }
-
-    final public static function getNewTasksByDate() {
-        return $query = self::find()
-            ->where(['status_task' => 'new'])
-            ->with('category')
-            ->with('city')
-            ->orderBy(['dt_add' => SORT_DESC])
-            ->asArray()->all();
     }
 }

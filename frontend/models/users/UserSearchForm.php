@@ -5,7 +5,6 @@ namespace app\models\users;
 use Yii;
 
 use app\models\categories\Categories;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "user_search_form".
@@ -40,20 +39,7 @@ class UserSearchForm extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['searchName', 'isFreeNow', 'isOnlineNow', 'hasOpinions', 'isFavourite'], 'integer'],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'is_free_now' => 'Сейчас свободен',
-            'is_online_now' => 'Сейчас онлайн',
-            'has_opinions' => 'С отзывами',
-            'is_favourite' => 'В избранном',
+            [['searchName', 'isFreeNow', 'isOnlineNow', 'hasOpinions', 'isFavourite'], 'safe'],
         ];
     }
 

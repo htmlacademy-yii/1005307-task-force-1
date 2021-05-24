@@ -70,7 +70,7 @@ $additionalFilter = $searchForm->attributeLabels();
                     <legend>Категории</legend>
                     <?php $i = 1; ?>
                     <?php foreach ($categoriesFilter as $id => $name) : ?>
-                        <?= $form->field($searchForm, 'categoriesFilter[$i]', [
+                        <?= $form->field($searchForm, 'categoriesFilter', [
                             'template' => '{input}',
                             'options' => ['tag' => false]
                         ])->checkbox([
@@ -96,7 +96,7 @@ $additionalFilter = $searchForm->attributeLabels();
                         'id' => 'isFreeNow',
                         'class' => 'visually-hidden checkbox__input'
                     ]) ?>
-                    <label for="<?= 'isFreeNow' ?>">Сейчас свободен</label>
+                    <label for="isFreeNow">Сейчас свободен</label>
                     <?= $form->field($searchForm, 'isOnlineNow', [
                         'template' => '{input}',
                         'options' => ['tag' => false]
@@ -115,7 +115,6 @@ $additionalFilter = $searchForm->attributeLabels();
                         'label' => false,
                         'value' => 'hasOpinions',
                         'uncheck' => null,
-                     //   'checked' => true,
                         'id' => 'hasOpinions',
                         'class' => 'visually-hidden checkbox__input'
                     ]) ?>
@@ -139,7 +138,7 @@ $additionalFilter = $searchForm->attributeLabels();
                     'inputOptions' => [
                         'class' => 'input-middle input',
                         'type' => 'search',
-                        'id' => 'searchName'
+                        'id' => $i
                     ]
                 ]); ?>
                 <button class="button" type="submit">Искать</button>
