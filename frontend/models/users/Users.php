@@ -248,7 +248,8 @@ class Users extends \yii\db\ActiveRecord
             ->asArray();
 
      //     $query->withOpinionsFilter(0);
-    //      $query->isOnlineNow();
+        //      $query->isOnlineNow();
+          //    $query->nameSearch('prof');
         return $query->all();
     }
 

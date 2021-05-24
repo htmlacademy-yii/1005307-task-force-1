@@ -218,6 +218,7 @@ class Tasks extends \yii\db\ActiveRecord
      //   $query->withoutRepliesFilter();
         //   $query->onlineFilter();
         //   $query->periodFilter();
+       //    $query->nameSearch('Mr');
 
         return $query->all();
     }

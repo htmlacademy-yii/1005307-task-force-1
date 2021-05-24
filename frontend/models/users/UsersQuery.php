@@ -32,4 +32,8 @@ class UsersQuery extends \yii\db\ActiveQuery
             strftime("%F %T")
         ]);
     }
+
+    public function nameSearch($name) {
+        return $this->andFilterWhere(['like', 'users.name', $name]);
+    }
 }

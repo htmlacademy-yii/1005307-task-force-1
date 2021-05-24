@@ -25,10 +25,14 @@ class TasksQuery extends \yii\db\ActiveQuery
         return $this->andWhere([
             'between',
             'tasks.dt_add',
-          //  strftime("%F %T", strtotime("-1 week")),
-            //         strftime("%F %T", strtotime("-1 week")),
+            //  strftime("%F %T", strtotime("-1 week")),
+            //  strftime("%F %T", strtotime("-1 week")),
             strftime("%F %T", strtotime("-1 month")),
             strftime("%F %T")
         ]);
+    }
+
+    public function nameSearch($name) {
+        return $this->andFilterWhere(['like', 'tasks.name', $name]);
     }
 }
