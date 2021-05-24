@@ -74,7 +74,7 @@ class Users extends \yii\db\ActiveRecord
             [['email', 'name', 'password', 'user_role', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['name'], 'unique'],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::class, 'targetAttribute' => ['city_id' => 'id']],
         ];
     }
 
@@ -185,11 +185,11 @@ class Users extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Tasks]].
      *
-     * @return \yii\db\ActiveQuery|\app\models\TasksQuery
+     * @return \yii\db\ActiveQuery|TasksQuery
      */
     public function getTasks()
     {
-        return $this->hasMany(\app\models\Tasks::class, ['client_id' => 'id']);
+        return $this->hasMany(Tasks::class, ['client_id' => 'id']);
     }
 
     /**
@@ -239,7 +239,7 @@ class Users extends \yii\db\ActiveRecord
                 'users.*',
                 'AVG(opinions.rate) as rating',
                 'count(opinions.rate) as finished_task_count',
-                'count(opinions.description) as opinions_count'
+                'count(opinions.description) as opinions_count',
             ])
             ->where(['user_role' => 'doer'])
             ->with('userCategories')
@@ -247,9 +247,14 @@ class Users extends \yii\db\ActiveRecord
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
 
-     //     $query->withOpinionsFilter(0);
-        //      $query->isOnlineNow();
-          //    $query->nameSearch('prof');
+        if ($form->hasOpinions) {
+            $query->withOpinionsFilter(0);
+        }
+        //$query->categoriesFilter($form->categoriesFilter);
+
+        if ($form->isOnlineNow) {
+            $query->isOnlineNow();
+        }
         return $query->all();
     }
 

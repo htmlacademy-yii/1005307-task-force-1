@@ -13,6 +13,11 @@ use app\models\opinions\Opinions;
 class UsersQuery extends \yii\db\ActiveQuery
 {
 
+    public function categoriesFilter(?array $targetSpecializations): self
+    {
+        return $this->andFilterWhere(['categories.id' => $targetSpecializations]);
+    }
+
     public function withOpinionsFilter(int $min): self
     {
         return $this->andFilterHaving(['>', 'opinions_count', $min]);
@@ -35,5 +40,10 @@ class UsersQuery extends \yii\db\ActiveQuery
 
     public function nameSearch($name) {
         return $this->andFilterWhere(['like', 'users.name', $name]);
+    }
+
+    public function isFavouriteFilter($min): self
+    {
+        return $this->andFilterWhere(['>', 'favourite_count', $min]);
     }
 }

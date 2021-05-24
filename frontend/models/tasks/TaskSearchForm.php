@@ -8,7 +8,8 @@ use yii\helpers\ArrayHelper;
 class TaskSearchForm extends \yii\db\ActiveRecord
 {
     public $categoriesFilter = [];
-    public $additionalFilter = [];
+    public $noReplies;
+    public $online;
     public $periodFilter = [];
     public $searchName = null;
 
@@ -17,7 +18,7 @@ class TaskSearchForm extends \yii\db\ActiveRecord
         return Categories::getCategoriesFilters();
     }
 
-    public function getAdditionalOptions(): array
+    public function attributeLabels(): array
     {
         return [
             'no_replies' => 'Без откликов',
@@ -37,7 +38,7 @@ class TaskSearchForm extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['categoriesFilter', 'additionalFilter', 'period_filter', 'searchName', 'no_replies', 'online', 'day', 'week', 'month', 'all'], 'safe']
+            [['categoriesFilter', 'additionalFilter', 'period_filter', 'searchName', 'noReplies', 'online', 'day', 'week', 'month', 'all'], 'safe']
         ];
     }
 }

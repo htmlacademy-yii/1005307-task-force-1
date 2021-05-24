@@ -311,10 +311,16 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('user_search_form', [
             'id' => $this->primaryKey(),
-            'free_now' => $this->integer(1)->notNull(),
-            'online_now' => $this->integer(1)->notNull(),
+            'is_free_now' => $this->integer(1)->notNull(),
+            'is_online_now' => $this->integer(1)->notNull(),
             'has_opinions' => $this->integer(1)->notNull(),
             'is_favourite' => $this->integer(1)->notNull()
+        ]);
+
+        $this->createTable('task_search_form', [
+            'id' => $this->primaryKey(),
+            'no_replies' => $this->integer(1)->notNull(),
+            'online' => $this->integer(1)->notNull(),
         ]);
     }
 

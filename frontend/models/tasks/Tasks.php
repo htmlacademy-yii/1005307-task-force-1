@@ -214,8 +214,13 @@ class Tasks extends \yii\db\ActiveRecord
             ->groupBy('tasks.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
-
-     //   $query->withoutRepliesFilter();
+        if ($form->noReplies) {
+            $query->withoutRepliesFilter();
+        }
+        if ($form->online) {
+            $query->onlineFilter();
+        }
+     //
         //   $query->onlineFilter();
         //   $query->periodFilter();
        //    $query->nameSearch('Mr');

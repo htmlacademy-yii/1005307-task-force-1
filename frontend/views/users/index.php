@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
-$additionalFilter = $searchForm->getAdditionalOptions();
+$additionalFilter = $searchForm->attributeLabels();
 ?>
 <main class="page-main">
     <div class="main-container page-container">
@@ -60,7 +60,7 @@ $additionalFilter = $searchForm->getAdditionalOptions();
             <div class="search-task__wrapper">
                 <?php $form = ActiveForm::begin([
                     'id' => 'searchForm',
-                    'method' => 'get',
+                    'method' => 'post',
                     'options' => [
                         'name' => 'test',
                         'class' => 'search-task__form'
@@ -70,7 +70,7 @@ $additionalFilter = $searchForm->getAdditionalOptions();
                     <legend>Категории</legend>
                     <?php $i = 1; ?>
                     <?php foreach ($categoriesFilter as $id => $name) : ?>
-                        <?= $form->field($searchForm, 'categoriesFilter', [
+                        <?= $form->field($searchForm, 'categoriesFilter[$i]', [
                             'template' => '{input}',
                             'options' => ['tag' => false]
                         ])->checkbox([
@@ -86,20 +86,51 @@ $additionalFilter = $searchForm->getAdditionalOptions();
                 </fieldset>
                 <fieldset class="search-task__categories">
                     <legend>Дополнительно</legend>
-                    <?php foreach ($additionalFilter as $id => $name) : ?>
-                        <?= $form->field($searchForm, 'additionalFilter', [
-                            'template' => '{input}',
-                            'options' => ['tag' => false]
-                        ])->checkbox([
-                            'label' => false,
-                            'value' => $id,
-                            'uncheck' => null,
-                            'id' => $i,
-                            'class' => 'visually-hidden checkbox__input'
-                        ]) ?>
-                        <label for="<?= $i ?>"><?= $name ?></label>
-                        <?php $i++; ?>
-                    <?php endforeach; ?>
+                    <?= $form->field($searchForm, 'isFreeNow', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'isFreeNow',
+                        'uncheck' => null,
+                        'id' => 'isFreeNow',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="<?= 'isFreeNow' ?>">Сейчас свободен</label>
+                    <?= $form->field($searchForm, 'isOnlineNow', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'isOnlineNow',
+                        'uncheck' => null,
+                        'id' => 'isOnlineNow',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="isOnlineNow">Сейчас онлайн</label>
+                    <?= $form->field($searchForm, 'hasOpinions', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'hasOpinions',
+                        'uncheck' => null,
+                     //   'checked' => true,
+                        'id' => 'hasOpinions',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="hasOpinions">С отзывами</label>
+                    <?= $form->field($searchForm, 'isFavourite', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'isFavourite',
+                        'uncheck' => null,
+                        'id' => 'isFavourite',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="isFavourite">В избранном</label>
                 </fieldset>
                 <label class="search-task__name" for="<?= $i ?>">Поиск по названию</label>
                 <?= $form->field($searchForm, 'searchName', [
@@ -108,7 +139,7 @@ $additionalFilter = $searchForm->getAdditionalOptions();
                     'inputOptions' => [
                         'class' => 'input-middle input',
                         'type' => 'search',
-                        'id' => $i
+                        'id' => 'searchName'
                     ]
                 ]); ?>
                 <button class="button" type="submit">Искать</button>

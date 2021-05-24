@@ -6,7 +6,6 @@ use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
-$additionalFilter = $searchForm->getAdditionalOptions();
 $periodFilter = $searchForm->getPeriodFilter();
 ?>
 
@@ -73,22 +72,30 @@ $periodFilter = $searchForm->getPeriodFilter();
                 </fieldset>
                 <fieldset class="search-task__categories">
                     <legend>Дополнительно</legend>
-                    <?php foreach ($additionalFilter as $id => $name) : ?>
-                        <?= $form->field($searchForm, 'additionalFilter', [
-                            'template' => '{input}',
-                            'options' => ['tag' => false]
-                        ])->checkbox([
-                            'label' => false,
-                            'value' => $id,
-                            'uncheck' => null,
-                            'id' => $i,
-                            'class' => 'visually-hidden checkbox__input'
-                        ]) ?>
-                        <label for="<?= $i ?>"><?= $name ?></label>
-                        <?php $i++; ?>
-                    <?php endforeach; ?>
+                    <?= $form->field($searchForm, 'noReplies', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'noReplies',
+                        'uncheck' => null,
+                        'id' => 'noReplies',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="noReplies">Без откликов</label>
+                    <?= $form->field($searchForm, 'online', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'online',
+                        'uncheck' => null,
+                        'id' => 'online',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="online">Удаленная работа</label>
                 </fieldset>
-                <label class="search-task__name" for="<?= $i ?>">Период</label>
+                <label class="search-task__name" for="online">Период</label>
                 <?= $form->field($searchForm, "periodFilter", [
                     'template' => "{input}",
                     'options' => ['tag' => false]

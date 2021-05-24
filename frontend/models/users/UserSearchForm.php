@@ -5,6 +5,7 @@ namespace app\models\users;
 use Yii;
 
 use app\models\categories\Categories;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "user_search_form".
@@ -20,7 +21,10 @@ class UserSearchForm extends \yii\db\ActiveRecord
     public $additionalFilter = [];
     public $periodFilter = [];
     public $searchName;
+    public $isFreeNow;
+    public $isOnlineNow;
     public $hasOpinions;
+    public $isFavourite;
     private $categories;
     /**
      * {@inheritdoc}
@@ -36,22 +40,25 @@ class UserSearchForm extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['categoriesFilter', 'additionalFilter', 'search_name', 'free_now', 'online_now', 'has_opinions', 'is_favourite'], 'integer'],
+            [['searchName', 'isFreeNow', 'isOnlineNow', 'hasOpinions', 'isFavourite'], 'integer'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'is_free_now' => 'Сейчас свободен',
+            'is_online_now' => 'Сейчас онлайн',
+            'has_opinions' => 'С отзывами',
+            'is_favourite' => 'В избранном',
         ];
     }
 
     public function getCategoriesFilter(): array
     {
         return Categories::getCategoriesFilters();
-    }
-
-    public function getAdditionalOptions() : array
-    {
-        return [
-            'free_now' => 'Сейчас свободен',
-            'online_now' => 'Сейчас онлайн',
-            'has_opinions' => 'Есть отзывы',
-            'is_favourite' => 'В избранном'
-        ];
     }
 }
