@@ -24,17 +24,11 @@ use app\models\{
  */
 class Notifications extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'notifications';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -47,9 +41,6 @@ class Notifications extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -63,30 +54,16 @@ class Notifications extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Task]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
     public function getTask()
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
     public function getUser()
     {
         return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
 
-    /**
-     * {@inheritdoc}
-     * @return NotificationsQuery the active query used by this AR class.
-     */
     public static function find()
     {
         return new NotificationsQuery(get_called_class());

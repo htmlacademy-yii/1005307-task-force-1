@@ -26,19 +26,14 @@ use app\models\{
  * @property Tasks $task
  * @property Users $writer
  */
+
 class Opinions extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'opinions';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -54,9 +49,6 @@ class Opinions extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -71,40 +63,21 @@ class Opinions extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[About]].
-     *
-     * @return \yii\db\ActiveQuery|UsersQuery
-     */
     public function getAbout()
     {
         return $this->hasOne(Users::class, ['id' => 'about_id']);
     }
 
-    /**
-     * Gets query for [[Task]].
-     *
-     * @return \yii\db\ActiveQuery|TasksQuery
-     */
     public function getTask()
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
-    /**
-     * Gets query for [[Writer]].
-     *
-     * @return \yii\db\ActiveQuery|UsersQuery
-     */
     public function getWriter()
     {
         return $this->hasOne(Users::class, ['id' => 'writer_id']);
     }
 
-    /**
-     * {@inheritdoc}
-     * @return OpinionsQuery the active query used by this AR class.
-     */
     public static function find()
     {
         return new OpinionsQuery(get_called_class());

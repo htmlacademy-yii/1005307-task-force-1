@@ -53,17 +53,11 @@ use app\models\{
  */
 class Users extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'users';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -78,9 +72,6 @@ class Users extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -102,101 +93,51 @@ class Users extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Favourites]].
-     *
-     * @return \yii\db\ActiveQuery|FavouritesQuery
-     */
     public function getFavourites()
     {
         return $this->hasMany(Favourites::class, ['favourite_person_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Favourites0]].
-     *
-     * @return \yii\db\ActiveQuery|FavouritesQuery
-     */
     public function getFavourites0()
     {
         return $this->hasMany(Favourites::class, ['user_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Messages]].
-     *
-     * @return \yii\db\ActiveQuery|MessagesQuery
-     */
     public function getMessages()
     {
         return $this->hasMany(Messages::class, ['writer_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Notifications]].
-     *
-     * @return \yii\db\ActiveQuery|NotificationsQuery
-     */
     public function getNotifications()
     {
         return $this->hasMany(Notifications::class, ['user_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Opinions]].
-     *
-     * @return \yii\db\ActiveQuery|OpinionsQuery
-     */
     public function getOpinions()
     {
         return $this->hasMany(Opinions::class, ['about_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Opinions0]].
-     *
-     * @return \yii\db\ActiveQuery|OpinionsQuery
-     */
     public function getOpinions0()
     {
         return $this->hasMany(Opinions::class, ['writer_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[PortfolioPhotos]].
-     *
-     * @return \yii\db\ActiveQuery|PortfolioPhotoQuery
-     */
     public function getPortfolioPhotos()
     {
         return $this->hasMany(PortfolioPhoto::class, ['user_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Replies]].
-     *
-     * @return \yii\db\ActiveQuery|RepliesQuery
-     */
     public function getReplies()
     {
         return $this->hasMany(Replies::class, ['doer_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Tasks]].
-     *
-     * @return \yii\db\ActiveQuery|TasksQuery
-     */
     public function getTasks()
     {
         return $this->hasMany(Tasks::class, ['client_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Tasks0]].
-     *
-     * @return \yii\db\ActiveQuery|TasksQuery
-     */
     public function getTasks0()
     {
         return $this->hasMany(Tasks::class, ['doer_id' => 'id']);
@@ -207,25 +148,11 @@ class Users extends \yii\db\ActiveRecord
         return $this->hasMany(Categories::class, ['id' => 'category_id'])->viaTable('user_category', ['user_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[City]].
-     *
-     * @return \yii\db\ActiveQuery|CitiesQuery
-     */
-    /**
-     * Gets query for [[City]].
-     *
-     * @return \yii\db\ActiveQuery|CitiesQuery
-     */
     public function getCity()
     {
         return $this->hasOne(Cities::className(), ['id' => 'city_id']);
     }
 
-    /**
-     * {@inheritdoc}
-     * @return UsersQuery the active query used by this AR class.
-     */
     public static function find()
     {
         return new UsersQuery(get_called_class());
@@ -242,7 +169,8 @@ class Users extends \yii\db\ActiveRecord
                 'count(opinions.description) as opinions_count',
             ])
             ->where(['user_role' => 'doer'])
-            ->joinWith('userCategories')
+            ->with('userCategories')
+            ->with('tasks')
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
@@ -254,13 +182,20 @@ class Users extends \yii\db\ActiveRecord
         if ($form->hasOpinions) {
             $query->withOpinionsFilter(0);
         }
+        if ($form->isFreeNow) {
+            $query->isFreeNowFilter();
+        }
 
         if ($form->isOnlineNow) {
-            $query->isOnlineNow();
+            $query->isOnlineNowFilter();
         }
 
         if ($form->searchName) {
-            $query->nameSearch($form->searchName);
+            $query->nameSearchFilter($form->searchName);
+        }
+
+        if ($form->isFavourite) {
+            $query->isFavouriteFilter();
         }
 
         return $query->all();

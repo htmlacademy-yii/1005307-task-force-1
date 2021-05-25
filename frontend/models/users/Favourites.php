@@ -18,17 +18,12 @@ use Yii;
  */
 class Favourites extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+
     public static function tableName()
     {
         return 'favourites';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -41,9 +36,6 @@ class Favourites extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -55,30 +47,16 @@ class Favourites extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[FavouritePerson]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
     public function getFavouritePerson()
     {
         return $this->hasOne(Users::class, ['id' => 'favourite_person_id']);
     }
 
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
     public function getUser()
     {
         return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
 
-    /**
-     * {@inheritdoc}
-     * @return FavouritesQuery the active query used by this AR class.
-     */
     public static function find()
     {
         return new FavouritesQuery(get_called_class());

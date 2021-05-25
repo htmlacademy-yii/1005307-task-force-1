@@ -3,19 +3,13 @@
 namespace app\models\users;
 
 use yii;
-use app\models\opinions\Opinions;
 
-/**
- * This is the ActiveQuery class for [[Users]].
- *
- * @see Users
- */
 class UsersQuery extends \yii\db\ActiveQuery
 {
 
     public function categoriesFilter($targetSpecializations): self
     {
-        return $this->andFilterWhere(['category_id' => $targetSpecializations]);
+        return $this->joinWith('userCategories')->andFilterWhere(['category_id' => $targetSpecializations]);
     }
 
     public function withOpinionsFilter(int $min): self
@@ -23,12 +17,17 @@ class UsersQuery extends \yii\db\ActiveQuery
         return $this->andFilterHaving(['>', 'opinions_count', $min]);
     }
 
-    public function isFreeNow(): self
+    public function isFreeNowFilter(): self
     {
-            return $this->andWhere(['tasks.id' => null]);
+        return $this->joinWith('tasks')->andWhere(['!=','status_task', 'work']);//->orWhere((['status_task' => null]));
     }
 
-    public function isOnlineNow(): self
+    public function isFavouriteFilter(): self
+    {
+        return $this->joinWith('favourites');
+    }
+
+    public function isOnlineNowFilter(): self
     {
         return $this->andWhere([
             'between',
@@ -40,10 +39,5 @@ class UsersQuery extends \yii\db\ActiveQuery
 
     public function nameSearch($name) {
         return $this->andFilterWhere(['like', 'users.name', $name]);
-    }
-
-    public function isFavouriteFilter($min): self
-    {
-        return $this->andFilterWhere(['>', 'favourite_count', $min]);
     }
 }

@@ -14,6 +14,7 @@ use app\models\categories\Categories;
  * @property int|null $has_opinions
  * @property int|null $is_favourite
  */
+
 class UserSearchForm extends \yii\db\ActiveRecord
 {
     public $searchedCategories = [];
@@ -25,17 +26,12 @@ class UserSearchForm extends \yii\db\ActiveRecord
     public $hasOpinions;
     public $isFavourite;
     private $categories;
-    /**
-     * {@inheritdoc}
-     */
+
     public static function tableName()
     {
         return 'user_search_form';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [

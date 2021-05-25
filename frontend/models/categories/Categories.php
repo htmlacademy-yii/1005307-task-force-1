@@ -24,19 +24,14 @@ use app\models\{
  * @property Tasks[] $tasks
  * @property UserCategory[] $userCategories
  */
+
 class Categories extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'categories';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -48,9 +43,6 @@ class Categories extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -61,31 +53,16 @@ class Categories extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Tasks]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
     public function getTasks()
     {
         return $this->hasMany(Tasks::class, ['category_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[UserCategories]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
     public function getUserCategory()
     {
         return $this->hasMany(UserCategory::class, ['category_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Users]].
-     *
-     * @return \yii\db\ActiveQuery|UsersQuery
-     */
     public function getUsers()
     {
         return $this->hasMany(Users::class, ['id' => 'user_id'])->viaTable('user_category', ['categories_id' => 'id']);
@@ -100,10 +77,6 @@ class Categories extends \yii\db\ActiveRecord
         return $categories;
     }
 
-    /**
-     * {@inheritdoc}
-     * @return CategoriesQuery the active query used by this AR class.
-     */
     public static function find()
     {
         return new CategoriesQuery(get_called_class());

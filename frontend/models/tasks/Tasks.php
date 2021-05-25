@@ -50,19 +50,14 @@ use app\models\{cities\Cities,
  * @property Users $client
  * @property Users $doer
  */
+
 class Tasks extends ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName(): string
     {
         return 'tasks';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -78,9 +73,6 @@ class Tasks extends ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -102,100 +94,51 @@ class Tasks extends ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[FileTasks]].
-     *
-     * @return ActiveQuery|FileTaskQuery
-     */
     public function getFileTasks()
     {
         return $this->hasMany(FileTask::class, ['task_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Messages]].
-     *
-     * @return ActiveQuery|MessagesQuery
-     */
     public function getMessages()
     {
         return $this->hasMany(Messages::class, ['task_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Notifications]].
-     *
-     * @return ActiveQuery|NotificationsQuery
-     */
     public function getNotifications()
     {
         return $this->hasMany(Notifications::class, ['task_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Opinions]].
-     *
-     * @return ActiveQuery|OpinionsQuery
-     */
     public function getOpinions()
     {
         return $this->hasMany(Opinions::class, ['task_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Replies]].
-     *
-     * @return ActiveQuery|RepliesQuery
-     */
     public function getReplies()
     {
         return $this->hasMany(Replies::class, ['task_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Category]].
-     *
-     * @return ActiveQuery|CategoriesQuery
-     */
     public function getCategory()
     {
         return $this->hasOne(Categories::class, ['id' => 'category_id']);
     }
 
-    /**
-     * Gets query for [[City]].
-     *
-     * @return ActiveQuery|CitiesQuery
-     */
     public function getCity()
     {
         return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
-    /**
-     * Gets query for [[Client]].
-     *
-     * @return ActiveQuery|UsersQuery
-     */
     public function getClient()
     {
         return $this->hasOne(Users::class, ['id' => 'client_id']);
     }
 
-    /**
-     * Gets query for [[Doer]].
-     *
-     * @return ActiveQuery|UsersQuery
-     */
     public function getDoer()
     {
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
     }
 
-    /**
-     * {@inheritdoc}
-     * @return TasksQuery the active query used by this AR class.
-     */
     public static function find()
     {
         return new TasksQuery(get_called_class());
@@ -225,6 +168,7 @@ class Tasks extends ActiveRecord
         if ($form->noReplies) {
             $query->withoutRepliesFilter();
         }
+
         if ($form->online) {
             $query->onlineFilter();
         }

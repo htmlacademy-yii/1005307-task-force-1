@@ -19,17 +19,11 @@ use app\models\{
  */
 class UserCategory extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'user_category';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -40,9 +34,6 @@ class UserCategory extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -52,30 +43,16 @@ class UserCategory extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Category]].
-     *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
-     */
     public function getCategory()
     {
         return $this->hasOne(Categories::class, ['id' => 'category_id']);
     }
 
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
     public function getUser()
     {
         return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
 
-    /**
-     * {@inheritdoc}
-     * @return UserCategoryQuery the active query used by this AR class.
-     */
     public static function find()
     {
         return new UserCategoryQuery(get_called_class());
