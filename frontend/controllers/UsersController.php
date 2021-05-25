@@ -7,16 +7,15 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\users\UserSearchForm;
-use app\models\users\UserService;
+use app\models\users\Users;
 
 class UsersController extends Controller
 {
     public function actionIndex(): string
     {
-        $request = Yii::$app->request;
         $searchForm = new UserSearchForm();
-        $userService = new UserService($request);
-        $users = $userService->getUsers($searchForm);
-        return $this->render('index', compact('users', 'searchForm' ));
+        $searchForm->load($this->request->post());
+        $users = Users::getDoersByFilters($searchForm);
+        return $this->render('index', compact('users', 'searchForm'));
     }
 }

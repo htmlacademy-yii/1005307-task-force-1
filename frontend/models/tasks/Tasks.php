@@ -3,6 +3,8 @@
 namespace app\models\tasks;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\db\ActiveQuery;
 use app\models\{cities\Cities,
     cities\CitiesQuery,
     categories\Categories,
@@ -16,7 +18,8 @@ use app\models\{cities\Cities,
     replies\Replies,
     replies\RepliesQuery,
     users\Users,
-    users\UsersQuery};
+    users\UsersQuery
+};
 
 /**
  * This is the model class for table "tasks".
@@ -47,20 +50,19 @@ use app\models\{cities\Cities,
  * @property Users $client
  * @property Users $doer
  */
-
-class Tasks extends \yii\db\ActiveRecord
+class Tasks extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'tasks';
     }
 
     /**
- * {@inheritdoc}
- */
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
@@ -71,7 +73,7 @@ class Tasks extends \yii\db\ActiveRecord
             [['name', 'address', 'latitude', 'longitude', 'location_comment', 'status_task'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::class, 'targetAttribute' => ['city_id' => 'id']],
-            [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Users::class, 'targetAttribute' => ['client_id' => 'id']],
+            [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['client_id' => 'id']],
             [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['doer_id' => 'id']],
         ];
     }
@@ -103,7 +105,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[FileTasks]].
      *
-     * @return \yii\db\ActiveQuery|FileTaskQuery
+     * @return ActiveQuery|FileTaskQuery
      */
     public function getFileTasks()
     {
@@ -113,7 +115,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Messages]].
      *
-     * @return \yii\db\ActiveQuery|MessagesQuery
+     * @return ActiveQuery|MessagesQuery
      */
     public function getMessages()
     {
@@ -123,7 +125,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Notifications]].
      *
-     * @return \yii\db\ActiveQuery|NotificationsQuery
+     * @return ActiveQuery|NotificationsQuery
      */
     public function getNotifications()
     {
@@ -133,7 +135,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Opinions]].
      *
-     * @return \yii\db\ActiveQuery|OpinionsQuery
+     * @return ActiveQuery|OpinionsQuery
      */
     public function getOpinions()
     {
@@ -143,7 +145,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Replies]].
      *
-     * @return \yii\db\ActiveQuery|RepliesQuery
+     * @return ActiveQuery|RepliesQuery
      */
     public function getReplies()
     {
@@ -153,7 +155,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Category]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return ActiveQuery|CategoriesQuery
      */
     public function getCategory()
     {
@@ -163,7 +165,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[City]].
      *
-     * @return \yii\db\ActiveQuery|CitiesQuery
+     * @return ActiveQuery|CitiesQuery
      */
     public function getCity()
     {
@@ -173,7 +175,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Client]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return ActiveQuery|UsersQuery
      */
     public function getClient()
     {
@@ -183,7 +185,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Doer]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return ActiveQuery|UsersQuery
      */
     public function getDoer()
     {
@@ -199,7 +201,8 @@ class Tasks extends \yii\db\ActiveRecord
         return new TasksQuery(get_called_class());
     }
 
-    final public static function getNewTasksByFilters(TaskSearchForm $form) {
+    final public static function getNewTasksByFilters(TaskSearchForm $form)
+    {
         $query = self::find()
             ->joinWith('replies')
             ->joinWith('city')
@@ -214,6 +217,7 @@ class Tasks extends \yii\db\ActiveRecord
             ->groupBy('tasks.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
+
         if ($form->noReplies) {
             $query->withoutRepliesFilter();
         }
@@ -225,10 +229,13 @@ class Tasks extends \yii\db\ActiveRecord
             $query->nameSearch($form->searchName);
         }
 
-  //      if ($form->periodFilter) {
-  //          $query->periodFilter($form->periodFilter);
-  //      }
+        if ($form->periodFilter) {
+            $query->periodFilter($form->periodFilter);
+        }
 
+         if ($form->searchedCategories) {
+        $query->categoriesFilter($form->searchedCategories);
+         }
         return $query->all();
     }
 }

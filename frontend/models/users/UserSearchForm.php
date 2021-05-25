@@ -16,7 +16,7 @@ use app\models\categories\Categories;
  */
 class UserSearchForm extends \yii\db\ActiveRecord
 {
-    public $categoriesFilter = [];
+    public $searchedCategories = [];
     public $additionalFilter = [];
     public $periodFilter = [];
     public $searchName;
@@ -39,7 +39,7 @@ class UserSearchForm extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['searchName', 'isFreeNow', 'isOnlineNow', 'hasOpinions', 'isFavourite'], 'safe'],
+            [['searchedCategories', 'searchName', 'isFreeNow', 'isOnlineNow', 'hasOpinions', 'isFavourite'], 'safe'],
         ];
     }
 

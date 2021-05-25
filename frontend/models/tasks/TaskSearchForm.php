@@ -5,9 +5,9 @@ namespace app\models\tasks;
 use app\models\categories\Categories;
 use yii\helpers\ArrayHelper;
 
-class TaskSearchForm extends \yii\db\ActiveRecord
+class TaskSearchForm extends \yii\base\Model
 {
-    public $categoriesFilter = [];
+    public $searchedCategories = [];
     public $noReplies;
     public $online;
     public $periodFilter = [];
@@ -16,13 +16,17 @@ class TaskSearchForm extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['searchName', 'noReplies', 'online', 'day', 'week', 'month', 'all'], 'safe'],
+            [['searchedCategories', 'periodFilter', 'searchName', 'noReplies', 'online', 'day', 'week', 'month', 'all'], 'safe'],
         ];
     }
 
     public function getCategoriesFilter(): array
     {
-        return Categories::getCategoriesFilters();
+        if (!isset($categories)) {
+            $categories = ArrayHelper::map(Categories::getAll(), 'id', 'name');
+        }
+
+        return $categories;
     }
 
     public function getPeriodFilter(): array

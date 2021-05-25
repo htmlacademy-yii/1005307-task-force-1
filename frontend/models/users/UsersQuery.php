@@ -15,7 +15,7 @@ class UsersQuery extends \yii\db\ActiveQuery
 
     public function categoriesFilter(?array $targetSpecializations): self
     {
-        return $this->andFilterWhere(['categories.id' => $targetSpecializations]);
+        return $this->andFilterWhere(['userCategory.categories_id' => $targetSpecializations]);
     }
 
     public function withOpinionsFilter(int $min): self

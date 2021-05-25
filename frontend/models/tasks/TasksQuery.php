@@ -10,6 +10,11 @@ namespace app\models\tasks;
 class TasksQuery extends \yii\db\ActiveQuery
 {
 
+    public function categoriesFilter($targetSpecializations): self
+    {
+        return $this->andFilterWhere(['category_id' => $targetSpecializations]);
+    }
+
     public function withoutRepliesFilter(): self
     {
         return $this->andFilterHaving(['=', 'replies_count', '0']);
@@ -22,14 +27,18 @@ class TasksQuery extends \yii\db\ActiveQuery
 
     public function periodFilter($period): self
     {
-        return $this->andWhere([
-            'between',
-            'tasks.dt_add',
-            //  strftime("%F %T", strtotime("-1 week")),
-            //  strftime("%F %T", strtotime("-1 week")),
-            strftime("%F %T", strtotime("-1 day")),
-            strftime("%F %T")
-        ]);
+        if ($period === 'day') {
+            return $this->andWhere('tasks.dt_add BETWEEN CURDATE() AND (CURDATE() + 1)');
+        }
+
+        if ($period === 'week') {
+            return $this->andWhere('tasks.dt_add >= DATE_SUB(NOW(), INTERVAL 7 DAY)');
+        }
+
+        if ($period === 'month') {
+            return $this->andWhere('tasks.dt_add >= DATE_SUB(NOW(), INTERVAL 30 DAY)');
+        }
+        return $this;
     }
 
     public function nameSearch($name) {

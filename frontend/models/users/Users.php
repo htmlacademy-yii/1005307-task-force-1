@@ -258,7 +258,15 @@ class Users extends \yii\db\ActiveRecord
         if ($form->searchName) {
             $query->nameSearch($form->searchName);
         }
-        //$query->categoriesFilter($form->categoriesFilter);
+
+        if ($form->searchName) {
+            $query->nameSearch($form->searchName);
+        }
+      //  if ($form->searchedCategories()) {
+           // $query->categoriesFilter($form->searchedCategories);
+          //  var_dump($form->searchedCategories);
+        //}
+
         return $query->all();
     }
 }
