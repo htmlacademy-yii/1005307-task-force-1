@@ -242,10 +242,14 @@ class Users extends \yii\db\ActiveRecord
                 'count(opinions.description) as opinions_count',
             ])
             ->where(['user_role' => 'doer'])
-            ->with('userCategories')
+            ->joinWith('userCategories')
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
+
+        if ($form->searchedCategories) {
+            $query->categoriesFilter($form->searchedCategories);
+        }
 
         if ($form->hasOpinions) {
             $query->withOpinionsFilter(0);
@@ -258,14 +262,6 @@ class Users extends \yii\db\ActiveRecord
         if ($form->searchName) {
             $query->nameSearch($form->searchName);
         }
-
-        if ($form->searchName) {
-            $query->nameSearch($form->searchName);
-        }
-      //  if ($form->searchedCategories()) {
-           // $query->categoriesFilter($form->searchedCategories);
-          //  var_dump($form->searchedCategories);
-        //}
 
         return $query->all();
     }

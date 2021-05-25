@@ -12,7 +12,7 @@ class TasksQuery extends \yii\db\ActiveQuery
 
     public function categoriesFilter($targetSpecializations): self
     {
-        return $this->andFilterWhere(['category_id' => $targetSpecializations]);
+        return $this->andWhere(['category_id' => $targetSpecializations]);
     }
 
     public function withoutRepliesFilter(): self

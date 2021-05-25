@@ -10,13 +10,13 @@ class TaskSearchForm extends \yii\base\Model
     public $searchedCategories = [];
     public $noReplies;
     public $online;
-    public $periodFilter = [];
-    public $searchName = null;
+    public $periodFilter;
+    public $searchName;
 
     public function rules()
     {
         return [
-            [['searchedCategories', 'periodFilter', 'searchName', 'noReplies', 'online', 'day', 'week', 'month', 'all'], 'safe'],
+            [['searchedCategories', 'periodFilter', 'searchName', 'noReplies', 'online', 'all'], 'safe'],
         ];
     }
 

@@ -70,7 +70,7 @@ $additionalFilter = $searchForm->attributeLabels();
                     <legend>Категории</legend>
                     <?php $i = 1; ?>
                     <?php foreach ($categoriesFilter as $id => $name) : ?>
-                        <?= $form->field($searchForm, 'categoriesFilter', [
+                        <?= $form->field($searchForm, 'searchedCategories', [
                             'template' => '{input}',
                             'options' => ['tag' => false]
                         ])->checkbox([

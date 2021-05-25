@@ -38,7 +38,7 @@ use app\models\{cities\Cities,
  * @property int|null $city_id
  * @property int|null $doer_id
  * @property int $client_id
- * @property string|null $status_task
+ * @property string $status_task
  *
  * @property FileTask[] $fileTasks
  * @property Messages[] $messages
@@ -218,6 +218,10 @@ class Tasks extends ActiveRecord
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
 
+        if ($form->searchedCategories) {
+            $query->categoriesFilter($form->searchedCategories);
+        }
+
         if ($form->noReplies) {
             $query->withoutRepliesFilter();
         }
@@ -225,17 +229,14 @@ class Tasks extends ActiveRecord
             $query->onlineFilter();
         }
 
-        if ($form->searchName) {
-            $query->nameSearch($form->searchName);
-        }
-
         if ($form->periodFilter) {
             $query->periodFilter($form->periodFilter);
         }
 
-         if ($form->searchedCategories) {
-        $query->categoriesFilter($form->searchedCategories);
-         }
+        if ($form->searchName) {
+            $query->nameSearch($form->searchName);
+        }
+
         return $query->all();
     }
 }
