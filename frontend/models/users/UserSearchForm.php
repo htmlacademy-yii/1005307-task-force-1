@@ -39,7 +39,7 @@ class UserSearchForm extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getCategoriesFilter(): array
+    public function getCategoriesFilter()
     {
         return Categories::getCategoriesFilters();
     }

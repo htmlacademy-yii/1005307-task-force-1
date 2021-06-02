@@ -7,7 +7,7 @@ use yii;
 class UsersQuery extends \yii\db\ActiveQuery
 {
 
-    public function categoriesFilter($targetSpecializations): self
+    public function categoriesFilter(?array $targetSpecializations): self
     {
         return $this->joinWith('userCategories')->andFilterWhere(['category_id' => $targetSpecializations]);
     }

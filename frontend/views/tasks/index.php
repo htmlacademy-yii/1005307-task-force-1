@@ -56,13 +56,14 @@ $periodFilter = $searchForm->getPeriodFilter();
                     <legend>Категории</legend>
                     <?php $i = 1; ?>
                     <?php foreach ($categoriesFilter as $id => $name) : ?>
-                        <?= $form->field($searchForm, 'searchedCategories', [
+                        <?= $form->field($searchForm, 'searchedCategories[]', [
                             'template' => '{input}',
                             'options' => ['tag' => false]
                         ])->checkbox([
                             'label' => false,
                             'value' => $id,
                             'uncheck' => null,
+                            'checked' => in_array($id, $searchForm -> searchedCategories),
                             'id' => $id,
                             'class' => 'visually-hidden checkbox__input'
                         ]) ?>

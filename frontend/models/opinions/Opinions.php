@@ -63,6 +63,11 @@ class Opinions extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getWriter()
+    {
+        return $this->hasOne(Users::class, ['id' => 'writer_id']);
+    }
+
     public function getAbout()
     {
         return $this->hasOne(Users::class, ['id' => 'about_id']);
@@ -71,11 +76,6 @@ class Opinions extends \yii\db\ActiveRecord
     public function getTask()
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
-    }
-
-    public function getWriter()
-    {
-        return $this->hasOne(Users::class, ['id' => 'writer_id']);
     }
 
     public static function find()

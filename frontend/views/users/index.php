@@ -8,6 +8,7 @@ use yii\widgets\ActiveField;
 $categoriesFilter = $searchForm->getCategoriesFilter();
 $additionalFilter = $searchForm->attributeLabels();
 ?>
+
 <main class="page-main">
     <div class="main-container page-container">
         <section class="user__search">
@@ -31,9 +32,7 @@ $additionalFilter = $searchForm->attributeLabels();
                         <div class="user__search-icon">
                             <a href="#"><img src="../img/<?= $user['avatar'] ?>" width="65" height="65"
                                              alt="<?= $user['name'] ?>"></a>
-                            <span><?= $user['finished_task_count'] ?> <?= get_noun_plural_form($user['finished_task_count'], 'задание', 'задания', 'заданий') ?></span>
-                            <span><?= $user['opinions_count'] ?> <?= get_noun_plural_form($user['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?></span>
-                        </div>
+                            </div>
                         <div class="feedback-card__top--name user__search-card">
                             <p class="link-name"><a href="#" class="link-regular"><?= $user['name'] ?></a></p>
                             <?php $starCount = round((float)$user['rating']) ?>
@@ -50,7 +49,7 @@ $additionalFilter = $searchForm->attributeLabels();
                     </div>
                     <div class="link-specialization user__search-link--bottom">
                         <?php foreach ($user['userCategories'] as $category): ?>
-                            <a href="#" class="link-regular"><?= $category['profession'] ?></a>
+                           <a href="#" class="link-regular"><?= $category['profession'] ?></a>
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -70,18 +69,19 @@ $additionalFilter = $searchForm->attributeLabels();
                     <legend>Категории</legend>
                     <?php $i = 1; ?>
                     <?php foreach ($categoriesFilter as $id => $name) : ?>
-                        <?= $form->field($searchForm, 'searchedCategories', [
+                        <?= $form->field($searchForm, 'searchedCategories[]' ,  [
                             'template' => '{input}',
                             'options' => ['tag' => false]
                         ])->checkbox([
                             'label' => false,
                             'value' => $id,
                             'uncheck' => null,
+                            'checked' => in_array($id, $searchForm -> searchedCategories),
                             'id' => $id,
                             'class' => 'visually-hidden checkbox__input'
                         ]) ?>
                         <?php $i++; ?>
-                        <label for="<?= $id ?>"><?= $name ?></label>
+                         <label for="<?= $id ?>"><?= $name ?></label>
                     <?php endforeach; ?>
                 </fieldset>
                 <fieldset class="search-task__categories">

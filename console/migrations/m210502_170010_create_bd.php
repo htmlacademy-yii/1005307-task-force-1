@@ -3,9 +3,6 @@
 use yii\db\Migration;
 use yii\db\Expression;
 
-/**
- * Class m210502_170010_crate_bd
- */
 class m210502_170010_create_bd extends Migration
 {
     /**
@@ -324,39 +321,21 @@ class m210502_170010_create_bd extends Migration
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         $this->dropTable('categories');
         $this->dropTable('cities');
-        $this->dropTable('favourites');
-        $this->dropTable('file_task');
         $this->dropTable('messages');
         $this->dropTable('notifications');
         $this->dropTable('opinions');
-        $this->dropTable('portfolio_photo');
-        $this->dropTable('profiles');
         $this->dropTable('replies');
-        $this->dropTable('status_task');
         $this->dropTable('tasks');
-        $this->dropTable('user_categories');
+        $this->dropTable('file_task');
+        $this->dropTable('task_search_form');
         $this->dropTable('users');
+        $this->dropTable('favourites');
+        $this->dropTable('portfolio_photo');
+        $this->dropTable('user_categories');
+        $this->dropTable('user_search_form');
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m210502_170010_crate_bd cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

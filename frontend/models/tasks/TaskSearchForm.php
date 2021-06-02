@@ -22,11 +22,7 @@ class TaskSearchForm extends \yii\base\Model
 
     public function getCategoriesFilter(): array
     {
-        if (!isset($categories)) {
-            $categories = ArrayHelper::map(Categories::getAll(), 'id', 'name');
-        }
-
-        return $categories;
+        return Categories::getCategoriesFilters();
     }
 
     public function getPeriodFilter(): array

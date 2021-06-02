@@ -24,17 +24,12 @@ use app\models\{
  */
 class Replies extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+
     public static function tableName()
     {
         return 'replies';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -49,9 +44,6 @@ class Replies extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -65,30 +57,16 @@ class Replies extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Task]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
     public function getTask()
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
-    /**
-     * Gets query for [[Doer]].
-     *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
-     */
     public function getDoer()
     {
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
     }
 
-    /**
-     * {@inheritdoc}
-     * @return RepliesQuery the active query used by this AR class.
-     */
     public static function find()
     {
         return new RepliesQuery(get_called_class());

@@ -150,7 +150,7 @@ class Users extends \yii\db\ActiveRecord
 
     public function getCity()
     {
-        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+        return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
     public static function find()
@@ -161,12 +161,12 @@ class Users extends \yii\db\ActiveRecord
     final public static function getDoersByFilters(UserSearchForm $form): ?array
     {
         $query = self::find()
-            ->joinWith('opinions')
+    //        ->joinWith('opinions')
             ->select([
                 'users.*',
-                'AVG(opinions.rate) as rating',
-                'count(opinions.rate) as finished_task_count',
-                'count(opinions.description) as opinions_count',
+     //           'AVG(opinions.rate) as rating',
+    //            'count(opinions.rate) as finished_task_count',
+    //            'count(opinions.description) as opinions_count',
             ])
             ->where(['user_role' => 'doer'])
             ->with('userCategories')
@@ -191,7 +191,7 @@ class Users extends \yii\db\ActiveRecord
         }
 
         if ($form->searchName) {
-            $query->nameSearchFilter($form->searchName);
+            $query->nameSearch($form->searchName);
         }
 
         if ($form->isFavourite) {

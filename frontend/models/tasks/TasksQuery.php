@@ -5,9 +5,9 @@ namespace app\models\tasks;
 class TasksQuery extends \yii\db\ActiveQuery
 {
 
-    public function categoriesFilter($targetSpecializations): self
+    public function categoriesFilter(array $targetCategories): self
     {
-        return $this->andWhere(['category_id' => $targetSpecializations]);
+        return $this->andWhere(['category_id' => $targetCategories]);
     }
 
     public function withoutRepliesFilter(): self
