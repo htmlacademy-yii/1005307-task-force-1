@@ -158,46 +158,86 @@ class Users extends \yii\db\ActiveRecord
         return new UsersQuery(get_called_class());
     }
 
-    final public static function getDoersByFilters(UserSearchForm $form): ?array
+    final public static function getDoersByFilters(UserSearchForm $form)
     {
         $query = self::find()
-    //        ->joinWith('opinions')
+            ->joinWith('opinions')
             ->select([
                 'users.*',
-     //           'AVG(opinions.rate) as rating',
-    //            'count(opinions.rate) as finished_task_count',
-    //            'count(opinions.description) as opinions_count',
+                'AVG(opinions.rate) as rating',
+                'count(opinions.rate) as finished_task_count',
+                'count(opinions.description) as opinions_count',
             ])
             ->where(['user_role' => 'doer'])
             ->with('userCategories')
             ->with('tasks')
+            ->with('favourites')
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
+       //     var_dump($query->prepare(\Yii::$app->db->queryBuilder)->createCommand()->rawSql);
 
-        if ($form->searchedCategories) {
-            $query->categoriesFilter($form->searchedCategories);
-        }
 
         if ($form->hasOpinions) {
             $query->withOpinionsFilter(0);
         }
+
+        $users = $query->all();
+
         if ($form->isFreeNow) {
-            $query->isFreeNowFilter();
+           // $query->isFreeNowFilter();
+            $result = [];
+            foreach ($users as $user) {
+                foreach ($user['tasks'] as $task) {
+                    if ($task['status_task'] === 'work') {
+                        $is_work = $task['id'];
+                        break;
+                    }
+                }
+                if (empty($is_work)) {
+                    $result[] = $user;
+                }
+                $users = $result;
+            }
         }
 
         if ($form->isOnlineNow) {
             $query->isOnlineNowFilter();
         }
 
+        if ($form->isFavourite) {
+    //        $query->joinWith('favourites')
+    //        ->select([
+    //            'users.*',
+     //           'count(favourites.id) as favourite_count'])
+      //      ->isFavouriteFilter();
+            $result = [];
+            foreach ($users as $user) {
+                if (count($user['favourites']) > 0) {
+                    $result[] = $user;
+                }
+            }
+            $users = $result;
+        }
+
+        if ($form->searchedCategories) {
+            $result = [];
+            foreach ($users as $user) {
+                foreach ($user['userCategories'] as $category) {
+                    if (in_array($category['id'], $form->searchedCategories)) {
+                        $result[] = $user;
+                        break;
+                    }
+                }
+            }
+            $users = $result;
+        }
+
         if ($form->searchName) {
             $query->nameSearch($form->searchName);
+            return($query->all());
         }
 
-        if ($form->isFavourite) {
-            $query->isFavouriteFilter();
-        }
-
-        return $query->all();
-    }
+        return $users;
+   }
 }

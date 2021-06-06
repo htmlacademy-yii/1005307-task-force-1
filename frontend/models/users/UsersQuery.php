@@ -7,9 +7,12 @@ use yii;
 class UsersQuery extends \yii\db\ActiveQuery
 {
 
-    public function categoriesFilter(?array $targetSpecializations): self
+    public function categoriesFilter($targetSpecializations): self
     {
-        return $this->joinWith('userCategories')->andFilterWhere(['category_id' => $targetSpecializations]);
+        return $this->with('userCategories')
+            ->select(['user_category'])
+          ->groupBy('category_id')
+            ->andFilterWhere(['category_id' => $targetSpecializations]);
     }
 
     public function withOpinionsFilter(int $min): self
