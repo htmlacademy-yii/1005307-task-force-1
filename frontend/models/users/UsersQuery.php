@@ -9,9 +9,7 @@ class UsersQuery extends \yii\db\ActiveQuery
 
     public function categoriesFilter($targetSpecializations): self
     {
-        return $this->with('userCategories')
-            ->select(['user_category'])
-          ->groupBy('category_id')
+        return $this->joinWith('userCategories')
             ->andFilterWhere(['category_id' => $targetSpecializations]);
     }
 

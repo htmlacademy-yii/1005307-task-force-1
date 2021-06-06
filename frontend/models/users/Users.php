@@ -175,7 +175,11 @@ class Users extends \yii\db\ActiveRecord
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
-       //     var_dump($query->prepare(\Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+
+       /* if ($form->searchedCategories) {
+            $query->joinWith('userCategories')
+            ->andFilterWhere(['category_id' => $form->searchedCategories]);
+        }*/
 
 
         if ($form->hasOpinions) {
@@ -185,7 +189,7 @@ class Users extends \yii\db\ActiveRecord
         $users = $query->all();
 
         if ($form->isFreeNow) {
-           // $query->isFreeNowFilter();
+    //         $query->isFreeNowFilter();
             $result = [];
             foreach ($users as $user) {
                 foreach ($user['tasks'] as $task) {
@@ -206,11 +210,6 @@ class Users extends \yii\db\ActiveRecord
         }
 
         if ($form->isFavourite) {
-    //        $query->joinWith('favourites')
-    //        ->select([
-    //            'users.*',
-     //           'count(favourites.id) as favourite_count'])
-      //      ->isFavouriteFilter();
             $result = [];
             foreach ($users as $user) {
                 if (count($user['favourites']) > 0) {
@@ -221,6 +220,7 @@ class Users extends \yii\db\ActiveRecord
         }
 
         if ($form->searchedCategories) {
+
             $result = [];
             foreach ($users as $user) {
                 foreach ($user['userCategories'] as $category) {
@@ -239,5 +239,5 @@ class Users extends \yii\db\ActiveRecord
         }
 
         return $users;
-   }
+    }
 }

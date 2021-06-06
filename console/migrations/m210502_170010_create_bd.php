@@ -30,7 +30,7 @@ class m210502_170010_create_bd extends Migration
             'email' => $this->string(255)->notNull()->unique(),
             'name' => $this->string(255)->notNull()->unique(),
             'password' => $this->string(255)->notNull(),
-            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
+            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()'))->notNull(),
             'user_role' => $this->string(255)->notNull(),
             'address' => $this->string(255),
             'bd' => $this->date(),
@@ -40,6 +40,9 @@ class m210502_170010_create_bd extends Migration
             'skype' => $this->string(255),
             'telegram' => $this->string(255),
             'city_id' => $this->integer(11),
+            'rate' => $this->integer(11)->defaultValue(0)->notNull(),
+            'finished_task_count' => $this->integer(11)->defaultValue(0)->notNull(),
+            'opinions_count' => $this->integer(11)->defaultValue(0)->notNull(),
             'last_activity_time' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
         ]);
 
