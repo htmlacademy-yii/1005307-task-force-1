@@ -14,11 +14,8 @@ class UsersController extends Controller
     public function actionIndex(): string
     {
         $searchForm = new UserSearchForm();
-  //      $request = Yii::$app->request;
         $searchForm->load($this->request->post());
         $users = Users::getDoersByFilters($searchForm);
-      //  $users = Users::getDoers();
-    //    var_dump($users[1]);
-        return $this->render('index', compact('users', 'searchForm'));
+        return $this->render('index', ['users' => $users, 'searchForm' => $searchForm]);
     }
 }

@@ -70,9 +70,7 @@ class Categories extends \yii\db\ActiveRecord
 
     public static function getCategoriesFilters(): array
     {
-        if (!isset($categories)) {
             $categories = ArrayHelper::map(Categories::getAll(), 'id', 'name');
-        }
 
         return $categories;
     }

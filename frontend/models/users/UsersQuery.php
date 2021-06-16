@@ -3,14 +3,20 @@
 namespace app\models\users;
 
 use yii;
+use app\models\{
+    tasks\Tasks
+};
 
 class UsersQuery extends \yii\db\ActiveQuery
 {
 
     public function categoriesFilter($targetSpecializations): self
     {
-        return $this->joinWith('userCategories')
+        $subQuery = UserCategory::find()
+            ->select(['user_id'])
             ->andFilterWhere(['category_id' => $targetSpecializations]);
+
+        return $this->where(['users.id' => $subQuery]);
     }
 
     public function withOpinionsFilter(int $min): self
@@ -20,12 +26,18 @@ class UsersQuery extends \yii\db\ActiveQuery
 
     public function isFreeNowFilter(): self
     {
-        return $this->joinWith('tasks')->andWhere(['!=','status_task', 'work']);//->orWhere((['status_task' => null]));
+        $subQuery = Tasks::find()
+            ->select(['doer_id'])
+            ->andFilterWhere(['=', 'status_task', 'work']);
+
+        return $this->andFilterWhere(['not', ['users.id' => $subQuery]]);
     }
 
     public function isFavouriteFilter(): self
     {
-        return $this->joinWith('favourites');
+        $subQuery = Favourites::find()
+            ->select(['favourite_person_id']);
+        return $this->where(['users.id' => $subQuery]);
     }
 
     public function isOnlineNowFilter(): self
@@ -38,7 +50,8 @@ class UsersQuery extends \yii\db\ActiveQuery
         ]);
     }
 
-    public function nameSearch($name) {
+    public function nameSearch($name)
+    {
         return $this->andFilterWhere(['like', 'users.name', $name]);
     }
 }

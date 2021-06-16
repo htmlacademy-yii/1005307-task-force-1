@@ -18,6 +18,8 @@ use app\models\{
     tasks\Tasks,
     tasks\TasksQuery
 };
+use yii\base\BaseObject;
+use yii\db\Query;
 
 /**
  * This is the model class for table "users".
@@ -176,66 +178,31 @@ class Users extends \yii\db\ActiveRecord
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
 
-       /* if ($form->searchedCategories) {
-            $query->joinWith('userCategories')
-            ->andFilterWhere(['category_id' => $form->searchedCategories]);
-        }*/
-
-
-        if ($form->hasOpinions) {
-            $query->withOpinionsFilter(0);
+        if ($form->searchedCategories) {
+           $query->categoriesFilter($form->searchedCategories);
         }
 
-        $users = $query->all();
-
         if ($form->isFreeNow) {
-    //         $query->isFreeNowFilter();
-            $result = [];
-            foreach ($users as $user) {
-                foreach ($user['tasks'] as $task) {
-                    if ($task['status_task'] === 'work') {
-                        $is_work = $task['id'];
-                        break;
-                    }
-                }
-                if (empty($is_work)) {
-                    $result[] = $user;
-                }
-                $users = $result;
-            }
+            $query->isFreeNowFilter();
         }
 
         if ($form->isOnlineNow) {
             $query->isOnlineNowFilter();
         }
 
+        if ($form->hasOpinions) {
+            $query->withOpinionsFilter(0);
+        }
+
         if ($form->isFavourite) {
-            $result = [];
-            foreach ($users as $user) {
-                if (count($user['favourites']) > 0) {
-                    $result[] = $user;
-                }
-            }
-            $users = $result;
+            $query->isFavouriteFilter();
         }
 
-        if ($form->searchedCategories) {
-
-            $result = [];
-            foreach ($users as $user) {
-                foreach ($user['userCategories'] as $category) {
-                    if (in_array($category['id'], $form->searchedCategories)) {
-                        $result[] = $user;
-                        break;
-                    }
-                }
-            }
-            $users = $result;
-        }
+        $users = $query->all();
 
         if ($form->searchName) {
             $query->nameSearch($form->searchName);
-            return($query->all());
+            return ($query->all());
         }
 
         return $users;

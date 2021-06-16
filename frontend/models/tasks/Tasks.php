@@ -149,12 +149,11 @@ class Tasks extends ActiveRecord
         $query = self::find()
             ->joinWith('replies')
             ->joinWith('city')
-            ->where(['tasks.doer_id' => 'id'])
             ->select([
                 'tasks.*',
                 'count(replies.description) as replies_count'
             ])
-            ->where(['status_task' => 'new'])
+            ->andwhere(['status_task' => 'new'])
             ->with('category')
             ->with('city')
             ->groupBy('tasks.id')
