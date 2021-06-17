@@ -1,28 +1,30 @@
+<?php
+  require_once '../utils/my_functions.php';
+  function getAge($birthday) {
+      return floor( ( time() - strtotime($birthday) ) / (60 * 60 * 24 * 365.25) );
+  }
+?>
+
 <div class="main-container page-container">
     <section class="content-view">
         <div class="user__card-wrapper">
             <div class="user__card">
-                <img src="./img/man-hat.png" width="120" height="120" alt="Аватар пользователя">
+                <img src="../img/<?= $user['avatar'] ?>" width="120" height="120" alt="Аватар пользователя">
                 <div class="content-view__headline">
-                    <h1>Мамедов Кумар</h1>
-                    <p>Россия, Санкт-Петербург, 30 лет</p>
+                    <h1><?= $user['name'] ?></h1>
+                    <p>Россия, <?= $user['city']['city'] ?>, <?= getAge($user['bd']) ?> лет</p>
                     <div class="profile-mini__name five-stars__rate">
-                        <span></span><span></span><span></span><span></span><span class="star-disabled"></span>
-                        <b>4.25</b>
+
                     </div>
                     <b class="done-task">Выполнил 5 заказов</b><b class="done-review">Получил 6 отзывов</b>
                 </div>
                 <div class="content-view__headline user__card-bookmark user__card-bookmark--current">
-                    <span>Был на сайте 25 минут назад</span>
+                    <span>Был на сайте <?= getPassedTimeSinceLastActivity($user['last_activity_time']) ?></span>
                     <a href="#"><b></b></a>
                 </div>
             </div>
             <div class="content-view__description">
-                <p>Внезапно, ключевые особенности структуры проекта неоднозначны и будут подвергнуты целой серии
-                    независимых исследований. Следует отметить, что высококачественный прототип будущего проекта, в
-                    своём классическом представлении, допускает внедрение своевременного выполнения сверхзадачи.
-                    Кстати, некоторые особенности внутренней политики будут функционально разнесены на
-                    независимые элементы.</p>
+                <p><?= $user['about'] ?></p>
             </div>
             <div class="user__card-general-information">
                 <div class="user__card-info">
@@ -34,9 +36,9 @@
                     </div>
                     <h3 class="content-view__h3">Контакты</h3>
                     <div class="user__card-link">
-                        <a class="user__card-link--tel link-regular" href="#">8 (555) 172 83 69</a>
-                        <a class="user__card-link--email link-regular" href="#">Kumarm@mail.ru</a>
-                        <a class="user__card-link--skype link-regular" href="#">Kumarm</a>
+                        <a class="user__card-link--tel link-regular" href="#"><?= $user['phone'] ?></a>
+                        <a class="user__card-link--email link-regular" href="#"><?= $user['email'] ?></a>
+                        <a class="user__card-link--skype link-regular" href="#"><?= $user['skype'] ?></a>
                     </div>
                 </div>
                 <div class="user__card-photo">

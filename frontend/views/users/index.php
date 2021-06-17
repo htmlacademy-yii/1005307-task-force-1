@@ -37,7 +37,7 @@ $additionalFilter = $searchForm->attributeLabels();
                             <span><?= $user['opinions_count'] ?> <?= get_noun_plural_form($user['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?></span>
                         </div>
                         <div class="feedback-card__top--name user__search-card">
-                            <p class="link-name"><a href="#" class="link-regular"><?= $user['name'] ?></a></p>
+                            <p class="link-name"><a href="<?= Url::to(['users/view', 'id' => $user['id']])?>" class="link-regular"><?= $user['name'] ?></a></p>
                             <?php $starCount = round((float)$user['rating']) ?>
                             <?php for ($i = 1; $i <= 5; $i++): ?>
                                 <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
