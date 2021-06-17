@@ -207,4 +207,8 @@ class Users extends \yii\db\ActiveRecord
 
         return $users;
     }
+
+    final public static function getOneUser($id) {
+        return self::findOne($id);
+    }
 }

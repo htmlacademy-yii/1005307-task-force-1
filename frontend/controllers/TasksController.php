@@ -12,11 +12,19 @@ use yii\web\Request;
 
 class TasksController extends Controller
 {
+
     public function actionIndex(): string
     {
         $searchForm = new TaskSearchForm();
         $searchForm->load($this->request->post());
         $tasks = Tasks::getNewTasksByFilters($searchForm);
         return $this->render('index', compact('tasks', 'searchForm'));
+    }
+
+    public function actionView($id = null)
+    {
+        $task = Tasks::getOneTask($id);
+
+        return $this->render('view', ['task' => $task]);
     }
 }

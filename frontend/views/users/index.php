@@ -4,6 +4,7 @@ $this->title = 'Список исполнителей';
 
 use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;
+use yii\helpers\Url;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
 $additionalFilter = $searchForm->attributeLabels();
@@ -30,7 +31,7 @@ $additionalFilter = $searchForm->attributeLabels();
                 <div class="content-view__feedback-card user__search-wrapper">
                     <div class="feedback-card__top">
                         <div class="user__search-icon">
-                            <a href="#"><img src="../img/<?= $user['avatar'] ?>" width="65" height="65"
+                            <a href="<?= Url::to(['users/view', 'id' => $user['id']])?>"><img src="../img/<?= $user['avatar'] ?>" width="65" height="65"
                                              alt="<?= $user['name'] ?>"></a>
                             <span><?= $user['finished_task_count'] ?> <?= get_noun_plural_form($user['finished_task_count'], 'задание', 'задания', 'заданий') ?></span>
                             <span><?= $user['opinions_count'] ?> <?= get_noun_plural_form($user['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?></span>

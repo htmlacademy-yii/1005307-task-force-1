@@ -180,6 +180,11 @@ class Tasks extends ActiveRecord
             $query->nameSearch($form->searchName);
         }
 
+
         return $query->all();
+    }
+
+    final public static function getOneTask($id) {
+        return self::findOne($id);
     }
 }

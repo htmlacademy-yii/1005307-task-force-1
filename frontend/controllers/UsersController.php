@@ -16,6 +16,14 @@ class UsersController extends Controller
         $searchForm = new UserSearchForm();
         $searchForm->load($this->request->post());
         $users = Users::getDoersByFilters($searchForm);
+
         return $this->render('index', ['users' => $users, 'searchForm' => $searchForm]);
+    }
+
+    public function actionView($id = null)
+    {
+        $user = Users::getOneUser($id);
+
+        return $this->render('view', ['user' => $user]);
     }
 }
