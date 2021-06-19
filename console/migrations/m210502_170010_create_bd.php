@@ -283,6 +283,7 @@ class m210502_170010_create_bd extends Migration
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'rate' => $this->float(3.2),
             'title' => $this->string(255)->notNull(),
+            'budget' => $this->integer(5),
             'description' => $this->text()->notNull(),
             'doer_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
