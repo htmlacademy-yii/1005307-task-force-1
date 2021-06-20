@@ -1,10 +1,12 @@
 <?php
 require_once '../utils/my_functions.php';
 $this->title = 'Список исполнителей';
+$formatter = \Yii::$app->formatter;
 
 use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;
 use yii\helpers\Url;
+use yii\helpers\html;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
 $additionalFilter = $searchForm->attributeLabels();
@@ -31,8 +33,7 @@ $additionalFilter = $searchForm->attributeLabels();
                 <div class="content-view__feedback-card user__search-wrapper">
                     <div class="feedback-card__top">
                         <div class="user__search-icon">
-                            <a href="<?= Url::to(['users/view', 'id' => $user['id']])?>"><img src="../img/<?= $user['avatar'] ?>" width="65" height="65"
-                                             alt="<?= $user['name'] ?>"></a>
+                            <a href="<?= Url::to(['users/view', 'id' => $user['id']])?>"><?=Html::img( Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['width' => '65', 'height' => '65'])?> </a>
                             <span><?= $user['finished_task_count'] ?> <?= get_noun_plural_form($user['finished_task_count'], 'задание', 'задания', 'заданий') ?></span>
                             <span><?= $user['opinions_count'] ?> <?= get_noun_plural_form($user['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?></span>
                         </div>
@@ -48,7 +49,7 @@ $additionalFilter = $searchForm->attributeLabels();
                             </p>
                         </div>
                         <span
-                            class="new-task__time">Был на сайте <?= getPassedTimeSinceLastActivity($user['last_activity_time']) ?></span>
+                            class="new-task__time">Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time']) ?></span>
                     </div>
                     <div class="link-specialization user__search-link--bottom">
                         <?php foreach ($user['userCategories'] as $category): ?>

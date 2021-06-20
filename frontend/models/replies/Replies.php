@@ -14,7 +14,7 @@ use app\models\{
  * @property int $id
  * @property string $dt_add
  * @property float|null $rate
- * @property string $title
+ * @property int budget
  * @property string $description
  * @property int $doer_id
  * @property int $task_id
@@ -34,11 +34,10 @@ class Replies extends \yii\db\ActiveRecord
     {
         return [
             [['dt_add'], 'safe'],
-            [['rate'], 'number'],
-            [['title', 'description', 'doer_id', 'task_id'], 'required'],
+            [['rate'], ['budget'], 'number'],
+            [['description', 'doer_id', 'task_id'], 'required'],
             [['description'], 'string'],
             [['doer_id', 'task_id'], 'integer'],
-            [['title'], 'string', 'max' => 255],
             [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['doer_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
         ];
