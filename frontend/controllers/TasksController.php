@@ -6,13 +6,25 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\models\Tasks;
+use app\models\tasks\Tasks;
+use app\models\tasks\TaskSearchForm;
+use yii\web\Request;
 
 class TasksController extends Controller
 {
+
     public function actionIndex(): string
     {
-        $tasks = Tasks::getNewTasksByDate();
-        return $this->render('index', ['tasks' => $tasks]);
+        $searchForm = new TaskSearchForm();
+        $searchForm->load($this->request->post());
+        $tasks = Tasks::getNewTasksByFilters($searchForm);
+        return $this->render('index', compact('tasks', 'searchForm'));
+    }
+
+    public function actionView($id = null)
+    {
+        $task = Tasks::getOneTask($id);
+
+        return $this->render('view', ['task' => $task]);
     }
 }

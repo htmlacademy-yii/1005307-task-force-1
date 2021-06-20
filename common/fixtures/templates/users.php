@@ -17,9 +17,6 @@ return [
     'phone' => $faker->e164PhoneNumber,
     'skype' => $faker->word,
     'telegram' => $faker->word,
-    'rate' => $faker->randomFloat($nbMaxDecimals = 2, $min = 2, $max = 5),
     'city_id' => $faker->numberBetween(1, 10),
     'last_activity_time' => $faker->dateTimeThisYear($max = 'now')->format('Y-m-d H:i:s'),
-    'finished_task_count' => $faker->numberBetween(0, 40),
-    'opinions_count' => $faker->numberBetween(0, 40),
 ];

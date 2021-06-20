@@ -6,15 +6,24 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\models\Users;
+use app\models\users\UserSearchForm;
+use app\models\users\Users;
 
 class UsersController extends Controller
 {
     public function actionIndex(): string
     {
-        $users = Users::getDoersByDate();
-        {
-            return $this->render('index', ['users' => $users]);
-        }
+        $searchForm = new UserSearchForm();
+        $searchForm->load($this->request->post());
+        $users = Users::getDoersByFilters($searchForm);
+
+        return $this->render('index', ['users' => $users, 'searchForm' => $searchForm]);
+    }
+
+    public function actionView($id = null)
+    {
+        $user = Users::getOneUser($id);
+
+        return $this->render('view', ['user' => $user]);
     }
 }

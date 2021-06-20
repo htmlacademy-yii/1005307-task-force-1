@@ -1,6 +1,14 @@
 <?php
 require_once '../utils/my_functions.php';
 $this->title = 'Список заданий';
+
+use yii\widgets\ActiveForm;
+use yii\widgets\ActiveField;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
+$categoriesFilter = $searchForm->getCategoriesFilter();
+$periodFilter = $searchForm->getPeriodFilter();
 ?>
 
 <main class="page-main">
@@ -11,15 +19,16 @@ $this->title = 'Список заданий';
                 <?php foreach ($tasks as $task): ?>
                     <div class="new-task__card">
                         <div class="new-task__title">
-                            <a href="#" class="link-regular"><h2><?= $task['name'] ?></h2></a>
-                            <a class="new-task__type link-regular" href="#"><p>Категория</p></a>
+                            <a href="<?= Url::to(['tasks/view', 'id' => $task['id']])?>" class="link-regular"><h2><?= $task['name'] ?></h2></a>
+                            <a class="new-task__type link-regular" href="#"><p><?= $task['category']['name'] ?></p></a>
                         </div>
-                        <div class="new-task__icon new-task__icon--translation"></div>
+                        <div class="new-task__icon new-task__icon--<?= $task['category']['icon'] ?>"></div>
                         <p class="new-task_description">
                             <?= $task['description'] ?>
                         </p>
-                        <b class="new-task__price new-task__price--translation"><?= $task['budget'] ?><b> ₽</b></b>
-                        <p class="new-task__place">Санкт-Петербург, <?= $task['address'] ?></p>
+                        <b class="new-task__price new-task__price--<?= $task['category']['icon'] ?>"><?= $task['budget'] ?>
+                            <b> ₽</b></b>
+                        <p class="new-task__place"><?= $task['city'] ? ($task['city']['city']) : 'Удаленная работа' ?> <?= $task['address'] ?></p>
                         <span class="new-task__time"><?= getPassedTimeSinceLastActivity($task['dt_add']) ?></span>
                     </div>
                 <?php endforeach; ?>
@@ -37,37 +46,84 @@ $this->title = 'Список заданий';
         </section>
         <section class="search-task">
             <div class="search-task__wrapper">
-                <form class="search-task__form" name="test" method="post" action="#">
-                    <fieldset class="search-task__categories">
-                        <legend>Категории</legend>
-                        <input class="visually-hidden checkbox__input" id="1" type="checkbox" name="" value="" checked>
-                        <label for="1">Курьерские услуги </label>
-                        <input class="visually-hidden checkbox__input" id="2" type="checkbox" name="" value="" checked>
-                        <label for="2">Грузоперевозки </label>
-                        <input class="visually-hidden checkbox__input" id="3" type="checkbox" name="" value="">
-                        <label for="3">Переводы </label>
-                        <input class="visually-hidden checkbox__input" id="4" type="checkbox" name="" value="">
-                        <label for="4">Строительство и ремонт </label>
-                        <input class="visually-hidden checkbox__input" id="5" type="checkbox" name="" value="">
-                        <label for="5">Выгул животных </label>
-                    </fieldset>
-                    <fieldset class="search-task__categories">
-                        <legend>Дополнительно</legend>
-                        <input class="visually-hidden checkbox__input" id="6" type="checkbox" name="" value="">
-                        <label for="6">Без откликов</label>
-                        <input class="visually-hidden checkbox__input" id="7" type="checkbox" name="" value="" checked>
-                        <label for="7">Удаленная работа </label>
-                    </fieldset>
-                    <label class="search-task__name" for="8">Период</label>
-                    <select class="multiple-select input" id="8" size="1" name="time[]">
-                        <option value="day">За день</option>
-                        <option selected value="week">За неделю</option>
-                        <option value="month">За месяц</option>
-                    </select>
-                    <label class="search-task__name" for="9">Поиск по названию</label>
-                    <input class="input-middle input" id="9" type="search" name="q" placeholder="">
-                    <button class="button" type="submit">Искать</button>
-                </form>
+                <?php $form = ActiveForm::begin([
+                    'id' => 'searchForm',
+                    'method' => 'post',
+                    'options' => [
+                        'name' => 'test',
+                        'class' => 'search-task__form'
+                    ]
+                ]); ?>
+                <fieldset class="search-task__categories">
+                    <legend>Категории</legend>
+                    <?php $i = 1; ?>
+                    <?php foreach ($categoriesFilter as $id => $name) : ?>
+                        <?= $form->field($searchForm, 'searchedCategories[]', [
+                            'template' => '{input}',
+                            'options' => ['tag' => false]
+                        ])->checkbox([
+                            'label' => false,
+                            'value' => $id,
+                            'uncheck' => null,
+                            'checked' => in_array($id, $searchForm -> searchedCategories),
+                            'id' => $id,
+                            'class' => 'visually-hidden checkbox__input'
+                        ]) ?>
+                        <?php $i++; ?>
+                        <label for="<?= $id ?>"><?= $name ?></label>
+                    <?php endforeach; ?>
+                </fieldset>
+                <fieldset class="search-task__categories">
+                    <legend>Дополнительно</legend>
+                    <?= $form->field($searchForm, 'noReplies', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'noReplies',
+                        'uncheck' => null,
+                        'id' => 'noReplies',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="noReplies">Без откликов</label>
+                    <?= $form->field($searchForm, 'online', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'online',
+                        'uncheck' => null,
+                        'id' => 'online',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="online">Удаленная работа</label>
+                </fieldset>
+                <label class="search-task__name" for="<?= $i ?>">Период</label>
+                <?= $form->field($searchForm, "periodFilter", [
+                    'template' => "{input}",
+                    'options' => ['tag' => false]
+                ])->dropDownList($periodFilter, [
+                    'class' => 'multiple-select input',
+                    'id' => ($i),
+                    'size' => 1,
+                    'prompt' => [
+                        'text' => 'За всё вреня',
+                        'options' => ['value' => 'all']
+                    ]
+                ]); ?>
+                <?php $i++; ?>
+                <label class="search-task__name" for="<?= $i ?>">Поиск по названию</label>
+                <?= $form->field($searchForm, 'searchName', [
+                    'template' => "{input}",
+                    'options' => ['tag' => false],
+                    'inputOptions' => [
+                        'class' => 'input-middle input',
+                        'type' => 'search',
+                        'id' => $i
+                    ]
+                ]); ?>
+                <button class="button" type="submit">Искать</button>
+                <?php ActiveForm::end(); ?>
             </div>
         </section>
     </div>

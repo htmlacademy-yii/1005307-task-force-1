@@ -3,9 +3,6 @@
 use yii\db\Migration;
 use yii\db\Expression;
 
-/**
- * Class m210502_170010_crate_bd
- */
 class m210502_170010_create_bd extends Migration
 {
     /**
@@ -28,18 +25,13 @@ class m210502_170010_create_bd extends Migration
             'longitude' => $this->string(255)->notNull()
         ]);
 
-        $this->createTable('user_role', [
-            'id' => $this->primaryKey(),
-            'name' => $this->string(255)->notNull()->unique()
-        ]);
-
         $this->createTable('users', [
             'id' => $this->primaryKey(),
             'email' => $this->string(255)->notNull()->unique(),
             'name' => $this->string(255)->notNull()->unique(),
             'password' => $this->string(255)->notNull(),
-            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'user_role_id' => $this->integer(11)->notNull(),
+            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()'))->notNull(),
+            'user_role' => $this->string(255)->notNull(),
             'address' => $this->string(255),
             'bd' => $this->date(),
             'avatar' => $this->string(255),
@@ -47,21 +39,9 @@ class m210502_170010_create_bd extends Migration
             'phone' => $this->string(255),
             'skype' => $this->string(255),
             'telegram' => $this->string(255),
-            'rate' => $this->float(3,2)->unsigned(),
             'city_id' => $this->integer(11),
-            'last_activity_time' => $this->date()->notNull(),
-            'finished_task_count' => $this->integer(11)->notNull(),
-            'opinions_count' => $this->integer(11)->notNull()
+            'last_activity_time' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
         ]);
-
-        $this->addForeignKey(
-            'user_role_id',
-            'users',
-            'user_role_id',
-            'user_role',
-            'id',
-            'cascade'
-        );
 
         $this->addForeignKey(
             'city_id',
@@ -96,13 +76,6 @@ class m210502_170010_create_bd extends Migration
             'CASCADE'
         );
 
-
-        $this->createTable('status_task', [
-            'id' => $this->primaryKey(),
-            'name' => $this->string(255)->notNull()->unique(),
-            'type' => $this->string(255)->notNull()->unique()
-        ]);
-
         $this->createTable('tasks', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
@@ -118,7 +91,7 @@ class m210502_170010_create_bd extends Migration
             'city_id' => $this->integer(11),
             'doer_id' => $this->integer(11),
             'client_id' => $this->integer(11)->notNull(),
-            'status_task_id' => $this->integer(11)->notNull()
+            'status_task' => $this->string(255)->notNull(),
         ]);
 
         $this->addForeignKey(
@@ -153,15 +126,6 @@ class m210502_170010_create_bd extends Migration
             'tasks',
             'client_id',
             'users',
-            'id',
-            'CASCADE'
-        );
-
-        $this->addForeignKey(
-            'status_task_id',
-            'tasks',
-            'status_task_id',
-            'status_task',
             'id',
             'CASCADE'
         );
@@ -268,6 +232,7 @@ class m210502_170010_create_bd extends Migration
             'description' => $this->text()->notNull(),
             'rate' => $this->float(3.2),
             'writer_id' => $this->integer(11)->notNull(),
+            'about_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);
 
@@ -275,6 +240,15 @@ class m210502_170010_create_bd extends Migration
             'writer_o_id',
             'opinions',
             'writer_id',
+            'users',
+            'id',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            'about_o_id',
+            'opinions',
+            'about_id',
             'users',
             'id',
             'CASCADE'
@@ -309,6 +283,7 @@ class m210502_170010_create_bd extends Migration
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'rate' => $this->float(3.2),
             'title' => $this->string(255)->notNull(),
+            'budget' => $this->integer(5),
             'description' => $this->text()->notNull(),
             'doer_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
@@ -331,41 +306,37 @@ class m210502_170010_create_bd extends Migration
             'id',
             'CASCADE'
         );
+
+        $this->createTable('user_search_form', [
+            'id' => $this->primaryKey(),
+            'is_free_now' => $this->integer(1)->notNull(),
+            'is_online_now' => $this->integer(1)->notNull(),
+            'has_opinions' => $this->integer(1)->notNull(),
+            'is_favourite' => $this->integer(1)->notNull()
+        ]);
+
+        $this->createTable('task_search_form', [
+            'id' => $this->primaryKey(),
+            'no_replies' => $this->integer(1)->notNull(),
+            'online' => $this->integer(1)->notNull(),
+        ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         $this->dropTable('categories');
         $this->dropTable('cities');
-        $this->dropTable('favourites');
-        $this->dropTable('file_task');
         $this->dropTable('messages');
         $this->dropTable('notifications');
         $this->dropTable('opinions');
-        $this->dropTable('portfolio_photo');
-        $this->dropTable('profiles');
         $this->dropTable('replies');
-        $this->dropTable('status_task');
         $this->dropTable('tasks');
-        $this->dropTable('user_categories');
+        $this->dropTable('file_task');
+        $this->dropTable('task_search_form');
         $this->dropTable('users');
+        $this->dropTable('favourites');
+        $this->dropTable('portfolio_photo');
+        $this->dropTable('user_categories');
+        $this->dropTable('user_search_form');
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m210502_170010_crate_bd cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

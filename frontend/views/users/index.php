@@ -1,7 +1,15 @@
 <?php
 require_once '../utils/my_functions.php';
 $this->title = 'Список исполнителей';
+
+use yii\widgets\ActiveForm;
+use yii\widgets\ActiveField;
+use yii\helpers\Url;
+
+$categoriesFilter = $searchForm->getCategoriesFilter();
+$additionalFilter = $searchForm->attributeLabels();
 ?>
+
 <main class="page-main">
     <div class="main-container page-container">
         <section class="user__search">
@@ -23,18 +31,18 @@ $this->title = 'Список исполнителей';
                 <div class="content-view__feedback-card user__search-wrapper">
                     <div class="feedback-card__top">
                         <div class="user__search-icon">
-                            <a href="#"><img src="./img/<?= $user['avatar'] ?>" width="65" height="65"
+                            <a href="<?= Url::to(['users/view', 'id' => $user['id']])?>"><img src="../img/<?= $user['avatar'] ?>" width="65" height="65"
                                              alt="<?= $user['name'] ?>"></a>
-                            <span><?= $user['finished_task_count'] ?> <?= get_noun_plural_form(intval($user['finished_task_count']), 'задание', 'задания', 'заданий') ?></span>
-                            <span><?= $user['opinions_count'] ?> <?= get_noun_plural_form(intval($user['opinions_count']), 'отзыв', 'отзыва', 'отзывов') ?></span>
+                            <span><?= $user['finished_task_count'] ?> <?= get_noun_plural_form($user['finished_task_count'], 'задание', 'задания', 'заданий') ?></span>
+                            <span><?= $user['opinions_count'] ?> <?= get_noun_plural_form($user['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?></span>
                         </div>
                         <div class="feedback-card__top--name user__search-card">
-                            <p class="link-name"><a href="#" class="link-regular"><?= $user['name'] ?></a></p>
-                            <?php $starCount = round((float)$user['rate']) ?>
+                            <p class="link-name"><a href="<?= Url::to(['users/view', 'id' => $user['id']])?>" class="link-regular"><?= $user['name'] ?></a></p>
+                            <?php $starCount = round((float)$user['rating']) ?>
                             <?php for ($i = 1; $i <= 5; $i++): ?>
                                 <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                             <?php endfor; ?>
-                            <b><?= $user['rate'] ?></b>
+                            <b><?= floor($user['rating'] * 100) / 100 ?></b>
                             <p class="user__search-content">
                                 <?= $user['about'] ?>
                             </p>
@@ -43,50 +51,101 @@ $this->title = 'Список исполнителей';
                             class="new-task__time">Был на сайте <?= getPassedTimeSinceLastActivity($user['last_activity_time']) ?></span>
                     </div>
                     <div class="link-specialization user__search-link--bottom">
-                        <a href="#" class="link-regular">Ремонт</a>
-                        <a href="#" class="link-regular">Курьер</a>
-                        <a href="#" class="link-regular">Оператор ПК</a>
+                        <?php foreach ($user['userCategories'] as $category): ?>
+                           <a href="#" class="link-regular"><?= $category['profession'] ?></a>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             <?php endforeach; ?>
         </section>
         <section class="search-task">
             <div class="search-task__wrapper">
-                <form class="search-task__form" name="users" method="post" action="#">
-                    <fieldset class="search-task__categories">
-                        <legend>Категории</legend>
-                        <input class="visually-hidden checkbox__input" id="101" type="checkbox" name="" value="" checked
-                               disabled>
-                        <label for="101">Курьерские услуги </label>
-                        <input class="visually-hidden checkbox__input" id="102" type="checkbox" name="" value=""
-                               checked>
-                        <label for="102">Грузоперевозки </label>
-                        <input class="visually-hidden checkbox__input" id="103" type="checkbox" name="" value="">
-                        <label for="103">Переводы </label>
-                        <input class="visually-hidden checkbox__input" id="104" type="checkbox" name="" value="">
-                        <label for="104">Строительство и ремонт </label>
-                        <input class="visually-hidden checkbox__input" id="105" type="checkbox" name="" value="">
-                        <label for="105">Выгул животных </label>
-                    </fieldset>
-                    <fieldset class="search-task__categories">
-                        <legend>Дополнительно</legend>
-                        <input class="visually-hidden checkbox__input" id="106" type="checkbox" name="" value=""
-                               disabled>
-                        <label for="106">Сейчас свободен</label>
-                        <input class="visually-hidden checkbox__input" id="107" type="checkbox" name="" value=""
-                               checked>
-                        <label for="107">Сейчас онлайн</label>
-                        <input class="visually-hidden checkbox__input" id="108" type="checkbox" name="" value=""
-                               checked>
-                        <label for="108">Есть отзывы</label>
-                        <input class="visually-hidden checkbox__input" id="109" type="checkbox" name="" value=""
-                               checked>
-                        <label for="109">В избранном</label>
-                    </fieldset>
-                    <label class="search-task__name" for="110">Поиск по имени</label>
-                    <input class="input-middle input" id="110" type="search" name="q" placeholder="">
-                    <button class="button" type="submit">Искать</button>
-                </form>
+                <?php $form = ActiveForm::begin([
+                    'id' => 'searchForm',
+                    'method' => 'post',
+                    'options' => [
+                        'name' => 'test',
+                        'class' => 'search-task__form'
+                    ]
+                ]); ?>
+                <fieldset class="search-task__categories">
+                    <legend>Категории</legend>
+                    <?php $i = 1; ?>
+                    <?php foreach ($categoriesFilter as $id => $name) : ?>
+                        <?= $form->field($searchForm, 'searchedCategories[]' ,  [
+                            'template' => '{input}',
+                            'options' => ['tag' => false]
+                        ])->checkbox([
+                            'label' => false,
+                            'value' => $id,
+                            'uncheck' => null,
+                            'checked' => in_array($id, $searchForm -> searchedCategories),
+                            'id' => $id,
+                            'class' => 'visually-hidden checkbox__input'
+                        ]) ?>
+                        <?php $i++; ?>
+                         <label for="<?= $id ?>"><?= $name ?></label>
+                    <?php endforeach; ?>
+                </fieldset>
+                <fieldset class="search-task__categories">
+                    <legend>Дополнительно</legend>
+                    <?= $form->field($searchForm, 'isFreeNow', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'isFreeNow',
+                        'uncheck' => null,
+                        'id' => 'isFreeNow',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="isFreeNow">Сейчас свободен</label>
+                    <?= $form->field($searchForm, 'isOnlineNow', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'isOnlineNow',
+                        'uncheck' => null,
+                        'id' => 'isOnlineNow',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="isOnlineNow">Сейчас онлайн</label>
+                    <?= $form->field($searchForm, 'hasOpinions', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'hasOpinions',
+                        'uncheck' => null,
+                        'id' => 'hasOpinions',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="hasOpinions">С отзывами</label>
+                    <?= $form->field($searchForm, 'isFavourite', [
+                        'template' => '{input}',
+                        'options' => ['tag' => false]
+                    ])->checkbox([
+                        'label' => false,
+                        'value' => 'isFavourite',
+                        'uncheck' => null,
+                        'id' => 'isFavourite',
+                        'class' => 'visually-hidden checkbox__input'
+                    ]) ?>
+                    <label for="isFavourite">В избранном</label>
+                </fieldset>
+                <label class="search-task__name" for="<?= $i ?>">Поиск по названию</label>
+                <?= $form->field($searchForm, 'searchName', [
+                    'template' => "{input}",
+                    'options' => ['tag' => false],
+                    'inputOptions' => [
+                        'class' => 'input-middle input',
+                        'type' => 'search',
+                        'id' => $i
+                    ]
+                ]); ?>
+                <button class="button" type="submit">Искать</button>
+                <?php ActiveForm::end(); ?>
             </div>
         </section>
     </div>
