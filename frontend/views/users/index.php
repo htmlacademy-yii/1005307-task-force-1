@@ -15,20 +15,6 @@ $additionalFilter = $searchForm->attributeLabels();
 <main class="page-main">
     <div class="main-container page-container">
         <section class="user__search">
-            <div class="user__search-link">
-                <p>Сортировать по:</p>
-                <ul class="user__search-list">
-                    <li class="user__search-item">
-                        <a href="<?= Url::to(['users/', 'sort' => 'by_rating']) ?>" class="link-regular">Рейтингу</a>
-                    </li>
-                    <li class="user__search-item">
-                        <a href="<?= Url::to(['users/', 'sort' => 'by_tasks']) ?>" class="link-regular">Числу заказов</a>
-                    </li>
-                    <li class="user__search-item">
-                        <a href="<?= Url::to(['users/', 'sort' => 'by_favourites']) ?>" class="link-regular">Популярности</a>
-                    </li>
-                </ul>
-            </div>
             <?php foreach ($users as $user): ?>
                 <div class="content-view__feedback-card user__search-wrapper">
                     <div class="feedback-card__top">

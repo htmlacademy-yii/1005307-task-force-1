@@ -160,7 +160,7 @@ class Users extends \yii\db\ActiveRecord
         return new UsersQuery(get_called_class());
     }
 
-    final public static function getDoersByFilters($form, $sort)
+    final public static function getDoersByFilters(UserSearchForm $form)
     {
         $query = self::find()
             ->joinWith('opinions')
@@ -173,29 +173,9 @@ class Users extends \yii\db\ActiveRecord
             ->where(['user_role' => 'doer'])
             ->with('userCategories')
             ->with('favourites')
-            ->groupBy('users.id');
-
-        if ($sort === 'by_date') {
-            $query->orderBy(['dt_add' => SORT_DESC]);
-        }
-
-        if ($sort === 'by_rating') {
-            $query->orderBy(['AVG(opinions.rate)' => SORT_DESC]);
-        }
-
-        if ($sort === 'by_tasks') {
-            $query->orderBy(['count(opinions.description)' => SORT_DESC]);
-        }
-
-     /*   if ($sort === 'favourites') {
-          //  $query->orderBy(['count(favourite_person_id)' => SORT_DESC]);
-
-            $subQuery = Favourites::find()
-                ->select(['favourite_person_id']);
-            $query->orderBy(count($subQuery['favourite_person_id']));
-        }
-*/
-        $query->asArray();
+            ->groupBy('users.id')
+            ->orderBy(['dt_add' => SORT_DESC])
+            ->asArray();
 
         if ($form->searchedCategories) {
             $query->categoriesFilter($form->searchedCategories);
