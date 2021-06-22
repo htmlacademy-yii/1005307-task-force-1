@@ -17,7 +17,7 @@ return [
         'rate' => 3.65,
         'writer_id' => 9,
         'task_id' => 22,
-        'about_id' => 2
+        'about_id' => 1
     ],
     [
         'dt_add' => '2021-04-10 07:49:09',
@@ -53,14 +53,14 @@ return [
         'rate' => 4.72,
         'writer_id' => 4,
         'task_id' => 26,
-        'about_id' => 6
+        'about_id' => 5
     ],
     [
         'dt_add' => '2021-02-18 16:48:06',
         'title' => 'Murphy Halvorson',
         'description' => 'Est culpa dolor saepe reiciendis architecto. Voluptatem iusto officia ex aut quam odit. Ut eum ducimus qui eos dolore quisquam. Nesciunt magnam dolorem facere.',
         'rate' => 3.64,
-        'writer_id' => 7,
+        'writer_id' => 8,
         'task_id' => 27,
         'about_id' => 7
     ],
@@ -71,7 +71,7 @@ return [
         'rate' => 4.89,
         'writer_id' => 3,
         'task_id' => 28,
-        'about_id' => 9
+        'about_id' => 8
     ],
     [
         'dt_add' => '2021-02-19 15:10:14',
@@ -98,7 +98,7 @@ return [
         'rate' => 4.53,
         'writer_id' => 1,
         'task_id' => 31,
-        'about_id' => 11
+        'about_id' => 10
     ],
     [
         'dt_add' => '2021-05-03 07:10:03',

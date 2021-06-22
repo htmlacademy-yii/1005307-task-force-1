@@ -1,6 +1,7 @@
 <?php
   require_once '../utils/my_functions.php';
   $formatter = \Yii::$app->formatter;
+$this->title = 'Исполнитель ' . $user['name'];
 use yii\helpers\html;
 use yii\helpers\url;
 ?>
@@ -11,20 +12,32 @@ use yii\helpers\url;
             <div class="user__card">
                 <?=Html::img( Yii::$app->request->baseUrl . '/img/' . $user['avatar'], [ 'alt' => 'Аватар пользователя', 'width' =>'120', 'height' => '120'])?>
                 <div class="content-view__headline">
-                    <?php $opinions = $user['opinions'] ?>
-                    <?php $tasks = $user['tasksDoer'] ?>
-                    <?php $opinions_rating = count($opinions['rate'])?>
+                    <?php $opinions = $user['opinions'];
+                    $rating = 0;
+
+                    if(!empty($opinions)) {
+                        $ratesCount = 0;
+                        $ratesSum = 0;
+
+                        foreach ($opinions as $opinion) {
+                            $ratesCount++;
+                            $ratesSum += $opinion['rate'];
+                        }
+
+                        $rating = round(($ratesSum / $ratesCount), 2);
+                        $tasks = $user['tasksDoer'];
+                    }?>
                     <h1><?= $user['name'] ?></h1>
                     <p>Россия, <?= $user['city']['city'] ?>, <?= getAge($user['bd']) ?> <?= get_noun_plural_form(getAge($user['bd']), 'год', 'года', 'лет') ?></p>
                     <div class="profile-mini__name five-stars__rate">
-                        <?php $starCount = round((float)$opinions_rating) ?>
+                        <?php $starCount = round($rating) ?>
                         <?php for ($i = 1; $i <= 5; $i++): ?>
                             <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                         <?php endfor; ?>
-                        <b><?= floor($opinions_rating * 100) / 100 ?></b>
+                        <b><?= $rating ?></b>
                     </div>
                     <b class="done-task">Выполнил <?= count($tasks) ?> <?= get_noun_plural_form(count($tasks), 'заказ', 'заказа', 'заказов') ?></b>
-                    <b class="done-review"> Получил <?= count($opinions) ?> <?= get_noun_plural_form(count($opinions), 'отзыв', 'отзыва', 'отзывов') ?></b>
+                    <b class="done-review"> Получил <?= $ratesCount ?> <?= get_noun_plural_form($ratesCount, 'отзыв', 'отзыва', 'отзывов') ?></b>
                 </div>
                 <div class="content-view__headline user__card-bookmark user__card-bookmark--current">
                     <span>Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time'], strftime("%F %T"))  ?></span>
