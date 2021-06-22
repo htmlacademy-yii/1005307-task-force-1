@@ -18,14 +18,14 @@ $additionalFilter = $searchForm->attributeLabels();
             <div class="user__search-link">
                 <p>Сортировать по:</p>
                 <ul class="user__search-list">
-                    <li class="user__search-item user__search-item--current">
-                        <a href="#" class="link-regular">Рейтингу</a>
+                    <li class="user__search-item">
+                        <a href="<?= Url::to(['users/', 'sort' => 'by_rating']) ?>" class="link-regular">Рейтингу</a>
                     </li>
                     <li class="user__search-item">
-                        <a href="#" class="link-regular">Числу заказов</a>
+                        <a href="<?= Url::to(['users/', 'sort' => 'by_tasks']) ?>" class="link-regular">Числу заказов</a>
                     </li>
                     <li class="user__search-item">
-                        <a href="#" class="link-regular">Популярности</a>
+                        <a href="<?= Url::to(['users/', 'sort' => 'by_favourites']) ?>" class="link-regular">Популярности</a>
                     </li>
                 </ul>
             </div>

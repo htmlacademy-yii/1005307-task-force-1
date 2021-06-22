@@ -12,11 +12,11 @@ use yii\web\NotFoundHttpException;
 
 class UsersController extends Controller
 {
-    public function actionIndex(): string
+    public function actionIndex($sort = 'by_date'): string
     {
         $searchForm = new UserSearchForm();
         $searchForm->load($this->request->post());
-        $users = Users::getDoersByFilters($searchForm);
+        $users = Users::getDoersByFilters($searchForm, $sort);
 
         return $this->render('index', ['users' => $users, 'searchForm' => $searchForm]);
     }
