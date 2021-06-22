@@ -43,7 +43,6 @@ return [
             'rules' => [
                 'task/view/<id>' => 'tasks/view',
                 'user/view/<id>' => 'users/view',
-                'users/<sort>' => 'users',
             ],
         ],
 
