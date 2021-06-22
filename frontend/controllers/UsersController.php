@@ -8,6 +8,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\users\UserSearchForm;
 use app\models\users\Users;
+use yii\web\NotFoundHttpException;
 
 class UsersController extends Controller
 {
@@ -23,6 +24,10 @@ class UsersController extends Controller
     public function actionView($id = null)
     {
         $user = Users::getOneUser($id);
+
+        if (empty($user)) {
+            throw new NotFoundHttpException('Страница не найдена...');
+        }
 
         return $this->render('view', ['user' => $user]);
     }

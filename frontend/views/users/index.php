@@ -51,7 +51,7 @@ $additionalFilter = $searchForm->attributeLabels();
                             </p>
                         </div>
                         <span
-                            class="new-task__time">Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time']) ?> ?></span>
+                            class="new-task__time">Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time']) ?></span>
                     </div>
                     <div class="link-specialization user__search-link--bottom">
                         <?php foreach ($user['userCategories'] as $category): ?>
