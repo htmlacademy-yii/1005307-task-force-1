@@ -65,8 +65,9 @@ use yii\helpers\url;
                 </button>
             </div>
         </div>
+        <?php $replies = $task['replies'] ?>
+        <?php if ($replies) : ?>
         <div class="content-view__feedback">
-            <?php $replies = $task['replies'] ?>
             <h2>Отклики <span>(<?= count($replies) ?>)</span></h2>
             <div class="content-view__feedback-wrapper">
                 <?php foreach ($replies as $reply) : ?>
@@ -92,11 +93,13 @@ use yii\helpers\url;
                             <div class="feedback-card__top--name">
                                 <p><a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>"
                                       class="link-regular"><?= $doer['name'] ?></a></p>
+                                <?php if ($rating > 0) : ?>
                                 <?php $starCount = round($rating) ?>
                                 <?php for ($i = 1; $i <= 5; $i++): ?>
                                     <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                                 <?php endfor; ?>
                                 <b><?= $rating ?></b>
+                                <?php endif; ?>
                             </div>
                             <span
                                 class="new-task__time"><?= $formatter->asRelativeTime($task['dt_add'], strftime("%F %T")) ?></span>
@@ -117,6 +120,7 @@ use yii\helpers\url;
                 <?php endforeach; ?>
             </div>
         </div>
+        <?php endif; ?>
     </section>
     <section class="connect-desk">
         <div class="connect-desk__profile-mini">

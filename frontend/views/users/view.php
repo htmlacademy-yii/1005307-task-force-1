@@ -29,6 +29,7 @@ use yii\helpers\url;
                     }?>
                     <h1><?= $user['name'] ?></h1>
                     <p>Россия, <?= $user['city']['city'] ?>, <?= getAge($user['bd']) ?> <?= get_noun_plural_form(getAge($user['bd']), 'год', 'года', 'лет') ?></p>
+                    <?php if ($opinions) : ?>
                     <div class="profile-mini__name five-stars__rate">
                         <?php $starCount = round($rating) ?>
                         <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -38,6 +39,7 @@ use yii\helpers\url;
                     </div>
                     <b class="done-task">Выполнил <?= count($tasks) ?> <?= get_noun_plural_form(count($tasks), 'заказ', 'заказа', 'заказов') ?></b>
                     <b class="done-review"> Получил <?= $ratesCount ?> <?= get_noun_plural_form($ratesCount, 'отзыв', 'отзыва', 'отзывов') ?></b>
+                    <?php endif; ?>
                 </div>
                 <div class="content-view__headline user__card-bookmark user__card-bookmark--current">
                     <span>Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time'], strftime("%F %T"))  ?></span>
@@ -76,6 +78,7 @@ use yii\helpers\url;
                 </div>
             </div>
         </div>
+        <?php if ($opinions) : ?>
         <div class="content-view__feedback">
             <h2>Отзывы<span>(<?= count($opinions) ?>)</span></h2>
             <div class="content-view__feedback-wrapper reviews-wrapper">
@@ -99,6 +102,8 @@ use yii\helpers\url;
                 </div>
                 <?php endforeach; ?>
             </div>
+            <?php endif; ?>
+        </div>
     </section>
     <section class="connect-desk">
         <div class="connect-desk__chat">

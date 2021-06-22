@@ -39,17 +39,19 @@ $additionalFilter = $searchForm->attributeLabels();
                         </div>
                         <div class="feedback-card__top--name user__search-card">
                             <p class="link-name"><a href="<?= Url::to(['users/view', 'id' => $user['id']])?>" class="link-regular"><?= $user['name'] ?></a></p>
+                            <?php if ($user['rating'] > 0) : ?>
                             <?php $starCount = round((float)$user['rating']) ?>
                             <?php for ($i = 1; $i <= 5; $i++): ?>
                                 <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                             <?php endfor; ?>
                             <b><?= floor($user['rating'] * 100) / 100 ?></b>
+                            <?php endif; ?>
                             <p class="user__search-content">
                                 <?= $user['about'] ?>
                             </p>
                         </div>
                         <span
-                            class="new-task__time">Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time']) ?></span>
+                            class="new-task__time">Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time']) ?> ?></span>
                     </div>
                     <div class="link-specialization user__search-link--bottom">
                         <?php foreach ($user['userCategories'] as $category): ?>
