@@ -76,4 +76,19 @@ function get_noun_plural_form(int $number, string $one, string $two, string $man
     }
 }
 
+
+function getAge($date)
+{
+    return floor((time() - strtotime($date)) / (60 * 60 * 24 * 365.25));
+}
+
+function getRatingType($mark)
+{
+    if ($mark == '5' || $mark == '4') {
+        return 'five';
+    }
+
+    return 'three';
+}
+
 ?>

@@ -140,9 +140,9 @@ class Users extends \yii\db\ActiveRecord
         return $this->hasMany(Tasks::class, ['client_id' => 'id']);
     }
 
-    public function getTasks0()
+    public function getTasksDoer()
     {
-        return $this->hasMany(Tasks::class, ['doer_id' => 'id']);
+        return $this->hasMany(Tasks::class, ['doer_id' => 'id'])->andWhere(['status_task' => 'done']);
     }
 
     public function getUserCategories()
@@ -172,14 +172,13 @@ class Users extends \yii\db\ActiveRecord
             ])
             ->where(['user_role' => 'doer'])
             ->with('userCategories')
-            ->with('tasks')
             ->with('favourites')
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
 
         if ($form->searchedCategories) {
-           $query->categoriesFilter($form->searchedCategories);
+            $query->categoriesFilter($form->searchedCategories);
         }
 
         if ($form->isFreeNow) {
@@ -208,7 +207,8 @@ class Users extends \yii\db\ActiveRecord
         return $users;
     }
 
-    final public static function getOneUser($id) {
+    final public static function getOneUser($id)
+    {
         $query = self::findOne($id);
 
         return $query;

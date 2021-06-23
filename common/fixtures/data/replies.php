@@ -107,6 +107,7 @@ return [
         'description' => 'Aut quo earum repellat. Illum qui quaerat aliquam. Perspiciatis molestias alias non ut repellat sit doloremque. Qui dolor ipsam quas. Quam quaerat sed amet tempora.',
         'doer_id' => 8,
         'task_id' => 9,
+        'budget' => 3000,
     ],
     [
         'dt_add' => '2021-04-30 07:10:27',

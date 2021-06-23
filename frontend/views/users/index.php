@@ -1,10 +1,12 @@
 <?php
 require_once '../utils/my_functions.php';
 $this->title = 'Список исполнителей';
+$formatter = \Yii::$app->formatter;
 
 use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;
 use yii\helpers\Url;
+use yii\helpers\html;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
 $additionalFilter = $searchForm->attributeLabels();
@@ -13,42 +15,29 @@ $additionalFilter = $searchForm->attributeLabels();
 <main class="page-main">
     <div class="main-container page-container">
         <section class="user__search">
-            <div class="user__search-link">
-                <p>Сортировать по:</p>
-                <ul class="user__search-list">
-                    <li class="user__search-item user__search-item--current">
-                        <a href="#" class="link-regular">Рейтингу</a>
-                    </li>
-                    <li class="user__search-item">
-                        <a href="#" class="link-regular">Числу заказов</a>
-                    </li>
-                    <li class="user__search-item">
-                        <a href="#" class="link-regular">Популярности</a>
-                    </li>
-                </ul>
-            </div>
             <?php foreach ($users as $user): ?>
                 <div class="content-view__feedback-card user__search-wrapper">
                     <div class="feedback-card__top">
                         <div class="user__search-icon">
-                            <a href="<?= Url::to(['users/view', 'id' => $user['id']])?>"><img src="../img/<?= $user['avatar'] ?>" width="65" height="65"
-                                             alt="<?= $user['name'] ?>"></a>
+                            <a href="<?= Url::to(['users/view', 'id' => $user['id']])?>"><?=Html::img( Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['width' => '65', 'height' => '65'])?> </a>
                             <span><?= $user['finished_task_count'] ?> <?= get_noun_plural_form($user['finished_task_count'], 'задание', 'задания', 'заданий') ?></span>
                             <span><?= $user['opinions_count'] ?> <?= get_noun_plural_form($user['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?></span>
                         </div>
                         <div class="feedback-card__top--name user__search-card">
                             <p class="link-name"><a href="<?= Url::to(['users/view', 'id' => $user['id']])?>" class="link-regular"><?= $user['name'] ?></a></p>
+                            <?php if ($user['rating'] > 0) : ?>
                             <?php $starCount = round((float)$user['rating']) ?>
                             <?php for ($i = 1; $i <= 5; $i++): ?>
                                 <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                             <?php endfor; ?>
                             <b><?= floor($user['rating'] * 100) / 100 ?></b>
+                            <?php endif; ?>
                             <p class="user__search-content">
                                 <?= $user['about'] ?>
                             </p>
                         </div>
                         <span
-                            class="new-task__time">Был на сайте <?= getPassedTimeSinceLastActivity($user['last_activity_time']) ?></span>
+                            class="new-task__time">Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time']) ?></span>
                     </div>
                     <div class="link-specialization user__search-link--bottom">
                         <?php foreach ($user['userCategories'] as $category): ?>
