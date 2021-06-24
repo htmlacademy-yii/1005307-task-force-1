@@ -16,10 +16,6 @@ class SignController extends Controller
     public function actionIndex(): string
     {
 
-        $searchForm = new UserSearchForm();
-        $searchForm->load($this->request->post());
-        $users = Users::getDoersByFilters($searchForm);
-
-        return $this->render('index', ['users' => $users, 'searchForm' => $searchForm]);
+        return $this->render('index');
     }
 }
