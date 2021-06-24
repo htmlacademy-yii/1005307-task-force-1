@@ -1,5 +1,6 @@
 <?php
 $this->title = 'Регистрация аккаунта';
+$this->params['sign'] = true;
 ?>
 
 <div class="main-container page-container">

@@ -2,6 +2,7 @@
 require_once '../utils/my_functions.php';
 $this->title = 'Список исполнителей';
 $formatter = \Yii::$app->formatter;
+$this->params['auth'] = true;
 
 use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;
@@ -12,7 +13,6 @@ $categoriesFilter = $searchForm->getCategoriesFilter();
 $additionalFilter = $searchForm->attributeLabels();
 ?>
 
-<main class="page-main">
     <div class="main-container page-container">
         <section class="user__search">
             <?php foreach ($users as $user): ?>
@@ -138,4 +138,3 @@ $additionalFilter = $searchForm->attributeLabels();
             </div>
         </section>
     </div>
-</main>

@@ -13,9 +13,9 @@ use yii\web\NotFoundHttpException;
 
 class SignController extends Controller
 {
-    public $footerContent = '/sign/footer';
     public function actionIndex(): string
     {
+
         $searchForm = new UserSearchForm();
         $searchForm->load($this->request->post());
         $users = Users::getDoersByFilters($searchForm);
