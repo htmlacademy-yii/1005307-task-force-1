@@ -15,7 +15,6 @@ class SignController extends Controller
 {
     public function actionIndex(): string
     {
-
         return $this->render('index');
     }
 }

@@ -4,7 +4,7 @@ $formatter = \Yii::$app->formatter;
 $this->title = 'Задание ' . $task['name'];
 
 $this->params['auth'] = true;
-use yii\helpers\html;
+use yii\helpers\Html;
 use yii\helpers\url;
 
 ?>
@@ -86,7 +86,6 @@ use yii\helpers\url;
                         }
 
                         $rating = round(($ratesSum / $ratesCount), 2);
-                        $tasks = $user['tasksDoer'];
                     }?>
                     <div class="content-view__feedback-card">
                         <div class="feedback-card__top">

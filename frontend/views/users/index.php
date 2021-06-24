@@ -7,7 +7,7 @@ $this->params['auth'] = true;
 use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;
 use yii\helpers\Url;
-use yii\helpers\html;
+use yii\helpers\Html;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
 $additionalFilter = $searchForm->attributeLabels();
