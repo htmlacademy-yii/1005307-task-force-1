@@ -2,9 +2,7 @@
 declare(strict_types=1);
 
 namespace frontend\controllers;
-
-use app\models\account\SignForm;
-use app\models\users\Users;
+use app\models\tasks\Tasks;
 
 use Yii;
 use yii\base\BaseObject;
@@ -19,6 +17,7 @@ class LandingController extends Controller
     public function actionIndex(): string
     {
         $this->layout = 'anon';
-        return $this->render('index');
+        $tasks = Tasks::getLastTasks();
+        return $this->render('index', ['tasks' => $tasks]);
     }
 }
