@@ -59,4 +59,9 @@ class Cities extends \yii\db\ActiveRecord
     {
         return new CitiesQuery(get_called_class());
     }
+
+    final public static function getAll()
+    {
+        return self::find()->asArray()->all();
+    }
 }

@@ -28,10 +28,10 @@ class m210502_170010_create_bd extends Migration
         $this->createTable('users', [
             'id' => $this->primaryKey(),
             'email' => $this->string(255)->notNull()->unique(),
-            'name' => $this->string(255)->notNull()->unique(),
+            'name' => $this->string(255)->notNull(),
             'password' => $this->string(255)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()'))->notNull(),
-            'user_role' => $this->string(255)->notNull(),
+            'user_role' => $this->string(255)->notNull()->defaultValue('client'),
             'address' => $this->string(255),
             'bd' => $this->date(),
             'avatar' => $this->string(255),
@@ -319,6 +319,14 @@ class m210502_170010_create_bd extends Migration
             'id' => $this->primaryKey(),
             'no_replies' => $this->integer(1)->notNull(),
             'online' => $this->integer(1)->notNull(),
+        ]);
+
+        $this->createTable('sign_form', [
+            'id' => $this->primaryKey(),
+            'email' => $this->string(255)->notNull()->unique(),
+            'name' => $this->string(255)->notNull(),
+            'city_id' => $this->string(255)->notNull()->unique(),
+            'password' => $this->string(255)->notNull(),
         ]);
     }
 
