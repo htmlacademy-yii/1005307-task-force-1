@@ -1,12 +1,28 @@
+<?php
+
+/* @var $this \yii\web\View */
+
+/* @var $content string */
+
+use yii\helpers\Html;
+use frontend\assets\AppAsset;
+use yii\helpers\Url;
+
+AppAsset::register($this);
+?>
+<?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="<?= yii::$app->language ?>">
 <head>
-    <meta charset="UTF-8">
-    <title>TaskForce</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="<?= Yii::$app->charset ?>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php $this->registerCsrfMetaTags() ?>
+    <title><?= Html::encode($this->title) ?></title>
+    <?php $this->head() ?>
 </head>
 <body class="landing">
+<?php $this->beginBody() ?>
 <div class="table-layout">
     <header class=" page-header--index">
         <div class="main-container page-header__container page-header__container--index">
@@ -43,7 +59,7 @@
                 <a href="#" class="header__account-enter open-modal" data-for="enter-form">
                     <span>Вход</span></a>
                 или
-                <a href="signup.html" class="header__account-registration">
+                <a href="<?= Url::to(['sign/']) ?>" class="header__account-registration">
                     Регистрация
                 </a>
             </div>
@@ -94,20 +110,6 @@
                          alt="Логотип HTML Academy">
                 </a>
             </div>
-            <?php if (isset($this->params['sign'])): ?>
-                <div class="clipart-woman">
-                    <img src="./img/clipart-woman.png" width="238" height="450">
-                </div>
-                <div class="clipart-message">
-                    <div class="clipart-message-text">
-                        <h2>Знаете ли вы, что?</h2>
-                        <p>После регистрации вам будет доступно более
-                            двух тысяч заданий из двадцати разных категорий.</p>
-                        <p>В среднем, наши исполнители зарабатывают
-                            от 500 рублей в час.</p>
-                    </div>
-                </div>
-            <?php endif; ?>
         </div>
     </footer>
     <section class="modal enter-form form-modal" id="enter-form">
@@ -128,5 +130,7 @@
 </div>
 <div class="overlay"></div>
 <script src="js/main.js"></script>
+<?php $this->endBody() ?>
 </body>
 </html>
+<?php $this->endPage() ?>

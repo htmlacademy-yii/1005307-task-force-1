@@ -1,6 +1,4 @@
 <?php
-
-
 declare(strict_types=1);
 
 namespace frontend\controllers;
@@ -30,7 +28,7 @@ class SignController extends Controller
                 $user->password = Yii::$app->security->generatePasswordHash($signForm->password);
 
                 $user->save(false);
-                $this->redirect(['tasks/index']);
+                $this->redirect(['landing/']);
 
             }
         return $this->render('index', ['signForm' => $signForm]);
