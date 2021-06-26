@@ -3,7 +3,8 @@ require_once '../utils/my_functions.php';
 $formatter = \Yii::$app->formatter;
 $this->title = 'Задание ' . $task['name'];
 
-use yii\helpers\html;
+$this->params['auth'] = true;
+use yii\helpers\Html;
 use yii\helpers\url;
 
 ?>
@@ -85,7 +86,6 @@ use yii\helpers\url;
                         }
 
                         $rating = round(($ratesSum / $ratesCount), 2);
-                        $tasks = $user['tasksDoer'];
                     }?>
                     <div class="content-view__feedback-card">
                         <div class="feedback-card__top">

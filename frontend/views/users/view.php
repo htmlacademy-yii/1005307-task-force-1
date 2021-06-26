@@ -2,7 +2,8 @@
   require_once '../utils/my_functions.php';
   $formatter = \Yii::$app->formatter;
 $this->title = 'Исполнитель ' . $user['name'];
-use yii\helpers\html;
+$this->params['auth'] = true;
+use yii\helpers\Html;
 use yii\helpers\url;
 ?>
 

@@ -184,6 +184,17 @@ class Tasks extends ActiveRecord
         return $query->all();
     }
 
+    final public static function getLastTasks()
+    {
+        $query = self::find()
+            ->andwhere(['status_task' => 'new'])
+            ->with('category')
+            ->groupBy('tasks.id')
+            ->orderBy(['dt_add' => SORT_DESC])
+            ->asArray();
+        return $query->all();
+    }
+
     final public static function getOneTask($id) {
         return self::findOne($id);
     }
