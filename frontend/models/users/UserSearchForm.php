@@ -5,6 +5,7 @@ namespace app\models\users;
 use Yii;
 
 use app\models\categories\Categories;
+use yii\base\Model;
 
 /**
  * This is the model class for table "user_search_form".
@@ -15,7 +16,7 @@ use app\models\categories\Categories;
  * @property int|null $is_favourite
  */
 
-class UserSearchForm extends \yii\db\ActiveRecord
+class UserSearchForm extends Model
 {
     public $searchedCategories = [];
     public $additionalFilter = [];

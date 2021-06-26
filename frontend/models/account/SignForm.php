@@ -1,12 +1,12 @@
 <?php
 
 namespace app\models\account;
-use yii\db\ActiveRecord;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use app\models\cities\Cities;
 use app\models\users\Users;
 
-class SignForm extends ActiveRecord
+class SignForm extends Model
 {
     public $city_id;
     public $name;
@@ -28,7 +28,7 @@ class SignForm extends ActiveRecord
         return [
             [['city_id', 'name', 'email', 'password'], 'required', 'message' => "Поле «{attribute}» не может быть пустым"],
             [['city_id'], 'integer', 'message' => "Выбрано не валидное значение «{value}» поля «{attribute}»"],
-            [['password'], 'string', 'min' => 8, 'tooShort' =>  "Длина пароля от 8 символов"],
+            [['password'], 'string', 'min' => 8, 'message' =>  "Длина пароля от 8 символов"],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::class, 'targetAttribute' => ['city_id' => 'id'], 'message' => "Выбран несуществующий город"],
             [['email'], 'email', 'message' => 'Введите валидный адрес электронной почты'],
             [['email'], 'unique', 'targetAttribute' => 'email', 'targetClass' => Users::class, 'message' => "Пользователь с еmail «{value}» уже зарегистрирован"],

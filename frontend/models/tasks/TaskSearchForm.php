@@ -3,9 +3,9 @@
 namespace app\models\tasks;
 
 use app\models\categories\Categories;
-use yii\helpers\ArrayHelper;
+use yii\base\Model;
 
-class TaskSearchForm extends \yii\base\Model
+class TaskSearchForm extends Model
 {
     public $searchedCategories = [];
     public $noReplies;

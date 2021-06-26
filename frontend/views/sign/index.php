@@ -61,4 +61,3 @@ use yii\widgets\ActiveField;
     </section>
 
 </div>
-

@@ -15,22 +15,25 @@ class SignController extends Controller
     {
         return true;
     }
+
     public function actionIndex(): string
     {
-            $signForm = new SignForm();
-            if (Yii::$app->request->getIsPost()) {
-                $signForm->load(Yii::$app->request->post());
-                if (!$signForm->validate()) {
-                    $errors = $signForm->getErrors();
-                }
+        $signForm = new SignForm();
+        if (Yii::$app->request->getIsPost()) {
+            $signForm->load(Yii::$app->request->post());
+            if (!$signForm->validate()) {
+                $errors = $signForm->getErrors();
+            }
 
-                $user = new Users(['attributes' => $signForm->attributes]);
-                $user->password = Yii::$app->security->generatePasswordHash($signForm->password);
+            $user = new Users(['attributes' => $signForm->attributes]);
+            $user->password = Yii::$app->security->generatePasswordHash($signForm->password);
 
+            if ($signForm->validate()) {
                 $user->save(false);
                 $this->redirect(['landing/']);
-
             }
+
+        }
         return $this->render('index', ['signForm' => $signForm]);
     }
 }

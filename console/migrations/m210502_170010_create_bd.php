@@ -306,28 +306,6 @@ class m210502_170010_create_bd extends Migration
             'id',
             'CASCADE'
         );
-
-        $this->createTable('user_search_form', [
-            'id' => $this->primaryKey(),
-            'is_free_now' => $this->integer(1)->notNull(),
-            'is_online_now' => $this->integer(1)->notNull(),
-            'has_opinions' => $this->integer(1)->notNull(),
-            'is_favourite' => $this->integer(1)->notNull()
-        ]);
-
-        $this->createTable('task_search_form', [
-            'id' => $this->primaryKey(),
-            'no_replies' => $this->integer(1)->notNull(),
-            'online' => $this->integer(1)->notNull(),
-        ]);
-
-        $this->createTable('sign_form', [
-            'id' => $this->primaryKey(),
-            'email' => $this->string(255)->notNull()->unique(),
-            'name' => $this->string(255)->notNull(),
-            'city_id' => $this->string(255)->notNull()->unique(),
-            'password' => $this->string(255)->notNull(),
-        ]);
     }
 
     public function safeDown()
@@ -339,12 +317,10 @@ class m210502_170010_create_bd extends Migration
         $this->dropTable('opinions');
         $this->dropTable('replies');
         $this->dropTable('tasks');
-        $this->dropTable('file_task');
-        $this->dropTable('task_search_form');
+        $this->dropTable('file_task');;
         $this->dropTable('users');
         $this->dropTable('favourites');
         $this->dropTable('portfolio_photo');
         $this->dropTable('user_categories');
-        $this->dropTable('user_search_form');
     }
 }
