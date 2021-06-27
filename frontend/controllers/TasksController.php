@@ -6,8 +6,8 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\models\tasks\Tasks;
-use app\models\tasks\TaskSearchForm;
+use frontend\models\tasks\Tasks;
+use frontend\models\tasks\TaskSearchForm;
 use yii\web\Request;
 use yii\web\NotFoundHttpException;
 

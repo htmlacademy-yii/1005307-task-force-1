@@ -3,14 +3,49 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use app\models\account\SignForm;
-use app\models\users\Users;
+use frontend\models\account\SignForm;
+use frontend\models\users\Users;
+use frontend\models\account\LoginForm;
+use frontend\models\account\SignHandler;
+use yii\filters\AccessControl;
 
 use Yii;
+use yii\base\BaseObject;
 use yii\web\Controller;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class SignController extends Controller
 {
+    private $signHandler;
+
+    public function init()
+    {
+        parent::init();
+        $this->signHandler = new SignHandler();
+    }
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['logout', 'login'],
+                'rules' => [
+                    [
+                        'actions' => ['login'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
     public function beforeAction($action)
     {
         return true;
@@ -30,10 +65,37 @@ class SignController extends Controller
 
             if ($signForm->validate()) {
                 $user->save(false);
-                $this->redirect(['landing/']);
+                $this->goHome();
             }
 
         }
         return $this->render('index', ['signForm' => $signForm]);
+    }
+
+    public function actionLogin()
+    {
+        $loginForm = new LoginForm();
+
+        if ($loginForm->load(Yii::$app->request->post())) {
+
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+
+                return ActiveForm::validate($loginForm);
+            }
+
+            if ($this->signHandler->login($loginForm)) {
+                $this->redirect(['tasks/']);
+            }
+        }
+
+        return $this->goHome();
+    }
+
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+
+        return $this->goHome();
     }
 }

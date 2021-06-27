@@ -1,10 +1,10 @@
 <?php
 
-namespace app\models\account;
+namespace frontend\models\account;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
-use app\models\cities\Cities;
-use app\models\users\Users;
+use frontend\models\cities\Cities;
+use frontend\models\users\Users;
 
 class SignForm extends Model
 {

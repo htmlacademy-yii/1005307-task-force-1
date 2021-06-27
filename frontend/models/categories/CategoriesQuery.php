@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\categories;
+namespace frontend\models\categories;
 
 class CategoriesQuery extends \yii\db\ActiveQuery
 {

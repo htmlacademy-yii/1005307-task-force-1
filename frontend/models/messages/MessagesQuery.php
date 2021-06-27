@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\messages;
+namespace frontend\models\messages;
 
 class MessagesQuery extends \yii\db\ActiveQuery
 {

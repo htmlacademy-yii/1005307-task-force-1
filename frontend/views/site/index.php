@@ -1,63 +1,120 @@
 <?php
-
-/* @var $this yii\web\View */
-
-$this->title = 'My Yii Application';
+$formatter = \Yii::$app->formatter;
+$this->title = 'Главная страница';
+use yii\helpers\Url;
 ?>
-<div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+<div class="landing-container">
+    <div class="landing-top">
+        <h1>Работа для всех.<br>
+            Найди исполнителя на любую задачу.</h1>
+        <p>Сломался кран на кухне? Надо отправить документы? Нет времени самому гулять с собакой?
+            У нас вы быстро найдёте исполнителя для любой жизненной ситуации?<br>
+            Быстро, безопасно и с гарантией. Просто, как раз, два, три. </p>
+        <button class="button">Создать аккаунт</button>
     </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+    <div class="landing-center">
+        <div class="landing-instruction">
+            <div class="landing-instruction-step">
+                <div class="instruction-circle circle-request"></div>
+                <div class="instruction-description">
+                    <h3>Публикация заявки</h3>
+                    <p>Создайте новую заявку.</p>
+                    <p>Опишите в ней все детали
+                        и стоимость работы.</p>
+                </div>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+            <div class="landing-instruction-step">
+                <div class="instruction-circle  circle-choice"></div>
+                <div class="instruction-description">
+                    <h3>Выбор исполнителя</h3>
+                    <p>Получайте отклики от мастеров.</p>
+                    <p>Выберите подходящего<br>
+                        вам исполнителя.</p>
+                </div>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a>
-                </p>
+            <div class="landing-instruction-step">
+                <div class="instruction-circle  circle-discussion"></div>
+                <div class="instruction-description">
+                    <h3>Обсуждение деталей</h3>
+                    <p>Обсудите все детали работы<br>
+                        в нашем внутреннем чате.</p>
+                </div>
+            </div>
+            <div class="landing-instruction-step">
+                <div class="instruction-circle circle-payment"></div>
+                <div class="instruction-description">
+                    <h3>Оплата&nbsp;работы</h3>
+                    <p>По завершении работы оплатите
+                        услугу и закройте задание</p>
+                </div>
             </div>
         </div>
-
+        <div class="landing-notice">
+            <div class="landing-notice-card card-executor">
+                <h3>Исполнителям</h3>
+                <ul class="notice-card-list">
+                    <li>
+                        Большой выбор заданий
+                    </li>
+                    <li>
+                        Работайте где удобно
+                    </li>
+                    <li>
+                        Свободный график
+                    </li>
+                    <li>
+                        Удалённая работа
+                    </li>
+                    <li>
+                        Гарантия оплаты
+                    </li>
+                </ul>
+            </div>
+            <div class="landing-notice-card card-customer">
+                <h3>Заказчикам</h3>
+                <ul class="notice-card-list">
+                    <li>
+                        Исполнители на любую задачу
+                    </li>
+                    <li>
+                        Достоверные отзывы
+                    </li>
+                    <li>
+                        Оплата по факту работы
+                    </li>
+                    <li>
+                        Экономия времени и денег
+                    </li>
+                    <li>
+                        Выгодные цены
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="landing-bottom">
+        <div class="landing-bottom-container">
+            <h2>Последние задания на сайте</h2>
+            <?php for($i=1;$i<=4;$i++) : ?>
+                <div class="landing-task">
+                    <div class="landing-task-top task-<?= $tasks[$i]['category']['icon'] ?>"></div>
+                    <div class="landing-task-description">
+                        <h3><a href="<?= Url::to(['sign/']) ?>" class="link-regular"><?= $tasks[$i]['name'] ?></a></h3>
+                        <p><?= yii\helpers\StringHelper::truncate($tasks[$i]['description'], 90, '...') ?></p>
+                    </div>
+                    <div class="landing-task-info">
+                        <div class="task-info-left">
+                            <p><a href="<?= Url::to(['sign/']) ?>" class="link-regular"><?= $tasks[$i]['category']['name'] ?></a></p>
+                            <p><?= $formatter->asRelativeTime($tasks[$i]['dt_add']) ?></p>
+                        </div>
+                        <span><?= $tasks[$i]['budget'] ?> <b>₽</b></span>
+                    </div>
+                </div>
+            <?php endfor; ?>
+        </div>
+        <div class="landing-bottom-container">
+            <button type="button" class="button red-button">смотреть все задания</button>
+        </div>
     </div>
 </div>

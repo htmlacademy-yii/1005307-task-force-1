@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\cities;
+namespace frontend\models\cities;
 
 class CitiesQuery extends \yii\db\ActiveQuery
 {

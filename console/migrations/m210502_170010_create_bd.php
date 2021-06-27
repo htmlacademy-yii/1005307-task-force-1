@@ -317,7 +317,7 @@ class m210502_170010_create_bd extends Migration
         $this->dropTable('opinions');
         $this->dropTable('replies');
         $this->dropTable('tasks');
-        $this->dropTable('file_task');;
+        $this->dropTable('file_task');
         $this->dropTable('users');
         $this->dropTable('favourites');
         $this->dropTable('portfolio_photo');

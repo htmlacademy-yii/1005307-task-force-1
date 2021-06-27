@@ -1,11 +1,11 @@
 <?php
 
-namespace app\models\tasks;
+namespace frontend\models\tasks;
 
 use Yii;
 use yii\db\ActiveRecord;
 use yii\db\ActiveQuery;
-use app\models\{cities\Cities,
+use frontend\models\{cities\Cities,
     cities\CitiesQuery,
     categories\Categories,
     categories\CategoriesQuery,

@@ -1,9 +1,9 @@
 <?php
 
-namespace app\models\users;
+namespace frontend\models\users;
 
 use Yii;
-use app\models\{
+use frontend\models\{
     cities\Cities,
     cities\CitiesQuery,
     categories\Categories,

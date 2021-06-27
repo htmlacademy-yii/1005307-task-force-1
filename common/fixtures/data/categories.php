@@ -28,7 +28,7 @@ return [
     ],
     [
         'name' => 'Ремонт техники',
-        'icon' => 'rapair',
+        'icon' => 'repair',
         'profession' => 'Ремонт техники',
     ],
     [

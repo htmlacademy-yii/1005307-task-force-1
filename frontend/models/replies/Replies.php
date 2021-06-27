@@ -1,9 +1,9 @@
 <?php
 
-namespace app\models\replies;
+namespace frontend\models\replies;
 
 use Yii;
-use app\models\{
+use frontend\models\{
     tasks\Tasks,
     users\Users
 };

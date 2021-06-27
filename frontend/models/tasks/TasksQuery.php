@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\tasks;
+namespace frontend\models\tasks;
 
 class TasksQuery extends \yii\db\ActiveQuery
 {

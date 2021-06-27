@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\replies;
+namespace frontend\models\replies;
 
 class RepliesQuery extends \yii\db\ActiveQuery
 {

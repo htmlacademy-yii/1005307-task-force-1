@@ -1,9 +1,9 @@
 <?php
 
-namespace app\models\messages;
+namespace frontend\models\messages;
 
 use Yii;
-use app\models\{
+use frontend\models\{
     tasks\Tasks,
     users\Users
 };

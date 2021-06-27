@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace app\models\categories;
+namespace frontend\models\categories;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use app\models\{
+use frontend\models\{
     tasks\Tasks,
     users\UserCategory,
     users\Users,

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\users;
+namespace frontend\models\users;
 
 class UserCategoryQuery extends \yii\db\ActiveQuery
 {

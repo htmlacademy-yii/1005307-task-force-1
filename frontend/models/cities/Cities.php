@@ -1,9 +1,9 @@
 <?php
 
-namespace app\models\cities;
+namespace frontend\models\cities;
 
 use Yii;
-use app\models\{
+use frontend\models\{
     tasks\Tasks,
     users\Users
 };

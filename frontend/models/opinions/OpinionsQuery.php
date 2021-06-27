@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\opinions;
+namespace frontend\models\opinions;
 
 class OpinionsQuery extends \yii\db\ActiveQuery
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace app\models\users;
+namespace frontend\models\users;
 
 use Yii;
 
-use app\models\categories\Categories;
+use frontend\models\categories\Categories;
 use yii\base\Model;
 
 /**

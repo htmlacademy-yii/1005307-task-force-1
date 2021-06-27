@@ -1,9 +1,9 @@
 <?php
 
-namespace app\models\users;
+namespace frontend\models\users;
 
 use yii;
-use app\models\{
+use frontend\models\{
     tasks\Tasks
 };
 

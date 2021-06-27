@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\notifications;
+namespace frontend\models\notifications;
 
 class NotificationsQuery extends \yii\db\ActiveQuery
 {

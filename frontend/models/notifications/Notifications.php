@@ -1,9 +1,9 @@
 <?php
 
-namespace app\models\notifications;
+namespace frontend\models\notifications;
 
 use Yii;
-use app\models\{
+use frontend\models\{
     tasks\Tasks,
     users\Users
 };
