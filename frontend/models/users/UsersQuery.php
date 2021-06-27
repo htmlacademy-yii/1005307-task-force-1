@@ -1,11 +1,13 @@
 <?php
+declare(strict_types = 1);
 
 namespace frontend\models\users;
 
-use yii;
 use frontend\models\{
     tasks\Tasks
 };
+
+use yii;
 
 class UsersQuery extends \yii\db\ActiveQuery
 {

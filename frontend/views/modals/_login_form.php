@@ -10,7 +10,7 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
         'method' => 'post',
-        'action' => Url::toRoute('sign/login/'),
+        'action' => Url::toRoute('sign/login'),
         'fieldConfig' => [
             'template' => "{label}\n{input}\n{error}",
             'inputOptions' => ['class' => 'enter-form-email input input-middle'],
@@ -32,7 +32,7 @@ use yii\helpers\Url;
         'inputOptions' => [
             'id' => 'enter-password'
         ]
-    ])->passwordInput()?>
+    ])->passwordInput() ?>
     <button class="button" type="submit">Войти</button>
     <?php ActiveForm::end(); ?>
     <button class="form-modal-close" type="button">Закрыть</button>

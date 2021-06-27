@@ -1,12 +1,14 @@
 <?php
+declare(strict_types = 1);
 
 namespace frontend\models\messages;
 
-use Yii;
 use frontend\models\{
     tasks\Tasks,
     users\Users
 };
+
+use Yii;
 
 /**
  * This is the model class for table "messages".

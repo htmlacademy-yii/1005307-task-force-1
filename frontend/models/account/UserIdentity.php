@@ -1,12 +1,13 @@
 <?php
+declare(strict_types = 1);
+
 namespace frontend\models\account;
+
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use frontend\models\users\Users;
 
 class UserIdentity extends ActiveRecord implements IdentityInterface
 {
-
     public static function tableName()
     {
         return 'users';

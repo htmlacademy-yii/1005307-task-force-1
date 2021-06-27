@@ -1,16 +1,10 @@
 <?php
 
-/* @var $this \yii\web\View */
-
-/* @var $content string */
+use frontend\assets\AppAsset;
+use frontend\models\account\LoginForm;
 
 use yii\helpers\Html;
-use frontend\assets\AppAsset;
 use yii\helpers\Url;
-
-use yii\widgets\ActiveForm;
-use yii\widgets\ActiveField;
-use frontend\models\account\LoginForm;
 
 AppAsset::register($this);
 ?>

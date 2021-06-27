@@ -141,7 +141,7 @@ AppAsset::register($this);
                                 <a href="#">Настройки</a>
                             </li>
                             <li>
-                                <a href="#">Выход</a>
+                                <a href="<?=Url::toRoute('sign/logout')?>">Выход</a>
                             </li>
                         </ul>
                     </div>

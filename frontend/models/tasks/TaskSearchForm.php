@@ -1,8 +1,10 @@
 <?php
+declare(strict_types = 1);
 
 namespace frontend\models\tasks;
 
 use frontend\models\categories\Categories;
+
 use yii\base\Model;
 
 class TaskSearchForm extends Model

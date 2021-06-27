@@ -1,12 +1,14 @@
 <?php
+declare(strict_types = 1);
+
 namespace frontend\models\account;
+
 use yii\base\Model;
 
 class LoginForm extends Model
 {
     public $email;
     public $password;
-
     public $user;
 
     public function attributeLabels()
@@ -30,6 +32,7 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
+
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Неправильный email или пароль');
             }

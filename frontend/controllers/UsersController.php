@@ -1,13 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
 namespace frontend\controllers;
 
+use frontend\models\users\Users;
+use frontend\models\users\UserSearchForm;
+
 use Yii;
 use yii\web\Controller;
-use frontend\models\users\UserSearchForm;
-use frontend\models\users\Users;
 use yii\web\NotFoundHttpException;
 
 class UsersController extends Controller

@@ -1,12 +1,14 @@
 <?php
+declare(strict_types = 1);
 
 namespace frontend\models\notifications;
 
-use Yii;
 use frontend\models\{
     tasks\Tasks,
     users\Users
 };
+
+use Yii;
 
 /**
  * This is the model class for table "notifications".
@@ -22,6 +24,7 @@ use frontend\models\{
  * @property Tasks $task
  * @property Users $user
  */
+
 class Notifications extends \yii\db\ActiveRecord
 {
     public static function tableName()

@@ -1,14 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use Yii;
-use yii\web\Controller;
 use frontend\models\tasks\Tasks;
 use frontend\models\tasks\TaskSearchForm;
-use yii\web\Request;
+
+use Yii;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 class TasksController extends Controller

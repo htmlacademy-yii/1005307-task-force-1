@@ -1,14 +1,14 @@
 <?php
+declare(strict_types = 1);
 
 namespace frontend\models\opinions;
 
-use Yii;
 use frontend\models\{
     tasks\Tasks,
-    users\Users,
-    tasks\TasksQuery,
-    users\UsersQuery
+    users\Users
 };
+
+use Yii;
 
 /**
  * This is the model class for table "opinions".

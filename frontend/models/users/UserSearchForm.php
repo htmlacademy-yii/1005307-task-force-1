@@ -2,10 +2,10 @@
 
 namespace frontend\models\users;
 
-use Yii;
-
 use frontend\models\categories\Categories;
 use yii\base\Model;
+
+use Yii;
 
 /**
  * This is the model class for table "user_search_form".

@@ -1,8 +1,8 @@
 <?php
+declare(strict_types = 1);
 
 namespace frontend\models\users;
 
-use Yii;
 use frontend\models\{
     cities\Cities,
     cities\CitiesQuery,
@@ -18,8 +18,8 @@ use frontend\models\{
     tasks\Tasks,
     tasks\TasksQuery
 };
-use yii\base\BaseObject;
-use yii\db\Query;
+
+use Yii;
 
 /**
  * This is the model class for table "users".

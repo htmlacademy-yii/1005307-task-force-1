@@ -1,25 +1,19 @@
 <?php
+declare(strict_types = 1);
 
 namespace frontend\models\tasks;
 
+use frontend\models\{cities\Cities,
+    categories\Categories,
+    messages\Messages,
+    notifications\Notifications,
+    opinions\Opinions,
+    replies\Replies,
+    users\Users
+};
+
 use Yii;
 use yii\db\ActiveRecord;
-use yii\db\ActiveQuery;
-use frontend\models\{cities\Cities,
-    cities\CitiesQuery,
-    categories\Categories,
-    categories\CategoriesQuery,
-    messages\Messages,
-    messages\MessagesQuery,
-    notifications\Notifications,
-    notifications\NotificationsQuery,
-    opinions\Opinions,
-    opinions\OpinionsQuery,
-    replies\Replies,
-    replies\RepliesQuery,
-    users\Users,
-    users\UsersQuery
-};
 
 /**
  * This is the model class for table "tasks".

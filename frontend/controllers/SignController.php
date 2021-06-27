@@ -3,19 +3,18 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use frontend\models\account\SignForm;
-use frontend\models\users\Users;
 use frontend\models\account\LoginForm;
+use frontend\models\account\SignForm;
 use frontend\models\account\SignHandler;
-use yii\filters\AccessControl;
+use frontend\models\users\Users;
 
 use Yii;
-use yii\base\BaseObject;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
-class SignController extends Controller
+class  SignController extends Controller
 {
     private $signHandler;
 
@@ -33,7 +32,7 @@ class SignController extends Controller
                 'only' => ['logout', 'login'],
                 'rules' => [
                     [
-                        'actions' => ['login'],
+                        'actions' => ['sign', 'login'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -46,6 +45,7 @@ class SignController extends Controller
             ],
         ];
     }
+
     public function beforeAction($action)
     {
         return true;
@@ -54,8 +54,10 @@ class SignController extends Controller
     public function actionIndex(): string
     {
         $signForm = new SignForm();
+
         if (Yii::$app->request->getIsPost()) {
             $signForm->load(Yii::$app->request->post());
+
             if (!$signForm->validate()) {
                 $errors = $signForm->getErrors();
             }
@@ -67,8 +69,8 @@ class SignController extends Controller
                 $user->save(false);
                 $this->goHome();
             }
-
         }
+
         return $this->render('index', ['signForm' => $signForm]);
     }
 
@@ -85,7 +87,7 @@ class SignController extends Controller
             }
 
             if ($this->signHandler->login($loginForm)) {
-                $this->redirect(['tasks/']);
+                return $this->goHome();
             }
         }
 

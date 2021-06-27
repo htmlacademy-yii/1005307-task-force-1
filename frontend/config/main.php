@@ -19,7 +19,7 @@ return [
             'identityClass' => 'frontend\models\account\UserIdentity',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
-            'loginUrl' => ['sign/login']
+            'loginUrl' => ['landing/index']
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -42,6 +42,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/' => 'landing/index',
                 'task/view/<id>' => 'task/view',
                 'user/view/<id>' => 'user/view',
             ],

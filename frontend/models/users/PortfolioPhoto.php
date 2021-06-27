@@ -13,6 +13,7 @@ use Yii;
  *
  * @property Users $user
  */
+
 class PortfolioPhoto extends \yii\db\ActiveRecord
 {
     public static function tableName()

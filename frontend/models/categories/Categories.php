@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace frontend\models\categories;
 
-use Yii;
-use yii\helpers\ArrayHelper;
 use frontend\models\{
     tasks\Tasks,
     users\UserCategory,
     users\Users,
     users\UsersQuery
 };
+
+use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "categories".
