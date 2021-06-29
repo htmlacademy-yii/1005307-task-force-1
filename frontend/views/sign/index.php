@@ -3,8 +3,6 @@ $this->title = 'Регистрация аккаунта';
 $cities = $signForm->getCities();
 
 use yii\widgets\ActiveForm;
-use yii\widgets\ActiveField;
-use yii\helpers\Url;
 
 ?>
 

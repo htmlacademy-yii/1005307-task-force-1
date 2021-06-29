@@ -10,8 +10,8 @@ return [
             'locale' => 'ru-RU',
         ],
         'user' => [
+            'class' => 'yii\web\User',
             'identityClass' => 'frontend\models\users\UserIdentity',
-            'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
             'loginUrl' => ['landing/index']
         ],
@@ -33,5 +33,4 @@ return [
     ],
     'params' => $params,
     'defaultRoute' => ['landing/index'],
-    'homeUrl' => ['tasks/index'],
 ];

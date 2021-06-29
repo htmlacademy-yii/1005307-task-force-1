@@ -16,8 +16,8 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
+            'class' => 'yii\web\User',
             'identityClass' => 'frontend\models\account\UserIdentity',
-            'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
             'loginUrl' => ['landing/index']
         ],
@@ -52,5 +52,4 @@ return [
     ],
     'params' => $params,
     'defaultRoute' => 'landing/index',
-    'homeUrl' => ['tasks/index'],
 ];

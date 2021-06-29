@@ -36,7 +36,6 @@ class  SignController extends Controller
                     if ($action->actionMethod === 'actionLogout') {
                         return $this->redirect(['landing/index']);
                     } else {
-
                         return $this->goHome();
                     }
                 }
@@ -44,6 +43,9 @@ class  SignController extends Controller
         ];
     }
 
+    /**
+     * @throws \yii\base\Exception
+     */
     public function actionIndex(): string
     {
         $signForm = new SignForm();
@@ -82,7 +84,7 @@ class  SignController extends Controller
                 $user = $loginForm->getUser();
                 Yii::$app->user->login($user);
 
-                return $this->goHome();
+                return $this->redirect(['tasks/']);
             }
         }
 

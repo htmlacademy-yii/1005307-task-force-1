@@ -21,6 +21,7 @@ class m210502_170010_create_bd extends Migration
         $this->createTable('cities', [
             'id' => $this->primaryKey(),
             'city' => $this->string(255)->notNull(),
+            'value' => $this->string(255)->notNull(),
             'latitude' => $this->string(255)->notNull(),
             'longitude' => $this->string(255)->notNull()
         ]);

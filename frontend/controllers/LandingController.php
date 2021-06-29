@@ -27,7 +27,7 @@ class LandingController extends Controller
                     ]
                 ],
                 'denyCallback' => function ($rule, $action) {
-                    return $this->goHome();
+                    return $this->redirect(['tasks/']);
                 }
             ]
         ];
@@ -35,9 +35,6 @@ class LandingController extends Controller
 
     public function actionIndex()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->redirect(['tasks/']);
-        }
         $tasks = Tasks::getLastTasks();
         return $this->render('index', ['tasks' => $tasks]);
     }

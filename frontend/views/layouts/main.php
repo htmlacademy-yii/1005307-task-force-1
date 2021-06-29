@@ -6,8 +6,11 @@
 
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
-use frontend\models\account\UserIdentity;
 use yii\helpers\Url;
+use frontend\models\cities\cities;
+
+AppAsset::register($this);
+$user = \Yii::$app->user->getIdentity();
 
 AppAsset::register($this);
 ?>
@@ -99,12 +102,11 @@ AppAsset::register($this);
                 </div>
                 <?php if (!Yii::$app->user->isGuest): ?>
                     <div class="header__town">
+                        <?php $cities = new Cities ?>
                         <select class="multiple-select input town-select" size="1" name="town[]">
-                            <option value="Moscow">Москва</option>
-                            <option selected value="SPB">Санкт-Петербург</option>
-                            <option value="Krasnodar">Краснодар</option>
-                            <option value="Irkutsk">Иркутск</option>
-                            <option value="Vladivostok">Владивосток</option>
+                        <?php foreach ($cities as $city): ?>
+                        <option value="<?= $city['value'] ?>"><?= $city['city'] ?></option>
+                        <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="header__lightbulb"></div>
@@ -125,12 +127,9 @@ AppAsset::register($this);
                     </div>
                     <div class="header__account">
                         <a class="header__account-photo">
-                            <img src="/img/user-photo.png"
-                                 width="43" height="44"
-                                 alt="Аватар пользователя">
+                            <?= Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44']) ?>
                         </a>
                         <span class="header__account-name">
-                 <?php $user = new UserIdentity ?>
                  <?= $user['name'] ?>
                 </span>
                     </div>
