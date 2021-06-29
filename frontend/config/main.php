@@ -35,19 +35,22 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'landing/error',
         ],
 
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
             'rules' => [
                 '/' => 'landing/index',
-                'task/view/<id>' => 'task/view',
-                'user/view/<id>' => 'user/view',
+                'task/view/<id>' => 'task/view/',
+                'user/view/<id>' => 'user/view/',
             ],
         ],
 
     ],
     'params' => $params,
+    'defaultRoute' => 'landing/index',
+    'homeUrl' => ['tasks/index'],
 ];

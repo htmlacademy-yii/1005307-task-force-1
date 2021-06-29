@@ -7,10 +7,9 @@ use frontend\models\tasks\Tasks;
 use frontend\models\tasks\TaskSearchForm;
 
 use Yii;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class TasksController extends Controller
+class TasksController extends SecuredController
 {
 
     public function actionIndex(): string
@@ -21,7 +20,7 @@ class TasksController extends Controller
         return $this->render('index', compact('tasks', 'searchForm'));
     }
 
-    public function actionView($id = null)
+    public function actionView($id = null): string
     {
         $task = Tasks::getOneTask($id);
 

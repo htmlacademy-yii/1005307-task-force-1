@@ -5,6 +5,7 @@ use frontend\models\account\LoginForm;
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 AppAsset::register($this);
 ?>
@@ -25,7 +26,7 @@ AppAsset::register($this);
     <header class=" page-header--index">
         <div class="main-container page-header__container page-header__container--index">
             <div class="page-header__logo--index">
-                <a>
+                <a href="<?= Url::to(['landing/index']) ?>">
                     <svg class="logo-image--index" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1634 646.35">
                         <title>taskforce_logo2-01</title>
                         <g>
@@ -135,7 +136,39 @@ AppAsset::register($this);
             </div>
         </div>
     </footer>
-    <?= $this->render('//modals/_login_form', ['model' => new LoginForm]); ?>
+    <section class="modal enter-form form-modal" id="enter-form">
+        <h2>Вход на сайт</h2>
+        <?php $model = new LoginForm;
+        $form = ActiveForm::begin([
+            'id' => 'login-form',
+            'method' => 'post',
+            'action' => Url::toRoute('sign/login'),
+            'fieldConfig' => [
+                'template' => "{label}\n{input}\n{error}",
+                'inputOptions' => ['class' => 'enter-form-email input input-middle'],
+                'errorOptions' => ['tag' => 'span', 'style' => 'margin: -30px 0 20px;', 'color: #FF116E;'],
+                'options' => ['tag' => 'p'],
+                'labelOptions' => ['class' => 'form-modal-description'],
+            ],
+            'enableClientValidation' => true,
+            'enableAjaxValidation' => true,
+            'validationStateOn' => 'input',
+            'errorCssClass' => 'input-danger',
+        ]); ?>
+        <?= $form->field($model, 'email',
+            ['enableAjaxValidation' => true])
+            ->textInput(['id' => 'enter-email',
+                'type' => 'email']) ?>
+        <?= $form->field($model, "password",
+            ['enableAjaxValidation' => true])
+            ->passwordInput([
+                'id' => 'enter-password'
+            ]) ?>
+        <?= Html::submitButton('Войти',
+            ['class' => 'button']) ?>
+        <?php ActiveForm::end(); ?>
+        <button class="form-modal-close" type="button">Закрыть</button>
+    </section>
 </div>
 <div class="overlay"></div>
 <script src="js/main.js"></script>

@@ -10,8 +10,11 @@ class LoginForm extends Model
     public $email;
     public $password;
     public $user;
+    /**
+     * @var mixed
+     */
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'email' => 'EMAIL',
@@ -19,12 +22,12 @@ class LoginForm extends Model
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['email', 'password'], 'safe'],
             [['email', 'password'], 'required', 'message' => "Поле «{attribute}» не может быть пустым"],
-            ['password', 'validatePassword'],
+            [['password'], 'validatePassword'],
         ];
     }
 
@@ -39,7 +42,7 @@ class LoginForm extends Model
         }
     }
 
-    protected function getUser()
+    public function getUser(): ?UserIdentity
     {
         if ($this->user === null) {
             $this->user = UserIdentity::findOne(['email' => $this->email]);

@@ -9,6 +9,12 @@ return [
         'formatter' => [
             'locale' => 'ru-RU',
         ],
+        'user' => [
+            'identityClass' => 'frontend\models\users\UserIdentity',
+            'enableAutoLogin' => true,
+            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'loginUrl' => ['landing/index']
+        ],
         'urlManager' => [
             'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
@@ -25,4 +31,7 @@ return [
             ],
         ],
     ],
+    'params' => $params,
+    'defaultRoute' => ['landing/index'],
+    'homeUrl' => ['tasks/index'],
 ];

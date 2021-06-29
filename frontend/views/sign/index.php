@@ -57,6 +57,7 @@ use yii\helpers\Url;
                 ]
             ])->passwordInput()?>
             <button class="button button__registration" type="submit">Cоздать аккаунт</button>
+
             <?php ActiveForm::end(); ?>
         </div>
     </section>

@@ -8,7 +8,8 @@ use yii\web\IdentityInterface;
 
 class UserIdentity extends ActiveRecord implements IdentityInterface
 {
-    public static function tableName()
+
+    public static function tableName(): string
     {
         return 'users';
     }
@@ -38,7 +39,7 @@ class UserIdentity extends ActiveRecord implements IdentityInterface
         // TODO: Implement validateAuthKey() method.
     }
 
-    public function validatePassword($password)
+    public function validatePassword($password): bool
     {
         return \Yii::$app->security->validatePassword($password, $this->password);
     }

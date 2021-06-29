@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace frontend\models\account;
 
 use frontend\models\cities\Cities;
-use frontend\models\users\Users;
 
 use yii\base\Model;
 use yii\helpers\ArrayHelper;

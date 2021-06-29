@@ -5,7 +5,6 @@ namespace frontend\controllers;
 
 use frontend\models\account\LoginForm;
 use frontend\models\account\SignForm;
-use frontend\models\account\SignHandler;
 use frontend\models\users\Users;
 
 use Yii;
@@ -16,15 +15,7 @@ use yii\widgets\ActiveForm;
 
 class  SignController extends Controller
 {
-    private $signHandler;
-
-    public function init()
-    {
-        parent::init();
-        $this->signHandler = new SignHandler();
-    }
-
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'access' => [
@@ -41,14 +32,9 @@ class  SignController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                ],
+                ]
             ],
         ];
-    }
-
-    public function beforeAction($action)
-    {
-        return true;
     }
 
     public function actionIndex(): string
@@ -82,22 +68,25 @@ class  SignController extends Controller
 
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
-
                 return ActiveForm::validate($loginForm);
             }
 
-            if ($this->signHandler->login($loginForm)) {
+            if ($loginForm->validate()) {
+                $user = $loginForm->getUser();
+                Yii::$app->user->login($user);
+
                 return $this->goHome();
             }
         }
 
-        return $this->goHome();
+        return $this->redirect(['landing/index']);
     }
 
-    public function actionLogout()
+    public function actionLogout(): Response
     {
         Yii::$app->user->logout();
 
         return $this->goHome();
     }
 }
+

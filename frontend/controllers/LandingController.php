@@ -14,7 +14,7 @@ class LandingController extends Controller
 
     public $layout = 'anon';
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'access' => [
@@ -25,22 +25,18 @@ class LandingController extends Controller
                         'allow' => true,
                         'roles' => ['?']
                     ]
-                ],
-                'denyCallback' => function($rule, $action) {
-                    return $this->goHome();
-                },
+                ]
             ]
         ];
     }
 
-    public function actionIndex(): string
+    public function actionIndex()
     {
         if (!Yii::$app->user->isGuest) {
-            $this->redirect(['tasks/']);
+            return $this->redirect(['tasks/']);
         }
         $tasks = Tasks::getLastTasks();
         return $this->render('index', ['tasks' => $tasks]);
     }
 }
-// ptreutel@fahey.com
-// 8DB+459&M%%8vL7p
+
