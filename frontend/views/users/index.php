@@ -2,8 +2,6 @@
 require_once '../utils/my_functions.php';
 $this->title = 'Список исполнителей';
 $formatter = \Yii::$app->formatter;
-$this->params['auth'] = true;
-
 use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;
 use yii\helpers\Url;

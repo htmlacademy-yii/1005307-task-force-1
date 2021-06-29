@@ -20,10 +20,9 @@ class  SignController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'login'],
                 'rules' => [
                     [
-                        'actions' => ['sign', 'login'],
+                        'actions' => ['index', 'login'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -32,7 +31,15 @@ class  SignController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                ]
+                ],
+                'denyCallback' => function ($rule, $action) {
+                    if ($action->actionMethod === 'actionLogout') {
+                        return $this->redirect(['landing/index']);
+                    } else {
+
+                        return $this->goHome();
+                    }
+                }
             ],
         ];
     }

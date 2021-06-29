@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
+use frontend\models\account\UserIdentity;
 use yii\helpers\Url;
 
 AppAsset::register($this);
@@ -96,7 +97,7 @@ AppAsset::register($this);
                         </li>
                     </ul>
                 </div>
-                <?php if (isset($this->params['auth'])): ?>
+                <?php if (!Yii::$app->user->isGuest): ?>
                     <div class="header__town">
                         <select class="multiple-select input town-select" size="1" name="town[]">
                             <option value="Moscow">Москва</option>
@@ -124,12 +125,13 @@ AppAsset::register($this);
                     </div>
                     <div class="header__account">
                         <a class="header__account-photo">
-                            <img src="./img/user-photo.png"
+                            <img src="/img/user-photo.png"
                                  width="43" height="44"
                                  alt="Аватар пользователя">
                         </a>
                         <span class="header__account-name">
-                 Василий
+                 <?php $user = new UserIdentity ?>
+                 <?= $user['name'] ?>
                 </span>
                     </div>
                     <div class="account__pop-up">
@@ -186,14 +188,14 @@ AppAsset::register($this);
                 <div class="page-footer__copyright">
                     <a>
                         <img class="copyright-logo"
-                             src="./img/academy-logo.png"
+                             src="/img/academy-logo.png"
                              width="185" height="63"
                              alt="Логотип HTML Academy">
                     </a>
                 </div>
-                <?php if (isset($this->params['sign'])): ?>
+                <?php if (Yii::$app->user->isGuest): ?>
                     <div class="clipart-woman">
-                        <img src="./img/clipart-woman.png" width="238" height="450">
+                        <img src="/img/clipart-woman.png" width="238" height="450">
                     </div>
                     <div class="clipart-message">
                         <div class="clipart-message-text">
@@ -273,8 +275,8 @@ AppAsset::register($this);
     </section>
 
     <div class="overlay"></div>
-    <script src="js/main.js"></script>
-    <script src="js/messenger.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/messenger.js"></script>
 
     <?php $this->endBody() ?>
     </body>

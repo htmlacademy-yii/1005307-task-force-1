@@ -1,7 +1,6 @@
 <?php
 $this->title = 'Регистрация аккаунта';
 $cities = $signForm->getCities();
-$this->params['sign'] = true;
 
 use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;

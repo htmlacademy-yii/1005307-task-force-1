@@ -3,7 +3,6 @@ require_once '../utils/my_functions.php';
 $formatter = \Yii::$app->formatter;
 $this->title = 'Задание ' . $task['name'];
 
-$this->params['auth'] = true;
 use yii\helpers\Html;
 use yii\helpers\url;
 

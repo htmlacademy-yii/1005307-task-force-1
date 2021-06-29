@@ -25,7 +25,10 @@ class LandingController extends Controller
                         'allow' => true,
                         'roles' => ['?']
                     ]
-                ]
+                ],
+                'denyCallback' => function ($rule, $action) {
+                    return $this->goHome();
+                }
             ]
         ];
     }
