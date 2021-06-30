@@ -5,21 +5,15 @@ namespace frontend\models\users;
 
 use frontend\models\{
     cities\Cities,
-    cities\CitiesQuery,
     categories\Categories,
     messages\Messages,
-    messages\MessagesQuery,
     notifications\Notifications,
-    notifications\NotificationsQuery,
     opinions\Opinions,
-    opinions\OpinionsQuery,
     replies\Replies,
-    replies\RepliesQuery,
-    tasks\Tasks,
-    tasks\TasksQuery
+    tasks\Tasks
 };
-
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "users".
@@ -53,14 +47,14 @@ use Yii;
  * @property UserCategory[] $userCategories
  * @property Cities $city
  */
-class Users extends \yii\db\ActiveRecord
+class Users extends ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'users';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['email', 'name', 'password', 'user_role'], 'required'],
@@ -74,7 +68,7 @@ class Users extends \yii\db\ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -95,72 +89,72 @@ class Users extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getFavourites()
+    public function getFavourites(): ActiveQuery
     {
         return $this->hasMany(Favourites::class, ['favourite_person_id' => 'id']);
     }
 
-    public function getFavourites0()
+    public function getFavourites0(): ActiveQuery
     {
         return $this->hasMany(Favourites::class, ['user_id' => 'id']);
     }
 
-    public function getMessages()
+    public function getMessages(): ActiveQuery
     {
         return $this->hasMany(Messages::class, ['writer_id' => 'id']);
     }
 
-    public function getNotifications()
+    public function getNotifications(): ActiveQuery
     {
         return $this->hasMany(Notifications::class, ['user_id' => 'id']);
     }
 
-    public function getOpinions()
+    public function getOpinions(): ActiveQuery
     {
         return $this->hasMany(Opinions::class, ['about_id' => 'id']);
     }
 
-    public function getOpinions0()
+    public function getOpinions0(): ActiveQuery
     {
         return $this->hasMany(Opinions::class, ['writer_id' => 'id']);
     }
 
-    public function getPortfolioPhotos()
+    public function getPortfolioPhotos(): ActiveQuery
     {
         return $this->hasMany(PortfolioPhoto::class, ['user_id' => 'id']);
     }
 
-    public function getReplies()
+    public function getReplies(): ActiveQuery
     {
         return $this->hasMany(Replies::class, ['doer_id' => 'id']);
     }
 
-    public function getTasks()
+    public function getTasks(): ActiveQuery
     {
         return $this->hasMany(Tasks::class, ['client_id' => 'id']);
     }
 
-    public function getTasksDoer()
+    public function getTasksDoer(): ActiveQuery
     {
         return $this->hasMany(Tasks::class, ['doer_id' => 'id'])->andWhere(['status_task' => 'done']);
     }
 
-    public function getUserCategories()
+    public function getUserCategories(): ActiveQuery
     {
         return $this->hasMany(Categories::class, ['id' => 'category_id'])->viaTable('user_category', ['user_id' => 'id']);
     }
 
-    public function getCity()
+    public function getCity(): ActiveQuery
     {
         return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
-    public static function find()
+    public static function find(): UsersQuery
     {
         return new UsersQuery(get_called_class());
     }
 
-    final public static function getDoersByFilters(UserSearchForm $form)
+    final public static function getDoersByFilters(UserSearchForm $form): array
     {
         $query = self::find()
             ->joinWith('opinions')
@@ -207,10 +201,8 @@ class Users extends \yii\db\ActiveRecord
         return $users;
     }
 
-    final public static function getOneUser($id)
+    final public static function getOneUser($id): ?Users
     {
-        $query = self::findOne($id);
-
-        return $query;
+        return self::findOne($id);
     }
 }

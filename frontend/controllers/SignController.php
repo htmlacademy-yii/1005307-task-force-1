@@ -8,6 +8,7 @@ use frontend\models\account\SignForm;
 use frontend\models\users\Users;
 
 use Yii;
+use yii\base\Exception;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -44,7 +45,7 @@ class  SignController extends Controller
     }
 
     /**
-     * @throws \yii\base\Exception
+     * @throws Exception
      */
     public function actionIndex(): string
     {

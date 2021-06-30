@@ -6,7 +6,6 @@ namespace frontend\models\tasks;
 use frontend\models\categories\Categories;
 
 use yii\base\Model;
-use yii\helpers\ArrayHelper;
 
 class CreateTaskForm extends Model
 {
@@ -25,7 +24,7 @@ class CreateTaskForm extends Model
         return Categories::getCategoriesFilters();
     }
 
-    public function rules()
+    public function rules(): array
     {
 
         return [
@@ -55,7 +54,7 @@ class CreateTaskForm extends Model
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'name' => 'Мне нужно',

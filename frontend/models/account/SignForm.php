@@ -26,7 +26,7 @@ class SignForm extends Model
         return $this->cities;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['city_id', 'name', 'email', 'password'], 'required', 'message' => "Поле «{attribute}» не может быть пустым"],
@@ -39,7 +39,7 @@ class SignForm extends Model
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'email' => 'Электронная почта',

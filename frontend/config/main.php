@@ -37,7 +37,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'landing/error',
         ],
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -46,9 +45,9 @@ return [
                 '/' => 'landing/index',
                 'task/view/<id>' => 'task/view/',
                 'user/view/<id>' => 'user/view/',
+             //   'task/page/<page:\d+>' => 'tasks/index'
             ],
         ],
-
     ],
     'params' => $params,
     'defaultRoute' => 'landing/index',

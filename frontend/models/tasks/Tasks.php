@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
@@ -12,7 +12,7 @@ use frontend\models\{cities\Cities,
     users\Users
 };
 
-use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -44,7 +44,6 @@ use yii\db\ActiveRecord;
  * @property Users $client
  * @property Users $doer
  */
-
 class Tasks extends ActiveRecord
 {
     public static function tableName(): string
@@ -52,7 +51,7 @@ class Tasks extends ActiveRecord
         return 'tasks';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['dt_add', 'expire'], 'safe'],
@@ -67,7 +66,7 @@ class Tasks extends ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -88,57 +87,57 @@ class Tasks extends ActiveRecord
         ];
     }
 
-    public function getFileTasks()
+    public function getFileTasks(): ActiveQuery
     {
         return $this->hasMany(FileTask::class, ['task_id' => 'id']);
     }
 
-    public function getMessages()
+    public function getMessages(): ActiveQuery
     {
         return $this->hasMany(Messages::class, ['task_id' => 'id']);
     }
 
-    public function getNotifications()
+    public function getNotifications(): ActiveQuery
     {
         return $this->hasMany(Notifications::class, ['task_id' => 'id']);
     }
 
-    public function getOpinions()
+    public function getOpinions(): ActiveQuery
     {
         return $this->hasMany(Opinions::class, ['task_id' => 'id']);
     }
 
-    public function getReplies()
+    public function getReplies(): ActiveQuery
     {
         return $this->hasMany(Replies::class, ['task_id' => 'id']);
     }
 
-    public function getCategory()
+    public function getCategory(): ActiveQuery
     {
         return $this->hasOne(Categories::class, ['id' => 'category_id']);
     }
 
-    public function getCity()
+    public function getCity(): ActiveQuery
     {
         return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
-    public function getClient()
+    public function getClient(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'client_id']);
     }
 
-    public function getDoer()
+    public function getDoer(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
     }
 
-    public static function find()
+    public static function find(): TasksQuery
     {
         return new TasksQuery(get_called_class());
     }
 
-    final public static function getNewTasksByFilters(TaskSearchForm $form)
+    final public static function getNewTasksByFilters(TaskSearchForm $form): TasksQuery
     {
         $query = self::find()
             ->joinWith('replies')
@@ -174,11 +173,10 @@ class Tasks extends ActiveRecord
             $query->nameSearch($form->searchName);
         }
 
-
-        return $query->all();
+        return $query;
     }
 
-    final public static function getLastTasks()
+    final public static function getLastTasks(): array
     {
         $query = self::find()
             ->andwhere(['status_task' => 'new'])
@@ -189,7 +187,8 @@ class Tasks extends ActiveRecord
         return $query->all();
     }
 
-    final public static function getOneTask($id) {
+    final public static function getOneTask($id): ?Tasks
+    {
         return self::findOne($id);
     }
 }

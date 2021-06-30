@@ -7,11 +7,13 @@ namespace frontend\models\categories;
 use frontend\models\{
     tasks\Tasks,
     users\UserCategory,
-    users\Users,
-    users\UsersQuery
+    users\Users
 };
 
 use Yii;
+use yii\base\InvalidConfigException;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -26,14 +28,14 @@ use yii\helpers\ArrayHelper;
  * @property UserCategory[] $userCategories
  */
 
-class Categories extends \yii\db\ActiveRecord
+class Categories extends ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'categories';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name', 'icon'], 'required'],
@@ -44,7 +46,7 @@ class Categories extends \yii\db\ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -54,34 +56,35 @@ class Categories extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getTasks()
+    public function getTasks(): ActiveQuery
     {
         return $this->hasMany(Tasks::class, ['category_id' => 'id']);
     }
 
-    public function getUserCategory()
+    public function getUserCategory(): ActiveQuery
     {
         return $this->hasMany(UserCategory::class, ['category_id' => 'id']);
     }
 
-    public function getUsers()
+    /**
+     * @throws InvalidConfigException
+     */
+    public function getUsers(): ActiveQuery
     {
         return $this->hasMany(Users::class, ['id' => 'user_id'])->viaTable('user_category', ['categories_id' => 'id']);
     }
 
     public static function getCategoriesFilters(): array
     {
-            $categories = ArrayHelper::map(Categories::getAll(), 'id', 'name');
-
-        return $categories;
+        return ArrayHelper::map(Categories::getAll(), 'id', 'name');
     }
 
-    public static function find()
+    public static function find(): CategoriesQuery
     {
         return new CategoriesQuery(get_called_class());
     }
 
-    final public static function getAll()
+    final public static function getAll(): array
     {
         return self::find()->asArray()->all();
     }

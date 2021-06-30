@@ -3,10 +3,11 @@ declare(strict_types = 1);
 
 namespace frontend\models\users;
 
-use Yii;
 use frontend\models\{
     categories\Categories
 };
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "user_category".
@@ -18,24 +19,24 @@ use frontend\models\{
  * @property Categories $category
  * @property Users $user
  */
-class UserCategory extends \yii\db\ActiveRecord
+class UserCategory extends ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'user_category';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['user_id', 'category_id'], 'required'],
             [['user_id', 'category_id'], 'integer'],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['category_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -44,17 +45,17 @@ class UserCategory extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getCategory()
+    public function getCategory(): ActiveQuery
     {
         return $this->hasOne(Categories::class, ['id' => 'category_id']);
     }
 
-    public function getUser()
+    public function getUser(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
 
-    public static function find()
+    public static function find(): UserCategoryQuery
     {
         return new UserCategoryQuery(get_called_class());
     }

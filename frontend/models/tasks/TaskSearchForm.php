@@ -15,7 +15,7 @@ class TaskSearchForm extends Model
     public $periodFilter;
     public $searchName;
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['searchedCategories', 'periodFilter', 'searchName', 'noReplies', 'online', 'all'], 'safe'],

@@ -2,7 +2,9 @@
 
 namespace frontend\models\users;
 
-use Yii;
+
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "portfolio_photo".
@@ -14,24 +16,24 @@ use Yii;
  * @property Users $user
  */
 
-class PortfolioPhoto extends \yii\db\ActiveRecord
+class PortfolioPhoto extends ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'portfolio_photo';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['photo', 'user_id'], 'required'],
             [['user_id'], 'integer'],
             [['photo'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -40,12 +42,12 @@ class PortfolioPhoto extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getUser()
+    public function getUser(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
 
-    public static function find()
+    public static function find(): PortfolioPhotoQuery
     {
         return new PortfolioPhotoQuery(get_called_class());
     }

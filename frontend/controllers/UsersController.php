@@ -11,6 +11,12 @@ use yii\web\NotFoundHttpException;
 
 class UsersController extends SecuredController
 {
+    public function init()
+    {
+        parent::init();
+        //  $this->userAccount = \Yii::$app->user->getIdentity();
+    }
+
     public function actionIndex(): string
     {
         $searchForm = new UserSearchForm();
@@ -20,14 +26,26 @@ class UsersController extends SecuredController
         return $this->render('index', ['users' => $users, 'searchForm' => $searchForm]);
     }
 
-    public function actionView($id = null)
+    /**
+     * @throws NotFoundHttpException
+     */
+    public function actionView($id = null): string
     {
         $user = Users::getOneUser($id);
 
-        if (empty($user)) {
-            throw new NotFoundHttpException('Страница не найдена...');
+        if (!$user) {
+            throw new NotFoundHttpException("Страница не найдена");
         }
 
         return $this->render('view', ['user' => $user]);
+    }
+
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+        ];
     }
 }

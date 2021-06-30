@@ -5,7 +5,6 @@ namespace frontend\controllers;
 
 use frontend\models\tasks\Tasks;
 
-use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
@@ -33,7 +32,7 @@ class LandingController extends Controller
         ];
     }
 
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $tasks = Tasks::getLastTasks();
         return $this->render('index', ['tasks' => $tasks]);

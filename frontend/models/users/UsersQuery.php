@@ -7,9 +7,9 @@ use frontend\models\{
     tasks\Tasks
 };
 
-use yii;
+use yii\db\ActiveQuery;
 
-class UsersQuery extends \yii\db\ActiveQuery
+class UsersQuery extends ActiveQuery
 {
 
     public function categoriesFilter($targetSpecializations): self
@@ -52,7 +52,7 @@ class UsersQuery extends \yii\db\ActiveQuery
         ]);
     }
 
-    public function nameSearch($name)
+    public function nameSearch($name): UsersQuery
     {
         return $this->andFilterWhere(['like', 'users.name', $name]);
     }

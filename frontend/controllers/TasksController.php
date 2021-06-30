@@ -7,6 +7,7 @@ use frontend\models\tasks\Tasks;
 use frontend\models\tasks\TaskSearchForm;
 use frontend\models\tasks\CreateTaskForm;
 use frontend\models\tasks\FileTask;
+use yii\data\Pagination;
 
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -28,23 +29,32 @@ class TasksController extends SecuredController
     {
         $searchForm = new TaskSearchForm();
         $searchForm->load($this->request->post());
-        $tasks = Tasks::getNewTasksByFilters($searchForm);
-        return $this->render('index', compact('tasks', 'searchForm'));
+        $query = Tasks::getNewTasksByFilters($searchForm);
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
+        $tasks = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        return $this->render('index', compact('tasks', 'searchForm', 'pages'));
     }
 
     public function actionView($id = null): string
     {
         $task = Tasks::getOneTask($id);
 
-        if (empty($task)) {
+        if (!$task) {
             throw new NotFoundHttpException('Страница не найдена...');
         }
 
         return $this->render('view', ['task' => $task]);
     }
 
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $createTaskForm = new CreateTaskForm();
+
+        if ($this->user['user_role'] === 'doer') {
+            return $this->redirect(['tasks/index']);
+        }
 
         if (Yii::$app->request->getIsPost()) {
             $createTaskForm->load(Yii::$app->request->post());

@@ -10,9 +10,6 @@ class LoginForm extends Model
     public $email;
     public $password;
     public $user;
-    /**
-     * @var mixed
-     */
 
     public function attributeLabels(): array
     {
@@ -31,7 +28,7 @@ class LoginForm extends Model
         ];
     }
 
-    public function validatePassword($attribute, $params)
+    public function validatePassword($attribute)
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();

@@ -3,9 +3,8 @@
 namespace frontend\models\users;
 
 use frontend\models\categories\Categories;
-use yii\base\Model;
 
-use Yii;
+use yii\base\Model;
 
 /**
  * This is the model class for table "user_search_form".
@@ -28,19 +27,19 @@ class UserSearchForm extends Model
     public $isFavourite;
     private $categories;
 
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'user_search_form';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['searchedCategories', 'searchName', 'isFreeNow', 'isOnlineNow', 'hasOpinions', 'isFavourite'], 'safe'],
         ];
     }
 
-    public function getCategoriesFilter()
+    public function getCategoriesFilter(): array
     {
         return Categories::getCategoriesFilters();
     }
