@@ -11,7 +11,7 @@ use yii\helpers\url;
     <section class="content-view">
         <div class="user__card-wrapper">
             <div class="user__card">
-                <?=Html::img( Yii::$app->request->baseUrl . '/img/' . $user['avatar'], [ 'alt' => 'Аватар пользователя', 'width' =>'120', 'height' => '120'])?>
+                <?=$user['avatar'] ? Html::img( Yii::$app->request->baseUrl . '/img/' . $user['avatar'], [ 'alt' => 'Аватар пользователя', 'width' =>'120', 'height' => '120']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '120', 'height' => '120']) ?>
                 <div class="content-view__headline">
                     <?php $opinions = $user['opinions'];
                     $rating = 0;

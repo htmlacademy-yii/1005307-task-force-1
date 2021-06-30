@@ -129,7 +129,7 @@ AppAsset::register($this);
                 </div>
                 <div class="header__account">
                     <a class="header__account-photo">
-                        <?= $user['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44']) : "" ?>
+                        <?= $user['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '43', 'height' => '44']) ?>
                     </a>
                     <span class="header__account-name">
                         <?= $user['name'] ?>
