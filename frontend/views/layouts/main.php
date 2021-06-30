@@ -7,6 +7,7 @@
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
 use yii\helpers\Url;
+use yii\widgets\Menu;
 use frontend\models\cities\Cities;
 
 AppAsset::register($this);
@@ -31,7 +32,7 @@ AppAsset::register($this);
     <header class="page-header">
         <div class="main-container page-header__container">
             <div class="page-header__logo">
-                <a href="<?= Url::to(['landing/index']) ?>">
+                <a href="<?= Url::to(['tasks/']) ?>">
                     <svg class="page-header__logo-image" id="Layer_2" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 1634 646.35">
                         <title>taskforce_logo2-01</title>
@@ -85,20 +86,21 @@ AppAsset::register($this);
                 </a>
             </div>
             <div class="header__nav">
-                <ul class="header-nav__list site-list">
-                    <li class="site-list__item">
-                        <a href="<?= Url::to(['tasks/']) ?>">Задания</a>
-                    </li>
-                    <li class="site-list__item">
-                        <a href="<?= Url::to(['users/']) ?>">Исполнители</a>
-                    </li>
-                    <li class="site-list__item">
-                        <a href="#">Создать задание</a>
-                    </li>
-                    <li class="site-list__item">
-                        <a>Мой профиль</a>
-                    </li>
-                </ul>
+                <?=
+                Menu::widget([
+                    'items' => [
+                        ['label' => 'Задания', 'url' => ['tasks/index']],
+                        ['label' => 'Исполнители', 'url' => ['users/index']],
+                        ['label' => 'Создать задание', 'url' => ['tasks/create'], 'visible' => $user['user_role'] === 'client'],
+                        ['label' => 'Мой профиль', 'url' => ['users/view', 'id' => $user['id']]],
+                    ],
+                    'options' => [
+                        'class' => 'header-nav__list site-list',
+                    ],
+                    'activeCssClass' => 'site-list__item--active',
+                    'itemOptions' => ['class' => 'site-list__item'],
+                ]);
+                ?>
             </div>
             <?php if (!Yii::$app->user->isGuest): ?>
                 <div class="header__town">
@@ -107,7 +109,6 @@ AppAsset::register($this);
                         <?php foreach ($cities as $city): ?>
                             <option value="<?= $city['value'] ?>"><?= $city['city'] ?></option>
                         <?php endforeach; ?>
-                        <?php var_dump($cities) ?>
                     </select>
                 </div>
                 <div class="header__lightbulb"></div>
@@ -128,11 +129,11 @@ AppAsset::register($this);
                 </div>
                 <div class="header__account">
                     <a class="header__account-photo">
-                        <?= Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44']) ?>
+                        <?= $user['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44']) : "" ?>
                     </a>
                     <span class="header__account-name">
-                 <?= $user['name'] ?>
-                </span>
+                        <?= $user['name'] ?>
+                    </span>
                 </div>
                 <div class="account__pop-up">
                     <ul class="account__pop-up-list">

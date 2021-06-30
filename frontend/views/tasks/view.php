@@ -135,7 +135,7 @@ use yii\helpers\url;
                 </div>
                 <p class="info-customer">
                     <span><?= count($tasks) ?> <?= get_noun_plural_form(count($tasks), 'задание', 'задания', 'заданий') ?></span><span
-                        class="last-"><?= $formatter->asRelativeTime($client['dt_add'], strftime("%F %T")) ?> года на сайте</span>
+                        class="last-"><?= $formatter->asRelativeTime($client['dt_add'], strftime("%F %T")) ?></span>
                 </p>
                 <a href="<?= Url::to(['users/view', 'id' => $client['id']]) ?>" class="link-regular">Смотреть
                     профиль</a>

@@ -15,15 +15,16 @@ use yii\widgets\ActiveForm;
                 'method' => 'post',
                 'options' => ['class' => 'registration__user-form form-create'],
                 'validationStateOn' => 'input',
-                'errorCssClass' => 'input-danger',
                 'fieldConfig' => [
                     'template' => "{label}\n{input}\n{error}",
                     'options' => ['style' => 'margin-bottom: 27px'],
                     'inputOptions' => [
                         'class' => 'input textarea',
-                        'style' => 'width: 328px; margin-top: 12px; margin-bottom: 0px;',
+                        'style' => 'width: 100%; margin-top: 12px; margin-bottom: 0px;',
                     ],
-                    'errorOptions' => ['tag' => 'span'],
+                    'errorOptions' => ['tag' => 'span',
+                        'style' => 'color: red'
+                    ],
                     'labelOptions' => ['class' => null],
                 ]]) ?>
 

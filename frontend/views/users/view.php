@@ -29,7 +29,7 @@ use yii\helpers\url;
                         $tasks = $user['tasksDoer'];
                     }?>
                     <h1><?= $user['name'] ?></h1>
-                    <p>Россия, <?= $user['city']['city'] ?>, <?= getAge($user['bd']) ?> <?= get_noun_plural_form(getAge($user['bd']), 'год', 'года', 'лет') ?></p>
+                    <p>Россия, <?= $user['city']['city'] ?>, <?= $user['bd'] ? getAge($user['bd']) : "" ?> <?= $user['bd'] ? get_noun_plural_form(getAge($user['bd']), 'год', 'года', 'лет') : "" ?></p>
                     <?php if ($opinions) : ?>
                     <div class="profile-mini__name five-stars__rate">
                         <?php $starCount = round($rating) ?>
