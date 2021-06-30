@@ -25,12 +25,12 @@ class UsersController extends SecuredController
         $searchForm = new UserSearchForm();
         $searchForm->load($this->request->post());
         $query = Users::getDoersByFilters($searchForm);
-        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
-        $users = $query->offset($pages->offset)
-            ->limit($pages->limit)
+        $page = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5, 'forcePageParam' => false, 'pageSizeParam' => false]);
+        $users = $query->offset($page->offset)
+            ->limit($page->limit)
             ->all();
 
-        return $this->render('index', compact('users', 'searchForm', 'pages'));
+        return $this->render('index', compact('users', 'searchForm', 'page'));
     }
 
     /**

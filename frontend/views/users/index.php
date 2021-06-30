@@ -48,7 +48,7 @@ $additionalFilter = $searchForm->attributeLabels();
         <?php endforeach; ?>
         <div class="new-task__pagination">
             <?= LinkPager::widget([
-                'pagination' => $pages,
+                'pagination' => $page,
                 'options' => ([
                     'class' => 'new-task__pagination-list',
                 ]),
@@ -57,7 +57,7 @@ $additionalFilter = $searchForm->attributeLabels();
                 'prevPageCssClass' => 'pagination__item',
                 'nextPageCssClass' => 'pagination__item',
                 'linkOptions' => ([
-                    'style' => 'padding-top: 40%; height: 100%; width: 100%; text-align: center; vertical-align: middle'
+                    'style' => 'padding-top: 40%; height: 100%; width: 100%; text-align: center'
                 ])
             ]); ?>
     </section>

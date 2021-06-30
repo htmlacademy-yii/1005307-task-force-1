@@ -1,6 +1,6 @@
 <?php
   require_once '../utils/my_functions.php';
-  $formatter = \Yii::$app->formatter;
+  $formatter = Yii::$app->formatter;
 $this->title = 'Исполнитель ' . $user['name'];
 
 use yii\helpers\Html;
@@ -52,31 +52,34 @@ use yii\helpers\url;
             </div>
             <div class="user__card-general-information">
                 <div class="user__card-info">
-                    <h3 class="content-view__h3">Специализации</h3>
                     <?php $categories = $user['userCategories'] ?>
+                    <?php if ($categories) : ?>
+                    <h3 class="content-view__h3">Специализации</h3>
                     <div class="link-specialization">
                         <?php foreach ($categories as $category) : ?>
                                 <a href="#" class="link-regular"><?= $category['profession'] ?></a>
                         <?php endforeach; ?>
                     </div>
+                    <?php endif; ?>
                     <h3 class="content-view__h3">Контакты</h3>
                     <div class="user__card-link">
                         <a class="user__card-link--tel link-regular" href="tel:<?= $user['phone'] ?>"><?= $user['phone'] ?></a>
                         <?= $formatter->asEmail($user['email'], ['class' => 'user__card-link--email link-regular']) ?>
                         <?php if ($user['skype']) : ?>
                           <a class="user__card-link--skype link-regular" href="skype:<?= $user['skype'] ?>"><?= $user['skype'] ?></a>
-                        <?php endif; ?>
                     </div>
                 </div>
+                <?php endif; ?>
+                <?php if ($portfolio): ?>
                 <div class="user__card-photo">
                     <h3 class="content-view__h3">Фото работ</h3>
-                    <?php $portfolio = $user['portfolioPhotos'] ?>
                     <?php foreach ($portfolio as $portfolio_photo) : ?>
                       <a href="#">
                           <?=Html::img( Yii::$app->request->baseUrl . '/img/' . $portfolio_photo['photo'], [ 'alt' => 'Фото работы', 'width' =>'85', 'height' => '86'])?>
                       </a>
                     <?php endforeach; ?>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
         <?php if ($opinions) : ?>

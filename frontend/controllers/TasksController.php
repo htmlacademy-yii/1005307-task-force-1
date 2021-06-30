@@ -30,11 +30,11 @@ class TasksController extends SecuredController
         $searchForm = new TaskSearchForm();
         $searchForm->load($this->request->post());
         $query = Tasks::getNewTasksByFilters($searchForm);
-        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
-        $tasks = $query->offset($pages->offset)
-            ->limit($pages->limit)
+        $page = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
+        $tasks = $query->offset($page->offset)
+            ->limit($page->limit)
             ->all();
-        return $this->render('index', compact('tasks', 'searchForm', 'pages'));
+        return $this->render('index', compact('tasks', 'searchForm', 'page'));
     }
 
     public function actionView($id = null): string

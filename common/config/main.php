@@ -16,7 +16,7 @@ return [
             'loginUrl' => ['landing/index']
         ],
         'errorHandler' => [
-            'errorAction' => 'landing/error',
+     //       'errorAction' => 'landing/error',
         ],
         'urlManager' => [
             'class' => 'yii\web\UrlManager',

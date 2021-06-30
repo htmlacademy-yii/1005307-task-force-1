@@ -1,5 +1,4 @@
 <?php
-require_once '../utils/my_functions.php';
 $this->title = 'Список заданий';
 $formatter = \Yii::$app->formatter;
 
@@ -36,7 +35,7 @@ $periodFilter = $searchForm->getPeriodFilter();
         </div>
         <div class="new-task__pagination">
             <?= LinkPager::widget([
-                'pagination' => $pages,
+                'pagination' => $page,
                 'options' => ([
                     'class' => 'new-task__pagination-list',
                 ]),
@@ -44,6 +43,8 @@ $periodFilter = $searchForm->getPeriodFilter();
                 'pageCssClass' => 'pagination__item',
                 'prevPageCssClass' => 'pagination__item',
                 'nextPageCssClass' => 'pagination__item',
+                'prevPageLabel' => '',
+                'nextPageLabel' => '',
                 'linkOptions' => ([
                     'style' => 'padding-top: 40%; height: 100%; width: 100%; text-align: center; vertical-align: middle'
                 ])

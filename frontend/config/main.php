@@ -43,12 +43,14 @@ return [
             'enableStrictParsing' => false,
             'rules' => [
                 '/' => 'landing/index',
-                'task/view/<id>' => 'task/view/',
-                'user/view/<id>' => 'user/view/',
-             //   'task/page/<page:\d+>' => 'tasks/index'
+                'task/view/<id>' => 'tasks/view/',
+                'user/view/<id>' => 'users/view/',
+                'tasks/<page:\d+>' => 'tasks/index',
+                'users/<page:\d+>' => 'users/index',
+                'tasks/' => 'tasks/index',
+                'users/' => 'users/index',
             ],
         ],
     ],
-    'params' => $params,
     'defaultRoute' => 'landing/index',
 ];
