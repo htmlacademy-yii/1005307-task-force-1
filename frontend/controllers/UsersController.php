@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
+use frontend\models\tasks\Tasks;
 use frontend\models\users\Users;
 use frontend\models\users\UserSearchForm;
+use yii\data\Pagination;
 
 use Yii;
+use yii\base\BaseObject;
 use yii\web\NotFoundHttpException;
 
 class UsersController extends SecuredController
@@ -21,9 +24,13 @@ class UsersController extends SecuredController
     {
         $searchForm = new UserSearchForm();
         $searchForm->load($this->request->post());
-        $users = Users::getDoersByFilters($searchForm);
+        $query = Users::getDoersByFilters($searchForm);
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
+        $users = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
 
-        return $this->render('index', ['users' => $users, 'searchForm' => $searchForm]);
+        return $this->render('index', compact('users', 'searchForm', 'pages'));
     }
 
     /**
@@ -38,14 +45,5 @@ class UsersController extends SecuredController
         }
 
         return $this->render('view', ['user' => $user]);
-    }
-
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
     }
 }

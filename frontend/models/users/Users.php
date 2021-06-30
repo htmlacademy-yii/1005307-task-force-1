@@ -154,7 +154,7 @@ class Users extends ActiveRecord
         return new UsersQuery(get_called_class());
     }
 
-    final public static function getDoersByFilters(UserSearchForm $form): array
+    final public static function getDoersByFilters(UserSearchForm $form): UsersQuery
     {
         $query = self::find()
             ->joinWith('opinions')
@@ -191,14 +191,11 @@ class Users extends ActiveRecord
             $query->isFavouriteFilter();
         }
 
-        $users = $query->all();
-
         if ($form->searchName) {
             $query->nameSearch($form->searchName);
-            return ($query->all());
         }
 
-        return $users;
+        return $query;
     }
 
     final public static function getOneUser($id): ?Users

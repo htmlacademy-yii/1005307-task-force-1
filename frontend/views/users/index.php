@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
 $additionalFilter = $searchForm->attributeLabels();
@@ -45,6 +46,20 @@ $additionalFilter = $searchForm->attributeLabels();
                 </div>
             </div>
         <?php endforeach; ?>
+        <div class="new-task__pagination">
+            <?= LinkPager::widget([
+                'pagination' => $pages,
+                'options' => ([
+                    'class' => 'new-task__pagination-list',
+                ]),
+                'activePageCssClass' => 'pagination__item pagination__item--current',
+                'pageCssClass' => 'pagination__item',
+                'prevPageCssClass' => 'pagination__item',
+                'nextPageCssClass' => 'pagination__item',
+                'linkOptions' => ([
+                    'style' => 'padding-top: 40%; height: 100%; width: 100%; text-align: center; vertical-align: middle'
+                ])
+            ]); ?>
     </section>
     <section class="search-task">
         <div class="search-task__wrapper">

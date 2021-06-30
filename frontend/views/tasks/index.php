@@ -35,22 +35,20 @@ $periodFilter = $searchForm->getPeriodFilter();
             <?php endforeach; ?>
         </div>
         <div class="new-task__pagination">
-
-            <div class="new-task__pagination">
-                <?= LinkPager::widget([
-                    'pagination' => $pages,
-                    'options' => ([
-                        'class' => 'new-task__pagination-list',
-                    ]),
-                    'activePageCssClass' => 'pagination__item pagination__item--current',
-                    'pageCssClass' => 'pagination__item',
-                    'prevPageCssClass' => 'pagination__item',
-                    'nextPageCssClass' => 'pagination__item',
-                    'linkOptions' => ([
-                        'style' => 'padding-top: 40%; height: 100%; width: 100%; text-align: center; vertical-align: middle'
-                    ])
-                ]); ?>
-            </div>
+            <?= LinkPager::widget([
+                'pagination' => $pages,
+                'options' => ([
+                    'class' => 'new-task__pagination-list',
+                ]),
+                'activePageCssClass' => 'pagination__item pagination__item--current',
+                'pageCssClass' => 'pagination__item',
+                'prevPageCssClass' => 'pagination__item',
+                'nextPageCssClass' => 'pagination__item',
+                'linkOptions' => ([
+                    'style' => 'padding-top: 40%; height: 100%; width: 100%; text-align: center; vertical-align: middle'
+                ])
+            ]); ?>
+        </div>
     </section>
     <section class="search-task">
         <div class="search-task__wrapper">
