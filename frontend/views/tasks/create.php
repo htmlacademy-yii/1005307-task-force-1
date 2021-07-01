@@ -66,8 +66,19 @@ $categories = $createTaskForm->getCategories();
                     'options' => ['value' => 'cargo']
                 ]
             ]) -->
-            <?=$form->field($createTaskForm, 'file_task')->fileInput(); ?>
-
+            <?=$form->field($fileUploadForm, 'file_item', [
+                'inputOptions' => [
+                    'class' => 'create__file',
+                    'style' => 'width: 100%',
+                ]
+            ])->fileInput(['multiple' => true, 'accept' => 'image/*']);
+            ?>
+            <?=$form->field($fileUploadForm, 'task_id', [
+                'inputOptions' => [
+                    'style' => 'width: 100%',
+          //          'value' =>
+                ]
+            ])->textInput()?>
             <span>Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу</span>
             <div class="create__file">
                 <span>Добавить новый файл</span>

@@ -6,8 +6,11 @@ namespace frontend\controllers;
 use frontend\models\tasks\Tasks;
 use frontend\models\tasks\TaskSearchForm;
 use frontend\models\tasks\CreateTaskForm;
+use frontend\models\tasks\FileUploadForm;
 use frontend\models\tasks\FileTask;
+use yii\base\BaseObject;
 use yii\data\Pagination;
+use yii\web\UploadedFile;
 
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -19,10 +22,15 @@ class TasksController extends SecuredController
      */
     private $user;
 
+    /**
+     * @throws \Throwable
+     */
     public function init()
     {
         parent::init();
-        $this->user = \Yii::$app->user->getIdentity();
+        if (!empty(\Yii::$app->user)) {
+            $this->user = \Yii::$app->user->getIdentity();
+        }
     }
 
     public function actionIndex(): string
@@ -51,6 +59,7 @@ class TasksController extends SecuredController
     public function actionCreate()
     {
         $createTaskForm = new CreateTaskForm();
+        $fileUploadForm = new FileUploadForm();
 
         if ($this->user['user_role'] === 'doer') {
             return $this->redirect(['tasks/index']);
@@ -58,19 +67,30 @@ class TasksController extends SecuredController
 
         if (Yii::$app->request->getIsPost()) {
             $createTaskForm->load(Yii::$app->request->post());
+            $fileUploadForm->load(Yii::$app->request->post());
+            $fileUploadForm->file_item = UploadedFile::getInstance($fileUploadForm, 'file_item');
 
             if (!$createTaskForm->validate()) {
                 $errors = $createTaskForm->getErrors();
             }
 
+            if (!$fileUploadForm->validate()) {
+                $errors = $fileUploadForm->getErrors();
+            }
+            if ($fileUploadForm->upload()) {
+              //  foreach ($fileUploadForm->file_item as $file_task) {
+                    $file_task = new FileTask(['attributes' => $fileUploadForm->attributes]);
+              //  }
+            }
             $task = new Tasks(['attributes' => $createTaskForm->attributes]);
 
             if ($createTaskForm->validate()) {
                 $task->save(false);
+                $file_task->save(false);
                 return $this->redirect(['tasks/view', 'id' => $task['id']]);
             }
         }
 
-        return $this->render('create', ['createTaskForm' => $createTaskForm, 'user' => $this->user]);
+        return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user]);
     }
 }

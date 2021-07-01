@@ -31,10 +31,9 @@ return [
                 'task/view/<id>' => 'tasks/view/',
                 'user/view/<id>' => 'users/view/',
                 'task/create/' => 'tasks/create/',
-                'sign/' => 'sign/index'
+                'sign/' => 'sign/index',
             ],
         ],
     ],
-    'params' => $params,
     'defaultRoute' => ['landing/index'],
 ];

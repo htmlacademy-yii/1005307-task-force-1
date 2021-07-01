@@ -15,7 +15,6 @@ class CreateTaskForm extends Model
     public $budget;
     public $expire;
     public $client_id;
-    public $file_task;
 
     public $categories;
 
@@ -66,12 +65,12 @@ class CreateTaskForm extends Model
     public function attributeLabels(): array
     {
         return [
+            'client_id' => 'Заказчик',
             'name' => 'Мне нужно',
             'description' => 'Подробности задания',
             'budget' => 'Бюджет',
             'expire' => 'Срок исполнения',
             'categories' => 'Категория',
-            'file_task' => 'Файлы'
         ];
     }
 }
