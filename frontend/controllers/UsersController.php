@@ -25,7 +25,7 @@ class UsersController extends SecuredController
         $searchForm = new UserSearchForm();
         $searchForm->load($this->request->post());
         $query = Users::getDoersByFilters($searchForm);
-        $page = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5, 'forcePageParam' => false, 'pageSizeParam' => false]);
+        $page = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
         $users = $query->offset($page->offset)
             ->limit($page->limit)
             ->all();
@@ -33,9 +33,6 @@ class UsersController extends SecuredController
         return $this->render('index', compact('users', 'searchForm', 'page'));
     }
 
-    /**
-     * @throws NotFoundHttpException
-     */
     public function actionView($id = null): string
     {
         $user = Users::getOneUser($id);

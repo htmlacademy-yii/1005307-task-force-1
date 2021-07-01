@@ -5,11 +5,11 @@ namespace frontend\models\tasks;
 
 use frontend\models\categories\Categories;
 
+use yii;
 use yii\base\Model;
 
 class CreateTaskForm extends Model
 {
-    public $categories_id;
     public $name;
     public $description;
     public $budget;
@@ -17,7 +17,7 @@ class CreateTaskForm extends Model
     public $client_id;
     public $file_task;
 
-    private $categories = [];
+    public $categories;
 
     public function getCategories(): array
     {
@@ -30,28 +30,37 @@ class CreateTaskForm extends Model
         return [
             ['client_id', 'required'],
             ['name', 'required', 'message' => 'Кратко опишите суть работы'],
-            ['description', 'required',
-                'message' => 'Укажите все пожелания и детали, чтобы исполнителям было проще соориентироваться'
-            ],
-          //  ['categories_id', 'required', 'message' => 'Выберите категорию'],
             ['name', 'match', 'pattern' => "/(?=(.*[^ ]){5,})/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 5 не пробельных символов'
             ],
+            ['description', 'required', 'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
             ['description', 'match', 'pattern' => "/(?=(.*[^ ]){10,})/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
-            [['categories'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class,
-                'targetAttribute' => ['categories_id' => 'id'],
+      //      ['categories', 'required',  'message' => 'Выберите категорию'],
+            [
+                'categories', 'exist', 'skipOnError' => false,
+                'targetClass' => Categories::class, 'targetAttribute' => ['categories' => 'id'],
                 'message' => 'Такой категории не существует'
             ],
-            [['file_task'], 'file', 'extensions' => 'png, jpg'],
-            //[['file_'], 'file', 'extensions' => 'png, jpg'],
             ['budget', 'integer', 'min' => 1,
                 'tooSmall' => 'Значение должно быть целым положительным числом',
             ],
+            ['expire', 'validateDate'],
             ['expire', 'date', 'format' => 'yyyy*MM*dd', 'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['name', 'description', 'categories', 'file_task', 'budget', 'expire'], 'safe']
+            [['client_id', 'name', 'description', 'categories', 'budget', 'expire'], 'safe']
         ];
+    }
+
+    /**
+     * @throws yii\base\InvalidConfigException
+     */
+    public function validateDate() {
+        $currentDate = Yii::$app->getFormatter()->asDate(time());
+
+        if ($currentDate > $this->expire) {
+            $this->addError('expire', '"Срок исполнения", не может быть раньше текущей даты');
+        }
     }
 
     public function attributeLabels(): array

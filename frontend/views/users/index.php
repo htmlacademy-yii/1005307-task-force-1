@@ -56,6 +56,8 @@ $additionalFilter = $searchForm->attributeLabels();
                 'pageCssClass' => 'pagination__item',
                 'prevPageCssClass' => 'pagination__item',
                 'nextPageCssClass' => 'pagination__item',
+                'prevPageLabel' => '',
+                'nextPageLabel' => '',
                 'linkOptions' => ([
                     'style' => 'padding-top: 40%; height: 100%; width: 100%; text-align: center'
                 ])

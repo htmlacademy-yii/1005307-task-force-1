@@ -128,7 +128,7 @@ use yii\helpers\url;
                 <?php $client = $task['client'] ?>
                 <?php $tasks = $client['tasks'] ?>
                 <div class="profile-mini__top">
-                    <?= Html::img(Yii::$app->request->baseUrl . '/img/' . $client['avatar'], ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
+                    <?= $client['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $client['avatar'], ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
                     <div class="profile-mini__name five-stars__rate">
                         <p><?= $client['name'] ?></p>
                     </div>

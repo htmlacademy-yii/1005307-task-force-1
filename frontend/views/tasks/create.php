@@ -54,7 +54,7 @@ $categories = $createTaskForm->getCategories();
                     'rows' => 7
                 ]
             ])->textArea() ?>
-            <?= $form->field($createTaskForm, "categories", [
+             <!--$form->field($createTaskForm, "categories", [
                 'options' => ['style' => 'margin-top: 27px; margin-bottom: 0;'],
                 'inputOptions' => ['style' => 'width: 520px; margin-top: 12px; margin-bottom: 7px;']
             ])->dropDownList($categories, [
@@ -65,7 +65,7 @@ $categories = $createTaskForm->getCategories();
                     'text' => 'Курьер',
                     'options' => ['value' => 'cargo']
                 ]
-            ]) ?>
+            ]) -->
             <?=$form->field($createTaskForm, 'file_task')->fileInput(); ?>
 
             <span>Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу</span>

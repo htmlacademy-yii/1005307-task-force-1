@@ -16,21 +16,22 @@ return [
             'loginUrl' => ['landing/index']
         ],
         'errorHandler' => [
-     //       'errorAction' => 'landing/error',
+            'errorAction' => 'landing/error',
         ],
         'urlManager' => [
-            'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-                '//' => '/',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>/<filter:\d+>' => '<controller>/<action>'
-            ],
-
-            'cache' => [
-                'class' => 'yii\caching\FileCache',
+                '/' => 'landing/index',
+                'tasks/' => 'tasks/index',
+                'users/' => 'users/index',
+                'tasks/<page:\d+>' => 'tasks/index',
+                'users/<page:\d+>' => 'users/index',
+                'task/view/<id>' => 'tasks/view/',
+                'user/view/<id>' => 'users/view/',
+                'task/create/' => 'tasks/create/',
+                'sign/' => 'sign/index'
             ],
         ],
     ],
