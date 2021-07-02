@@ -1,7 +1,10 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\replies;
+namespace frontend\models\replies;
 
-class RepliesQuery extends \yii\db\ActiveQuery
+use yii\db\ActiveQuery;
+
+class RepliesQuery extends ActiveQuery
 {
 }

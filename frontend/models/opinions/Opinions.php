@@ -1,14 +1,14 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\opinions;
+namespace frontend\models\opinions;
 
-use Yii;
-use app\models\{
+use frontend\models\{
     tasks\Tasks,
-    users\Users,
-    tasks\TasksQuery,
-    users\UsersQuery
+    users\Users
 };
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "opinions".
@@ -27,14 +27,14 @@ use app\models\{
  * @property Users $writer
  */
 
-class Opinions extends \yii\db\ActiveRecord
+class Opinions extends ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'opinions';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['dt_add'], 'safe'],
@@ -43,13 +43,13 @@ class Opinions extends \yii\db\ActiveRecord
             [['rate'], 'number'],
             [['writer_id', 'about_id', 'task_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [['about_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['about_id' => 'id']],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
-            [['writer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['writer_id' => 'id']],
+            [['about_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['about_id' => 'id']],
+            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
+            [['writer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['writer_id' => 'id']],
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -63,22 +63,22 @@ class Opinions extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getWriter()
+    public function getWriter(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'writer_id']);
     }
 
-    public function getAbout()
+    public function getAbout(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'about_id']);
     }
 
-    public function getTask()
+    public function getTask(): ActiveQuery
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
-    public static function find()
+    public static function find(): OpinionsQuery
     {
         return new OpinionsQuery(get_called_class());
     }

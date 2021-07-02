@@ -1,7 +1,10 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\cities;
+namespace frontend\models\cities;
 
-class CitiesQuery extends \yii\db\ActiveQuery
+use yii\db\ActiveQuery;
+
+class CitiesQuery extends ActiveQuery
 {
 }

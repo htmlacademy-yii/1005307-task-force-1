@@ -16,9 +16,10 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
+            'class' => 'yii\web\User',
+            'identityClass' => 'frontend\models\account\UserIdentity',
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'loginUrl' => ['landing/index']
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -34,18 +35,23 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'landing/error',
         ],
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
             'rules' => [
-                'task/view/<id>' => 'task/view',
-                'user/view/<id>' => 'user/view',
+                '/' => 'landing/index',
+                'tasks/' => 'tasks/index',
+                'users/' => 'users/index',
+                'tasks/<page:\d+>' => 'tasks/index',
+                'users/<page:\d+>' => 'users/index',
+                'task/view/<id>' => 'tasks/view/',
+                'user/view/<id>' => 'users/view/',
+                'task/create/' => 'tasks/create/'
             ],
         ],
-
     ],
-    'params' => $params,
+    'defaultRoute' => 'landing/index',
 ];

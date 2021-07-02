@@ -1,7 +1,9 @@
 <?php
 
-namespace app\models\users;
+namespace frontend\models\users;
 
-class FavouritesQuery extends \yii\db\ActiveQuery
+use yii\db\ActiveQuery;
+
+class FavouritesQuery extends ActiveQuery
 {
 }

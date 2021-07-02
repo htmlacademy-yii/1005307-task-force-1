@@ -12,7 +12,7 @@ return [
         'profession' => 'Уборка',
     ],
     [
-        'name' => 'Переезды',
+        'name' => 'Курьерские услуги',
         'icon' => 'cargo',
         'profession' => 'Курьер',
     ],
@@ -28,7 +28,7 @@ return [
     ],
     [
         'name' => 'Ремонт техники',
-        'icon' => 'rapair',
+        'icon' => 'repair',
         'profession' => 'Ремонт техники',
     ],
     [

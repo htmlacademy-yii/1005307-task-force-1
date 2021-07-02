@@ -1,10 +1,10 @@
 <?php
 
-namespace app\models\users;
+namespace frontend\models\users;
 
-use Yii;
+use frontend\models\categories\Categories;
 
-use app\models\categories\Categories;
+use yii\base\Model;
 
 /**
  * This is the model class for table "user_search_form".
@@ -15,7 +15,7 @@ use app\models\categories\Categories;
  * @property int|null $is_favourite
  */
 
-class UserSearchForm extends \yii\db\ActiveRecord
+class UserSearchForm extends Model
 {
     public $searchedCategories = [];
     public $additionalFilter = [];
@@ -27,19 +27,19 @@ class UserSearchForm extends \yii\db\ActiveRecord
     public $isFavourite;
     private $categories;
 
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'user_search_form';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['searchedCategories', 'searchName', 'isFreeNow', 'isOnlineNow', 'hasOpinions', 'isFavourite'], 'safe'],
         ];
     }
 
-    public function getCategoriesFilter()
+    public function getCategoriesFilter(): array
     {
         return Categories::getCategoriesFilters();
     }

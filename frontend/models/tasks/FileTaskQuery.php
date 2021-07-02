@@ -1,7 +1,10 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\tasks;
+namespace frontend\models\tasks;
 
-class FileTaskQuery extends \yii\db\ActiveQuery
+use yii\db\ActiveQuery;
+
+class FileTaskQuery extends ActiveQuery
 {
 }

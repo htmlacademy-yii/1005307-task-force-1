@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
 
-namespace app\models\tasks;
+namespace frontend\models\tasks;
 
-class TasksQuery extends \yii\db\ActiveQuery
+use yii\db\ActiveQuery;
+
+class TasksQuery extends ActiveQuery
 {
 
     public function categoriesFilter(array $targetCategories): self
@@ -36,7 +39,8 @@ class TasksQuery extends \yii\db\ActiveQuery
         return $this;
     }
 
-    public function nameSearch($name) {
+    public function nameSearch($name): TasksQuery
+    {
         return $this->andFilterWhere(['like', 'tasks.name', $name]);
     }
 }

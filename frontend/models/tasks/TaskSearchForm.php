@@ -1,11 +1,13 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\tasks;
+namespace frontend\models\tasks;
 
-use app\models\categories\Categories;
-use yii\helpers\ArrayHelper;
+use frontend\models\categories\Categories;
 
-class TaskSearchForm extends \yii\base\Model
+use yii\base\Model;
+
+class TaskSearchForm extends Model
 {
     public $searchedCategories = [];
     public $noReplies;
@@ -13,7 +15,7 @@ class TaskSearchForm extends \yii\base\Model
     public $periodFilter;
     public $searchName;
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['searchedCategories', 'periodFilter', 'searchName', 'noReplies', 'online', 'all'], 'safe'],

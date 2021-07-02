@@ -1,7 +1,10 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\notifications;
+namespace frontend\models\notifications;
 
-class NotificationsQuery extends \yii\db\ActiveQuery
+use yii\db\ActiveQuery;
+
+class NotificationsQuery extends ActiveQuery
 {
 }

@@ -97,20 +97,20 @@ use yii\helpers\Url;
         <div class="landing-bottom-container">
             <h2>Последние задания на сайте</h2>
             <?php for($i=1;$i<=4;$i++) : ?>
-            <div class="landing-task">
-                <div class="landing-task-top task-<?= $tasks[$i]['category']['icon'] ?>"></div>
-                <div class="landing-task-description">
-                    <h3><a href="<?= Url::to(['sign/']) ?>" class="link-regular"><?= $tasks[$i]['name'] ?></a></h3>
-                    <p><?= yii\helpers\StringHelper::truncate($tasks[$i]['description'], 90, '...') ?></p>
-                </div>
-                <div class="landing-task-info">
-                    <div class="task-info-left">
-                        <p><a href="<?= Url::to(['sign/']) ?>" class="link-regular"><?= $tasks[$i]['category']['name'] ?></a></p>
-                        <p><?= $formatter->asRelativeTime($tasks[$i]['dt_add']) ?></p>
+                <div class="landing-task">
+                    <div class="landing-task-top task-<?= $tasks[$i]['category']['icon'] ?>"></div>
+                    <div class="landing-task-description">
+                        <h3><a href="<?= Url::to(['sign/']) ?>" class="link-regular"><?= $tasks[$i]['name'] ?></a></h3>
+                        <p><?= yii\helpers\StringHelper::truncate($tasks[$i]['description'], 90, '...') ?></p>
                     </div>
-                    <span><?= $tasks[$i]['budget'] ?> <b>₽</b></span>
+                    <div class="landing-task-info">
+                        <div class="task-info-left">
+                            <p><a href="<?= Url::to(['sign/']) ?>" class="link-regular"><?= $tasks[$i]['category']['name'] ?></a></p>
+                            <p><?= $formatter->asRelativeTime($tasks[$i]['dt_add']) ?></p>
+                        </div>
+                        <span><?= $tasks[$i]['budget'] ?> <b>₽</b></span>
+                    </div>
                 </div>
-            </div>
             <?php endfor; ?>
         </div>
         <div class="landing-bottom-container">

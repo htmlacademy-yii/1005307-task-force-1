@@ -1,12 +1,14 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\messages;
+namespace frontend\models\messages;
 
-use Yii;
-use app\models\{
+use frontend\models\{
     tasks\Tasks,
     users\Users
 };
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "messages".
@@ -20,26 +22,26 @@ use app\models\{
  * @property Tasks $task
  * @property Users $writer
  */
-class Messages extends \yii\db\ActiveRecord
+class Messages extends ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'messages';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['text', 'writer_id', 'task_id'], 'required'],
             [['text'], 'string'],
             [['dt_add'], 'safe'],
             [['writer_id', 'task_id'], 'integer'],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
-            [['writer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['writer_id' => 'id']],
+            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
+            [['writer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['writer_id' => 'id']],
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -50,17 +52,17 @@ class Messages extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getTask()
+    public function getTask(): ActiveQuery
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
-    public function getWriter()
+    public function getWriter(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'writer_id']);
     }
 
-    public static function find()
+    public static function find(): MessagesQuery
     {
         return new MessagesQuery(get_called_class());
     }

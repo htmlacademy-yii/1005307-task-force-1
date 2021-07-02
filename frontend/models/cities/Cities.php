@@ -1,12 +1,15 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\cities;
+namespace frontend\models\cities;
 
-use Yii;
-use app\models\{
+use frontend\models\{
     tasks\Tasks,
     users\Users
 };
+
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "cities".
@@ -20,14 +23,14 @@ use app\models\{
  * @property Users[] $users
  */
 
-class Cities extends \yii\db\ActiveRecord
+class Cities extends ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'cities';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['city', 'latitude', 'longitude'], 'required'],
@@ -35,7 +38,7 @@ class Cities extends \yii\db\ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -45,22 +48,22 @@ class Cities extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getTasks()
+    public function getTasks(): ActiveQuery
     {
         return $this->hasMany(Tasks::class, ['city_id' => 'id']);
     }
 
-    public function getUsers()
+    public function getUsers(): ActiveQuery
     {
         return $this->hasMany(Users::class, ['city_id' => 'id']);
     }
 
-    public static function find()
+    public static function find(): CitiesQuery
     {
         return new CitiesQuery(get_called_class());
     }
 
-    final public static function getAll()
+    final public static function getAll(): array
     {
         return self::find()->asArray()->all();
     }

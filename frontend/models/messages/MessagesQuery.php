@@ -1,7 +1,10 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\messages;
+namespace frontend\models\messages;
 
-class MessagesQuery extends \yii\db\ActiveQuery
+use yii\db\ActiveQuery;
+
+class MessagesQuery extends ActiveQuery
 {
 }

@@ -1,13 +1,15 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\users;
+namespace frontend\models\users;
 
-use yii;
-use app\models\{
+use frontend\models\{
     tasks\Tasks
 };
 
-class UsersQuery extends \yii\db\ActiveQuery
+use yii\db\ActiveQuery;
+
+class UsersQuery extends ActiveQuery
 {
 
     public function categoriesFilter($targetSpecializations): self
@@ -50,7 +52,7 @@ class UsersQuery extends \yii\db\ActiveQuery
         ]);
     }
 
-    public function nameSearch($name)
+    public function nameSearch($name): UsersQuery
     {
         return $this->andFilterWhere(['like', 'users.name', $name]);
     }

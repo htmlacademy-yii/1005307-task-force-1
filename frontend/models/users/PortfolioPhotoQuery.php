@@ -1,7 +1,10 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\users;
+namespace frontend\models\users;
 
-class PortfolioPhotoQuery extends \yii\db\ActiveQuery
+use yii\db\ActiveQuery;
+
+class PortfolioPhotoQuery extends ActiveQuery
 {
 }

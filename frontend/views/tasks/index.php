@@ -1,13 +1,12 @@
 <?php
-require_once '../utils/my_functions.php';
 $this->title = 'Список заданий';
 $formatter = \Yii::$app->formatter;
-$this->params['auth'] = true;
 
 use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\LinkPager;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
 $periodFilter = $searchForm->getPeriodFilter();
@@ -19,7 +18,7 @@ $periodFilter = $searchForm->getPeriodFilter();
             <?php foreach ($tasks as $task): ?>
                 <div class="new-task__card">
                     <div class="new-task__title">
-                        <a href="<?= Url::to(['tasks/view', 'id' => $task['id']]) ?>" class="link-regular">
+                        <a href="<?= Url::to(['tasks/view/', 'id' => $task['id']]) ?>" class="link-regular">
                             <h2><?= $task['name'] ?></h2></a>
                         <a class="new-task__type link-regular" href="#"><p><?= $task['category']['name'] ?></p></a>
                     </div>
@@ -27,22 +26,29 @@ $periodFilter = $searchForm->getPeriodFilter();
                     <p class="new-task_description">
                         <?= $task['description'] ?>
                     </p>
-                    <b class="new-task__price new-task__price--<?= $task['category']['icon'] ?>"><?= $task['budget'] ?>
-                        <b> ₽</b></b>
+                    <b class="new-task__price new-task__price--<?= $task['category']['icon'] ?>">
+                        <?= $task['budget'] ?> <b> ₽</b></b>
                     <p class="new-task__place"><?= $task['city'] ? ($task['city']['city']) : 'Удаленная работа' ?> <?= $task['address'] ?></p>
                     <span class="new-task__time"><?= $formatter->asRelativeTime($task['dt_add']) ?></span>
                 </div>
             <?php endforeach; ?>
         </div>
         <div class="new-task__pagination">
-            <ul class="new-task__pagination-list">
-                <li class="pagination__item"><a href="#"></a></li>
-                <li class="pagination__item pagination__item--current">
-                    <a>1</a></li>
-                <li class="pagination__item"><a href="#">2</a></li>
-                <li class="pagination__item"><a href="#">3</a></li>
-                <li class="pagination__item"><a href="#"></a></li>
-            </ul>
+            <?= LinkPager::widget([
+                'pagination' => $page,
+                'options' => ([
+                    'class' => 'new-task__pagination-list',
+                ]),
+                'activePageCssClass' => 'pagination__item pagination__item--current',
+                'pageCssClass' => 'pagination__item',
+                'prevPageCssClass' => 'pagination__item',
+                'nextPageCssClass' => 'pagination__item',
+                'prevPageLabel' => '',
+                'nextPageLabel' => '',
+                'linkOptions' => ([
+                    'style' => 'padding-top: 40%; height: 100%; width: 100%; text-align: center; vertical-align: middle'
+                ])
+            ]); ?>
         </div>
     </section>
     <section class="search-task">
@@ -123,7 +129,8 @@ $periodFilter = $searchForm->getPeriodFilter();
                     'id' => $i
                 ]
             ]); ?>
-            <button class="button" type="submit">Искать</button>
+            <?= Html::submitButton('Искать',
+                ['class' => 'button']) ?>
             <?php ActiveForm::end(); ?>
         </div>
     </section>

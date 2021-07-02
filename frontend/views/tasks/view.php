@@ -3,7 +3,6 @@ require_once '../utils/my_functions.php';
 $formatter = \Yii::$app->formatter;
 $this->title = 'Задание ' . $task['name'];
 
-$this->params['auth'] = true;
 use yii\helpers\Html;
 use yii\helpers\url;
 
@@ -129,14 +128,14 @@ use yii\helpers\url;
                 <?php $client = $task['client'] ?>
                 <?php $tasks = $client['tasks'] ?>
                 <div class="profile-mini__top">
-                    <?= Html::img(Yii::$app->request->baseUrl . '/img/' . $client['avatar'], ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
+                    <?= $client['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $client['avatar'], ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
                     <div class="profile-mini__name five-stars__rate">
                         <p><?= $client['name'] ?></p>
                     </div>
                 </div>
                 <p class="info-customer">
                     <span><?= count($tasks) ?> <?= get_noun_plural_form(count($tasks), 'задание', 'задания', 'заданий') ?></span><span
-                        class="last-"><?= $formatter->asRelativeTime($client['dt_add'], strftime("%F %T")) ?> года на сайте</span>
+                        class="last-"><?= $formatter->asRelativeTime($client['dt_add'], strftime("%F %T")) ?></span>
                 </p>
                 <a href="<?= Url::to(['users/view', 'id' => $client['id']]) ?>" class="link-regular">Смотреть
                     профиль</a>

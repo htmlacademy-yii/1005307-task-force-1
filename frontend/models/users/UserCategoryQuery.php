@@ -1,7 +1,10 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\users;
+namespace frontend\models\users;
 
-class UserCategoryQuery extends \yii\db\ActiveQuery
+use yii\db\ActiveQuery;
+
+class UserCategoryQuery extends ActiveQuery
 {
 }

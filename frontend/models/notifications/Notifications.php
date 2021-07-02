@@ -1,12 +1,14 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\notifications;
+namespace frontend\models\notifications;
 
-use Yii;
-use app\models\{
+use frontend\models\{
     tasks\Tasks,
     users\Users
 };
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "notifications".
@@ -22,26 +24,27 @@ use app\models\{
  * @property Tasks $task
  * @property Users $user
  */
-class Notifications extends \yii\db\ActiveRecord
+
+class Notifications extends ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'notifications';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['title', 'is_view', 'type', 'user_id', 'task_id'], 'required'],
             [['is_view', 'user_id', 'task_id'], 'integer'],
             [['dt_add'], 'safe'],
             [['title', 'type'], 'string', 'max' => 255],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -54,17 +57,17 @@ class Notifications extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getTask()
+    public function getTask(): ActiveQuery
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
-    public function getUser()
+    public function getUser(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
 
-    public static function find()
+    public static function find(): NotificationsQuery
     {
         return new NotificationsQuery(get_called_class());
     }

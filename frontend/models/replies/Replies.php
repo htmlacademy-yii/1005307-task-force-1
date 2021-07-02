@@ -1,12 +1,14 @@
 <?php
+declare(strict_types = 1);
 
-namespace app\models\replies;
+namespace frontend\models\replies;
 
-use Yii;
-use app\models\{
+use frontend\models\{
     tasks\Tasks,
     users\Users
 };
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "replies".
@@ -22,15 +24,16 @@ use app\models\{
  * @property Users $doer
  * @property Tasks $task
  */
-class Replies extends \yii\db\ActiveRecord
+
+class Replies extends ActiveRecord
 {
 
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'replies';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['dt_add'], 'safe'],
@@ -38,12 +41,12 @@ class Replies extends \yii\db\ActiveRecord
             [['description', 'doer_id', 'task_id'], 'required'],
             [['description'], 'string'],
             [['doer_id', 'task_id'], 'integer'],
-            [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['doer_id' => 'id']],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
+            [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['doer_id' => 'id']],
+            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -56,17 +59,17 @@ class Replies extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getTask()
+    public function getTask(): ActiveQuery
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
-    public function getDoer()
+    public function getDoer(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
     }
 
-    public static function find()
+    public static function find(): RepliesQuery
     {
         return new RepliesQuery(get_called_class());
     }
