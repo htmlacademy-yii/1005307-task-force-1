@@ -154,7 +154,7 @@ class Users extends ActiveRecord
         return new UsersQuery(get_called_class());
     }
 
-    final public static function getDoers()
+    final public static function getDoers(): UsersQuery
     {
         return self::find()
             ->joinWith('opinions')

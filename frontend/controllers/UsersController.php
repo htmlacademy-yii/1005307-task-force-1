@@ -3,10 +3,8 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use frontend\models\tasks\Tasks;
 use frontend\models\users\Users;
 use frontend\models\users\UserSearchForm;
-use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 use yii\web\Response;
 

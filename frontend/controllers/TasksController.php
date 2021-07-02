@@ -8,9 +8,8 @@ use frontend\models\tasks\TaskSearchForm;
 use frontend\models\tasks\CreateTaskForm;
 use frontend\models\tasks\FileUploadForm;
 use frontend\models\tasks\FileTask;
-use yii\base\BaseObject;
-use yii\data\Pagination;
 use yii\web\UploadedFile;
+use yii\data\ActiveDataProvider;
 
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -38,13 +37,13 @@ class TasksController extends SecuredController
     public function actionIndex(): string
     {
         $searchForm = new TaskSearchForm();
-        $searchForm->load($this->request->post());
-        $query = Tasks::getNewTasksByFilters($searchForm);
-        $page = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
-        $tasks = $query->offset($page->offset)
-            ->limit($page->limit)
-            ->all();
-        return $this->render('index', compact('tasks', 'searchForm', 'page'));
+        $dataProvider = new ActiveDataProvider([
+            'query' => Tasks::getLastTasks(),
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+        return $this->render('index', ['dataProvider' => $dataProvider, 'searchForm' => $searchForm]);
     }
 
     public function actionView($id = null): string

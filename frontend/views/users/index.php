@@ -3,10 +3,7 @@ $this->title = 'Список исполнителей';
 $formatter = \Yii::$app->formatter;
 
 use yii\widgets\ActiveForm;
-use yii\widgets\ActiveField;
-use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\widgets\LinkPager;
 use yii\widgets\ListView;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
@@ -14,12 +11,12 @@ $additionalFilter = $searchForm->attributeLabels();
 ?>
 
 <div class="main-container page-container">
-    <section class="user__search">
+    <section class="new-task">
         <?=
         ListView::widget([
             'dataProvider' => $dataProvider,
             'itemView' => '_item',
-            'layout' => "<div class='user-search__wrapper'>
+            'layout' => "<div class='new-task_wrapper'>
                 {items}
             </div>\n
             <div class='new-task__pagination'>{pager}</div>",
