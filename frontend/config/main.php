@@ -15,6 +15,9 @@ return [
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
+        'formatter' => [
+            'class' => 'frontend\components\MyFormatter',
+        ],
         'user' => [
             'class' => 'yii\web\User',
             'identityClass' => 'frontend\models\account\UserIdentity',

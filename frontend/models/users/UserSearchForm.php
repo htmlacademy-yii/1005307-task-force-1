@@ -5,6 +5,7 @@ namespace frontend\models\users;
 use frontend\models\categories\Categories;
 
 use yii\base\Model;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "user_search_form".
@@ -42,5 +43,25 @@ class UserSearchForm extends Model
     public function getCategoriesFilter(): array
     {
         return Categories::getCategoriesFilters();
+    }
+
+    public function search($params): ActiveDataProvider
+    {
+        $query = Users::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+
+        // you can add sorting here
+
+        $this->load($params);
+
+        // you can define your filters here
+
+        return $dataProvider; // this will become your $searchModel
     }
 }

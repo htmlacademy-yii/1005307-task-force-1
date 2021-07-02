@@ -73,17 +73,6 @@ $categories = $createTaskForm->getCategories();
                 ]
             ])->fileInput(['multiple' => true, 'accept' => 'image/*']);
             ?>
-            <?=$form->field($fileUploadForm, 'task_id', [
-                'inputOptions' => [
-                    'style' => 'width: 100%',
-          //          'value' =>
-                ]
-            ])->textInput()?>
-            <span>Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу</span>
-            <div class="create__file">
-                <span>Добавить новый файл</span>
-                <!--                          <input type="file" name="files[]" class="dropzone">-->
-            </div>
             <label for="13">Локация</label>
             <input class="input-navigation input-middle input" id="13" type="search" name="q"
                    placeholder="Санкт-Петербург, Калининский район">

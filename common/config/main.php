@@ -15,9 +15,6 @@ return [
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
             'loginUrl' => ['landing/index']
         ],
-        'errorHandler' => [
-            'errorAction' => 'landing/error',
-        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

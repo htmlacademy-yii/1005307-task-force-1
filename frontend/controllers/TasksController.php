@@ -33,6 +33,8 @@ class TasksController extends SecuredController
         }
     }
 
+    private $task;
+
     public function actionIndex(): string
     {
         $searchForm = new TaskSearchForm();
@@ -77,20 +79,20 @@ class TasksController extends SecuredController
             if (!$fileUploadForm->validate()) {
                 $errors = $fileUploadForm->getErrors();
             }
+            $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
+
             if ($fileUploadForm->upload()) {
-              //  foreach ($fileUploadForm->file_item as $file_task) {
-                    $file_task = new FileTask(['attributes' => $fileUploadForm->attributes]);
-              //  }
+                $file_task = new FileTask(['attributes' => $fileUploadForm->attributes]);
+                $file_task->getTask();
             }
-            $task = new Tasks(['attributes' => $createTaskForm->attributes]);
 
             if ($createTaskForm->validate()) {
-                $task->save(false);
+                $this->task->save(false);
                 $file_task->save(false);
-                return $this->redirect(['tasks/view', 'id' => $task['id']]);
+                return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
             }
         }
 
-        return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user]);
+        return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user, 'task' => $this->task]);
     }
 }

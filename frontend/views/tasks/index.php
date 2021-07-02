@@ -29,7 +29,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                     <b class="new-task__price new-task__price--<?= $task['category']['icon'] ?>">
                         <?= $task['budget'] ?> <b> ₽</b></b>
                     <p class="new-task__place"><?= $task['city'] ? ($task['city']['city']) : 'Удаленная работа' ?> <?= $task['address'] ?></p>
-                    <span class="new-task__time"><?= $formatter->asRelativeTime($task['dt_add']) ?></span>
+                    <span class="new-task__time"><?= $formatter->asRelativeTime($task['dt_add'], strftime("%F %T")) ?></span>
                 </div>
             <?php endforeach; ?>
         </div>

@@ -1,5 +1,4 @@
-<?php
-require_once '../utils/my_functions.php';
+<?php /** @noinspection ALL */
 $formatter = \Yii::$app->formatter;
 $this->title = 'Задание ' . $task['name'];
 
@@ -134,8 +133,8 @@ use yii\helpers\url;
                     </div>
                 </div>
                 <p class="info-customer">
-                    <span><?= count($tasks) ?> <?= get_noun_plural_form(count($tasks), 'задание', 'задания', 'заданий') ?></span><span
-                        class="last-"><?= $formatter->asRelativeTime($client['dt_add'], strftime("%F %T")) ?></span>
+                    <span><?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'задание', 'задания', 'заданий') ?></span>
+                    <span class="last-"><?= $formatter->getPeriodTime($client['dt_add']) ?></span>
                 </p>
                 <a href="<?= Url::to(['users/view', 'id' => $client['id']]) ?>" class="link-regular">Смотреть
                     профиль</a>

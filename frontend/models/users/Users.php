@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\users;
 
@@ -152,6 +152,24 @@ class Users extends ActiveRecord
     public static function find(): UsersQuery
     {
         return new UsersQuery(get_called_class());
+    }
+
+    final public static function getDoers()
+    {
+        return self::find()
+            ->joinWith('opinions')
+            ->select([
+                'users.*',
+                'AVG(opinions.rate) as rating',
+                'count(opinions.rate) as finished_task_count',
+                'count(opinions.description) as opinions_count',
+            ])
+            ->where(['user_role' => 'doer'])
+            ->with('userCategories')
+            ->with('favourites')
+            ->groupBy('users.id')
+            ->orderBy(['dt_add' => SORT_DESC])
+            ->asArray();
     }
 
     final public static function getDoersByFilters(UserSearchForm $form): UsersQuery
