@@ -8,8 +8,6 @@ use frontend\models\tasks\TaskSearchForm;
 use frontend\models\tasks\CreateTaskForm;
 use frontend\models\tasks\FileUploadForm;
 use frontend\models\tasks\FileTask;
-use frontend\models\users\Users;
-use yii\base\BaseObject;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 
@@ -35,11 +33,12 @@ class TasksController extends SecuredController
     }
 
     private $task;
+    private $file_task;
 
     public function actionIndex(): string
     {
         $searchForm = new TaskSearchForm();
-        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
+        $searchForm->search(Yii::$app->request->queryParams);
 
         $dataProvider = new ActiveDataProvider([
             'query' => Tasks::getNewTasksByFilters($searchForm),
@@ -47,6 +46,7 @@ class TasksController extends SecuredController
                 'pageSize' => 5,
             ],
         ]);
+
         return $this->render('index', ['dataProvider' => $dataProvider, 'searchForm' => $searchForm]);
     }
 
@@ -88,13 +88,14 @@ class TasksController extends SecuredController
             $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
 
             if ($fileUploadForm->upload()) {
-                $file_task = new FileTask(['attributes' => $fileUploadForm->attributes]);
-                $file_task->getTask();
+                $this->file_task = new FileTask(['attributes' => $fileUploadForm->attributes]);
             }
 
             if ($createTaskForm->validate()) {
                 $this->task->save(false);
-                $file_task->save(false);
+                $this->file_task->task_id = $this->task['id'];
+                $this->file_task->file_item = $fileUploadForm->file_item;
+                $this->file_task->save(false, ['task_id', 'file_item']);
                 return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
             }
         }

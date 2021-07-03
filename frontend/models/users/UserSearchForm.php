@@ -7,15 +7,6 @@ use frontend\models\categories\Categories;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-/**
- * This is the model class for table "user_search_form".
- *
- * @property int|null $free_now
- * @property int|null $online_now
- * @property int|null $has_opinions
- * @property int|null $is_favourite
- */
-
 class UserSearchForm extends Model
 {
     public $searchedCategories = [];
@@ -46,15 +37,14 @@ class UserSearchForm extends Model
     {
         $query = Users::find();
 
-        $query->orFilterWhere([
+        $query->andFilterWhere([
             'searchedCategories' => $this->searchedCategories,
             'isFreeNowFilter' => $this->isFreeNow,
             'isOnlineNowFilter' => $this->isOnlineNow,
             'hasOpinionsFilter' => $this->hasOpinions,
             'isFavouriteFilter' => $this->isFavourite,
+            'searchName' => $this->searchName
         ]);
-
-        $query->andFilterWhere(['like', 'name', $this->searchName]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

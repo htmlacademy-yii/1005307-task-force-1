@@ -5,12 +5,11 @@ namespace frontend\controllers;
 
 use frontend\models\users\Users;
 use frontend\models\users\UserSearchForm;
-use yii\data\ActiveDataProvider;
-use yii\web\Response;
 
 use Yii;
-use yii\base\BaseObject;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class UsersController extends SecuredController
 {
@@ -38,7 +37,7 @@ class UsersController extends SecuredController
     public function actionIndex(): string
     {
         $searchForm = new UserSearchForm();
-        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
+        $searchForm->search(Yii::$app->request->queryParams);
 
         $dataProvider = new ActiveDataProvider([
             'query' => Users::getDoersByFilters($searchForm),

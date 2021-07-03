@@ -43,22 +43,24 @@ class TaskSearchForm extends Model
     {
         $query = Tasks::find();
 
-        $query->orFilterWhere([
-            'searchedCategories' => $this->searchedCategories,
-            'noRepliesFilter' => $this->noReplies,
-            'onlineFilter' => $this->online,
-            'periodFilter' => $this->periodFilter,
-        ]);
-
-        $query->andFilterWhere(['like', 'name', $this->searchName]);
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
         ]);
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
+
+        $query->orFilterWhere([
+            'searchedCategories' => $this->searchedCategories,
+            'noRepliesFilter' => $this->noReplies,
+            'onlineFilter' => $this->online,
+            'periodFilter' => $this->periodFilter,
+            'searchName' => $this->searchName
+        ]);
 
         return $dataProvider;
     }
