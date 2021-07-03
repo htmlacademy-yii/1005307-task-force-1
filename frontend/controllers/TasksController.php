@@ -88,14 +88,17 @@ class TasksController extends SecuredController
             $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
 
             if ($fileUploadForm->upload()) {
-                $this->file_task = new FileTask(['attributes' => $fileUploadForm->attributes]);
+                $this->file_task = new FileTask();
             }
 
             if ($createTaskForm->validate()) {
                 $this->task->save(false);
-                $this->file_task->task_id = $this->task['id'];
-                $this->file_task->file_item = $fileUploadForm->file_item;
-                $this->file_task->save(false, ['task_id', 'file_item']);
+                if ($this->file_task) {
+                    $this->file_task->task_id = $this->task['id'];
+                    $this->file_task->file_item = $fileUploadForm->file_item;
+                    $this->file_task->save(false);
+                }
+
                 return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
             }
         }
