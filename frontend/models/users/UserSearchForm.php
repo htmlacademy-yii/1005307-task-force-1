@@ -19,14 +19,11 @@ use yii\data\ActiveDataProvider;
 class UserSearchForm extends Model
 {
     public $searchedCategories = [];
-    public $additionalFilter = [];
-    public $periodFilter = [];
     public $searchName;
     public $isFreeNow;
     public $isOnlineNow;
     public $hasOpinions;
     public $isFavourite;
-    private $categories;
 
     public static function tableName(): string
     {
