@@ -181,6 +181,7 @@ class Tasks extends ActiveRecord
         return self::find()
             ->andwhere(['status_task' => 'new'])
             ->with('category')
+            ->with('city')
             ->groupBy('tasks.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();

@@ -49,19 +49,24 @@ class UserSearchForm extends Model
     {
         $query = Users::find();
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 5,
-            ],
+        $query->orFilterWhere([
+            'searchedCategories' => $this->searchedCategories,
+            'isFreeNowFilter' => $this->isFreeNow,
+            'isOnlineNowFilter' => $this->isOnlineNow,
+            'hasOpinionsFilter' => $this->hasOpinions,
+            'isFavouriteFilter' => $this->isFavourite,
         ]);
 
-        // you can add sorting here
+        $query->andFilterWhere(['like', 'name', $this->searchName]);
 
-        $this->load($params);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
 
-        // you can define your filters here
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
 
-        return $dataProvider; // this will become your $searchModel
+        return $dataProvider;
     }
 }

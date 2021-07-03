@@ -172,7 +172,7 @@ class Users extends ActiveRecord
             ->asArray();
     }
 
-    final public static function getDoersByFilters(UserSearchForm $form): array
+    final public static function getDoersByFilters(UserSearchForm $form): UsersQuery
     {
         $query = self::find()
             ->joinWith('opinions')
@@ -213,7 +213,7 @@ class Users extends ActiveRecord
             $query->nameSearch($form->searchName);
         }
 
-        return $query->all();
+        return $query;
     }
 
     final public static function getOneUser($id): ?Users

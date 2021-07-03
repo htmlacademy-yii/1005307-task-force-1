@@ -46,11 +46,14 @@ class TasksController extends SecuredController
         return $this->render('index', ['dataProvider' => $dataProvider, 'searchForm' => $searchForm]);
     }
 
+    /**
+     * @throws NotFoundHttpException
+     */
     public function actionView($id = null): string
     {
         $task = Tasks::getOneTask($id);
 
-        if (!$task) {
+        if (empty($task)) {
             throw new NotFoundHttpException('Страница не найдена...');
         }
 

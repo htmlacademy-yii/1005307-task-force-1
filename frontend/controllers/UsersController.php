@@ -38,8 +38,10 @@ class UsersController extends SecuredController
     public function actionIndex(): string
     {
         $searchForm = new UserSearchForm();
+        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Users::getDoers(),
+            'query' => Users::getDoersByFilters($searchForm),
             'pagination' => [
                 'pageSize' => 5,
             ],
