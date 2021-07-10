@@ -66,7 +66,7 @@ $categories = $createTaskForm->getCategories();
                     'options' => ['value' => 'cargo']
                 ]
             ]) -->
-            <?=$form->field($fileUploadForm, 'file_item', [
+            <?=$form->field($fileUploadForm, 'file_item[]', [
                 'inputOptions' => [
                     'class' => 'create__file',
                     'style' => 'width: 100%',

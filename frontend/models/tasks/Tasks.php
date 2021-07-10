@@ -176,7 +176,7 @@ class Tasks extends ActiveRecord
         return $query;
     }
 
-    final public static function getLastTasks(): TasksQuery
+    final public static function getLastTasks()
     {
         return self::find()
             ->andwhere(['status_task' => 'new'])
@@ -184,7 +184,7 @@ class Tasks extends ActiveRecord
             ->with('city')
             ->groupBy('tasks.id')
             ->orderBy(['dt_add' => SORT_DESC])
-            ->asArray();
+            ->asArray()->all();
     }
 
     final public static function getOneTask($id): ?Tasks

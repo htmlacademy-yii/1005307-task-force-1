@@ -8,6 +8,7 @@ use frontend\models\tasks\TaskSearchForm;
 use frontend\models\tasks\CreateTaskForm;
 use frontend\models\tasks\FileUploadForm;
 use frontend\models\tasks\FileTask;
+use yii\base\BaseObject;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 
@@ -69,39 +70,65 @@ class TasksController extends SecuredController
         $createTaskForm = new CreateTaskForm();
         $fileUploadForm = new FileUploadForm();
 
-        if ($this->user['user_role'] === 'doer') {
-            return $this->redirect(['tasks/index']);
-        }
+           if ($this->user['user_role'] === 'doer') {
+             return $this->redirect(['tasks/index']);
+           }
 
-        if (Yii::$app->request->getIsPost()) {
-            $createTaskForm->load(Yii::$app->request->post());
-            $fileUploadForm->load(Yii::$app->request->post());
-            $fileUploadForm->file_item = UploadedFile::getInstance($fileUploadForm, 'file_item');
-
-            if (!$createTaskForm->validate()) {
-                $errors = $createTaskForm->getErrors();
-            }
-
-            if (!$fileUploadForm->validate()) {
-                $errors = $fileUploadForm->getErrors();
-            }
-            $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
-
-            if ($fileUploadForm->upload()) {
-                $this->file_task = new FileTask();
-            }
-
+        if ( $createTaskForm->load(Yii::$app->request->post()) && $fileUploadForm->load(Yii::$app->request->post()) ) {
             if ($createTaskForm->validate()) {
+              //  $this->file_task = UploadedFile::getInstances($fileUploadForm, 'file_input[]');
+                $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
                 $this->task->save(false);
-                if ($this->file_task) {
-                    $this->file_task->task_id = $this->task['id'];
-                    $this->file_task->file_item = $fileUploadForm->file_item;
-                    $this->file_task->save(false);
-                }
+                $fileItems = UploadedFile::getInstances($fileUploadForm, 'file_item');
 
+                foreach($fileItems as $fileItem) {
+                    if ($fileUploadForm->upload()) {
+                        $fileUploadForm->file_item = $fileItem;
+                        $fileUploadForm->task_id = $this->task['id'];
+                        $this->task = new FileTask(['attributes' => $fileUploadForm->attributes]);
+                        $this->task->save(false);
+                    }
+                }
                 return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
             }
         }
+
+         /*  if (Yii::$app->request->getIsPost()) {
+               $createTaskForm->load(Yii::$app->request->post());
+               $fileUploadForm->load(Yii::$app->request->post());
+               $fileUploadForm->file_item = UploadedFile::getInstances($fileUploadForm, 'file_item');
+
+               if (!$createTaskForm->validate()) {
+                   $errors = $createTaskForm->getErrors();
+               }
+
+               $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
+
+               if ($fileUploadForm->upload()) {
+                   $this->file_task = new FileTask(['attributes' => $fileUploadForm->attributes]);
+               }
+
+
+               if ($createTaskForm->validate()) {
+                   $this->task->save(false);
+                   if ($this->file_task) {
+                  //     if ($fileUploadForm->upload()) {
+                  //         foreach ($this->file_task as $file) {
+                       $this->file_task->task_id = $this->task['id'];
+                       $this->file_task->file_item = $fileUploadForm->file_item;
+                       $this->file_task->save(false, ['task_id', 'file_item']);
+                //           }
+                  //     }
+                   }
+                   //  $this->task->save(false);
+                   //  if ($this->file_task) {
+                   //      foreach ($this->file_task as $file)
+                   //      }
+               }
+               return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
+
+           }*/
+
 
         return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user, 'task' => $this->task]);
     }
