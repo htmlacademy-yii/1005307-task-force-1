@@ -54,7 +54,7 @@ class TaskSearchForm extends Model
             return $dataProvider;
         }
 
-        $query->orFilterWhere([
+        $query->andWhere([
             'searchedCategories' => $this->searchedCategories,
             'noRepliesFilter' => $this->noReplies,
             'onlineFilter' => $this->online,

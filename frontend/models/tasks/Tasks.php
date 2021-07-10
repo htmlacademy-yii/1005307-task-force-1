@@ -11,6 +11,7 @@ use frontend\models\{cities\Cities,
     replies\Replies,
     users\Users
 };
+use yii;
 
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -178,13 +179,15 @@ class Tasks extends ActiveRecord
 
     final public static function getLastTasks()
     {
-        return self::find()
+        $query = self::find()
             ->andwhere(['status_task' => 'new'])
             ->with('category')
             ->with('city')
+            ->limit(4)
             ->groupBy('tasks.id')
             ->orderBy(['dt_add' => SORT_DESC])
-            ->asArray()->all();
+            ->all();
+        return $query;
     }
 
     final public static function getOneTask($id): ?Tasks
