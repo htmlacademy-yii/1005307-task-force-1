@@ -11,21 +11,24 @@ $additionalFilter = $searchForm->attributeLabels();
 ?>
 
 <div class="main-container page-container">
-    <section class="user__search">
+
         <?=
         ListView::widget([
             'dataProvider' => $dataProvider,
-            'itemView' => '_item',
-            'layout' => "<div class='user__wrapper'>
+            'itemView' => function ($model, $key, $index, $widget) {
+                return $this->render('_item', [
+                    'model' => $model,
+                    'index' => $index,
+                ]);
+            },
+            'layout' => '<section class="user__search">
+                 <div class="user__wrapper">
                 {items}
-            </div>\n
-            <div class='new-task__pagination'>{pager}</div>",
+            </div></section>
+            <div class="new-task__pagination" style="margin-right: 20px">{pager}</div>',
             'emptyText' => 'Исполнителей пока нет',
             'emptyTextOptions' => [
                 'tag' => 'p'
-            ],
-            'itemOptions' => [
-                'style' => 'border-bottom: 2px solid #d4d4d4',
             ],
             'pager' => [
                 'options' => ([
@@ -45,7 +48,6 @@ $additionalFilter = $searchForm->attributeLabels();
             ],
         ])
         ?>
-    </section>
     <section class="search-task">
         <div class="search-task__wrapper">
             <?php $form = ActiveForm::begin([

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 ?>
 
-<div class="new-task__card">
+<div class="new-task__card" <?php if ($index !== 0):?>style="border-top: 2px solid #d4d4d4"<?php endif;?>>
     <div class="new-task__title">
         <a href="<?= Url::to(['tasks/view/', 'id' => $model['id']]) ?>" class="link-regular">
             <h2><?= $model['name'] ?></h2></a>

@@ -13,7 +13,12 @@ $periodFilter = $searchForm->getPeriodFilter();
         <?=
         ListView::widget([
             'dataProvider' => $dataProvider,
-            'itemView' => '_item',
+            'itemView' => function ($model, $key, $index, $widget) {
+                return $this->render('_item', [
+                    'model' => $model,
+                    'index' => $index,
+                ]);
+            },
             'layout' => "<div class='new-task__wrapper'>
                 <h1>Новые задания</h1>
                 {items}
@@ -24,7 +29,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                 'tag' => 'p'
             ],
             'itemOptions' => [
-                'style' => 'border-bottom: 2px solid #d4d4d4',
+      //          'style' => 'border-bottom: 2px solid #d4d4d4',
             ],
             'pager' => [
                 'options' => ([
