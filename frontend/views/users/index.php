@@ -11,16 +11,15 @@ $additionalFilter = $searchForm->attributeLabels();
 ?>
 
 <div class="main-container page-container">
-
+    <?php
+yii\widgets\Pjax::begin(['id' => 'list']);?>
         <?=
         ListView::widget([
             'dataProvider' => $dataProvider,
-            'itemView' => function ($model, $key, $index, $widget) {
-                return $this->render('_item', [
-                    'model' => $model,
-                    'index' => $index,
-                ]);
-            },
+            'itemView' => '_item',
+            'itemOptions' => [
+                'tag' => false,
+            ],
             'layout' => '<section class="user__search">
                  <div class="user__wrapper">
                 {items}
@@ -48,8 +47,10 @@ $additionalFilter = $searchForm->attributeLabels();
             ],
         ])
         ?>
+    <?php yii\widgets\Pjax::end(); ?>
     <section class="search-task">
         <div class="search-task__wrapper">
+            <?php yii\widgets\Pjax::begin(['id' => 'searchform']) ?>
             <?php $form = ActiveForm::begin([
                 'id' => 'searchForm',
                 'method' => 'get',
@@ -137,6 +138,7 @@ $additionalFilter = $searchForm->attributeLabels();
             <?= Html::submitButton('Искать',
                 ['class' => 'button']) ?>
             <?php ActiveForm::end(); ?>
+            <?php yii\widgets\Pjax::end() ?>
         </div>
     </section>
 </div>

@@ -6,7 +6,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 
 ?>
-<div class="content-view__feedback-card user__search-wrapper" <?php if ($index !== 0):?>style="border-top: 2px solid #d4d4d4"<?php endif;?>>
+<div class="content-view__feedback-card user__search-wrapper">
     <div class="feedback-card__top">
         <div class="user__search-icon">
             <a href="<?= Url::to(['users/view', 'id' => $model['id']]) ?>"><?= $model['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $model['avatar'], ['width' => '65', 'height' => '65']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '65', 'height' => '65']) ?> </a>

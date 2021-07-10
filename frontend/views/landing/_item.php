@@ -6,7 +6,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 ?>
 
-<div class="landing-task" <?php if ($index != 3): ?>style="margin-right: 20px"<?php endif; ?>>
+<div class="landing-task">
     <div class="landing-task-top task-<?= $model['category']['icon'] ?>"></div>
     <div class="landing-task-description">
         <h3><a href="<?= Url::to(['sign/']) ?>" class="link-regular"><?= $model['name'] ?></a></h3>

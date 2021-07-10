@@ -13,12 +13,7 @@ $periodFilter = $searchForm->getPeriodFilter();
         <?=
         ListView::widget([
             'dataProvider' => $dataProvider,
-            'itemView' => function ($model, $key, $index, $widget) {
-                return $this->render('_item', [
-                    'model' => $model,
-                    'index' => $index,
-                ]);
-            },
+            'itemView' => '_item',
             'layout' => "<div class='new-task__wrapper'>
                 <h1>Новые задания</h1>
                 {items}
@@ -29,7 +24,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                 'tag' => 'p'
             ],
             'itemOptions' => [
-      //          'style' => 'border-bottom: 2px solid #d4d4d4',
+                'tag' => false,
             ],
             'pager' => [
                 'options' => ([
@@ -41,7 +36,6 @@ $periodFilter = $searchForm->getPeriodFilter();
                 'nextPageCssClass' => 'pagination__item',
                 'nextPageLabel' => '',
                 'prevPageLabel' => '',
-                'maxButtonCount' => 5,
                 'activePageCssClass' => 'pagination__item pagination__item--current',
                 'linkOptions' => ([
                     'style' => 'padding-top: 45%; height: 100%; width: 100%; text-align: center'

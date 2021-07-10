@@ -100,12 +100,10 @@ use yii\widgets\ListView;
         <?=
         ListView::widget([
             'dataProvider' => $dataProvider,
-            'itemView' => function ($model, $key, $index, $widget) {
-                return $this->render('_item', [
-                    'model' => $model,
-                    'index' => $index,
-                ]);
-            },
+            'itemView' => '_item',
+            'itemOptions' => [
+                'tag' => false,
+            ],
             'layout' => "<div class='landing-bottom-container'>
                    <h2>Последние задания на сайте</h2>{items}</div>",
             'emptyText' => 'Новых заданий пока нет',
