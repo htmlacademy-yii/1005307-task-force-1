@@ -38,14 +38,11 @@ class TaskSearchForm extends Tasks
 
     public function search($params): TasksQuery
     {
-        $query = Tasks::getNewTasksByFilters($this);
+        $query = Tasks::find();
         $this->load($params);
 
         if (!$this->validate()) {
             return $query;
-        }
-        if ($this->load(Yii::$app->request->post())) {
-            $this->refresh();
         }
 
         return $query;

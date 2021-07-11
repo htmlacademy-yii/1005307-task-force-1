@@ -8,6 +8,8 @@ use frontend\models\tasks\TaskSearchForm;
 use frontend\models\tasks\CreateTaskForm;
 use frontend\models\tasks\FileUploadForm;
 use frontend\models\tasks\FileTask;
+use frontend\models\users\Users;
+use yii\base\BaseObject;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 
@@ -32,7 +34,7 @@ class TasksController extends SecuredController
     public function actionIndex(): string
     {
         $searchForm = new TaskSearchForm();
-        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
+        $searchForm->search(Yii::$app->request->queryParams);
 
         $dataProvider = new ActiveDataProvider([
             'query' => Tasks::getNewTasksByFilters($searchForm),

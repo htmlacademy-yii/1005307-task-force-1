@@ -4,11 +4,9 @@ namespace frontend\models\users;
 
 use frontend\models\categories\Categories;
 
-use yii\base\BaseObject;
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
+use yii;
 
-class UserSearchForm extends Model
+class UserSearchForm extends Users
 {
     public $searchedCategories = [];
     public $searchName;
@@ -34,29 +32,15 @@ class UserSearchForm extends Model
         return Categories::getCategoriesFilters();
     }
 
-    public function search($params): ActiveDataProvider
+    public function search($params): UsersQuery
     {
         $query = Users::find();
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
         $this->load($params);
 
-        $query->andFilterWhere([
-            'searchedCategories' => $this->searchedCategories,
-            'isFreeNowFilter' => $this->isFreeNow,
-            'isOnlineNowFilter' => $this->isOnlineNow,
-            'hasOpinionsFilter' => $this->hasOpinions,
-            'isFavouriteFilter' => $this->isFavourite,
-            'searchName' => $this->searchName
-        ]);
-
-        if (!($this->validate())) {
-            return $dataProvider;
+        if (!$this->validate()) {
+            return $query;
         }
 
-        return $dataProvider;
+        return $query;
     }
 }

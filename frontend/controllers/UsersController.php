@@ -45,7 +45,11 @@ class UsersController extends SecuredController
                 'pageSize' => 5,
             ],
         ]);
-        return $this->render('index', ['dataProvider' => $dataProvider, 'searchForm' => $searchForm]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+            'searchForm' => $searchForm]
+        );
     }
 
     public function actionView($id = null): string
