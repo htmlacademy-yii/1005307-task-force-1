@@ -43,12 +43,16 @@ class FileUploadForm extends Model
     public function upload(): bool
     {
         if (!empty($this->file_item)) {
+            if (!$this->validate()) {
+                $errors = $this->getErrors();
+            }
             if ($this->validate()) {
+
                 foreach ($this->file_item as $file) {
                     $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
                 }
             }
-                return true;
+            return true;
         }
 
         return false;

@@ -12,6 +12,7 @@ use frontend\models\users\Users;
 use yii\base\BaseObject;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
+use yii\web\Response;
 
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -29,7 +30,8 @@ class TasksController extends SecuredController
     }
 
     private $task;
-    private $file_task;
+
+    // private $file_task;
 
     public function actionIndex(): string
     {
@@ -69,61 +71,29 @@ class TasksController extends SecuredController
             return $this->redirect(['tasks/index']);
         }
 
-        if ($createTaskForm->load(Yii::$app->request->post()) && $fileUploadForm->load(Yii::$app->request->post())) {
-            if ($createTaskForm->validate()) {
-                //  $this->file_task = UploadedFile::getInstances($fileUploadForm, 'file_input[]');
+        if (Yii::$app->request->getIsPost()) {
+            $createTaskForm->load(Yii::$app->request->post());
+            $fileUploadForm->load(Yii::$app->request->post());
+            $fileUploadForm->file_item = UploadedFile::getInstances($fileUploadForm, 'file_item');
+
+
+            if ($createTaskForm->validate() && $fileUploadForm->upload()) {
                 $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
                 $this->task->save(false);
-                $fileItems = UploadedFile::getInstances($fileUploadForm, 'file_item');
+                $batchArr = array();
 
-                foreach ($fileItems as $fileItem) {
-                    if ($fileUploadForm->upload()) {
-                        $fileUploadForm->file_item = $fileItem;
-                        $fileUploadForm->task_id = $this->task['id'];
-                        $this->task = new FileTask(['attributes' => $fileUploadForm->attributes]);
-                        $this->task->save(false);
-                    }
+                foreach ($fileUploadForm->file_item as $fileItem) {
+                    $batchArr[] = [$fileItem, $this->task['id']];
                 }
+                Yii::$app->db->createCommand()
+                    ->batchInsert('file_task',
+                        ['file_item', 'task_id'],
+                        $batchArr)
+                    ->execute();
+
                 return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
             }
         }
-
-        /*  if (Yii::$app->request->getIsPost()) {
-              $createTaskForm->load(Yii::$app->request->post());
-              $fileUploadForm->load(Yii::$app->request->post());
-              $fileUploadForm->file_item = UploadedFile::getInstances($fileUploadForm, 'file_item');
-
-              if (!$createTaskForm->validate()) {
-                  $errors = $createTaskForm->getErrors();
-              }
-
-              $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
-
-              if ($fileUploadForm->upload()) {
-                  $this->file_task = new FileTask(['attributes' => $fileUploadForm->attributes]);
-              }
-
-
-              if ($createTaskForm->validate()) {
-                  $this->task->save(false);
-                  if ($this->file_task) {
-                 //     if ($fileUploadForm->upload()) {
-                 //         foreach ($this->file_task as $file) {
-                      $this->file_task->task_id = $this->task['id'];
-                      $this->file_task->file_item = $fileUploadForm->file_item;
-                      $this->file_task->save(false, ['task_id', 'file_item']);
-               //           }
-                 //     }
-                  }
-                  //  $this->task->save(false);
-                  //  if ($this->file_task) {
-                  //      foreach ($this->file_task as $file)
-                  //      }
-              }
-              return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
-
-          }*/
-
 
         return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user, 'task' => $this->task]);
     }

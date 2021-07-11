@@ -4,6 +4,8 @@ $this->title = 'Публикация нового задания';
 //$cities = $signForm->getCities();
 
 use yii\widgets\ActiveForm;
+use kartik\file\FileInput;
+use yii\helpers\Url;
 
 $categories = $createTaskForm->getCategories();
 
@@ -19,6 +21,7 @@ $categories = $createTaskForm->getCategories();
                 'options' => ['class' => 'create__task-form form-create',
                     'enctype' => "multipart/form-data"],
                 'validationStateOn' => 'input',
+                'action' => '/tasks/create',
                 'fieldConfig' => [
                     'template' => "{label}\n{input}\n{error}",
                     'options' => ['style' => 'margin-top: 29px'],
@@ -47,14 +50,21 @@ $categories = $createTaskForm->getCategories();
                     'rows' => 1
                 ]
             ])->textArea() ?>
-            <?= $form->field($createTaskForm, "description", [
+            <?=  $form->field($createTaskForm, "description", [
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 11,
                     'rows' => 7
                 ]
-            ])->textArea() ?>
-             <!--$form->field($createTaskForm, "categories", [
+            ])->textArea()?>
+            <?=$form->field($fileUploadForm, 'file_item[]', [
+                'inputOptions' => [
+                    'class' => 'create__file',
+                    'style' => 'width: 100%',
+                    'multiple' => true,
+                ]
+            ])->fileInput(['multiple' => true, 'accept' => 'image/*']);?>
+           <!--  $form->field($createTaskForm, "categories", [
                 'options' => ['style' => 'margin-top: 27px; margin-bottom: 0;'],
                 'inputOptions' => ['style' => 'width: 520px; margin-top: 12px; margin-bottom: 7px;']
             ])->dropDownList($categories, [
@@ -66,13 +76,10 @@ $categories = $createTaskForm->getCategories();
                     'options' => ['value' => 'cargo']
                 ]
             ]) -->
-            <?=$form->field($fileUploadForm, 'file_item[]', [
-                'inputOptions' => [
-                    'class' => 'create__file',
-                    'style' => 'width: 100%',
-                ]
-            ])->fileInput(['multiple' => true, 'accept' => 'image/*']);
-            ?>
+            <div class="create__file">
+                <span>Добавить новый файл</span>
+                <!--                          <input type="file" name="files[]" class="dropzone">-->
+            </div>
             <label for="13">Локация</label>
             <input class="input-navigation input-middle input" id="13" type="search" name="q"
                    placeholder="Санкт-Петербург, Калининский район">
