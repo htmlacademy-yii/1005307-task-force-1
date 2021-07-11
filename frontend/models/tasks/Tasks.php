@@ -177,7 +177,7 @@ class Tasks extends ActiveRecord
         return $query;
     }
 
-    final public static function getLastTasks()
+    final public static function getLastTasks(): array
     {
         $query = self::find()
             ->andwhere(['status_task' => 'new'])
@@ -190,7 +190,7 @@ class Tasks extends ActiveRecord
         return $query;
     }
 
-    final public static function getOneTask($id): ?Tasks
+    final public static function getOneTask($id): Tasks
     {
         return self::findOne($id);
     }

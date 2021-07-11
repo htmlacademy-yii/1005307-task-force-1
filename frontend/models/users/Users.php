@@ -154,24 +154,6 @@ class Users extends ActiveRecord
         return new UsersQuery(get_called_class());
     }
 
-    final public static function getDoers(): UsersQuery
-    {
-        return self::find()
-            ->joinWith('opinions')
-            ->select([
-                'users.*',
-                'AVG(opinions.rate) as rating',
-                'count(opinions.rate) as finished_task_count',
-                'count(opinions.description) as opinions_count',
-            ])
-            ->where(['user_role' => 'doer'])
-            ->with('userCategories')
-            ->with('favourites')
-            ->groupBy('users.id')
-            ->orderBy(['dt_add' => SORT_DESC])
-            ->asArray();
-    }
-
     final public static function getDoersByFilters(UserSearchForm $form): UsersQuery
     {
         $query = self::find()
@@ -216,7 +198,7 @@ class Users extends ActiveRecord
         return $query;
     }
 
-    final public static function getOneUser($id): ?Users
+    final public static function getOneUser($id): Users
     {
         return self::findOne($id);
     }

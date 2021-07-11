@@ -1,16 +1,13 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
 use frontend\models\categories\Categories;
 
-use frontend\models\users\Users;
-use yii\base\BaseObject;
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
+use yii;
 
-class TaskSearchForm extends Model
+class TaskSearchForm extends Tasks
 {
     public $searchedCategories = [];
     public $noReplies;
@@ -39,29 +36,18 @@ class TaskSearchForm extends Model
         ];
     }
 
-    public function search($params): ActiveDataProvider
+    public function search($params): TasksQuery
     {
-        $query = Tasks::find();
+        $query = Tasks::getNewTasksByFilters($this);
+        $this->load($params);
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 5,
-            ],
-        ]);
-
-        if (!($this->load($params) && $this->validate())) {
-            return $dataProvider;
+        if (!$this->validate()) {
+            return $query;
+        }
+        if ($this->load(Yii::$app->request->post())) {
+            $this->refresh();
         }
 
-        $query->andWhere([
-            'searchedCategories' => $this->searchedCategories,
-            'noRepliesFilter' => $this->noReplies,
-            'onlineFilter' => $this->online,
-            'periodFilter' => $this->periodFilter,
-            'searchName' => $this->searchName
-        ]);
-
-        return $dataProvider;
+        return $query;
     }
 }

@@ -11,53 +11,50 @@ $additionalFilter = $searchForm->attributeLabels();
 ?>
 
 <div class="main-container page-container">
-    <?php
-yii\widgets\Pjax::begin(['id' => 'list']);?>
-        <?=
-        ListView::widget([
-            'dataProvider' => $dataProvider,
-            'itemView' => '_item',
-            'itemOptions' => [
-                'tag' => false,
-            ],
-            'layout' => '<section class="user__search">
+    <?=
+    ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemView' => '_item',
+        'itemOptions' => [
+            'tag' => false,
+        ],
+        'layout' => '<section class="user__search">
                  <div class="user__wrapper">
                 {items}
             </div></section>
             <div class="new-task__pagination" style="margin-right: 20px">{pager}</div>',
-            'emptyText' => 'Исполнителей пока нет',
-            'emptyTextOptions' => [
-                'tag' => 'p'
-            ],
-            'pager' => [
-                'options' => ([
-                    'class' => 'new-task__pagination-list',
-                    'style' => 'width: 100%'
-                ]),
-                'pageCssClass' => 'pagination__item',
-                'prevPageCssClass' => 'pagination__item',
-                'nextPageCssClass' => 'pagination__item',
-                'nextPageLabel' => '',
-                'prevPageLabel' => '',
-                'maxButtonCount' => 5,
-                'activePageCssClass' => 'pagination__item pagination__item--current',
-                'linkOptions' => ([
-                    'style' => 'padding-top: 45%; height: 100%; width: 100%; text-align: center'
-                ])
-            ],
-        ])
-        ?>
-    <?php yii\widgets\Pjax::end(); ?>
+        'emptyText' => 'Исполнителей пока нет',
+        'emptyTextOptions' => [
+            'tag' => 'p'
+        ],
+        'pager' => [
+            'options' => ([
+                'class' => 'new-task__pagination-list',
+                'style' => 'width: 100%'
+            ]),
+            'pageCssClass' => 'pagination__item',
+            'prevPageCssClass' => 'pagination__item',
+            'nextPageCssClass' => 'pagination__item',
+            'nextPageLabel' => '',
+            'prevPageLabel' => '',
+            'maxButtonCount' => 5,
+            'activePageCssClass' => 'pagination__item pagination__item--current',
+            'linkOptions' => ([
+                'style' => 'padding-top: 45%; height: 100%; width: 100%; text-align: center'
+            ])
+        ],
+    ])
+    ?>
     <section class="search-task">
         <div class="search-task__wrapper">
-            <?php yii\widgets\Pjax::begin(['id' => 'searchform']) ?>
             <?php $form = ActiveForm::begin([
                 'id' => 'searchForm',
                 'method' => 'get',
                 'options' => [
                     'name' => 'test',
                     'class' => 'search-task__form'
-                ]
+                ],
+                'action' => '/users/'
             ]); ?>
             <fieldset class="search-task__categories">
                 <legend>Категории</legend>
@@ -138,7 +135,6 @@ yii\widgets\Pjax::begin(['id' => 'list']);?>
             <?= Html::submitButton('Искать',
                 ['class' => 'button']) ?>
             <?php ActiveForm::end(); ?>
-            <?php yii\widgets\Pjax::end() ?>
         </div>
     </section>
 </div>
