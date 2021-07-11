@@ -31,8 +31,6 @@ class TasksController extends SecuredController
 
     private $task;
 
-    // private $file_task;
-
     public function actionIndex(): string
     {
         $searchForm = new TaskSearchForm();
@@ -76,25 +74,24 @@ class TasksController extends SecuredController
             $fileUploadForm->load(Yii::$app->request->post());
             $fileUploadForm->file_item = UploadedFile::getInstances($fileUploadForm, 'file_item');
 
-
             if ($createTaskForm->validate() && $fileUploadForm->upload()) {
                 $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
                 $this->task->save(false);
-                $batchArr = array();
+                $files = array();
 
                 foreach ($fileUploadForm->file_item as $fileItem) {
-                    $batchArr[] = [$fileItem, $this->task['id']];
+                    $files[] = [$fileItem, $this->task['id']];
                 }
                 Yii::$app->db->createCommand()
                     ->batchInsert('file_task',
                         ['file_item', 'task_id'],
-                        $batchArr)
+                        $files)
                     ->execute();
 
                 return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
             }
         }
 
-        return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user, 'task' => $this->task]);
+        return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user, 'text' => $text]);
     }
 }

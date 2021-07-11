@@ -50,36 +50,43 @@ $categories = $createTaskForm->getCategories();
                     'rows' => 1
                 ]
             ])->textArea() ?>
-            <?=  $form->field($createTaskForm, "description", [
+            <?= $form->field($createTaskForm, "description", [
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 11,
                     'rows' => 7
                 ]
-            ])->textArea()?>
-            <?=$form->field($fileUploadForm, 'file_item[]', [
+            ])->textArea() ?>
+            <label>Файлы</label>
+            <span>Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу</span>
+            <div class="create__file" style="position: relative">
+                <span>Добавить новый файл</span>
+                <label for="file_task" style="position: absolute; width: 100%; height: 100%;"></label>
+            </div>
+            <?= $form->field($fileUploadForm, 'file_item[]', [
                 'inputOptions' => [
                     'class' => 'create__file',
-                    'style' => 'width: 100%',
+                    'style' => 'display: none',
                     'multiple' => true,
-                ]
-            ])->fileInput(['multiple' => true, 'accept' => 'image/*']);?>
-           <!--  $form->field($createTaskForm, "categories", [
-                'options' => ['style' => 'margin-top: 27px; margin-bottom: 0;'],
-                'inputOptions' => ['style' => 'width: 520px; margin-top: 12px; margin-bottom: 7px;']
-            ])->dropDownList($categories, [
-                'class' => 'multiple-select input multiple-select-big',
-                'size' => 1,
+                    'id' => 'file_task',
 
-                'prompt' => [
-                    'text' => 'Курьер',
-                    'options' => ['value' => 'cargo']
+                    'widgetClientOptions' => [
+                        'buttonsHide' => ['image', 'file'],
+                    ]
                 ]
-            ]) -->
-            <div class="create__file">
-                <span>Добавить новый файл</span>
-                <!--                          <input type="file" name="files[]" class="dropzone">-->
-            </div>
+            ])->label(false)->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
+            <!--  $form->field($createTaskForm, "categories", [
+                 'options' => ['style' => 'margin-top: 27px; margin-bottom: 0;'],
+                 'inputOptions' => ['style' => 'width: 520px; margin-top: 12px; margin-bottom: 7px;']
+             ])->dropDownList($categories, [
+                 'class' => 'multiple-select input multiple-select-big',
+                 'size' => 1,
+
+                 'prompt' => [
+                     'text' => 'Курьер',
+                     'options' => ['value' => 'cargo']
+                 ]
+             ]) -->
             <label for="13">Локация</label>
             <input class="input-navigation input-middle input" id="13" type="search" name="q"
                    placeholder="Санкт-Петербург, Калининский район">
