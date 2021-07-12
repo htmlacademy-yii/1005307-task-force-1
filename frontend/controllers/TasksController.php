@@ -12,6 +12,7 @@ use frontend\models\users\Users;
 use yii\base\BaseObject;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
+use yii\widgets\ActiveForm;
 use yii\web\Response;
 
 use Yii;
@@ -88,7 +89,6 @@ class TasksController extends SecuredController
             if ($createTaskForm->validate()) {
                 $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
                 $this->task->save(false);
-                $this->actionJson();
 
                 if (!empty($fileUploadForm->file_item) && $fileUploadForm->upload()) {
                     $files = array();
@@ -103,11 +103,10 @@ class TasksController extends SecuredController
                             $files)
                         ->execute();
                 }
-
+            }
                 return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
             }
-        }
 
-        return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user, 'text' => $text]);
+        return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user]);
     }
 }

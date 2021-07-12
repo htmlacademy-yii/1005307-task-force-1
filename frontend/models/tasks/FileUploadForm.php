@@ -15,11 +15,6 @@ class FileUploadForm extends Model
     public $file_item;
     public $task_id;
 
-    //private $filePathTemplate = "{basePath}/uploads/{task_id}";
-
-    //private $filePathTemplate = "{basePath}/uploads/{task_id}";
-    //private $_folderPath;
-
     public function rules(): array
     {
         return [

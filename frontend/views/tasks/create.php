@@ -31,7 +31,7 @@ $categories = $createTaskForm->getCategories();
                     'labelOptions' => [
                         'class' => null,
                     ],
-           //         'enableAjaxValidation' => true,
+                    //         'enableAjaxValidation' => true,
                 ]]) ?>
             <?= $form->field($createTaskForm, 'client_id', [
                 'options' => ['style' => 'margin-top: 0'],
@@ -60,8 +60,7 @@ $categories = $createTaskForm->getCategories();
             <span>Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу</span>
             <div class="create__file" style="position: relative">
                 <span>Добавить новый файл</span>
-                <label for="file_task" style="position: absolute; width: 100%; height: 100%;"></label>
-
+                <label for="file_task" style="position: absolute; width: 100%; height: 100%;">
                 <?= $form->field($fileUploadForm, 'file_item[]', [
                     'inputOptions' => [
                         'class' => 'create__file',
@@ -74,7 +73,26 @@ $categories = $createTaskForm->getCategories();
                         ]
                     ]
                 ])->label(false)->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
+                </label>
             </div>
+            <?php $js = <<<JS
+                    const fileTask = document.getElementById('file_task');
+                    const fileSpan = document.querySelector('.create__file span');
+                    file_task.addEventListener('change', (event) => {
+                        const fileList = event.target.files;
+                        if (fileList.length === 1) {
+                            fileSpan.textContent = 'Загружен ' + fileList.length + ' файл';
+                        }
+                        if (fileList.length > 1) {
+                            fileSpan.textContent = 'Загружены ' + fileList.length + ' файла';
+                        }
+                        if (fileList.length > 4) {
+                            fileSpan.textContent = 'Загружено ' + fileList.length + ' файлов';
+                        }
+                    })
+JS;
+            $this->registerJs($js);
+            ?>
             <!--  $form->field($createTaskForm, "categories", [
              'options' => ['style' => 'margin-top: 27px; margin-bottom: 0;'],
              'inputOptions' => ['style' => 'width: 520px; margin-top: 12px; margin-bottom: 7px;']
