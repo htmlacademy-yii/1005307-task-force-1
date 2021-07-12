@@ -60,6 +60,17 @@ class TasksController extends SecuredController
         return $this->render('view', ['task' => $task]);
     }
 
+    public function actionJson()
+    {
+        $tasks = Tasks::find()->asArray()->all();
+
+        $response = Yii::$app->response;
+        $response->data = $tasks;
+        $response->format = Response::FORMAT_JSON;
+
+        return $response;
+    }
+
     public function actionCreate()
     {
         $createTaskForm = new CreateTaskForm();
@@ -74,19 +85,24 @@ class TasksController extends SecuredController
             $fileUploadForm->load(Yii::$app->request->post());
             $fileUploadForm->file_item = UploadedFile::getInstances($fileUploadForm, 'file_item');
 
-            if ($createTaskForm->validate() && $fileUploadForm->upload()) {
+            if ($createTaskForm->validate()) {
                 $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
                 $this->task->save(false);
-                $files = array();
+                $this->actionJson();
 
-                foreach ($fileUploadForm->file_item as $fileItem) {
-                    $files[] = [$fileItem, $this->task['id']];
+                if (!empty($fileUploadForm->file_item) && $fileUploadForm->upload()) {
+                    $files = array();
+
+                    foreach ($fileUploadForm->file_item as $fileItem) {
+                        $files[] = [$fileItem, $this->task['id']];
+                    }
+
+                    Yii::$app->db->createCommand()
+                        ->batchInsert('file_task',
+                            ['file_item', 'task_id'],
+                            $files)
+                        ->execute();
                 }
-                Yii::$app->db->createCommand()
-                    ->batchInsert('file_task',
-                        ['file_item', 'task_id'],
-                        $files)
-                    ->execute();
 
                 return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
             }
