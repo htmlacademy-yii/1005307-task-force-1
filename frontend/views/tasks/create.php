@@ -1,8 +1,6 @@
 <?php
 $this->title = 'Публикация нового задания';
 
-//$cities = $signForm->getCities();
-
 use yii\widgets\ActiveForm;
 
 $categories = $createTaskForm->getCategories();
@@ -22,7 +20,9 @@ $categories = $createTaskForm->getCategories();
                 'action' => '/tasks/create',
                 'fieldConfig' => [
                     'template' => "{label}\n{input}\n{error}",
-                    'options' => ['style' => 'margin-top: 29px'],
+                    'options' => [
+                        'style' => 'margin-top: 29px'
+                    ],
                     'inputOptions' => [
                         'class' => 'input textarea',
                         'style' => 'width: 93%; margin-top: 12px; margin-bottom: 8px;',
@@ -31,7 +31,6 @@ $categories = $createTaskForm->getCategories();
                     'labelOptions' => [
                         'class' => null,
                     ],
-                    //         'enableAjaxValidation' => true,
                 ]]) ?>
             <?= $form->field($createTaskForm, 'client_id', [
                 'options' => ['style' => 'margin-top: 0'],
@@ -61,22 +60,21 @@ $categories = $createTaskForm->getCategories();
             <div class="create__file" style="position: relative">
                 <span>Добавить новый файл</span>
                 <label for="file_task" style="position: absolute; width: 100%; height: 100%;">
-                <?= $form->field($fileUploadForm, 'file_item[]', [
-                    'inputOptions' => [
-                        'class' => 'create__file',
-                        'style' => 'display: none',
-                        'multiple' => true,
-                        'id' => 'file_task',
+                    <?= $form->field($fileUploadForm, 'file_item[]', [
+                        'inputOptions' => [
+                            'class' => 'create__file',
+                            'style' => 'display: none',
+                            'multiple' => true,
+                            'id' => 'file_task',
 
-                        'widgetClientOptions' => [
-                            'buttonsHide' => ['image', 'file'],
+                            'widgetClientOptions' => [
+                                'buttonsHide' => ['image', 'file'],
+                            ]
                         ]
-                    ]
-                ])->label(false)->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
+                    ])->label(false)->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
                 </label>
             </div>
             <?php $js = <<<JS
-                    const fileTask = document.getElementById('file_task');
                     const fileSpan = document.querySelector('.create__file span');
                     file_task.addEventListener('change', (event) => {
                         const fileList = event.target.files;
@@ -93,18 +91,21 @@ $categories = $createTaskForm->getCategories();
 JS;
             $this->registerJs($js);
             ?>
-            <!--  $form->field($createTaskForm, "categories", [
-             'options' => ['style' => 'margin-top: 27px; margin-bottom: 0;'],
-             'inputOptions' => ['style' => 'width: 520px; margin-top: 12px; margin-bottom: 7px;']
-         ])->dropDownList($categories, [
-             'class' => 'multiple-select input multiple-select-big',
-             'size' => 1,
-
-             'prompt' => [
-                 'text' => 'Курьер',
-                 'options' => ['value' => 'cargo']
-             ]
-         ]) -->
+            <?= $form->field($createTaskForm, "category_id", [
+                'options' => [
+                    'style' => 'margin-top: 27px; margin-bottom: 0;'
+                ],
+                'inputOptions' => [
+                    'style' => 'width: 520px; margin-top: 12px; margin-bottom: 7px;',
+                    'id' => '13'
+                ],
+            ])->dropDownList($categories, [
+                'class' => 'multiple-select input multiple-select-big',
+                'prompt' => [
+                    'text' => 'Выберите категорию',
+                    'options' => ['value' => 'choose']
+                ]
+            ]) ?>
             <label for="13">Локация</label>
             <input class="input-navigation input-middle input" id="13" type="search" name="q"
                    placeholder="Санкт-Петербург, Калининский район">

@@ -33,7 +33,7 @@ use yii\helpers\url;
                     <h3 class="content-view__h3">Вложения</h3>
                     <?php $files = $task['fileTasks'] ?>
                     <?php foreach ($files as $file) : ?>
-                        <a href="" download> <?=$file['file_item'] ?></a>
+                        <a href="#"> <?=$file['file_item'] ?></a>
                     <?php endforeach; ?>
                 </div>
                 <div class="content-view__location">

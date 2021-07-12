@@ -103,9 +103,9 @@ class TasksController extends SecuredController
                             $files)
                         ->execute();
                 }
-            }
                 return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
             }
+        }
 
         return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user]);
     }

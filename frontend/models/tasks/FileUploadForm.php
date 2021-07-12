@@ -18,7 +18,7 @@ class FileUploadForm extends Model
     public function rules(): array
     {
         return [
-            ['file_item', 'file',
+            [['file_item'], 'file',
                 'skipOnEmpty' => true,
                 'extensions' => 'png, jpg, jpeg doc, docx, pdf',
                 'maxFiles' => 5,
