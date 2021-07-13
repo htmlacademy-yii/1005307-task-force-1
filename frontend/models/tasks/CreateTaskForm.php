@@ -24,7 +24,6 @@ class CreateTaskForm extends Model
 
     public function rules(): array
     {
-
         return [
             ['client_id', 'required'],
             ['name', 'required', 'message' => 'Кратко опишите суть работы'],
@@ -35,18 +34,21 @@ class CreateTaskForm extends Model
             ['description', 'match', 'pattern' => "/(?=(.*[^ ]){10,})/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
-            ['category_id', 'validateCategory'],
             ['budget', 'integer', 'min' => 1,
                 'tooSmall' => 'Значение должно быть целым положительным числом',
             ],
             ['expire', 'validateDate'],
+            ['category_id', 'required'],
+            ['category_id', 'validateCat'],
             ['expire', 'date', 'format' => 'yyyy*MM*dd', 'message' => 'Необходимый формат «гггг.мм.дд»'],
+
             [['client_id', 'name', 'description', 'category_id', 'budget', 'expire'], 'safe']
+
         ];
     }
 
-    public function validateCategory() {
-        if ($this->category_id === 0) {
+    public function validateCat() {
+        if ($this->category_id == 0) {
             $this->addError('category_id', 'Выберите категорию');
         }
     }

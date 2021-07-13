@@ -21,6 +21,7 @@ use yii\web\NotFoundHttpException;
 class TasksController extends SecuredController
 {
     private $user;
+    private $fileUploadForm;
 
     public function init()
     {
@@ -29,8 +30,6 @@ class TasksController extends SecuredController
             $this->user = \Yii::$app->user->getIdentity();
         }
     }
-
-    private $fileUploadForm;
 
     public function actionIndex(): string
     {
@@ -84,11 +83,13 @@ class TasksController extends SecuredController
 
         if ($request->isAjax && $createTaskForm->load($request->post()) && $this->fileUploadForm->load($request->post()))  {
             Yii::$app->response->format = Response::FORMAT_JSON;
+            $createTaskForm->validate();
 
             return ActiveForm::validate($createTaskForm, $this->fileUploadForm);
         }
 
         if ($createTaskForm->load($request->post())) {
+            $createTaskForm->validate();
             $task = new Tasks(['attributes' => $createTaskForm->attributes]);
             $task->save(false);
             $this->actionUploadFile($task);
