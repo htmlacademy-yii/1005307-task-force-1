@@ -15,7 +15,6 @@ class CreateTaskForm extends Model
     public $budget;
     public $expire;
     public $client_id;
-
     public $category_id;
 
     public function getCategories(): array
@@ -36,7 +35,7 @@ class CreateTaskForm extends Model
             ['description', 'match', 'pattern' => "/(?=(.*[^ ]){10,})/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
-            ['category_id', 'validateCategory',  'message' => 'Выберите категорию'],
+            ['category_id', 'validateCategory'],
             ['budget', 'integer', 'min' => 1,
                 'tooSmall' => 'Значение должно быть целым положительным числом',
             ],
@@ -53,7 +52,7 @@ class CreateTaskForm extends Model
     }
 
     public function validateDate() {
-        $currentDate = Yii::$app->getFormatter()->asDate(time());
+        $currentDate = date('Y-m-d H:i:s');
 
         if ($currentDate > $this->expire) {
             $this->addError('expire', '"Срок исполнения", не может быть раньше текущей даты');

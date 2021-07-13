@@ -87,10 +87,12 @@ class TasksController extends SecuredController
 
             return ActiveForm::validate($createTaskForm, $this->fileUploadForm);
         }
+
         if ($createTaskForm->load($request->post())) {
             $task = new Tasks(['attributes' => $createTaskForm->attributes]);
             $task->save(false);
             $this->actionUploadFile($task);
+
             return $this->redirect(['tasks/view', 'id' => $task['id']]);
         }
 
