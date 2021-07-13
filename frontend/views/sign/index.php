@@ -11,6 +11,7 @@ use yii\widgets\ActiveForm;
         <h1>Регистрация аккаунта</h1>
         <div class="registration-wrapper">
             <?php $form = ActiveForm::begin([
+                'action' => '/sign/',
                 'id' => 'sign',
                 'method' => 'post',
                 'options' => ['class' => 'registration__user-form form-create'],

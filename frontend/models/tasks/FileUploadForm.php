@@ -15,15 +15,14 @@ class FileUploadForm extends Model
     public $file_item;
     public $task_id;
 
-    //private $filePathTemplate = "{basePath}/uploads/{task_id}";
-
-    //private $filePathTemplate = "{basePath}/uploads/{task_id}";
-    //private $_folderPath;
-
     public function rules(): array
     {
         return [
-            ['file_item', 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg doc, docx, pdf', 'message' => 'Файлы могут быть только форматов png, jpg, jpeg doc, docx, pdf'],
+            [['file_item'], 'file',
+                'skipOnEmpty' => true,
+                'extensions' => 'png, jpg, jpeg doc, docx, pdf',
+                'maxFiles' => 5,
+                'message' => 'Файлы могут быть только форматов png, jpg, jpeg doc, docx, pdf'],
             [['task_id', 'file_item'], 'safe']
         ];
     }
@@ -31,17 +30,23 @@ class FileUploadForm extends Model
     public function attributeLabels(): array
     {
         return [
-            'file_item' => 'Фаил',
+            'file_item' => 'Файл',
             'task_id' => 'Задание'
         ];
     }
 
     public function upload(): bool
     {
-        if ($this->validate()) {
-            //foreach ($this->file_item as $file) {
-                $this->file_item->saveAs('uploads/' . $this->file_item->baseName . '.' . $this->file_item->extension);
-            //}
+        if (!empty($this->file_item)) {
+
+            if (!$this->validate()) {
+                $errors = $this->getErrors();
+            }
+            if ($this->validate()) {
+                foreach ($this->file_item as $file) {
+                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+                }
+            }
             return true;
         }
 

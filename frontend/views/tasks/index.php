@@ -1,65 +1,59 @@
 <?php
 $this->title = 'Список заданий';
-$formatter = \Yii::$app->formatter;
 
 use yii\widgets\ActiveForm;
-use yii\widgets\ActiveField;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\widgets\LinkPager;
+use yii\widgets\ListView;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
 $periodFilter = $searchForm->getPeriodFilter();
 ?>
 <div class="main-container page-container">
     <section class="new-task">
-        <div class="new-task__wrapper">
-            <h1>Новые задания</h1>
-            <?php foreach ($tasks as $task): ?>
-                <div class="new-task__card">
-                    <div class="new-task__title">
-                        <a href="<?= Url::to(['tasks/view/', 'id' => $task['id']]) ?>" class="link-regular">
-                            <h2><?= $task['name'] ?></h2></a>
-                        <a class="new-task__type link-regular" href="#"><p><?= $task['category']['name'] ?></p></a>
-                    </div>
-                    <div class="new-task__icon new-task__icon--<?= $task['category']['icon'] ?>"></div>
-                    <p class="new-task_description">
-                        <?= $task['description'] ?>
-                    </p>
-                    <b class="new-task__price new-task__price--<?= $task['category']['icon'] ?>">
-                        <?= $task['budget'] ?> <b> ₽</b></b>
-                    <p class="new-task__place"><?= $task['city'] ? ($task['city']['city']) : 'Удаленная работа' ?> <?= $task['address'] ?></p>
-                    <span class="new-task__time"><?= $formatter->asRelativeTime($task['dt_add']) ?></span>
-                </div>
-            <?php endforeach; ?>
-        </div>
-        <div class="new-task__pagination">
-            <?= LinkPager::widget([
-                'pagination' => $page,
+        <?=
+        ListView::widget([
+            'dataProvider' => $dataProvider,
+            'itemView' => '_item',
+            'layout' => "<div class='new-task__wrapper'>
+                <h1>Новые задания</h1>
+                {items}
+            </div>\n
+            <div class='new-task__pagination'>{pager}</div>",
+            'emptyText' => 'Новых заданий пока нет',
+            'emptyTextOptions' => [
+                'tag' => 'p'
+            ],
+            'itemOptions' => [
+                'tag' => false,
+            ],
+            'pager' => [
                 'options' => ([
                     'class' => 'new-task__pagination-list',
+                    'style' => 'width: 100%'
                 ]),
-                'activePageCssClass' => 'pagination__item pagination__item--current',
                 'pageCssClass' => 'pagination__item',
                 'prevPageCssClass' => 'pagination__item',
                 'nextPageCssClass' => 'pagination__item',
-                'prevPageLabel' => '',
                 'nextPageLabel' => '',
+                'prevPageLabel' => '',
+                'activePageCssClass' => 'pagination__item pagination__item--current',
                 'linkOptions' => ([
-                    'style' => 'padding-top: 40%; height: 100%; width: 100%; text-align: center; vertical-align: middle'
+                    'style' => 'padding-top: 45%; height: 100%; width: 100%; text-align: center'
                 ])
-            ]); ?>
-        </div>
+            ],
+        ])
+        ?>
     </section>
     <section class="search-task">
         <div class="search-task__wrapper">
             <?php $form = ActiveForm::begin([
                 'id' => 'searchForm',
-                'method' => 'post',
+                'method' => 'get',
                 'options' => [
                     'name' => 'test',
                     'class' => 'search-task__form'
-                ]
+                ],
+                'action' => '/tasks/',
             ]); ?>
             <fieldset class="search-task__categories">
                 <legend>Категории</legend>

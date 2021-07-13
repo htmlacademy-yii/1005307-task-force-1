@@ -1,5 +1,4 @@
-<?php
-require_once '../utils/my_functions.php';
+<?php /** @noinspection ALL */
 $formatter = \Yii::$app->formatter;
 $this->title = 'Задание ' . $task['name'];
 
@@ -34,7 +33,7 @@ use yii\helpers\url;
                     <h3 class="content-view__h3">Вложения</h3>
                     <?php $files = $task['fileTasks'] ?>
                     <?php foreach ($files as $file) : ?>
-                        <a href="#"><?= $file['file_item'] ?></a>
+                        <a href="#"> <?=$file['file_item'] ?></a>
                     <?php endforeach; ?>
                 </div>
                 <div class="content-view__location">
@@ -134,8 +133,8 @@ use yii\helpers\url;
                     </div>
                 </div>
                 <p class="info-customer">
-                    <span><?= count($tasks) ?> <?= get_noun_plural_form(count($tasks), 'задание', 'задания', 'заданий') ?></span><span
-                        class="last-"><?= $formatter->asRelativeTime($client['dt_add'], strftime("%F %T")) ?></span>
+                    <span><?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'задание', 'задания', 'заданий') ?></span>
+                    <span class="last-"><?= $formatter->getPeriodTime($client['dt_add']) ?></span>
                 </p>
                 <a href="<?= Url::to(['users/view', 'id' => $client['id']]) ?>" class="link-regular">Смотреть
                     профиль</a>

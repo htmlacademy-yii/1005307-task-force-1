@@ -1,7 +1,10 @@
 <?php
 $formatter = \Yii::$app->formatter;
 $this->title = 'Главная страница';
+
 use yii\helpers\Url;
+use yii\widgets\ListView;
+
 ?>
 
 <div class="landing-container">
@@ -94,25 +97,21 @@ use yii\helpers\Url;
         </div>
     </div>
     <div class="landing-bottom">
-        <div class="landing-bottom-container">
-            <h2>Последние задания на сайте</h2>
-            <?php for($i=1;$i<=4;$i++) : ?>
-                <div class="landing-task">
-                    <div class="landing-task-top task-<?= $tasks[$i]['category']['icon'] ?>"></div>
-                    <div class="landing-task-description">
-                        <h3><a href="<?= Url::to(['sign/']) ?>" class="link-regular"><?= $tasks[$i]['name'] ?></a></h3>
-                        <p><?= yii\helpers\StringHelper::truncate($tasks[$i]['description'], 90, '...') ?></p>
-                    </div>
-                    <div class="landing-task-info">
-                        <div class="task-info-left">
-                            <p><a href="<?= Url::to(['sign/']) ?>" class="link-regular"><?= $tasks[$i]['category']['name'] ?></a></p>
-                            <p><?= $formatter->asRelativeTime($tasks[$i]['dt_add']) ?></p>
-                        </div>
-                        <span><?= $tasks[$i]['budget'] ?> <b>₽</b></span>
-                    </div>
-                </div>
-            <?php endfor; ?>
-        </div>
+        <?=
+        ListView::widget([
+            'dataProvider' => $dataProvider,
+            'itemView' => '_item',
+            'itemOptions' => [
+                'tag' => false,
+            ],
+            'layout' => "<div class='landing-bottom-container'>
+                   <h2>Последние задания на сайте</h2>{items}</div>",
+            'emptyText' => 'Новых заданий пока нет',
+            'emptyTextOptions' => [
+                'tag' => 'p'
+            ],
+        ]);
+        ?>
         <div class="landing-bottom-container">
             <button type="button" class="button red-button">смотреть все задания</button>
         </div>

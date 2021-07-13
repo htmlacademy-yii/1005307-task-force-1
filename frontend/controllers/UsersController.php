@@ -3,34 +3,53 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use frontend\models\tasks\Tasks;
 use frontend\models\users\Users;
 use frontend\models\users\UserSearchForm;
-use yii\data\Pagination;
 
 use Yii;
-use yii\base\BaseObject;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class UsersController extends SecuredController
 {
     public function init()
     {
         parent::init();
-        //  $this->userAccount = \Yii::$app->user->getIdentity();
+
+        if (!Yii::$app->user->isGuest) {
+            $user = Users::findOne(Yii::$app->user->id);
+            $user->last_activity_time = date('Y-m-d H:i:s');
+            $user->save(false, ["last_activity_time"]);
+        }
+    }
+
+    public function actionJson() {
+        $contacts = Users::find()->asArray()->all();
+
+        $response = Yii::$app->response;
+        $response->data = $contacts;
+        $response->format = Response::FORMAT_JSON;
+
+        return $response;
     }
 
     public function actionIndex(): string
     {
         $searchForm = new UserSearchForm();
-        $searchForm->load($this->request->post());
-        $query = Users::getDoersByFilters($searchForm);
-        $page = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
-        $users = $query->offset($page->offset)
-            ->limit($page->limit)
-            ->all();
+        $searchForm->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', compact('users', 'searchForm', 'page'));
+        $dataProvider = new ActiveDataProvider([
+            'query' => Users::getDoersByFilters($searchForm),
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+            'searchForm' => $searchForm]
+        );
     }
 
     public function actionView($id = null): string

@@ -15,8 +15,7 @@ class CreateTaskForm extends Model
     public $budget;
     public $expire;
     public $client_id;
-
-    public $categories;
+    public $category_id;
 
     public function getCategories(): array
     {
@@ -25,7 +24,6 @@ class CreateTaskForm extends Model
 
     public function rules(): array
     {
-
         return [
             ['client_id', 'required'],
             ['name', 'required', 'message' => 'Кратко опишите суть работы'],
@@ -36,26 +34,27 @@ class CreateTaskForm extends Model
             ['description', 'match', 'pattern' => "/(?=(.*[^ ]){10,})/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
-      //      ['categories', 'required',  'message' => 'Выберите категорию'],
-            [
-                'categories', 'exist', 'skipOnError' => false,
-                'targetClass' => Categories::class, 'targetAttribute' => ['categories' => 'id'],
-                'message' => 'Такой категории не существует'
-            ],
             ['budget', 'integer', 'min' => 1,
                 'tooSmall' => 'Значение должно быть целым положительным числом',
             ],
             ['expire', 'validateDate'],
+            ['category_id', 'required'],
+            ['category_id', 'validateCat'],
             ['expire', 'date', 'format' => 'yyyy*MM*dd', 'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['client_id', 'name', 'description', 'categories', 'budget', 'expire'], 'safe']
+
+            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire'], 'safe']
+
         ];
     }
 
-    /**
-     * @throws yii\base\InvalidConfigException
-     */
+    public function validateCat() {
+        if ($this->category_id == 0) {
+            $this->addError('category_id', 'Выберите категорию');
+        }
+    }
+
     public function validateDate() {
-        $currentDate = Yii::$app->getFormatter()->asDate(time());
+        $currentDate = date('Y-m-d H:i:s');
 
         if ($currentDate > $this->expire) {
             $this->addError('expire', '"Срок исполнения", не может быть раньше текущей даты');
@@ -70,7 +69,7 @@ class CreateTaskForm extends Model
             'description' => 'Подробности задания',
             'budget' => 'Бюджет',
             'expire' => 'Срок исполнения',
-            'categories' => 'Категория',
+            'category_id' => 'Категория',
         ];
     }
 }

@@ -4,28 +4,16 @@ namespace frontend\models\users;
 
 use frontend\models\categories\Categories;
 
-use yii\base\Model;
+use yii;
 
-/**
- * This is the model class for table "user_search_form".
- *
- * @property int|null $free_now
- * @property int|null $online_now
- * @property int|null $has_opinions
- * @property int|null $is_favourite
- */
-
-class UserSearchForm extends Model
+class UserSearchForm extends Users
 {
     public $searchedCategories = [];
-    public $additionalFilter = [];
-    public $periodFilter = [];
     public $searchName;
     public $isFreeNow;
     public $isOnlineNow;
     public $hasOpinions;
     public $isFavourite;
-    private $categories;
 
     public static function tableName(): string
     {
@@ -42,5 +30,17 @@ class UserSearchForm extends Model
     public function getCategoriesFilter(): array
     {
         return Categories::getCategoriesFilters();
+    }
+
+    public function search($params): UsersQuery
+    {
+        $query = Users::find();
+        $this->load($params);
+
+        if (!$this->validate()) {
+            return $query;
+        }
+
+        return $query;
     }
 }
