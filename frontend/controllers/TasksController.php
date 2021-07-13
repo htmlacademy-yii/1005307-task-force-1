@@ -30,7 +30,7 @@ class TasksController extends SecuredController
         }
     }
 
-    private $task;
+    private $fileUploadForm;
 
     public function actionIndex(): string
     {
@@ -75,38 +75,49 @@ class TasksController extends SecuredController
     public function actionCreate()
     {
         $createTaskForm = new CreateTaskForm();
-        $fileUploadForm = new FileUploadForm();
+        $this->fileUploadForm = new FileUploadForm();
+        $request = Yii::$app->request;
 
         if ($this->user['user_role'] === 'doer') {
             return $this->redirect(['tasks/index']);
         }
 
-        if (Yii::$app->request->getIsPost()) {
-            $createTaskForm->load(Yii::$app->request->post());
-            $fileUploadForm->load(Yii::$app->request->post());
-            $fileUploadForm->file_item = UploadedFile::getInstances($fileUploadForm, 'file_item');
+        if ($request->isAjax && $createTaskForm->load($request->post()) && $this->fileUploadForm->load($request->post()))  {
+            Yii::$app->response->format = Response::FORMAT_JSON;
 
-            if ($createTaskForm->validate()) {
-                $this->task = new Tasks(['attributes' => $createTaskForm->attributes]);
-                $this->task->save(false);
-
-                if (!empty($fileUploadForm->file_item) && $fileUploadForm->upload()) {
-                    $files = array();
-
-                    foreach ($fileUploadForm->file_item as $fileItem) {
-                        $files[] = [$fileItem, $this->task['id']];
-                    }
-
-                    Yii::$app->db->createCommand()
-                        ->batchInsert('file_task',
-                            ['file_item', 'task_id'],
-                            $files)
-                        ->execute();
-                }
-                return $this->redirect(['tasks/view', 'id' => $this->task['id']]);
-            }
+            return ActiveForm::validate($createTaskForm, $this->fileUploadForm);
+        }
+        if ($createTaskForm->load($request->post())) {
+            $task = new Tasks(['attributes' => $createTaskForm->attributes]);
+            $task->save(false);
+            $this->actionUploadFile($task);
+            return $this->redirect(['tasks/view', 'id' => $task['id']]);
         }
 
-        return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user]);
+        return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $this->fileUploadForm, 'user' => $this->user]);
+    }
+
+    private function actionUploadFile($task): void
+    {
+        $request = Yii::$app->request;
+
+         if ($this->fileUploadForm->load($request->post())) {
+            $this->fileUploadForm->file_item = UploadedFile::getInstances($this->fileUploadForm, 'file_item');
+
+            if (!empty($this->fileUploadForm->file_item) && $this->fileUploadForm->upload()) {
+                $files = array();
+
+                foreach ($this->fileUploadForm->file_item as $fileItem) {
+                    $files[] = [$fileItem, $task['id']];
+                }
+
+                Yii::$app->db->createCommand()
+                    ->batchInsert('file_task',
+                        ['file_item', 'task_id'],
+                        $files)
+                    ->execute();
+                return;
+            }
+        }
     }
 }

@@ -36,7 +36,7 @@ class CreateTaskForm extends Model
             ['description', 'match', 'pattern' => "/(?=(.*[^ ]){10,})/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
-            ['category_id', 'required',  'message' => 'Выберите категорию'],
+            ['category_id', 'validateCategory',  'message' => 'Выберите категорию'],
             ['budget', 'integer', 'min' => 1,
                 'tooSmall' => 'Значение должно быть целым положительным числом',
             ],
@@ -46,9 +46,12 @@ class CreateTaskForm extends Model
         ];
     }
 
-    /**
-     * @throws yii\base\InvalidConfigException
-     */
+    public function validateCategory() {
+        if ($this->category_id === 0) {
+            $this->addError('category_id', 'Выберите категорию');
+        }
+    }
+
     public function validateDate() {
         $currentDate = Yii::$app->getFormatter()->asDate(time());
 

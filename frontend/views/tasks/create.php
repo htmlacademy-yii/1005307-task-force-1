@@ -14,6 +14,7 @@ $categories = $createTaskForm->getCategories();
             <?php $form = ActiveForm::begin([
                 'id' => 'task-form',
                 'method' => 'post',
+                'enableAjaxValidation' => true,
                 'options' => ['class' => 'create__task-form form-create',
                     'enctype' => "multipart/form-data"],
                 'validationStateOn' => 'input',
@@ -106,8 +107,8 @@ JS;
                     'options' => ['value' => 'choose']
                 ]
             ]) ?>
-            <label for="13">Локация</label>
-            <input class="input-navigation input-middle input" id="13" type="search" name="q"
+            <label for="14">Локация</label>
+            <input class="input-navigation input-middle input" id="14" type="search" name="q"
                    placeholder="Санкт-Петербург, Калининский район">
             <span>Укажите адрес исполнения, если задание требует присутствия</span>
             <div class="create__price-time">
@@ -115,7 +116,7 @@ JS;
                     <?= $form->field($createTaskForm, "budget", [
                         'inputOptions' => [
                             'class' => 'input textarea input-money',
-                            'id' => 14,
+                            'id' => 15,
                             'rows' => 1
                         ]
                     ])->input('number') ?>
@@ -124,7 +125,7 @@ JS;
                     <?= $form->field($createTaskForm, "expire", [
                         'inputOptions' => [
                             'class' => 'input-middle input input-date',
-                            'id' => 15,
+                            'id' => 16,
                             'rows' => 1,
                         ]
                     ])->input('date') ?>
