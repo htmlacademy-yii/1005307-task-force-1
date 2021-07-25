@@ -7,7 +7,6 @@ use frontend\models\tasks\Tasks;
 use frontend\models\tasks\TaskSearchForm;
 use frontend\models\tasks\CreateTaskForm;
 use frontend\models\tasks\FileUploadForm;
-use yii\base\BaseObject;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 use yii\widgets\ActiveForm;
@@ -82,9 +81,7 @@ class TasksController extends SecuredController
         }
 
         if ($request->isAjax && $createTaskForm->load($request->post()) && $this->fileUploadForm->load($request->post())) {
-            if ($createTaskForm->validate()) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
-            }
 
             return ActiveForm::validateMultiple([$createTaskForm, $this->fileUploadForm]);
         }

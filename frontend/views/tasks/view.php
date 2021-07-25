@@ -120,4 +120,29 @@ use yii\helpers\url;
             </div>
         <?php endif; ?>
     </section>
+    <section class="connect-desk">
+        <div class="connect-desk__profile-mini">
+            <div class="profile-mini__wrapper">
+                <h3>Заказчик</h3>
+                <?php $client = $task['client'] ?>
+                <?php $tasks = $client['tasks'] ?>
+                <div class="profile-mini__top">
+                    <?= $client['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $client['avatar'], ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
+                    <div class="profile-mini__name five-stars__rate">
+                        <p><?= $client['name'] ?></p>
+                    </div>
+                </div>
+                <p class="info-customer">
+                    <span><?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'задание', 'задания', 'заданий') ?></span>
+                    <span class="last-"><?= $formatter->getPeriodTime($client['dt_add']) ?></span>
+                </p>
+                <a href="<?= Url::to(['users/view', 'id' => $client['id']]) ?>" class="link-regular">Смотреть
+                    профиль</a>
+            </div>
+        </div>
+        <div id="chat-container">
+            <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
+            <chat class="connect-desk__chat"></chat>
+        </div>
+    </section>
 </div>

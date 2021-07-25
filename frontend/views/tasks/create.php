@@ -14,8 +14,8 @@ $categories = $createTaskForm->getCategories();
             <?php $form = ActiveForm::begin([
                 'id' => 'task-form',
                 'method' => 'post',
-                'enableAjaxValidation' => false,
-                'enableClientValidation' => true,
+                'enableAjaxValidation' => true,
+                'enableClientValidation' => false,
                 'options' => ['class' => 'create__task-form form-create',
                     'enctype' => "multipart/form-data",
                 ],
