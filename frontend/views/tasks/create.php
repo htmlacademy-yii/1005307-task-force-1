@@ -53,7 +53,7 @@ $categories = $createTaskForm->getCategories();
                     'id' => 10,
                     'rows' => 1,
                 ]
-            ])->textArea() ?>
+            ])->textArea()->hint('Пожалуйста, введите имя') ?>
             <?= $form->field($createTaskForm, "description", [
                 'inputOptions' => [
                     'class' => 'input textarea',

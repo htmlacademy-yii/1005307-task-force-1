@@ -27,11 +27,14 @@ class CreateTaskForm extends Model
         return [
             ['client_id', 'required'],
             ['name', 'required', 'message' => 'Кратко опишите суть работы'],
-            ['name', 'match', 'pattern' => "/(?=(.*[^ ]){10,})/",
-                'message' => 'Длина поля «{attribute}» должна быть не меньше 5 не пробельных символов'
+            ['name', 'trim'],
+            ['name', 'match', 'pattern' => "/^[a-zA-Zа-яА-Я1-9]\w{10,}$/",
+                'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
             ['description', 'required', 'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
-            ['description', 'match', 'pattern' => "/(?=(.*[^ ]){10,})/",
+            ['description', 'trim'],
+            ['description', 'string', 'min' => 30],
+            ['description', 'match', 'pattern' => "/(?=(.*[^ ]))/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 30 не пробельных символов'
             ],
             ['budget', 'integer', 'min' => 1,
@@ -43,7 +46,6 @@ class CreateTaskForm extends Model
             [['client_id', 'name', 'description', 'category_id', 'budget', 'expire'], 'safe']
         ];
     }
-
     public function validateCat() {
         if ($this->category_id == 0) {
             $this->addError('category_id', 'Выберите категорию');
