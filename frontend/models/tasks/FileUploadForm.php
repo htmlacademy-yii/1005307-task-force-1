@@ -3,12 +3,7 @@ declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
-use Yii;
-use yii\base\InvalidArgumentException;
-use yii\base\Exception;
 use yii\base\Model;
-use yii\helpers\FileHelper;
-use yii\web\UploadedFile;
 
 class FileUploadForm extends Model
 {

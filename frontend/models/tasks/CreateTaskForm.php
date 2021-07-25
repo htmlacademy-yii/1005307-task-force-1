@@ -37,11 +37,9 @@ class CreateTaskForm extends Model
             ['budget', 'integer', 'min' => 1,
                 'tooSmall' => 'Значение должно быть целым положительным числом',
             ],
-            ['expire', 'validateDate'],
-            ['category_id', 'required'],
             ['category_id', 'validateCat'],
+            ['expire', 'validateDate'],
             ['expire', 'date', 'format' => 'yyyy*MM*dd', 'message' => 'Необходимый формат «гггг.мм.дд»'],
-
             [['client_id', 'name', 'description', 'category_id', 'budget', 'expire'], 'safe']
 
         ];

@@ -7,8 +7,6 @@ use frontend\models\tasks\Tasks;
 use frontend\models\tasks\TaskSearchForm;
 use frontend\models\tasks\CreateTaskForm;
 use frontend\models\tasks\FileUploadForm;
-use frontend\models\tasks\FileTask;
-use frontend\models\users\Users;
 use yii\base\BaseObject;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
@@ -22,6 +20,7 @@ class TasksController extends SecuredController
 {
     private $user;
     private $fileUploadForm;
+    private $errors;
 
     public function init()
     {
@@ -83,16 +82,14 @@ class TasksController extends SecuredController
 
         if ($request->isAjax && $createTaskForm->load($request->post()) && $this->fileUploadForm->load($request->post()))  {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            $createTaskForm->validate();
 
-            return ActiveForm::validate($createTaskForm, $this->fileUploadForm);
+            return ActiveForm::validateMultiple([$createTaskForm, $this->fileUploadForm]);
         }
 
-        if ($createTaskForm->load($request->post())) {
-            $createTaskForm->validate();
+        if ($createTaskForm->load($request->post()) && $createTaskForm->validate()) {
             $task = new Tasks(['attributes' => $createTaskForm->attributes]);
             $task->save(false);
-            $this->actionUploadFile($task);
+            $this->uploadFile($task);
 
             return $this->redirect(['tasks/view', 'id' => $task['id']]);
         }
@@ -100,11 +97,11 @@ class TasksController extends SecuredController
         return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $this->fileUploadForm, 'user' => $this->user]);
     }
 
-    private function actionUploadFile($task): void
+    private function uploadFile($task): void
     {
         $request = Yii::$app->request;
 
-         if ($this->fileUploadForm->load($request->post())) {
+        if ($this->fileUploadForm->load($request->post())) {
             $this->fileUploadForm->file_item = UploadedFile::getInstances($this->fileUploadForm, 'file_item');
 
             if (!empty($this->fileUploadForm->file_item) && $this->fileUploadForm->upload()) {

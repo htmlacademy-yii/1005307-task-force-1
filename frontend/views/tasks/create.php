@@ -14,11 +14,16 @@ $categories = $createTaskForm->getCategories();
             <?php $form = ActiveForm::begin([
                 'id' => 'task-form',
                 'method' => 'post',
-                'enableAjaxValidation' => true,
+                'enableAjaxValidation' => false,
+                'enableClientValidation' => true,
                 'options' => ['class' => 'create__task-form form-create',
-                    'enctype' => "multipart/form-data"],
+                    'enctype' => "multipart/form-data",
+                ],
                 'validationStateOn' => 'input',
                 'action' => '/tasks/create',
+                'validateOnBlur' => true,
+                'validateOnChange' => true,
+                'validateOnSubmit' => true,
                 'fieldConfig' => [
                     'template' => "{label}\n{input}\n{error}",
                     'options' => [
@@ -46,7 +51,7 @@ $categories = $createTaskForm->getCategories();
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 10,
-                    'rows' => 1
+                    'rows' => 1,
                 ]
             ])->textArea() ?>
             <?= $form->field($createTaskForm, "description", [
@@ -145,11 +150,12 @@ JS;
                         что всё в фокусе, а фото показывает объект со всех
                         ракурсов.</p>
                 </div>
-                <?php if ($createTaskForm->hasErrors()): ?>
+                <?php if ($createTaskForm->getErrors()): ?>
                     <div class="warning-item warning-item--error">
                         <h2>Ошибки заполнения формы</h2>
+                        <p>Данные формы не прошли валидацию</p>
                         <?php $labels = $createTaskForm->attributeLabels(); ?>
-                        <?php foreach ($createTaskForm->errors as $attribute => $message): ?>
+                        <?php foreach ($createTaskForm->getErrors() as $attribute => $message): ?>
                             <h3><?= $labels[$attribute] ?></h3>
                             <p><?= $message[0] ?></p>
                         <?php endforeach; ?>
