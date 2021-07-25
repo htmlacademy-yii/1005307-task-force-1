@@ -7,24 +7,21 @@ use frontend\models\tasks\Tasks;
 use frontend\models\tasks\TaskSearchForm;
 use frontend\models\tasks\CreateTaskForm;
 use frontend\models\tasks\FileUploadForm;
-use frontend\models\tasks\FileTask;
-use yii\base\BaseObject;
-use yii\data\Pagination;
 use yii\web\UploadedFile;
+use yii\data\ActiveDataProvider;
+use yii\widgets\ActiveForm;
+use yii\web\Response;
 
 use Yii;
 use yii\web\NotFoundHttpException;
 
+
 class TasksController extends SecuredController
 {
-    /**
-     * @var bool|mixed|\yii\web\IdentityInterface|null
-     */
-    private $user;
+    private $fileUploadForm;
+    private $errors;
+    public $user;
 
-    /**
-     * @throws \Throwable
-     */
     public function init()
     {
         parent::init();
@@ -36,61 +33,99 @@ class TasksController extends SecuredController
     public function actionIndex(): string
     {
         $searchForm = new TaskSearchForm();
-        $searchForm->load($this->request->post());
-        $query = Tasks::getNewTasksByFilters($searchForm);
-        $page = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
-        $tasks = $query->offset($page->offset)
-            ->limit($page->limit)
-            ->all();
-        return $this->render('index', compact('tasks', 'searchForm', 'page'));
+        $searchForm->search(Yii::$app->request->queryParams);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Tasks::getNewTasksByFilters($searchForm),
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+            'searchForm' => $searchForm
+        ]);
     }
 
     public function actionView($id = null): string
     {
         $task = Tasks::getOneTask($id);
 
-        if (!$task) {
+        if (empty($task)) {
             throw new NotFoundHttpException('Страница не найдена...');
         }
 
-        return $this->render('view', ['task' => $task]);
+        return $this->render('view', ['task' => $task, 'user' => $this->user]);
     }
 
     public function actionCreate()
     {
         $createTaskForm = new CreateTaskForm();
-        $fileUploadForm = new FileUploadForm();
+        $this->fileUploadForm = new FileUploadForm();
+        $request = Yii::$app->request;
+        $session = Yii::$app->session;
 
-        if ($this->user['user_role'] === 'doer') {
+        if ($this->user['user_role'] == 'doer') {
             return $this->redirect(['tasks/index']);
         }
 
-        if (Yii::$app->request->getIsPost()) {
-            $createTaskForm->load(Yii::$app->request->post());
-            $fileUploadForm->load(Yii::$app->request->post());
-            $fileUploadForm->file_item = UploadedFile::getInstance($fileUploadForm, 'file_item');
+        if ($request->isAjax && $createTaskForm->load($request->post()) && $this->fileUploadForm->load($request->post())) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
 
-            if (!$createTaskForm->validate()) {
-                $errors = $createTaskForm->getErrors();
-            }
-
-            if (!$fileUploadForm->validate()) {
-                $errors = $fileUploadForm->getErrors();
-            }
-            if ($fileUploadForm->upload()) {
-              //  foreach ($fileUploadForm->file_item as $file_task) {
-                    $file_task = new FileTask(['attributes' => $fileUploadForm->attributes]);
-              //  }
-            }
-            $task = new Tasks(['attributes' => $createTaskForm->attributes]);
-
-            if ($createTaskForm->validate()) {
-                $task->save(false);
-                $file_task->save(false);
-                return $this->redirect(['tasks/view', 'id' => $task['id']]);
-            }
+            return ActiveForm::validateMultiple([$createTaskForm, $this->fileUploadForm]);
         }
 
-        return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $fileUploadForm, 'user' => $this->user]);
+        if ($createTaskForm->load($request->post())) {
+            if ($createTaskForm->validate()) {
+                $session->setFlash(
+                    'validate',
+                    true
+                );
+                $task = new Tasks(['attributes' => $createTaskForm->attributes]);
+                $task->save(false);
+                $this->uploadFile($task);
+
+                return $this->redirect(['tasks/view', 'id' => $task['id']]);
+            }
+
+            else {
+                $session->setFlash(
+                    'validate',
+                    false
+                );
+                $session->setFlash(
+                    'form-errors',
+                    $createTaskForm->getErrors()
+                );
+            }
+
+        }
+
+        return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $this->fileUploadForm, 'user' => $this->user]);
+    }
+
+    private function uploadFile($task): void
+    {
+        $request = Yii::$app->request;
+
+        if ($this->fileUploadForm->load($request->post())) {
+            $this->fileUploadForm->file_item = UploadedFile::getInstances($this->fileUploadForm, 'file_item');
+
+            if (!empty($this->fileUploadForm->file_item) && $this->fileUploadForm->upload()) {
+                $files = array();
+
+                foreach ($this->fileUploadForm->file_item as $fileItem) {
+                    $files[] = [$fileItem, $task['id']];
+                }
+
+                Yii::$app->db->createCommand()
+                    ->batchInsert('file_task',
+                        ['file_item', 'task_id'],
+                        $files)
+                    ->execute();
+                return;
+            }
+        }
     }
 }

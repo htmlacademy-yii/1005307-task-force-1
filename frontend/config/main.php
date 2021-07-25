@@ -11,9 +11,13 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'language' => 'ru-RU',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+        ],
+        'formatter' => [
+            'class' => 'frontend\components\MyFormatter',
         ],
         'user' => [
             'class' => 'yii\web\User',
@@ -45,8 +49,9 @@ return [
                 '/' => 'landing/index',
                 'tasks/' => 'tasks/index',
                 'users/' => 'users/index',
-                'tasks/<page:\d+>' => 'tasks/index',
-                'users/<page:\d+>' => 'users/index',
+                'tasks/<pages:\d+>' => 'tasks/index',
+                'users/<pages:\d+>' => 'users/index',
+                'users/<filter:\d+>' => 'users/index',
                 'task/view/<id>' => 'tasks/view/',
                 'user/view/<id>' => 'users/view/',
                 'task/create/' => 'tasks/create/'

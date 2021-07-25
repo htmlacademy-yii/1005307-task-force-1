@@ -7,10 +7,10 @@ use frontend\models\tasks\Tasks;
 
 use yii\web\Controller;
 use yii\filters\AccessControl;
+use yii\data\ArrayDataProvider;
 
 class LandingController extends Controller
 {
-
     public $layout = 'anon';
 
     public function behaviors(): array
@@ -34,8 +34,9 @@ class LandingController extends Controller
 
     public function actionIndex(): string
     {
-        $tasks = Tasks::getLastTasks();
-        return $this->render('index', ['tasks' => $tasks]);
+        $data = Tasks::getLastTasks();
+        $dataProvider = new ArrayDataProvider(['allModels' => $data]);
+
+        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 }
-

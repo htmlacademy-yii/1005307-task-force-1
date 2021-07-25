@@ -12,7 +12,7 @@ return [
         'profession' => 'Уборка',
     ],
     [
-        'name' => 'Курьерские услуги',
+        'name' => 'Перевозка',
         'icon' => 'cargo',
         'profession' => 'Курьер',
     ],

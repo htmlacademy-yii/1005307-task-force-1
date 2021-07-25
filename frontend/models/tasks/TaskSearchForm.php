@@ -1,13 +1,13 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
 use frontend\models\categories\Categories;
 
-use yii\base\Model;
+use yii;
 
-class TaskSearchForm extends Model
+class TaskSearchForm extends Tasks
 {
     public $searchedCategories = [];
     public $noReplies;
@@ -34,5 +34,17 @@ class TaskSearchForm extends Model
             'week' => 'за неделю',
             'month' => 'за месяц'
         ];
+    }
+
+    public function search($params): TasksQuery
+    {
+        $query = Tasks::find();
+        $this->load($params);
+
+        if (!$this->validate()) {
+            return $query;
+        }
+
+        return $query;
     }
 }

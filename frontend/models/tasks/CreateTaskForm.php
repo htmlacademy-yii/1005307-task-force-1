@@ -15,8 +15,7 @@ class CreateTaskForm extends Model
     public $budget;
     public $expire;
     public $client_id;
-
-    public $categories;
+    public $category_id;
 
     public function getCategories(): array
     {
@@ -25,37 +24,36 @@ class CreateTaskForm extends Model
 
     public function rules(): array
     {
-
         return [
             ['client_id', 'required'],
             ['name', 'required', 'message' => 'Кратко опишите суть работы'],
-            ['name', 'match', 'pattern' => "/(?=(.*[^ ]){5,})/",
-                'message' => 'Длина поля «{attribute}» должна быть не меньше 5 не пробельных символов'
-            ],
-            ['description', 'required', 'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
-            ['description', 'match', 'pattern' => "/(?=(.*[^ ]){10,})/",
+            ['name', 'trim'],
+            ['name', 'match', 'pattern' => "/^[a-zA-Zа-яА-Я1-9]\w{10,}$/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
-      //      ['categories', 'required',  'message' => 'Выберите категорию'],
-            [
-                'categories', 'exist', 'skipOnError' => false,
-                'targetClass' => Categories::class, 'targetAttribute' => ['categories' => 'id'],
-                'message' => 'Такой категории не существует'
+            ['description', 'required', 'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
+            ['description', 'trim'],
+            ['description', 'string', 'min' => 30],
+            ['description', 'match', 'pattern' => "/(?=(.*[^ ]))/",
+                'message' => 'Длина поля «{attribute}» должна быть не меньше 30 не пробельных символов'
             ],
             ['budget', 'integer', 'min' => 1,
-                'tooSmall' => 'Значение должно быть целым положительным числом',
+                'message' => 'Значение должно быть целым положительным числом',
             ],
+            ['category_id', 'validateCat'],
             ['expire', 'validateDate'],
             ['expire', 'date', 'format' => 'yyyy*MM*dd', 'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['client_id', 'name', 'description', 'categories', 'budget', 'expire'], 'safe']
+            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire'], 'safe']
         ];
     }
+    public function validateCat() {
+        if ($this->category_id == 0) {
+            $this->addError('category_id', 'Выберите категорию');
+        }
+    }
 
-    /**
-     * @throws yii\base\InvalidConfigException
-     */
     public function validateDate() {
-        $currentDate = Yii::$app->getFormatter()->asDate(time());
+        $currentDate = date('Y-m-d H:i:s');
 
         if ($currentDate > $this->expire) {
             $this->addError('expire', '"Срок исполнения", не может быть раньше текущей даты');
@@ -70,7 +68,7 @@ class CreateTaskForm extends Model
             'description' => 'Подробности задания',
             'budget' => 'Бюджет',
             'expire' => 'Срок исполнения',
-            'categories' => 'Категория',
+            'category_id' => 'Категория',
         ];
     }
 }

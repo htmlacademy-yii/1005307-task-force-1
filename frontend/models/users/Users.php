@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\users;
 
@@ -198,7 +198,7 @@ class Users extends ActiveRecord
         return $query;
     }
 
-    final public static function getOneUser($id): ?Users
+    final public static function getOneUser($id): Users
     {
         return self::findOne($id);
     }

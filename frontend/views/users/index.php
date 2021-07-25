@@ -1,77 +1,60 @@
 <?php
-require_once '../utils/my_functions.php';
 $this->title = 'Список исполнителей';
 $formatter = \Yii::$app->formatter;
+
 use yii\widgets\ActiveForm;
-use yii\widgets\ActiveField;
-use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\widgets\LinkPager;
+use yii\widgets\ListView;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
 $additionalFilter = $searchForm->attributeLabels();
 ?>
 
 <div class="main-container page-container">
-    <section class="user__search">
-        <?php foreach ($users as $user): ?>
-            <div class="content-view__feedback-card user__search-wrapper">
-                <div class="feedback-card__top">
-                    <div class="user__search-icon">
-                        <a href="<?= Url::to(['users/view', 'id' => $user['id']]) ?>"><?= $user['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['width' => '65', 'height' => '65']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '65', 'height' => '65']) ?> </a>
-                        <span><?= $user['finished_task_count'] ?> <?= get_noun_plural_form($user['finished_task_count'], 'задание', 'задания', 'заданий') ?></span>
-                        <span><?= $user['opinions_count'] ?> <?= get_noun_plural_form($user['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?></span>
-                    </div>
-                    <div class="feedback-card__top--name user__search-card">
-                        <p class="link-name"><a href="<?= Url::to(['users/view', 'id' => $user['id']]) ?>"
-                                                class="link-regular"><?= $user['name'] ?></a></p>
-                        <?php if ($user['rating'] > 0) : ?>
-                            <?php $starCount = round((float)$user['rating']) ?>
-                            <?php for ($i = 1; $i <= 5; $i++): ?>
-                                <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
-                            <?php endfor; ?>
-                            <b><?= floor($user['rating'] * 100) / 100 ?></b>
-                        <?php endif; ?>
-                        <p class="user__search-content">
-                            <?= $user['about'] ?>
-                        </p>
-                    </div>
-                    <span
-                        class="new-task__time">Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time']) ?></span>
-                </div>
-                <div class="link-specialization user__search-link--bottom">
-                    <?php foreach ($user['userCategories'] as $category): ?>
-                        <a href="#" class="link-regular"><?= $category['profession'] ?></a>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        <?php endforeach; ?>
-        <div class="new-task__pagination">
-            <?= LinkPager::widget([
-                'pagination' => $page,
-                'options' => ([
-                    'class' => 'new-task__pagination-list',
-                ]),
-                'activePageCssClass' => 'pagination__item pagination__item--current',
-                'pageCssClass' => 'pagination__item',
-                'prevPageCssClass' => 'pagination__item',
-                'nextPageCssClass' => 'pagination__item',
-                'prevPageLabel' => '',
-                'nextPageLabel' => '',
-                'linkOptions' => ([
-                    'style' => 'padding-top: 40%; height: 100%; width: 100%; text-align: center'
-                ])
-            ]); ?>
-    </section>
+    <?=
+    ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemView' => '_item',
+        'itemOptions' => [
+            'tag' => false,
+        ],
+        'layout' => '<section class="user__search">
+                 <div class="user__wrapper">
+                {items}
+            </div></section>
+            <div class="new-task__pagination" style="margin-right: 20px">{pager}</div>',
+        'emptyText' => 'Исполнителей пока нет',
+        'emptyTextOptions' => [
+            'tag' => 'p'
+        ],
+        'pager' => [
+            'options' => ([
+                'class' => 'new-task__pagination-list',
+                'style' => 'width: 100%'
+            ]),
+            'pageCssClass' => 'pagination__item',
+            'prevPageCssClass' => 'pagination__item',
+            'nextPageCssClass' => 'pagination__item',
+            'nextPageLabel' => '',
+            'prevPageLabel' => '',
+            'maxButtonCount' => 5,
+            'activePageCssClass' => 'pagination__item pagination__item--current',
+            'linkOptions' => ([
+                'style' => 'padding-top: 45%; height: 100%; width: 100%; text-align: center'
+            ])
+        ],
+    ])
+    ?>
     <section class="search-task">
         <div class="search-task__wrapper">
             <?php $form = ActiveForm::begin([
                 'id' => 'searchForm',
-                'method' => 'post',
+                'method' => 'get',
                 'options' => [
                     'name' => 'test',
                     'class' => 'search-task__form'
-                ]
+                ],
+                'action' => '/users/'
             ]); ?>
             <fieldset class="search-task__categories">
                 <legend>Категории</legend>
