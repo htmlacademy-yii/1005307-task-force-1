@@ -96,7 +96,9 @@ use yii\helpers\url;
                             } ?>
                             <div class="content-view__feedback-card">
                                 <div class="feedback-card__top">
-                                    <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>"><?= Html::img(Yii::$app->request->baseUrl . '/img/' . $doer['avatar'], ['alt' => 'Аватар исполнителя', 'width' => '55', 'height' => '55']) ?></a>
+                                    <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
+                                        <?= $model['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $doer['avatar'], ['width' => '55', 'height' => '55']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
+                                    </a>
                                     <div class="feedback-card__top--name">
                                         <p><a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>"
                                               class="link-regular"><?= $doer['name'] ?></a></p>
@@ -117,12 +119,14 @@ use yii\helpers\url;
                                     </p>
                                     <span><?= $reply['budget'] ?> ₽</span>
                                 </div>
+                                <?php if ($user['id'] == $task['client_id']): ?>
                                 <div class="feedback-card__actions">
                                     <a class="button__small-color request-button button"
                                        type="button">Подтвердить</a>
                                     <a class="button__small-color refusal-button button"
                                        type="button">Отказать</a>
                                 </div>
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>

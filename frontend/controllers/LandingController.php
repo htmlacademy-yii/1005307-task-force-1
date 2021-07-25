@@ -3,11 +3,8 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use frontend\models\tasks\Tasks;
-
 use yii\web\Controller;
 use yii\filters\AccessControl;
-use yii\data\ArrayDataProvider;
 
 class LandingController extends Controller
 {
@@ -32,11 +29,12 @@ class LandingController extends Controller
         ];
     }
 
-    public function actionIndex(): string
+    public function actions(): array
     {
-        $data = Tasks::getLastTasks();
-        $dataProvider = new ArrayDataProvider(['allModels' => $data]);
-
-        return $this->render('index', ['dataProvider' => $dataProvider]);
+        return [
+            'index' => \frontend\controllers\actions\landing\IndexAction::class,
+        ];
     }
+
+
 }

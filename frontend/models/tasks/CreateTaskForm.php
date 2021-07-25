@@ -46,6 +46,7 @@ class CreateTaskForm extends Model
             [['client_id', 'name', 'description', 'category_id', 'budget', 'expire'], 'safe']
         ];
     }
+
     public function validateCat() {
         if ($this->category_id == 0) {
             $this->addError('category_id', 'Выберите категорию');
