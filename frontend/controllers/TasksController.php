@@ -15,11 +15,12 @@ use yii\web\Response;
 use Yii;
 use yii\web\NotFoundHttpException;
 
+
 class TasksController extends SecuredController
 {
-    private $user;
     private $fileUploadForm;
     private $errors;
+    public $user;
 
     public function init()
     {
@@ -55,18 +56,7 @@ class TasksController extends SecuredController
             throw new NotFoundHttpException('Страница не найдена...');
         }
 
-        return $this->render('view', ['task' => $task]);
-    }
-
-    public function actionJson()
-    {
-        $tasks = Tasks::find()->asArray()->all();
-
-        $response = Yii::$app->response;
-        $response->data = $tasks;
-        $response->format = Response::FORMAT_JSON;
-
-        return $response;
+        return $this->render('view', ['task' => $task, 'user' => $this->user]);
     }
 
     public function actionCreate()
@@ -76,7 +66,7 @@ class TasksController extends SecuredController
         $request = Yii::$app->request;
         $session = Yii::$app->session;
 
-        if ($this->user['user_role'] === 'doer') {
+        if ($this->user['user_role'] == 'doer') {
             return $this->redirect(['tasks/index']);
         }
 
