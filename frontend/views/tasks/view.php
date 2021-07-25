@@ -33,7 +33,7 @@ use yii\helpers\url;
                     <h3 class="content-view__h3">Вложения</h3>
                     <?php $files = $task['fileTasks'] ?>
                     <?php foreach ($files as $file) : ?>
-                        <a href="#"> <?=$file['file_item'] ?></a>
+                        <a href="#"> <?= $file['file_item'] ?></a>
                     <?php endforeach; ?>
                 </div>
                 <div class="content-view__location">
@@ -66,83 +66,58 @@ use yii\helpers\url;
         </div>
         <?php $replies = $task['replies'] ?>
         <?php if ($replies) : ?>
-        <div class="content-view__feedback">
-            <h2>Отклики <span>(<?= count($replies) ?>)</span></h2>
-            <div class="content-view__feedback-wrapper">
-                <?php foreach ($replies as $reply) : ?>
-                    <?php $doer = $reply['doer'];
-                    $opinions = $doer['opinions'];
-                    $rating = 0;
+            <div class="content-view__feedback">
+                <h2>Отклики <span>(<?= count($replies) ?>)</span></h2>
+                <div class="content-view__feedback-wrapper">
+                    <?php foreach ($replies as $reply) : ?>
+                        <?php $doer = $reply['doer'];
+                        $opinions = $doer['opinions'];
+                        $rating = 0;
 
-                    if(!empty($opinions)) {
-                        $ratesCount = 0;
-                        $ratesSum = 0;
+                        if (!empty($opinions)) {
+                            $ratesCount = 0;
+                            $ratesSum = 0;
 
-                        foreach ($opinions as $opinion) {
-                            $ratesCount++;
-                            $ratesSum += $opinion['rate'];
-                        }
+                            foreach ($opinions as $opinion) {
+                                $ratesCount++;
+                                $ratesSum += $opinion['rate'];
+                            }
 
-                        $rating = round(($ratesSum / $ratesCount), 2);
-                    }?>
-                    <div class="content-view__feedback-card">
-                        <div class="feedback-card__top">
-                            <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>"><?= Html::img(Yii::$app->request->baseUrl . '/img/' . $doer['avatar'], ['alt' => 'Аватар исполнителя', 'width' => '55', 'height' => '55']) ?></a>
-                            <div class="feedback-card__top--name">
-                                <p><a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>"
-                                      class="link-regular"><?= $doer['name'] ?></a></p>
-                                <?php if ($rating > 0) : ?>
-                                <?php $starCount = round($rating) ?>
-                                <?php for ($i = 1; $i <= 5; $i++): ?>
-                                    <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
-                                <?php endfor; ?>
-                                <b><?= $rating ?></b>
-                                <?php endif; ?>
+                            $rating = round(($ratesSum / $ratesCount), 2);
+                        } ?>
+                        <div class="content-view__feedback-card">
+                            <div class="feedback-card__top">
+                                <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>"><?= Html::img(Yii::$app->request->baseUrl . '/img/' . $doer['avatar'], ['alt' => 'Аватар исполнителя', 'width' => '55', 'height' => '55']) ?></a>
+                                <div class="feedback-card__top--name">
+                                    <p><a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>"
+                                          class="link-regular"><?= $doer['name'] ?></a></p>
+                                    <?php if ($rating > 0) : ?>
+                                        <?php $starCount = round($rating) ?>
+                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                            <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
+                                        <?php endfor; ?>
+                                        <b><?= $rating ?></b>
+                                    <?php endif; ?>
+                                </div>
+                                <span
+                                    class="new-task__time"><?= $formatter->asRelativeTime($task['dt_add'], strftime("%F %T")) ?></span>
                             </div>
-                            <span
-                                class="new-task__time"><?= $formatter->asRelativeTime($task['dt_add'], strftime("%F %T")) ?></span>
+                            <div class="feedback-card__content">
+                                <p>
+                                    <?= $reply['description'] ?>
+                                </p>
+                                <span><?= $reply['budget'] ?> ₽</span>
+                            </div>
+                            <div class="feedback-card__actions">
+                                <a class="button__small-color request-button button"
+                                   type="button">Подтвердить</a>
+                                <a class="button__small-color refusal-button button"
+                                   type="button">Отказать</a>
+                            </div>
                         </div>
-                        <div class="feedback-card__content">
-                            <p>
-                                <?= $reply['description'] ?>
-                            </p>
-                            <span><?= $reply['budget'] ?> ₽</span>
-                        </div>
-                        <div class="feedback-card__actions">
-                            <a class="button__small-color request-button button"
-                               type="button">Подтвердить</a>
-                            <a class="button__small-color refusal-button button"
-                               type="button">Отказать</a>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-        <?php endif; ?>
-    </section>
-    <section class="connect-desk">
-        <div class="connect-desk__profile-mini">
-            <div class="profile-mini__wrapper">
-                <h3>Заказчик</h3>
-                <?php $client = $task['client'] ?>
-                <?php $tasks = $client['tasks'] ?>
-                <div class="profile-mini__top">
-                    <?= $client['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $client['avatar'], ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
-                    <div class="profile-mini__name five-stars__rate">
-                        <p><?= $client['name'] ?></p>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
-                <p class="info-customer">
-                    <span><?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'задание', 'задания', 'заданий') ?></span>
-                    <span class="last-"><?= $formatter->getPeriodTime($client['dt_add']) ?></span>
-                </p>
-                <a href="<?= Url::to(['users/view', 'id' => $client['id']]) ?>" class="link-regular">Смотреть
-                    профиль</a>
             </div>
-        </div>
-        <div id="chat-container">
-            <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
-            <chat class="connect-desk__chat"></chat>
-        </div>
+        <?php endif; ?>
     </section>
 </div>

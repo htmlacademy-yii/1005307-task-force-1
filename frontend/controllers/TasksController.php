@@ -75,23 +75,44 @@ class TasksController extends SecuredController
         $createTaskForm = new CreateTaskForm();
         $this->fileUploadForm = new FileUploadForm();
         $request = Yii::$app->request;
+        $session = Yii::$app->session;
 
         if ($this->user['user_role'] === 'doer') {
             return $this->redirect(['tasks/index']);
         }
 
-        if ($request->isAjax && $createTaskForm->load($request->post()) && $this->fileUploadForm->load($request->post()))  {
-            Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($request->isAjax && $createTaskForm->load($request->post()) && $this->fileUploadForm->load($request->post())) {
+            if ($createTaskForm->validate()) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+            }
 
             return ActiveForm::validateMultiple([$createTaskForm, $this->fileUploadForm]);
         }
 
-        if ($createTaskForm->load($request->post()) && $createTaskForm->validate()) {
-            $task = new Tasks(['attributes' => $createTaskForm->attributes]);
-            $task->save(false);
-            $this->uploadFile($task);
+        if ($createTaskForm->load($request->post())) {
+            if ($createTaskForm->validate()) {
+                $session->setFlash(
+                    'validate',
+                    true
+                );
+                $task = new Tasks(['attributes' => $createTaskForm->attributes]);
+                $task->save(false);
+                $this->uploadFile($task);
 
-            return $this->redirect(['tasks/view', 'id' => $task['id']]);
+                return $this->redirect(['tasks/view', 'id' => $task['id']]);
+            }
+
+            else {
+                $session->setFlash(
+                    'validate',
+                    false
+                );
+                $session->setFlash(
+                    'form-errors',
+                    $createTaskForm->getErrors()
+                );
+            }
+
         }
 
         return $this->render('create', ['createTaskForm' => $createTaskForm, 'fileUploadForm' => $this->fileUploadForm, 'user' => $this->user]);

@@ -150,14 +150,15 @@ JS;
                         что всё в фокусе, а фото показывает объект со всех
                         ракурсов.</p>
                 </div>
-                <?php if ($createTaskForm->getErrors()): ?>
+                <?php if (Yii::$app->session->hasFlash('form-errors')): /* ошибки */ ?>
+                    <?php $allErrors = Yii::$app->session->getFlash('form-errors'); ?>
                     <div class="warning-item warning-item--error">
                         <h2>Ошибки заполнения формы</h2>
                         <p>Данные формы не прошли валидацию</p>
                         <?php $labels = $createTaskForm->attributeLabels(); ?>
-                        <?php foreach ($createTaskForm->getErrors() as $attribute => $message): ?>
-                            <h3><?= $labels[$attribute] ?></h3>
-                            <p><?= $message[0] ?></p>
+                        <?php foreach ($allErrors as $attribute => $message): ?>
+                                <h3><?= $labels[$attribute] ?></h3>
+                                <p><?= $message[0] ?></p>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>

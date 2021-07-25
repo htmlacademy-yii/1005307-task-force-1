@@ -27,21 +27,20 @@ class CreateTaskForm extends Model
         return [
             ['client_id', 'required'],
             ['name', 'required', 'message' => 'Кратко опишите суть работы'],
-            ['name', 'match', 'pattern' => "/(?=(.*[^ ]){5,})/",
+            ['name', 'match', 'pattern' => "/(?=(.*[^ ]){10,})/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 5 не пробельных символов'
             ],
             ['description', 'required', 'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
             ['description', 'match', 'pattern' => "/(?=(.*[^ ]){10,})/",
-                'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
+                'message' => 'Длина поля «{attribute}» должна быть не меньше 30 не пробельных символов'
             ],
             ['budget', 'integer', 'min' => 1,
-                'tooSmall' => 'Значение должно быть целым положительным числом',
+                'message' => 'Значение должно быть целым положительным числом',
             ],
             ['category_id', 'validateCat'],
             ['expire', 'validateDate'],
             ['expire', 'date', 'format' => 'yyyy*MM*dd', 'message' => 'Необходимый формат «гггг.мм.дд»'],
             [['client_id', 'name', 'description', 'category_id', 'budget', 'expire'], 'safe']
-
         ];
     }
 

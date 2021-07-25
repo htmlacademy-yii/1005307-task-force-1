@@ -15,9 +15,7 @@ class FileUploadForm extends Model
         return [
             [['file_item'], 'file',
                 'skipOnEmpty' => true,
-                'extensions' => 'png, jpg, jpeg doc, docx, pdf',
-                'maxFiles' => 5,
-                'message' => 'Файлы могут быть только форматов png, jpg, jpeg doc, docx, pdf'],
+                'maxFiles' => 5],
             [['task_id', 'file_item'], 'safe']
         ];
     }
