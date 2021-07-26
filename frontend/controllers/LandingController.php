@@ -35,6 +35,4 @@ class LandingController extends Controller
             'index' => \frontend\controllers\actions\landing\IndexAction::class,
         ];
     }
-
-
 }

@@ -56,21 +56,14 @@ use yii\helpers\url;
                     </div>
                 <?php endif; ?>
             </div>
+            <?php $possibleActions = $taskActions->getActionsUser($task['status_task']) ?>
+            <?php if ($possibleActions): ?>
             <div class="content-view__action-buttons">
-                <?php if ($user['id'] != $task['client_id'] && $user['user_role'] == 'doer') : ?>
-                    <button class=" button button__big-color response-button open-modal"
-                            type="button" data-for="response-form">Откликнуться
+                    <button class=" button button__big-color <?=$possibleActions['title']?>-button open-modal"
+                            type="button" data-for="<?=$possibleActions['data']?>-form"><?=$possibleActions['name']?>
                     </button>
-                    <button class="button button__big-color refusal-button open-modal"
-                            type="button" data-for="refuse-form">Отказаться
-                    </button>
-                <?php endif; ?>
-                <?php if ($task['status_task'] == 'work' && $user['id'] == $task['client_id']) : ?>
-                    <button class="button button__big-color request-button open-modal"
-                            type="button" data-for="complete-form">Завершить
-                    </button>
-                <?php endif; ?>
             </div>
+            <?php endif; ?>
         </div>
         <?php $replies = $task['replies'] ?>
         <?php if ($replies): ?>
@@ -97,7 +90,7 @@ use yii\helpers\url;
                             <div class="content-view__feedback-card">
                                 <div class="feedback-card__top">
                                     <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
-                                        <?= $model['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $doer['avatar'], ['width' => '55', 'height' => '55']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
+                                        <?= $doer['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $doer['avatar'], ['width' => '55', 'height' => '55']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
                                     </a>
                                     <div class="feedback-card__top--name">
                                         <p><a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>"
