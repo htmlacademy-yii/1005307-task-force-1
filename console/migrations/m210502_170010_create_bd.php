@@ -279,11 +279,9 @@ class m210502_170010_create_bd extends Migration
             'CASCADE'
         );
 
-        $this->createTable('replies', [
+        $this->createTable('responses', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'rate' => $this->float(3.2),
-            'title' => $this->string(255)->notNull(),
             'budget' => $this->integer(5),
             'description' => $this->text()->notNull(),
             'doer_id' => $this->integer(11)->notNull(),
@@ -292,7 +290,7 @@ class m210502_170010_create_bd extends Migration
 
         $this->addForeignKey(
             'doer_r_id',
-            'replies',
+            'responses',
             'doer_id',
             'users',
             'id',
@@ -301,7 +299,7 @@ class m210502_170010_create_bd extends Migration
 
         $this->addForeignKey(
             'task_r_id',
-            'replies',
+            'responses',
             'task_id',
             'tasks',
             'id',

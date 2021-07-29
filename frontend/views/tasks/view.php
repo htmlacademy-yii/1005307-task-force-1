@@ -4,6 +4,7 @@ $this->title = 'Задание ' . $task['name'];
 
 use yii\helpers\Html;
 use yii\helpers\url;
+use yii\widgets\ActiveForm;
 
 ?>
 <div class="main-container page-container">
@@ -31,12 +32,12 @@ use yii\helpers\url;
                 </div>
                 <?php $files = $task['fileTasks'] ?>
                 <?php if ($files): ?>
-                <div class="content-view__attach">
-                    <h3 class="content-view__h3">Вложения</h3>
-                    <?php foreach ($files as $file) : ?>
-                        <a href="#"> <?= $file['file_item'] ?></a>
-                    <?php endforeach; ?>
-                </div>
+                    <div class="content-view__attach">
+                        <h3 class="content-view__h3">Вложения</h3>
+                        <?php foreach ($files as $file) : ?>
+                            <a href="#"> <?= $file['file_item'] ?></a>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
                 <?php if ($task['city']): ?>
                     <div class="content-view__location">
@@ -58,21 +59,22 @@ use yii\helpers\url;
             </div>
             <?php $possibleActions = $taskActions->getActionsUser($task['status_task']) ?>
             <?php if ($possibleActions): ?>
-            <div class="content-view__action-buttons">
-                    <button class=" button button__big-color <?=$possibleActions['title']?>-button open-modal"
-                            type="button" data-for="<?=$possibleActions['data']?>-form"><?=$possibleActions['name']?>
+                <div class="content-view__action-buttons">
+                    <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
+                            type="button"
+                            data-for="<?= $possibleActions['data'] ?>-form"><?= $possibleActions['name'] ?>
                     </button>
-            </div>
+                </div>
             <?php endif; ?>
         </div>
-        <?php $replies = $task['replies'] ?>
-        <?php if ($replies): ?>
-            <?php if ($user['id'] == $task['client_id']) : ?>
+        <?php $responses = $task['responses'] ?>
+        <?php if ($responses): ?>
+            <?php if ($user['id'] == $task['client_id']): ?>
                 <div class="content-view__feedback">
-                    <h2>Отклики <span>(<?= count($replies) ?>)</span></h2>
+                    <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
                     <div class="content-view__feedback-wrapper">
-                        <?php foreach ($replies as $reply) : ?>
-                            <?php $doer = $reply['doer'];
+                        <?php foreach ($responses as $response) : ?>
+                            <?php $doer = $response['doer'];
                             $opinions = $doer['opinions'];
                             $rating = 0;
 
@@ -108,17 +110,17 @@ use yii\helpers\url;
                                 </div>
                                 <div class="feedback-card__content">
                                     <p>
-                                        <?= $reply['description'] ?>
+                                        <?= $response['description'] ?>
                                     </p>
-                                    <span><?= $reply['budget'] ?> ₽</span>
+                                    <span><?= $response['budget'] ?> ₽</span>
                                 </div>
                                 <?php if ($user['id'] == $task['client_id']): ?>
-                                <div class="feedback-card__actions">
-                                    <a class="button__small-color request-button button"
-                                       type="button">Подтвердить</a>
-                                    <a class="button__small-color refusal-button button"
-                                       type="button">Отказать</a>
-                                </div>
+                                    <div class="feedback-card__actions">
+                                        <a class="button__small-color request-button button"
+                                           type="button">Подтвердить</a>
+                                        <a class="button__small-color refusal-button button"
+                                           type="button">Отказать</a>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
@@ -153,66 +155,62 @@ use yii\helpers\url;
         </div>
     </section>
 </div>
-<section class="modal response-form form-modal" id="response-form">
+<section class="modal response-form form-modal" style="display: block;" id="response-form">
     <h2>Отклик на задание</h2>
-    <form action="#" method="post">
-        <p>
-            <label class="form-modal-description" for="response-payment">Ваша цена</label>
-            <input class="response-form-payment input input-middle input-money" type="text" name="response-payment"
-                   id="response-payment">
-        </p>
-        <p>
-            <label class="form-modal-description" for="response-comment">Комментарий</label>
-            <textarea class="input textarea" rows="4" id="response-comment" name="response-comment"
-                      placeholder="Place your text"></textarea>
-        </p>
-        <button class="button modal-button" type="submit">Отправить</button>
-    </form>
-    <button class="form-modal-close" type="button">Закрыть</button>
-</section>
-<section class="modal completion-form form-modal" id="complete-form">
-    <h2>Завершение задания</h2>
-    <p class="form-modal-description">Задание выполнено?</p>
-    <form action="#" method="post">
-        <input class="visually-hidden completion-input completion-input--yes" type="radio" id="completion-radio--yes"
-               name="completion" value="yes">
-        <label class="completion-label completion-label--yes" for="completion-radio--yes">Да</label>
-        <input class="visually-hidden completion-input completion-input--difficult" type="radio"
-               id="completion-radio--yet" name="completion" value="difficulties">
-        <label class="completion-label completion-label--difficult" for="completion-radio--yet">Возникли
-            проблемы</label>
-        <p>
-            <label class="form-modal-description" for="completion-comment">Комментарий</label>
-            <textarea class="input textarea" rows="4" id="completion-comment" name="completion-comment"
-                      placeholder="Place your text"></textarea>
-        </p>
-        <p class="form-modal-description">
-            Оценка
-        <div class="feedback-card__top--name completion-form-star">
-            <span class="star-disabled"></span>
-            <span class="star-disabled"></span>
-            <span class="star-disabled"></span>
-            <span class="star-disabled"></span>
-            <span class="star-disabled"></span>
-        </div>
-        </p>
-        <input type="hidden" name="rating" id="rating">
-        <button class="button modal-button" type="submit">Отправить</button>
-    </form>
-    <button class="form-modal-close" type="button">Закрыть</button>
-</section>
-<section class="modal form-modal refusal-form" id="refuse-form">
-    <h2>Отказ от задания</h2>
-    <p>
-        Вы собираетесь отказаться от выполнения задания.
-        Это действие приведёт к снижению вашего рейтинга.
-        Вы уверены?
-    </p>
-    <button class="button__form-modal button" id="close-modal"
-            type="button">Отмена
-    </button>
-    <button class="button__form-modal refusal-button button"
-            type="button">Отказаться
-    </button>
+    <?php $form = ActiveForm::begin([
+        'method' => 'post',
+        'enableAjaxValidation' => true,
+        'enableClientValidation' => true,
+        'validationStateOn' => 'input',
+        'action' => '/tasks/response',
+        'options' => ['style' => 'margin-top: 12px; margin-bottom: 8px;'],
+        //  'validateOnBlur' => true,
+        //  'validateOnChange' => true,
+        //  'validateOnSubmit' => true,
+        'fieldConfig' => [
+            'inputOptions' => [
+                'class' => 'form-modal-description',
+                'style' => 'margin-top: 12px; margin-bottom: 8px;',
+            ],
+            'errorOptions' => ['tag' => 'span', 'style' => 'color: red'],
+            'labelOptions' => [
+                'class' => 'form-modal-description',
+            ],
+        ]]) ?>
+    <?= $form->field($responseForm, 'doer_id', [
+        'options' => ['style' => 'margin-top: 0'],
+        'inputOptions' => [
+            'class' => 'input textarea',
+            'value' => $user['id'],
+            'type' => 'hidden',
+            'style' => 'margin-bottom: 0'
+        ]
+    ])->label(false); ?>
+    <?= $form->field($responseForm, 'task_id', [
+        'options' => ['style' => 'margin-top: 0'],
+        'inputOptions' => [
+            'class' => 'input textarea',
+            'value' => $task['id'],
+            'type' => 'hidden',
+            'style' => 'margin-bottom: 0'
+        ]
+    ])->label(false); ?>
+    <?= $form->field($responseForm, "budget", [
+        'template' => "<p>{label}\n{input}\n{error}</p>",
+        'inputOptions' => [
+            'class' => 'response-form-payment input input-middle input-money',
+            'id' => 'response-payment',
+        ]
+    ])->input('number') ?>
+    <?= $form->field($responseForm, "description", [
+        'template' => "<p>{label}\n{input}\n{error}</p>",
+        'inputOptions' => [
+            'class' => 'input textarea',
+            'id' => 'response-comment',
+            'rows' => 4
+        ]
+    ])->textArea() ?>
+    <button class="button modal-button" type="submit">Отправить</button>
+    <?php ActiveForm::end(); ?>
     <button class="form-modal-close" type="button">Закрыть</button>
 </section>

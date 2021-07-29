@@ -8,7 +8,7 @@ use frontend\models\{cities\Cities,
     messages\Messages,
     notifications\Notifications,
     opinions\Opinions,
-    replies\Replies,
+    responses\Responses,
     users\Users
 };
 use yii;
@@ -39,7 +39,7 @@ use yii\db\ActiveRecord;
  * @property Messages[] $messages
  * @property Notifications[] $notifications
  * @property Opinions[] $opinions
- * @property Replies[] $replies
+ * @property Responses[] $Responses
  * @property Categories $category
  * @property Cities $city
  * @property Users $client
@@ -108,9 +108,9 @@ class Tasks extends ActiveRecord
         return $this->hasMany(Opinions::class, ['task_id' => 'id']);
     }
 
-    public function getReplies(): ActiveQuery
+    public function getResponses(): ActiveQuery
     {
-        return $this->hasMany(Replies::class, ['task_id' => 'id']);
+        return $this->hasMany(Responses::class, ['task_id' => 'id']);
     }
 
     public function getCategory(): ActiveQuery
@@ -141,11 +141,11 @@ class Tasks extends ActiveRecord
     final public static function getNewTasksByFilters(TaskSearchForm $form): TasksQuery
     {
         $query = self::find()
-            ->joinWith('replies')
+            ->joinWith('responses')
             ->joinWith('city')
             ->select([
                 'tasks.*',
-                'count(replies.description) as replies_count'
+                'count(responses.description) as responses_count'
             ])
             ->andwhere(['status_task' => 'new'])
             ->with('category')
@@ -158,7 +158,7 @@ class Tasks extends ActiveRecord
             $query->categoriesFilter($form->searchedCategories);
         }
 
-        if ($form->noReplies) {
+        if ($form->noResponses) {
             $query->withoutRepliesFilter();
         }
 

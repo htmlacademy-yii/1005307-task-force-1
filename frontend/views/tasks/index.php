@@ -76,17 +76,17 @@ $periodFilter = $searchForm->getPeriodFilter();
             </fieldset>
             <fieldset class="search-task__categories">
                 <legend>Дополнительно</legend>
-                <?= $form->field($searchForm, 'noReplies', [
+                <?= $form->field($searchForm, 'noResponses', [
                     'template' => '{input}',
                     'options' => ['tag' => false]
                 ])->checkbox([
                     'label' => false,
-                    'value' => 'noReplies',
+                    'value' => 'noResponses',
                     'uncheck' => null,
-                    'id' => 'noReplies',
+                    'id' => 'noResponses',
                     'class' => 'visually-hidden checkbox__input'
                 ]) ?>
-                <label for="noReplies">Без откликов</label>
+                <label for="noResponses">Без откликов</label>
                 <?= $form->field($searchForm, 'online', [
                     'template' => '{input}',
                     'options' => ['tag' => false]

@@ -10,7 +10,7 @@ use yii;
 class TaskSearchForm extends Tasks
 {
     public $searchedCategories = [];
-    public $noReplies;
+    public $noResponses;
     public $online;
     public $periodFilter;
     public $searchName;
@@ -18,7 +18,7 @@ class TaskSearchForm extends Tasks
     public function rules(): array
     {
         return [
-            [['searchedCategories', 'periodFilter', 'searchName', 'noReplies', 'online', 'all'], 'safe'],
+            [['searchedCategories', 'periodFilter', 'searchName', 'noResponses', 'online', 'all'], 'safe'],
         ];
     }
 

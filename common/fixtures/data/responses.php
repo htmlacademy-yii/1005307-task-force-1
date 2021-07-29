@@ -3,8 +3,6 @@
 return [
     [
         'dt_add' => '2021-04-16 15:41:20',
-        'rate' => 4.7,
-        'title' => 'Jordan Swaniawski',
         'budget' => 1400,
         'description' => 'Perspiciatis distinctio ab inventore et eius sint ducimus. Vel odio illo maiores. Quo occaecati soluta quaerat enim est.',
         'doer_id' => 4,
@@ -12,8 +10,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-26 01:41:00',
-        'rate' => 4.06,
-        'title' => 'Ms. Lorna Baumbach',
         'budget' => 1300,
         'description' => 'Consequuntur velit repellendus qui velit. Ducimus et nobis maiores quo.',
         'doer_id' => 5,
@@ -21,8 +17,6 @@ return [
     ],
     [
         'dt_add' => '2021-01-23 22:16:44',
-        'rate' => 3.14,
-        'title' => 'Mr. Juvenal Weimann IV',
         'budget' => 1400,
         'description' => 'Explicabo esse sequi et sit atque sequi. Fuga error culpa asperiores veritatis tenetur mollitia non. Pariatur aut voluptates qui omnis quis est nobis.',
         'doer_id' => 1,
@@ -30,8 +24,6 @@ return [
     ],
     [
         'dt_add' => '2021-01-17 00:13:55',
-        'rate' => 4.67,
-        'title' => 'Prof. Selina Pouros',
         'budget' => 1500,
         'description' => 'Est temporibus qui error aperiam qui. Aut qui et necessitatibus eum soluta quisquam alias. Dolor dolor repellendus eius tempore non.',
         'doer_id' => 3,
@@ -39,8 +31,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-25 13:48:42',
-        'rate' => 3.78,
-        'title' => 'Loraine Bernier',
         'budget' => 3000,
         'description' => 'Vero explicabo rerum ipsum velit. Temporibus voluptatum non reprehenderit sequi. Ab velit ut perspiciatis magnam vel. Qui porro deleniti quas excepturi ipsam.',
         'doer_id' => 6,
@@ -48,8 +38,6 @@ return [
     ],
     [
         'dt_add' => '2021-01-24 19:36:13',
-        'rate' => 4.48,
-        'title' => 'Tate Ebert DDS',
         'budget' => 9000,
         'description' => 'Quas perspiciatis molestiae fugiat et. Architecto rerum occaecati qui recusandae qui quia aut. Consequatur reiciendis quia et. Dolorem omnis rem rerum.',
         'doer_id' => 6,
@@ -57,8 +45,6 @@ return [
     ],
     [
         'dt_add' => '2021-04-11 23:38:44',
-        'rate' => 3.92,
-        'title' => 'Dr. Durward Considine Jr.',
         'budget' => 9000,
         'description' => 'Et quia et doloribus delectus aspernatur soluta dolores. Qui labore sit soluta voluptatibus fugiat laudantium necessitatibus. Voluptatem quis in dolorem dolores vero.',
         'doer_id' => 5,
@@ -66,8 +52,6 @@ return [
     ],
     [
         'dt_add' => '2021-01-30 12:20:21',
-        'rate' => 3.02,
-        'title' => 'Robbie Leffler',
         'budget' => 400,
         'description' => 'Sit aspernatur voluptatem omnis placeat explicabo. Enim aliquid corrupti laudantium aut quia.',
         'doer_id' => 3,
@@ -75,8 +59,6 @@ return [
     ],
     [
         'dt_add' => '2021-01-21 09:08:55',
-        'rate' => 3.74,
-        'title' => 'Ms. Else Herzog PhD',
         'budget' => 400,
         'description' => 'Aut sit ut ad hic reiciendis. Laborum qui minima minima libero pariatur autem enim. Debitis cupiditate rerum deserunt deserunt.',
         'doer_id' => 10,
@@ -84,8 +66,6 @@ return [
     ],
     [
         'dt_add' => '2021-04-29 08:49:34',
-        'rate' => 3.89,
-        'title' => 'Ottilie Nader',
         'budget' => 400,
         'description' => 'Eligendi est ipsa mollitia velit eius magni. Recusandae magni suscipit sint non non officiis qui voluptas. A at fugiat consequatur nihil dolor. Ut non dolorem laudantium suscipit qui earum sequi.',
         'doer_id' => 5,
@@ -93,8 +73,6 @@ return [
     ],
     [
         'dt_add' => '2021-02-09 04:55:47',
-        'rate' => 4.63,
-        'title' => 'Kylee Wolf',
         'budget' => 5000,
         'description' => 'Doloremque quidem expedita laboriosam optio. Eum magnam quis vel aut commodi animi exercitationem. Saepe reiciendis et consequatur et reiciendis rem dignissimos.',
         'doer_id' => 5,
@@ -102,8 +80,6 @@ return [
     ],
     [
         'dt_add' => '2021-05-07 12:30:21',
-        'rate' => 4.19,
-        'title' => 'Ena Stroman',
         'description' => 'Aut quo earum repellat. Illum qui quaerat aliquam. Perspiciatis molestias alias non ut repellat sit doloremque. Qui dolor ipsam quas. Quam quaerat sed amet tempora.',
         'doer_id' => 8,
         'task_id' => 9,
@@ -111,8 +87,6 @@ return [
     ],
     [
         'dt_add' => '2021-04-30 07:10:27',
-        'rate' => 4.04,
-        'title' => 'Mr. Arlo Gerhold',
         'budget' => 600,
         'description' => 'Quidem distinctio quae laboriosam. Laboriosam ea eum ad eius quas ea placeat. Ea quod incidunt nihil autem. Assumenda vel cupiditate tempore quis voluptatem sunt ut ad.',
         'doer_id' => 6,
@@ -120,8 +94,6 @@ return [
     ],
     [
         'dt_add' => '2021-01-08 22:52:36',
-        'rate' => 3.8,
-        'title' => 'Stanton Gutkowski',
         'budget' => 2000,
         'description' => 'A placeat unde quia et. Est dolores rerum magnam occaecati voluptate saepe. Repudiandae ratione magnam vero mollitia. Culpa dolore sed ut ratione qui.',
         'doer_id' => 7,
@@ -129,8 +101,6 @@ return [
     ],
     [
         'dt_add' => '2021-05-09 19:53:47',
-        'rate' => 3.98,
-        'title' => 'Ocie Schumm I',
         'budget' => 2000,
         'description' => 'Illum rerum nihil sint quibusdam ut amet. Consequuntur qui iusto voluptatibus mollitia et et culpa. Eius molestiae qui assumenda. Culpa quidem rerum sit eligendi tempora voluptas sed.',
         'doer_id' => 8,
@@ -138,8 +108,6 @@ return [
     ],
     [
         'dt_add' => '2021-01-22 00:49:31',
-        'rate' => 4.61,
-        'title' => 'Gianni Nolan',
         'budget' => 8000,
         'description' => 'Beatae aut quia blanditiis nisi neque. Dicta in praesentium ut voluptatum reprehenderit. Maxime et cupiditate quos eos maiores qui eum. Quaerat et cum doloribus ut accusantium possimus omnis.',
         'doer_id' => 7,
@@ -147,8 +115,6 @@ return [
     ],
     [
         'dt_add' => '2021-05-08 05:29:34',
-        'rate' => 4.46,
-        'title' => 'Dangelo Rodriguez',
         'budget' => 7000,
         'description' => 'Qui culpa ipsa neque omnis qui. Facere in et fugiat eum. Est voluptatibus fuga voluptatibus qui omnis vitae. Dolor qui asperiores in sit.',
         'doer_id' => 2,
@@ -156,8 +122,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-30 20:48:08',
-        'rate' => 3.47,
-        'title' => 'Cruz Quigley',
         'budget' => 7700,
         'description' => 'Non mollitia assumenda quis odit illo sequi accusamus iusto. Harum error minus nostrum quis ut consequatur non. Sed perspiciatis nesciunt quo nesciunt praesentium vel minus.',
         'doer_id' => 6,
@@ -165,8 +129,6 @@ return [
     ],
     [
         'dt_add' => '2021-04-06 08:05:39',
-        'rate' => 3.11,
-        'title' => 'Kieran McKenzie DDS',
         'budget' => 10000,
         'description' => 'Eos officiis velit a. Cum non corporis a aut voluptas. Temporibus quia provident expedita eum assumenda. Unde explicabo fugiat aut.',
         'doer_id' => 5,
@@ -174,8 +136,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-27 22:39:02',
-        'rate' => 4.18,
-        'title' => 'Ivory Heathcote',
         'budget' => 9000,
         'description' => 'Sequi aut illum voluptas sapiente. Molestiae cum asperiores asperiores. Ut iure nisi dolores vel et alias.',
         'doer_id' => 9,
@@ -183,8 +143,6 @@ return [
     ],
     [
         'dt_add' => '2021-01-08 22:52:36',
-        'rate' => 3.8,
-        'title' => 'Stanton Gutkowski',
         'budget' => 3000,
         'description' => 'A placeat unde quia et. Est dolores rerum magnam occaecati voluptate saepe. Repudiandae ratione magnam vero mollitia. Culpa dolore sed ut ratione qui.',
         'doer_id' => 7,
@@ -192,8 +150,6 @@ return [
     ],
     [
         'dt_add' => '2021-05-09 19:53:47',
-        'rate' => 3.98,
-        'title' => 'Ocie Schumm I',
         'budget' => 9000,
         'description' => 'Illum rerum nihil sint quibusdam ut amet. Consequuntur qui iusto voluptatibus mollitia et et culpa. Eius molestiae qui assumenda. Culpa quidem rerum sit eligendi tempora voluptas sed.',
         'doer_id' => 8,
@@ -201,8 +157,6 @@ return [
     ],
     [
         'dt_add' => '2021-01-22 00:49:31',
-        'rate' => 4.61,
-        'title' => 'Gianni Nolan',
         'budget' => 2000,
         'description' => 'Beatae aut quia blanditiis nisi neque. Dicta in praesentium ut voluptatum reprehenderit. Maxime et cupiditate quos eos maiores qui eum. Quaerat et cum doloribus ut accusantium possimus omnis.',
         'doer_id' => 7,
@@ -210,8 +164,6 @@ return [
     ],
     [
         'dt_add' => '2021-05-08 05:29:34',
-        'rate' => 4.46,
-        'title' => 'Dangelo Rodriguez',
         'budget' => 1000,
         'description' => 'Qui culpa ipsa neque omnis qui. Facere in et fugiat eum. Est voluptatibus fuga voluptatibus qui omnis vitae. Dolor qui asperiores in sit.',
         'doer_id' => 2,
@@ -219,8 +171,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-30 20:48:08',
-        'rate' => 3.47,
-        'title' => 'Cruz Quigley',
         'budget' => 6000,
         'description' => 'Non mollitia assumenda quis odit illo sequi accusamus iusto. Harum error minus nostrum quis ut consequatur non. Sed perspiciatis nesciunt quo nesciunt praesentium vel minus.',
         'doer_id' => 1,
@@ -228,8 +178,6 @@ return [
     ],
     [
         'dt_add' => '2021-04-06 08:05:39',
-        'rate' => 3.11,
-        'title' => 'Kieran McKenzie DDS',
         'budget' => 3500,
         'description' => 'Eos officiis velit a. Cum non corporis a aut voluptas. Temporibus quia provident expedita eum assumenda. Unde explicabo fugiat aut.',
         'doer_id' => 2,
@@ -237,8 +185,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-27 22:39:02',
-        'rate' => 4.18,
-        'title' => 'Ivory Heathcote',
         'budget' => 600,
         'description' => 'Sequi aut illum voluptas sapiente. Molestiae cum asperiores asperiores. Ut iure nisi dolores vel et alias.',
         'doer_id' => 3,
@@ -246,8 +192,6 @@ return [
     ],
     [
         'dt_add' => '2021-05-09 19:53:47',
-        'rate' => 3.98,
-        'title' => 'Ocie Schumm I',
         'budget' => 8000,
         'description' => 'Illum rerum nihil sint quibusdam ut amet. Consequuntur qui iusto voluptatibus mollitia et et culpa. Eius molestiae qui assumenda. Culpa quidem rerum sit eligendi tempora voluptas sed.',
         'doer_id' => 4,
@@ -255,8 +199,6 @@ return [
     ],
     [
         'dt_add' => '2021-01-22 00:49:31',
-        'rate' => 4.61,
-        'title' => 'Gianni Nolan',
         'budget' => 7400,
         'description' => 'Beatae aut quia blanditiis nisi neque. Dicta in praesentium ut voluptatum reprehenderit. Maxime et cupiditate quos eos maiores qui eum. Quaerat et cum doloribus ut accusantium possimus omnis.',
         'doer_id' => 5,
@@ -264,8 +206,6 @@ return [
     ],
     [
         'dt_add' => '2021-05-08 05:29:34',
-        'rate' => 4.46,
-        'title' => 'Dangelo Rodriguez',
         'budget' => 800,
         'description' => 'Qui culpa ipsa neque omnis qui. Facere in et fugiat eum. Est voluptatibus fuga voluptatibus qui omnis vitae. Dolor qui asperiores in sit.',
         'doer_id' => 6,
@@ -273,8 +213,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-30 20:48:08',
-        'rate' => 3.47,
-        'title' => 'Cruz Quigley',
         'budget' => 3400,
         'description' => 'Non mollitia assumenda quis odit illo sequi accusamus iusto. Harum error minus nostrum quis ut consequatur non. Sed perspiciatis nesciunt quo nesciunt praesentium vel minus.',
         'doer_id' => 7,
@@ -282,8 +220,6 @@ return [
     ],
     [
         'dt_add' => '2021-04-06 08:05:39',
-        'rate' => 3.11,
-        'title' => 'Kieran McKenzie DDS',
         'budget' => 6400,
         'description' => 'Eos officiis velit a. Cum non corporis a aut voluptas. Temporibus quia provident expedita eum assumenda. Unde explicabo fugiat aut.',
         'doer_id' => 8,
@@ -291,8 +227,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-27 22:39:02',
-        'rate' => 4.18,
-        'title' => 'Ivory Heathcote',
         'budget' => 5000,
         'description' => 'Sequi aut illum voluptas sapiente. Molestiae cum asperiores asperiores. Ut iure nisi dolores vel et alias.',
         'doer_id' => 9,
@@ -300,8 +234,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-27 22:39:02',
-        'rate' => 4.18,
-        'title' => 'Ivory Heathcote',
         'budget' => 7400,
         'description' => 'Sequi aut illum voluptas sapiente. Molestiae cum asperiores asperiores. Ut iure nisi dolores vel et alias.',
         'doer_id' => 10,
@@ -309,8 +241,6 @@ return [
     ],
     [
         'dt_add' => '2021-05-09 19:53:47',
-        'rate' => 3.98,
-        'title' => 'Ocie Schumm I',
         'budget' => 7700,
         'description' => 'Illum rerum nihil sint quibusdam ut amet. Consequuntur qui iusto voluptatibus mollitia et et culpa. Eius molestiae qui assumenda. Culpa quidem rerum sit eligendi tempora voluptas sed.',
         'doer_id' => 11,
@@ -318,8 +248,6 @@ return [
     ],
     [
         'dt_add' => '2021-01-22 00:49:31',
-        'rate' => 4.61,
-        'title' => 'Gianni Nolan',
         'budget' => 4000,
         'description' => 'Beatae aut quia blanditiis nisi neque. Dicta in praesentium ut voluptatum reprehenderit. Maxime et cupiditate quos eos maiores qui eum. Quaerat et cum doloribus ut accusantium possimus omnis.',
         'doer_id' => 12,
@@ -327,8 +255,6 @@ return [
     ],
     [
         'dt_add' => '2021-05-08 05:29:34',
-        'rate' => 4.46,
-        'title' => 'Dangelo Rodriguez',
         'budget' => 1400,
         'description' => 'Qui culpa ipsa neque omnis qui. Facere in et fugiat eum. Est voluptatibus fuga voluptatibus qui omnis vitae. Dolor qui asperiores in sit.',
         'doer_id' => 13,
@@ -336,8 +262,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-30 20:48:08',
-        'rate' => 3.47,
-        'title' => 'Cruz Quigley',
         'budget' => 3200,
         'description' => 'Non mollitia assumenda quis odit illo sequi accusamus iusto. Harum error minus nostrum quis ut consequatur non. Sed perspiciatis nesciunt quo nesciunt praesentium vel minus.',
         'doer_id' => 14,
@@ -345,8 +269,6 @@ return [
     ],
     [
         'dt_add' => '2021-04-06 08:05:39',
-        'rate' => 3.11,
-        'title' => 'Kieran McKenzie DDS',
         'budget' => 9000,
         'description' => 'Eos officiis velit a. Cum non corporis a aut voluptas. Temporibus quia provident expedita eum assumenda. Unde explicabo fugiat aut.',
         'doer_id' => 15,
@@ -354,8 +276,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-27 22:39:02',
-        'rate' => 4.18,
-        'title' => 'Ivory Heathcote',
         'budget' => 3200,
         'description' => 'Sequi aut illum voluptas sapiente. Molestiae cum asperiores asperiores. Ut iure nisi dolores vel et alias.',
         'doer_id' => 16,
@@ -363,8 +283,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-30 20:48:08',
-        'rate' => 3.47,
-        'title' => 'Cruz Quigley',
         'budget' => 1400,
         'description' => 'Non mollitia assumenda quis odit illo sequi accusamus iusto. Harum error minus nostrum quis ut consequatur non. Sed perspiciatis nesciunt quo nesciunt praesentium vel minus.',
         'doer_id' => 17,
@@ -372,8 +290,6 @@ return [
     ],
     [
         'dt_add' => '2021-04-06 08:05:39',
-        'rate' => 3.11,
-        'title' => 'Kieran McKenzie DDS',
         'budget' => 5000,
         'description' => 'Eos officiis velit a. Cum non corporis a aut voluptas. Temporibus quia provident expedita eum assumenda. Unde explicabo fugiat aut.',
         'doer_id' => 18,
@@ -381,8 +297,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-27 22:39:02',
-        'rate' => 4.18,
-        'title' => 'Ivory Heathcote',
         'budget' => 5000,
         'description' => 'Sequi aut illum voluptas sapiente. Molestiae cum asperiores asperiores. Ut iure nisi dolores vel et alias.',
         'doer_id' => 19,
@@ -390,8 +304,6 @@ return [
     ],
     [
         'dt_add' => '2021-03-27 22:39:02',
-        'rate' => 4.18,
-        'title' => 'Ivory Heathcote',
         'budget' => 5000,
         'description' => 'Sequi aut illum voluptas sapiente. Molestiae cum asperiores asperiores. Ut iure nisi dolores vel et alias.',
         'doer_id' => 20,

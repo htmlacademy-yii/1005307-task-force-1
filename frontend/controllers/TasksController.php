@@ -11,6 +11,7 @@ class TasksController extends SecuredController
             'index' => \frontend\controllers\actions\tasks\IndexAction::class,
             'view' => \frontend\controllers\actions\tasks\ViewAction::class,
             'create' => \frontend\controllers\actions\tasks\CreateAction::class,
+            'reply' => \frontend\controllers\actions\tasks\ResponseAction::class,
         ];
     }
 }

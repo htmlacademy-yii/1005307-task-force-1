@@ -15,7 +15,7 @@ class TasksQuery extends ActiveQuery
 
     public function withoutRepliesFilter(): self
     {
-        return $this->andFilterHaving(['=', 'replies_count', '0']);
+        return $this->andFilterHaving(['=', 'responses_count', '0']);
     }
 
     public function onlineFilter(): self
