@@ -84,4 +84,21 @@ class MyFormatter extends Formatter
         return $interval;
     }
 
+    public function getUserRating($opinions) {
+        $rating = 0;
+
+        if (!empty($opinions)) {
+            $ratesCount = 0;
+            $ratesSum = 0;
+
+            foreach ($opinions as $opinion) {
+                $ratesCount++;
+                $ratesSum += $opinion['rate'];
+            }
+
+             $rating = round(($ratesSum / $ratesCount), 2);
+        }
+        return $rating;
+    }
+
 }
