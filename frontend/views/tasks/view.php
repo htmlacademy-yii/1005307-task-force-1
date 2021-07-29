@@ -57,8 +57,10 @@ use yii\widgets\ActiveForm;
                     </div>
                 <?php endif; ?>
             </div>
-            <?php $possibleActions = $taskActions->getActionsUser($task['status_task']) ?>
-            <?php if ($possibleActions): ?>
+        </div>
+        <?php if ($task['status_task'] !== 'new') :
+            $possibleActions = $taskActions->getActionsUser($task['status_task']);
+            if ($possibleActions): ?>
                 <div class="content-view__action-buttons">
                     <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
                             type="button"
@@ -66,10 +68,11 @@ use yii\widgets\ActiveForm;
                     </button>
                 </div>
             <?php endif; ?>
-        </div>
-        <?php $responses = $task['responses'] ?>
+        <?php endif ?>
+        <?php $responses = $task['responses']; ?>
         <?php if ($responses): ?>
-            <?php if ($user['id'] == $task['client_id']): ?>
+            <?php
+            var_dump($user['id']);if ($user['id'] == $task['client_id']): ?>
                 <div class="content-view__feedback">
                     <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
                     <div class="content-view__feedback-wrapper">
@@ -128,26 +131,29 @@ use yii\widgets\ActiveForm;
                 </div>
             <?php endif; ?>
         <?php endif; ?>
+
+
         <div class="content-view__feedback">
-            <?php foreach ($responses as $response) : ?>
-                <?php if ($response['doer_id'] == $user['id']): ?>
-                    <div class="content-view__feedback-wrapper">
-                        <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
-                        <?php $doer = $response['doer'];
-                        $opinions = $doer['opinions'];
-                        $rating = 0;
+            <?php foreach ($responses as $response) :
+                      if ($response['doer_id'] === $user['id']):
+                           $isResponse = true; ?>
+            <div class="content-view__feedback-wrapper">
+                <!--        <h2>Отклики <span>(<?= count($responses) ?>)</span></h2> -->
+                <?php $doer = $response['doer'];
+                $opinions = $doer['opinions'];
+                $rating = 0;
 
-                        if (!empty($opinions)) {
-                            $ratesCount = 0;
-                            $ratesSum = 0;
+                if (!empty($opinions)) {
+                    $ratesCount = 0;
+                    $ratesSum = 0;
 
-                            foreach ($opinions as $opinion) {
-                                $ratesCount++;
-                                $ratesSum += $opinion['rate'];
-                            }
+                    foreach ($opinions as $opinion) {
+                        $ratesCount++;
+                        $ratesSum += $opinion['rate'];
+                    }
 
-                            $rating = round(($ratesSum / $ratesCount), 2);
-                        } ?>
+                    $rating = round(($ratesSum / $ratesCount), 2);
+                } ?>
                         <div class="content-view__feedback-card">
                             <div class="feedback-card__top">
                                 <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
@@ -177,6 +183,17 @@ use yii\widgets\ActiveForm;
                     </div>
                 <?php endif; ?>
             <?php endforeach; ?>
+            <?php if (!$isResponse) :
+                 $possibleActions = $taskActions->getActionsUser($task['status_task']);
+                 if ($possibleActions): ?>
+                <div class="content-view__action-buttons">
+                    <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
+                            type="button"
+                            data-for="<?= $possibleActions['data'] ?>-form"><?= $possibleActions['name'] ?>
+                    </button>
+                </div>
+            <?php endif; ?>
+            <?php endif ?>
         </div>
     </section>
     <section class="connect-desk">
@@ -201,8 +218,8 @@ use yii\widgets\ActiveForm;
         </div>
         <div id="chat-container">
             <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
-            <chat class="connect-desk__chat"></chat>
-        </div>
+                <chat class="connect-desk__chat"></chat>
+            </div>
     </section>
 </div>
 <section class="modal response-form form-modal" id="response-form">
@@ -262,5 +279,45 @@ use yii\widgets\ActiveForm;
     ])->textArea() ?>
     <button class="button modal-button" type="submit">Отправить</button>
     <?php ActiveForm::end(); ?>
+    <button class="form-modal-close" type="button">Закрыть</button>
+</section>
+<section class="modal completion-form form-modal" id="complete-form">
+    <h2>Завершение задания</h2>
+    <p class="form-modal-description">Задание выполнено?</p>
+    <form action="#" method="post">
+        <input class="visually-hidden completion-input completion-input--yes" type="radio" id="completion-radio--yes" name="completion" value="yes">
+        <label class="completion-label completion-label--yes" for="completion-radio--yes">Да</label>
+        <input class="visually-hidden completion-input completion-input--difficult" type="radio" id="completion-radio--yet" name="completion" value="difficulties">
+        <label  class="completion-label completion-label--difficult" for="completion-radio--yet">Возникли проблемы</label>
+        <p>
+            <label class="form-modal-description" for="completion-comment">Комментарий</label>
+            <textarea class="input textarea" rows="4" id="completion-comment" name="completion-comment" placeholder="Place your text"></textarea>
+        </p>
+        <p class="form-modal-description">
+            Оценка
+        <div class="feedback-card__top--name completion-form-star">
+            <span class="star-disabled"></span>
+            <span class="star-disabled"></span>
+            <span class="star-disabled"></span>
+            <span class="star-disabled"></span>
+            <span class="star-disabled"></span>
+        </div>
+        </p>
+        <input type="hidden" name="rating" id="rating">
+        <button class="button modal-button" type="submit">Отправить</button>
+    </form>
+    <button class="form-modal-close" type="button">Закрыть</button>
+</section>
+<section class="modal form-modal refusal-form" id="refuse-form">
+    <h2>Отказ от задания</h2>
+    <p>
+        Вы собираетесь отказаться от выполнения задания.
+        Это действие приведёт к снижению вашего рейтинга.
+        Вы уверены?
+    </p>
+    <button class="button__form-modal button" id="close-modal"
+            type="button">Отмена</button>
+    <button class="button__form-modal refusal-button button"
+            type="button">Отказаться</button>
     <button class="form-modal-close" type="button">Закрыть</button>
 </section>

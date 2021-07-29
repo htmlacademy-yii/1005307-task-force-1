@@ -72,11 +72,10 @@ class Responses extends ActiveRecord
         return new ResponsesQuery(get_called_class());
     }
 
-    final public static function getUserResponse($id): array
+    final public static function getUserResponse($id)
     {
-        $query = self::find()
-            ->andwhere(['doer_id' => $id])
+        return self::find()
+            ->andFilterWhere(['doer_id' => $id])
             ->all();
-        return $query;
     }
 }
