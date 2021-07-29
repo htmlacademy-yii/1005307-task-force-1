@@ -12,7 +12,7 @@ use Yii;
 
 class ResponseAction extends BaseAction
 {
-    public function run()
+    public function run(): array
     {
         $responseForm = new ResponseForm();
         $request = Yii::$app->request;
@@ -27,11 +27,7 @@ class ResponseAction extends BaseAction
             if ($responseForm->validate()) {
                 $response = new Responses(['attributes' => $responseForm->attributes]);
                 $response->save(false);
-
-         //       return $this->controller->refresh();
             }
         }
-
-    //    return $this->controller->refresh();
     }
 }

@@ -128,6 +128,56 @@ use yii\widgets\ActiveForm;
                 </div>
             <?php endif; ?>
         <?php endif; ?>
+        <div class="content-view__feedback">
+            <?php foreach ($responses as $response) : ?>
+                <?php if ($response['doer_id'] == $user['id']): ?>
+                    <div class="content-view__feedback-wrapper">
+                        <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
+                        <?php $doer = $response['doer'];
+                        $opinions = $doer['opinions'];
+                        $rating = 0;
+
+                        if (!empty($opinions)) {
+                            $ratesCount = 0;
+                            $ratesSum = 0;
+
+                            foreach ($opinions as $opinion) {
+                                $ratesCount++;
+                                $ratesSum += $opinion['rate'];
+                            }
+
+                            $rating = round(($ratesSum / $ratesCount), 2);
+                        } ?>
+                        <div class="content-view__feedback-card">
+                            <div class="feedback-card__top">
+                                <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
+                                    <?= $doer['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $doer['avatar'], ['width' => '55', 'height' => '55']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
+                                </a>
+                                <div class="feedback-card__top--name">
+                                    <p><a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>"
+                                          class="link-regular"><?= $doer['name'] ?></a></p>
+                                    <?php if ($rating > 0) : ?>
+                                        <?php $starCount = round($rating) ?>
+                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                            <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
+                                        <?php endfor; ?>
+                                        <b><?= $rating ?></b>
+                                    <?php endif; ?>
+                                </div>
+                                <span
+                                    class="new-task__time"><?= $formatter->asRelativeTime($task['dt_add'], strftime("%F %T")) ?></span>
+                            </div>
+                            <div class="feedback-card__content">
+                                <p>
+                                    <?= $response['comment'] ?>
+                                </p>
+                                <span><?= $response['budget'] ?> ₽</span>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
     </section>
     <section class="connect-desk">
         <div class="connect-desk__profile-mini">
