@@ -212,7 +212,7 @@ AppAsset::register($this);
     </footer>
 </div>
 
-<div class="overlay" style="display: block"></div>
+<div class="overlay"></div>
 <script src="/js/main.js"></script>
 <script src="/js/messenger.js"></script>
 

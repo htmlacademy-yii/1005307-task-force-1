@@ -110,7 +110,7 @@ use yii\widgets\ActiveForm;
                                 </div>
                                 <div class="feedback-card__content">
                                     <p>
-                                        <?= $response['description'] ?>
+                                        <?= $response['comment'] ?>
                                     </p>
                                     <span><?= $response['budget'] ?> ₽</span>
                                 </div>
@@ -155,7 +155,7 @@ use yii\widgets\ActiveForm;
         </div>
     </section>
 </div>
-<section class="modal response-form form-modal" style="display: block;" id="response-form">
+<section class="modal response-form form-modal" id="response-form">
     <h2>Отклик на задание</h2>
     <?php $form = ActiveForm::begin([
         'method' => 'post',
@@ -202,7 +202,7 @@ use yii\widgets\ActiveForm;
             'id' => 'response-payment',
         ]
     ])->input('number') ?>
-    <?= $form->field($responseForm, "description", [
+    <?= $form->field($responseForm, "comment", [
         'template' => "<p>{label}\n{input}\n{error}</p>",
         'inputOptions' => [
             'class' => 'input textarea',

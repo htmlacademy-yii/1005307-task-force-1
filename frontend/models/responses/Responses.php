@@ -37,8 +37,8 @@ class Responses extends ActiveRecord
         return [
             [['dt_add'], 'safe'],
             [['budget'], 'number'],
-            [['description'], 'string'],
-            [['budget', 'description', 'doer_id', 'task_id'], 'required'],
+            [['comment'], 'string'],
+            [['budget', 'comment', 'doer_id', 'task_id'], 'required'],
             [['doer_id', 'task_id'], 'integer'],
             [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['doer_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
@@ -51,7 +51,7 @@ class Responses extends ActiveRecord
             'id' => 'ID',
             'dt_add' => 'Dt Add',
             'budget' => 'Budget',
-            'description' => 'Description',
+            'comment' => 'Comment',
             'doer_id' => 'Doer ID',
             'task_id' => 'Task ID',
         ];

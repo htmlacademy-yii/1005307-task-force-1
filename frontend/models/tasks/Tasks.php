@@ -145,7 +145,7 @@ class Tasks extends ActiveRecord
             ->joinWith('city')
             ->select([
                 'tasks.*',
-                'count(responses.description) as responses_count'
+                'count(responses.comment) as responses_count'
             ])
             ->andwhere(['status_task' => 'new'])
             ->with('category')

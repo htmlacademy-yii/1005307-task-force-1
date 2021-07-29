@@ -6,8 +6,6 @@ namespace frontend\controllers\actions\tasks;
 
 use frontend\models\task_actions\ResponseForm;
 use frontend\models\responses\Responses;
-use frontend\models\tasks\Tasks;
-use yii\base\Action;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use Yii;
@@ -30,10 +28,10 @@ class ResponseAction extends BaseAction
                 $response = new Responses(['attributes' => $responseForm->attributes]);
                 $response->save(false);
 
-       //         return $this->controller->redirect(['tasks/view', 'id' => $task['id']]);
+         //       return $this->controller->refresh();
             }
         }
 
-       // return $this->controller->redirect(['tasks/view', 'id' => $task['id']]);
+    //    return $this->controller->refresh();
     }
 }
