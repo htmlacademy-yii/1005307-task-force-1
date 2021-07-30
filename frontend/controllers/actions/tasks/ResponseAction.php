@@ -12,7 +12,7 @@ use Yii;
 
 class ResponseAction extends BaseAction
 {
-    public function run(): array
+    public function run()
     {
         $responseForm = new ResponseForm();
         $request = Yii::$app->request;
@@ -29,5 +29,10 @@ class ResponseAction extends BaseAction
                 $response->save(false);
             }
         }
+
+        return $this->controller->redirect([
+            'tasks/view',
+            'id' => $responseForm->task_id
+        ]);
     }
 }
