@@ -13,6 +13,10 @@ class TaskActions
     public const ROLE_DOER = 'ИСПОЛНИТЕЛЬ';
     public const ROLE_CLIENT = 'ЗАКАЗЧИК';
 
+    public $title;
+    public $name;
+    public $data;
+
     public function __construct(int $idClient, int $idUser, int $idDoer = null)
     {
         $this->idDoer = $idDoer;
