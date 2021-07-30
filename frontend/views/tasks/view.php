@@ -116,7 +116,7 @@ use yii\widgets\ActiveForm;
                                     if ($response['is_refused'] == 0): ?>
                                     <div class="feedback-card__actions">
                                         <a class="button__small-color request-button button"
-                                           type="button">Подтвердить</a>
+                                           type="button" href="<?= Url::to(['tasks/start-work', 'taskId' => $task->id, 'doerId' => $response->doer_id])?>">Подтвердить</a>
                                         <a class="button__small-color refusal-button button"
                                            type="button" href="<?= Url::to(['tasks/refuse-response', 'responseId' => $response->id]) ?>">Отказать</a>
                                     </div>
