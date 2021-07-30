@@ -59,27 +59,34 @@ use yii\widgets\ActiveForm;
                 <?php endif; ?>
             </div>
         </div>
-        <?php if ($task['status_task'] !== 'new') :
-            $possibleActions = $taskActions->getActionsUser($task['status_task']);
-            if ($possibleActions): ?>
+        <?php $responses = $task['responses'];
+        $isUserAuthorOfResponse = false;
+        foreach ($task->responses as $response) {
+            if ($response->doer_id === $user->id) {
+                $isUserAuthorOfResponse = true;
+                break;
+            }
+        }
+        $possibleActions = $taskActions->getActionsUser($task['status_task']);
+        if ($possibleActions):
+            if ($isUserAuthorOfResponse !== true || $task['status_task'] !== 'new'):?>
                 <div class="content-view__action-buttons">
-                    <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
+                    <button class=" button button__big-color<?= $possibleActions['title'] ?>-button open-modal"
                             type="button"
-                            data-for="<?= $possibleActions['data'] ?>-form"><?= $possibleActions['name'] ?>
+                            data-for="<?= $possibleActions['data'] ?>-form">
+                        <?= $possibleActions['name'] ?>
                     </button>
                 </div>
-            <?php endif; ?>
-        <?php endif ?>
-        <?php $responses = $task['responses']; ?>
-        <?php if ($responses): ?>
-            <?php
-            var_dump($user['id']);if ($user['id'] == $task['client_id']): ?>
-                <div class="content-view__feedback">
-                    <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
-                    <div class="content-view__feedback-wrapper">
-                        <?php foreach ($responses as $response) : ?>
+            <?php endif;
+        endif;?>
+        <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse): ?>
+            <div class="content-view__feedback">
+                <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
+                <div class="content-view__feedback-wrapper">
+                    <?php foreach ($responses as $response) : ?>
+                        <?php if ($response->doer_id === $user->id || $user->id === $task->client_id): ?>
                             <?php $doer = $response['doer'];
-                            $rating =  $formatter->getUserRating($doer['opinions']) ?>
+                            $rating = $formatter->getUserRating($doer['opinions']) ?>
                             <div class="content-view__feedback-card">
                                 <div class="feedback-card__top">
                                     <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
@@ -114,63 +121,11 @@ use yii\widgets\ActiveForm;
                                     </div>
                                 <?php endif; ?>
                             </div>
-                        <?php endforeach; ?>
-                    </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </div>
-            <?php endif; ?>
+            </div>
         <?php endif; ?>
-
-
-        <div class="content-view__feedback">
-            <?php foreach ($responses as $response) :
-                if ($response['doer_id'] === $user['id']):
-                    $isResponse = true; ?>
-                    <div class="content-view__feedback-wrapper">
-                        <!--        <h2>Отклики <span>(<?= count($responses) ?>)</span></h2> -->
-                        <?php $doer = $response['doer'];
-
-                        ?>
-                        <div class="content-view__feedback-card">
-                            <div class="feedback-card__top">
-                                <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
-                                    <?= $doer['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $doer['avatar'], ['width' => '55', 'height' => '55']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
-                                </a>
-                                <div class="feedback-card__top--name">
-                                    <p><a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>"
-                                          class="link-regular"><?= $doer['name'] ?></a></p>
-                                    <?php if ($rating > 0) : ?>
-                                        <?php $starCount = round($rating) ?>
-                                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                                            <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
-                                        <?php endfor; ?>
-                                        <b><?= $rating ?></b>
-                                    <?php endif; ?>
-                                </div>
-                                <span
-                                    class="new-task__time"><?= $formatter->asRelativeTime($task['dt_add'], strftime("%F %T")) ?></span>
-                            </div>
-                            <div class="feedback-card__content">
-                                <p>
-                                    <?= $response['comment'] ?>
-                                </p>
-                                <span><?= $response['budget'] ?> ₽</span>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
-            <?php endforeach; ?>
-            <?php if (!$isResponse) :
-                $possibleActions = $taskActions->getActionsUser($task['status_task']);
-                if ($possibleActions): ?>
-                    <div class="content-view__action-buttons">
-                        <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
-                                type="button"
-                                data-for="<?= $possibleActions['data'] ?>-form"><?= $possibleActions['name'] ?>
-                        </button>
-                    </div>
-                <?php endif; ?>
-            <?php endif ?>
-        </div>
     </section>
     <section class="connect-desk">
         <div class="connect-desk__profile-mini">
@@ -207,9 +162,9 @@ use yii\widgets\ActiveForm;
         'validationStateOn' => 'input',
         'action' => '/tasks/response',
         'options' => ['style' => 'margin-top: 12px; margin-bottom: 8px;'],
-        //  'validateOnBlur' => true,
-        //  'validateOnChange' => true,
-        //  'validateOnSubmit' => true,
+        'validateOnBlur' => true,
+        'validateOnChange' => true,
+        'validateOnSubmit' => true,
         'fieldConfig' => [
             'inputOptions' => [
                 'class' => 'form-modal-description',
@@ -261,13 +216,17 @@ use yii\widgets\ActiveForm;
     <h2>Завершение задания</h2>
     <p class="form-modal-description">Задание выполнено?</p>
     <form action="#" method="post">
-        <input class="visually-hidden completion-input completion-input--yes" type="radio" id="completion-radio--yes" name="completion" value="yes">
+        <input class="visually-hidden completion-input completion-input--yes" type="radio" id="completion-radio--yes"
+               name="completion" value="yes">
         <label class="completion-label completion-label--yes" for="completion-radio--yes">Да</label>
-        <input class="visually-hidden completion-input completion-input--difficult" type="radio" id="completion-radio--yet" name="completion" value="difficulties">
-        <label  class="completion-label completion-label--difficult" for="completion-radio--yet">Возникли проблемы</label>
+        <input class="visually-hidden completion-input completion-input--difficult" type="radio"
+               id="completion-radio--yet" name="completion" value="difficulties">
+        <label class="completion-label completion-label--difficult" for="completion-radio--yet">Возникли
+            проблемы</label>
         <p>
             <label class="form-modal-description" for="completion-comment">Комментарий</label>
-            <textarea class="input textarea" rows="4" id="completion-comment" name="completion-comment" placeholder="Place your text"></textarea>
+            <textarea class="input textarea" rows="4" id="completion-comment" name="completion-comment"
+                      placeholder="Place your text"></textarea>
         </p>
         <p class="form-modal-description">
             Оценка
@@ -292,8 +251,10 @@ use yii\widgets\ActiveForm;
         Вы уверены?
     </p>
     <button class="button__form-modal button" id="close-modal"
-            type="button">Отмена</button>
+            type="button">Отмена
+    </button>
     <button class="button__form-modal refusal-button button"
-            type="button">Отказаться</button>
+            type="button">Отказаться
+    </button>
     <button class="form-modal-close" type="button">Закрыть</button>
 </section>
