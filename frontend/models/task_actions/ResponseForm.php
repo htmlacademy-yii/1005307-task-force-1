@@ -12,12 +12,12 @@ class ResponseForm extends Model
     public $task_id;
     public $budget;
     public $comment;
+    public $is_refused;
 
     public function rules(): array
     {
         return [
-            ['doer_id', 'required'],
-            ['task_id', 'required'],
+            [['doer_id', 'task_id', 'is_refused'], 'required'],
             [['budget', 'comment'], 'trim'],
             [['budget', 'comment'], 'required',
                 'message' => 'Это поле должно быть заполнено',
@@ -29,7 +29,7 @@ class ResponseForm extends Model
             ['comment', 'match', 'pattern' => "/(?=(.*[^ ]{10,}))/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
-            [['doer_id', 'task_id', 'budget', 'comment'], 'safe']
+            [['doer_id', 'task_id', 'budget', 'comment', 'is_refused'], 'safe']
         ];
     }
 
@@ -38,6 +38,7 @@ class ResponseForm extends Model
         return [
             'doer_id' => 'Исполнитель',
             'task_id' => 'Задание',
+            'is_refused' => 'Отклонено',
             'budget' => 'Ваша цена',
             'comment' => 'Комментарий',
         ];

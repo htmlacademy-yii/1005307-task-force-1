@@ -19,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property string $description
  * @property int $doer_id
  * @property int $task_id
+ * @property bool $is_refused
  *
  * @property Users $doer
  * @property Tasks $task
@@ -38,7 +39,7 @@ class Responses extends ActiveRecord
             [['dt_add'], 'safe'],
             [['budget'], 'number'],
             [['comment'], 'string'],
-            [['budget', 'comment', 'doer_id', 'task_id'], 'required'],
+            [['budget', 'comment', 'doer_id', 'task_id', 'is_refused'], 'required'],
             [['doer_id', 'task_id'], 'integer'],
             [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['doer_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],

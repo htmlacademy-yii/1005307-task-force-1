@@ -71,7 +71,7 @@ use yii\widgets\ActiveForm;
         if ($possibleActions):
             if ($isUserAuthorOfResponse !== true || $task['status_task'] !== 'new'):?>
                 <div class="content-view__action-buttons">
-                    <button class=" button button__big-color<?= $possibleActions['title'] ?>-button open-modal"
+                    <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
                             type="button"
                             data-for="<?= $possibleActions['data'] ?>-form">
                         <?= $possibleActions['name'] ?>
@@ -112,14 +112,16 @@ use yii\widgets\ActiveForm;
                                     </p>
                                     <span><?= $response['budget'] ?> ₽</span>
                                 </div>
-                                <?php if ($user['id'] == $task['client_id']): ?>
+                                <?php if ($user['id'] == $task['client_id']):
+                                    if ($response['is_refused'] == 0): ?>
                                     <div class="feedback-card__actions">
                                         <a class="button__small-color request-button button"
                                            type="button">Подтвердить</a>
                                         <a class="button__small-color refusal-button button"
-                                           type="button">Отказать</a>
+                                           type="button" href="<?= Url::to(['tasks/refuse-response', 'responseId' => $response->id]) ?>">Отказать</a>
                                     </div>
-                                <?php endif; ?>
+                                <?php endif;
+                                endif;?>
                             </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -178,19 +180,20 @@ use yii\widgets\ActiveForm;
     <?= $form->field($responseForm, 'doer_id', [
         'options' => ['style' => 'margin-top: 0'],
         'inputOptions' => [
-            'class' => 'input textarea',
             'value' => $user['id'],
             'type' => 'hidden',
-            'style' => 'margin-bottom: 0'
         ]
     ])->label(false); ?>
     <?= $form->field($responseForm, 'task_id', [
-        'options' => ['style' => 'margin-top: 0'],
         'inputOptions' => [
-            'class' => 'input textarea',
             'value' => $task['id'],
             'type' => 'hidden',
-            'style' => 'margin-bottom: 0'
+        ]
+    ])->label(false); ?>
+    <?= $form->field($responseForm, 'is_refused', [
+        'inputOptions' => [
+            'value' => '0',
+            'type' => 'hidden',
         ]
     ])->label(false); ?>
     <?= $form->field($responseForm, "budget", [
