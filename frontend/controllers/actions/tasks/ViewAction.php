@@ -6,8 +6,10 @@ namespace frontend\controllers\actions\tasks;
 
 use frontend\models\tasks\Tasks;
 use frontend\models\task_actions\TaskActions;
+use yii\base\BaseObject;
 use yii\web\NotFoundHttpException;
 use frontend\models\task_actions\ResponseForm;
+use frontend\models\task_actions\RefuseForm;
 
 class ViewAction extends BaseAction
 {
@@ -17,6 +19,7 @@ class ViewAction extends BaseAction
         $task = $tasks->getOneTask($id);
 
         $responseForm = new ResponseForm();
+        $refuseForm = new RefuseForm();
 
         if ($task['status_task'] !== 'new') {
             if ($this->user['id'] !== $task['client_id'] && $this->user['id'] !== $task['doer_id']) {
@@ -29,6 +32,6 @@ class ViewAction extends BaseAction
             throw new NotFoundHttpException('Страница не найдена...');
         }
 
-        return $this->controller->render('view', ['task' => $task, 'user' => $this->user, 'taskActions' => $taskActions, 'responseForm' => $responseForm]);
+        return $this->controller->render('view', ['task' => $task, 'user' => $this->user, 'taskActions' => $taskActions, 'responseForm' => $responseForm, 'refuseForm' => $refuseForm]);
     }
 }

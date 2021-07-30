@@ -66,10 +66,10 @@ use yii\widgets\ActiveForm;
                 $isUserAuthorOfResponse = true;
                 break;
             }
-        if ($response->doer_id === $task->doer_id) {
-            $isUserAuthorOfResponse = true;
-            break;
-        }
+            if ($response->doer_id === $task->doer_id) {
+                $isUserAuthorOfResponse = true;
+                break;
+            }
         }
         $possibleActions = $taskActions->getActionsUser($task['status_task']);
         if ($possibleActions):
@@ -82,8 +82,8 @@ use yii\widgets\ActiveForm;
                     </button>
                 </div>
             <?php endif;
-        endif;?>
-        <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse): ?>
+        endif; ?>
+        <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse && $task->status_task !== 'failed'): ?>
             <div class="content-view__feedback">
                 <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
                 <div class="content-view__feedback-wrapper">
@@ -118,14 +118,16 @@ use yii\widgets\ActiveForm;
                                 </div>
                                 <?php if ($user->id == $task->client_id):
                                     if ($response->is_refused == 0 && $task->status_task == 'new'): ?>
-                                    <div class="feedback-card__actions">
-                                        <a class="button__small-color request-button button"
-                                           type="button" href="<?= Url::to(['tasks/start-work', 'taskId' => $task->id, 'doerId' => $response->doer_id])?>">Подтвердить</a>
-                                        <a class="button__small-color refusal-button button"
-                                           type="button" href="<?= Url::to(['tasks/refuse-response', 'responseId' => $response->id]) ?>">Отказать</a>
-                                    </div>
-                                <?php endif;
-                                endif;?>
+                                        <div class="feedback-card__actions">
+                                            <a class="button__small-color request-button button"
+                                               type="button"
+                                               href="<?= Url::to(['tasks/start-work', 'taskId' => $task->id, 'doerId' => $response->doer_id]) ?>">Подтвердить</a>
+                                            <a class="button__small-color refusal-button button"
+                                               type="button"
+                                               href="<?= Url::to(['tasks/refuse-response', 'responseId' => $response->id]) ?>">Отказать</a>
+                                        </div>
+                                    <?php endif;
+                                endif; ?>
                             </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -139,7 +141,7 @@ use yii\widgets\ActiveForm;
                 <?php $isClientNotNewTask = false;
                 if ($task->status_task !== 'new' && $user->id == $task->client_id) {
                     $isClientNotNewTask = true;
-                }?>
+                } ?>
                 <h3><?= $isClientNotNewTask ? Исполнитель : Заказчик ?></h3>
                 <?php $isClientNotNewTask
                     ? $user_show = $task->doer
@@ -265,11 +267,22 @@ use yii\widgets\ActiveForm;
         Это действие приведёт к снижению вашего рейтинга.
         Вы уверены?
     </p>
+    <?php $form = ActiveForm::begin([
+        'method' => 'post',
+        'action' => '/tasks/refuse']) ?>
+
+    <?= $form->field($refuseForm, 'task_id', [
+        'inputOptions' => [
+            'value' => $task['id'],
+            'type' => 'hidden',
+        ]
+    ])->label(false); ?>
     <button class="button__form-modal button" id="close-modal"
             type="button">Отмена
     </button>
     <button class="button__form-modal refusal-button button"
-            type="button">Отказаться
+            type="submit">Отказаться
     </button>
+    <?php ActiveForm::end(); ?>
     <button class="form-modal-close" type="button">Закрыть</button>
 </section>
