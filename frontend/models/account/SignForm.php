@@ -14,6 +14,7 @@ class SignForm extends Model
     public $name;
     public $email;
     public $password;
+    public $city_id;
     private $cities;
 
     public function getCities(): array

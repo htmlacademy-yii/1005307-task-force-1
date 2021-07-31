@@ -23,7 +23,9 @@ $periodFilter = $searchForm->getPeriodFilter();
                 {items}
             </div>\n
             <div class='new-task__pagination'>{pager}</div>",
-            'emptyText' => 'Новых заданий пока нет',
+            'emptyText' => '<div class="new-task__wrapper">
+                <h1>Новых заданий пока нет</h1>
+            </div>',
             'emptyTextOptions' => [
                 'tag' => 'p'
             ],

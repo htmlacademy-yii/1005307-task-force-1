@@ -18,17 +18,14 @@ class ResponseForm extends Model
     {
         return [
             [['doer_id', 'task_id', 'is_refused'], 'required'],
-            [['budget', 'comment'], 'trim'],
             [['budget', 'comment'], 'required',
                 'message' => 'Это поле должно быть заполнено',
             ],
             ['budget', 'integer', 'min' => 1,
                 'message' => 'Значение должно быть целым положительным числом',
             ],
+            [['comment'], 'string', 'min' => 10],
             ['comment', 'trim'],
-            ['comment', 'match', 'pattern' => "/(?=(.*[^ ]{10,}))/",
-                'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
-            ],
             [['doer_id', 'task_id', 'budget', 'comment', 'is_refused'], 'safe']
         ];
     }

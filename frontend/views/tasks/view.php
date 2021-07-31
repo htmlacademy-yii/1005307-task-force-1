@@ -6,7 +6,8 @@ $formatter = \Yii::$app->formatter;
 use yii\helpers\Html;
 use yii\helpers\url;
 use yii\widgets\ActiveForm;
-$task = $this->params['task']
+$task = $this->params['task'];
+$user = $this->params['user'];
 
 ?>
 <div class="main-container page-container">
@@ -64,10 +65,6 @@ $task = $this->params['task']
         $isUserAuthorOfResponse = false;
         foreach ($task->responses as $response) {
             if ($response->doer_id === $user->id) {
-                $isUserAuthorOfResponse = true;
-                break;
-            }
-            if ($response->doer_id === $task->doer_id) {
                 $isUserAuthorOfResponse = true;
                 break;
             }

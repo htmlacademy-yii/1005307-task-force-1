@@ -78,4 +78,5 @@ use yii\widgets\ActiveForm;
     <button class="button modal-button" type="submit">Отправить</button>
     <?php ActiveForm::end(); ?>
     <button class="form-modal-close" type="button">Закрыть</button>
+
 </section>

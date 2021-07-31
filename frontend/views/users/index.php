@@ -20,10 +20,13 @@ $additionalFilter = $searchForm->attributeLabels();
         ],
         'layout' => '<section class="user__search">
                  <div class="user__wrapper">
-                {items}
+                {items}{emptyText}
             </div></section>
             <div class="new-task__pagination" style="margin-right: 20px">{pager}</div>',
-        'emptyText' => 'Исполнителей пока нет',
+        'emptyText' => '<section class="user__search">
+                 <div class="user__wrapper">
+                Исполнителей пока нет
+            </div></section>',
         'emptyTextOptions' => [
             'tag' => 'p'
         ],

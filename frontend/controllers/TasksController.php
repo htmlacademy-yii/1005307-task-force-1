@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
+use yii\filters\AccessControl;
+use Yii;
+
 class TasksController extends SecuredController
 {
     public function actions(): array

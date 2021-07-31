@@ -1,5 +1,7 @@
 <?php
+
 use yii\widgets\ActiveForm;
+
 ?>
 
 <section class="modal form-modal refusal-form" id="refuse-form">
@@ -19,12 +21,13 @@ use yii\widgets\ActiveForm;
             'type' => 'hidden',
         ]
     ])->label(false); ?>
-    <button class="button__form-modal button" id="close-modal"
-            type="button">Отмена
-    </button>
     <button class="button__form-modal refusal-button button"
             type="submit">Отказаться
     </button>
     <?php ActiveForm::end(); ?>
+    <button class="button__form-modal button" id="close-modal"
+            type="button">Отмена
+    </button>
+
     <button class="form-modal-close" type="button">Закрыть</button>
 </section>
