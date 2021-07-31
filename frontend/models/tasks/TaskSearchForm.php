@@ -5,8 +5,6 @@ namespace frontend\models\tasks;
 
 use frontend\models\categories\Categories;
 
-use yii;
-
 class TaskSearchForm extends Tasks
 {
     public $searchedCategories = [];

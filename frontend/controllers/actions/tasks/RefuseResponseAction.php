@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\tasks;
 
 use frontend\models\responses\Responses;
+use yii\web\Response;
 
 class RefuseResponseAction extends BaseAction
 {
-    public function run(int $responseId)
+    public function run(int $responseId): Response
     {
 
         $response = Responses::findOne($responseId);

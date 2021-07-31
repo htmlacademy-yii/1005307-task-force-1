@@ -22,17 +22,17 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string $dt_add
  * @property int|null $category_id
+ * @property int|null $city_id
+ * @property int|null $doer_id
+ * @property int $client_id
+ * @property string $name
  * @property string $description
  * @property string|null $expire
- * @property string $name
  * @property string|null $address
  * @property int|null $budget
  * @property string|null $latitude
  * @property string|null $longitude
  * @property string|null $location_comment
- * @property int|null $city_id
- * @property int|null $doer_id
- * @property int $client_id
  * @property string $status_task
  *
  * @property FileTask[] $fileTasks

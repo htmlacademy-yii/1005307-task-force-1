@@ -9,11 +9,11 @@ use yii\base\Model;
 class CompleteForm extends Model
 {
     public $doer_id;
-    public $task_id;
     public $client_id;
-    public $budget;
+    public $task_id;
     public $description;
     public $completion;
+    public $rate;
 
     public function rules(): array
     {

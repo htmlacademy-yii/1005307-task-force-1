@@ -157,8 +157,8 @@ JS;
                         <p>Данные формы не прошли валидацию</p>
                         <?php $labels = $createTaskForm->attributeLabels(); ?>
                         <?php foreach ($allErrors as $attribute => $message): ?>
-                                <h3><?= $labels[$attribute] ?></h3>
-                                <p><?= $message[0] ?></p>
+                            <h3><?= $labels[$attribute] ?></h3>
+                            <p><?= $message[0] ?></p>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>

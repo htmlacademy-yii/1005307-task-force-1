@@ -22,7 +22,7 @@ class CreateAction extends BaseAction
         $request = Yii::$app->request;
         $session = Yii::$app->session;
 
-        if ($this->user['user_role'] == 'doer') {
+        if ($this->user->user_role == 'doer') {
             return $this->controller->redirect(['tasks/index']);
         }
 
@@ -42,7 +42,7 @@ class CreateAction extends BaseAction
                 $task->save(false);
                 $this->uploadFile($task);
 
-                return $this->controller->redirect(['tasks/view', 'id' => $task['id']]);
+                return $this->controller->redirect(['tasks/view', 'id' => $task->id]);
             }
 
             else {
@@ -72,7 +72,7 @@ class CreateAction extends BaseAction
                 $files = array();
 
                 foreach ($this->fileUploadForm->file_item as $fileItem) {
-                    $files[] = [$fileItem, $task['id']];
+                    $files[] = [$fileItem, $task->id];
                 }
 
                 Yii::$app->db->createCommand()

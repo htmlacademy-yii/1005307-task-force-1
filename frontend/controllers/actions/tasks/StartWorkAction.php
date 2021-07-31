@@ -6,10 +6,11 @@ namespace frontend\controllers\actions\tasks;
 use frontend\models\tasks\Tasks;
 
 use frontend\models\responses\Responses;
+use yii\web\Response;
 
 class StartWorkAction extends BaseAction
 {
-    public function run(int $doerId, int $taskId)
+    public function run(int $doerId, int $taskId): Response
     {
         $task = Tasks::findOne($taskId);
         $task->status_task = 'work';

@@ -10,6 +10,12 @@ use yii\helpers\Url;
 use yii\widgets\Menu;
 use frontend\models\cities\Cities;
 
+use frontend\models\{
+    task_actions\ResponseForm,
+    task_actions\CompleteForm,
+    task_actions\RefuseForm
+};
+
 AppAsset::register($this);
 $user = \Yii::$app->user->getIdentity();
 
@@ -92,7 +98,7 @@ AppAsset::register($this);
                         ['label' => 'Задания', 'url' => ['tasks/index']],
                         ['label' => 'Исполнители', 'url' => ['users/index']],
                         ['label' => 'Создать задание', 'url' => ['tasks/create'], 'visible' => $user['user_role'] === 'client'],
-                        ['label' => 'Мой профиль', 'url' => ['users/view', 'id' => $user['id']]],
+                        ['label' => 'Мой профиль', 'url' => ['users/view', 'id' => $user->id]],
                     ],
                     'options' => [
                         'class' => 'header-nav__list site-list',
@@ -210,6 +216,11 @@ AppAsset::register($this);
             <?php endif; ?>
         </div>
     </footer>
+    <?php if ($this->title === 'Просмотр задания'): ?>
+        <?= $this->render('//modals/response_form', ['model' => new ResponseForm]); ?>
+        <?= $this->render('//modals/complete_form', ['model' => new CompleteForm]); ?>
+        <?= $this->render('//modals/refuse_form', ['model' => new RefuseForm]); ?>
+    <?php endif; ?>
 </div>
 
 <div class="overlay"></div>

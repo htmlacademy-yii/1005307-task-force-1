@@ -23,6 +23,7 @@ class LoginForm extends Model
     {
         return [
             [['email', 'password'], 'safe'],
+            [['email'], 'trim'],
             [['email', 'password'], 'required', 'message' => "Поле «{attribute}» не может быть пустым"],
             [['password'], 'validatePassword'],
         ];

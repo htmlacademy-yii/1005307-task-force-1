@@ -10,7 +10,6 @@ class m210502_170010_create_bd extends Migration
      */
     public function safeUp()
     {
-
         $this->createTable('categories', [
             'id' => $this->primaryKey(),
             'name' => $this->string(255)->notNull()->unique(),
@@ -229,7 +228,7 @@ class m210502_170010_create_bd extends Migration
         $this->createTable('opinions', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'completion' => $this->string(255)->notNull(),
+            'completion'  => $this->integer(1)->notNull(),
             'description' => $this->text()->notNull(),
             'rate' => $this->float(3.2)->notNull(),
             'client_id' => $this->integer(11)->notNull(),
@@ -315,7 +314,7 @@ class m210502_170010_create_bd extends Migration
         $this->dropTable('messages');
         $this->dropTable('notifications');
         $this->dropTable('opinions');
-        $this->dropTable('replies');
+        $this->dropTable('responses');
         $this->dropTable('tasks');
         $this->dropTable('file_task');
         $this->dropTable('users');

@@ -7,10 +7,11 @@ use frontend\models\tasks\Tasks;
 use Yii;
 
 use frontend\models\task_actions\RefuseForm;
+use yii\web\Response;
 
 class RefuseAction extends BaseAction
 {
-    public function run()
+    public function run(): Response
     {
         $refuseForm = new RefuseForm();
 

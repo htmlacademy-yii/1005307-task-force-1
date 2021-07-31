@@ -16,7 +16,7 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string $dt_add
  * @property int $budget
- * @property string $description
+ * @property string $comment
  * @property int $doer_id
  * @property int $task_id
  * @property bool $is_refused
