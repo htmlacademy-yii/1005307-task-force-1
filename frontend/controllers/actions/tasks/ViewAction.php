@@ -10,6 +10,7 @@ use yii\base\BaseObject;
 use yii\web\NotFoundHttpException;
 use frontend\models\task_actions\ResponseForm;
 use frontend\models\task_actions\RefuseForm;
+use frontend\models\task_actions\CompleteForm;
 
 class ViewAction extends BaseAction
 {
@@ -20,6 +21,7 @@ class ViewAction extends BaseAction
 
         $responseForm = new ResponseForm();
         $refuseForm = new RefuseForm();
+        $completeForm = new CompleteForm();
 
         if ($task['status_task'] !== 'new') {
             if ($this->user['id'] !== $task['client_id'] && $this->user['id'] !== $task['doer_id']) {
@@ -32,6 +34,6 @@ class ViewAction extends BaseAction
             throw new NotFoundHttpException('Страница не найдена...');
         }
 
-        return $this->controller->render('view', ['task' => $task, 'user' => $this->user, 'taskActions' => $taskActions, 'responseForm' => $responseForm, 'refuseForm' => $refuseForm]);
+        return $this->controller->render('view', ['task' => $task, 'user' => $this->user, 'taskActions' => $taskActions, 'responseForm' => $responseForm, 'refuseForm' => $refuseForm, 'completeForm' => $completeForm]);
     }
 }

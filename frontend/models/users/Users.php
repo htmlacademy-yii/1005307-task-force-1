@@ -111,12 +111,12 @@ class Users extends ActiveRecord
 
     public function getOpinions(): ActiveQuery
     {
-        return $this->hasMany(Opinions::class, ['about_id' => 'id']);
+        return $this->hasMany(Opinions::class, ['doer_id' => 'id']);
     }
 
     public function getOpinions0(): ActiveQuery
     {
-        return $this->hasMany(Opinions::class, ['writer_id' => 'id']);
+        return $this->hasMany(Opinions::class, ['client_id' => 'id']);
     }
 
     public function getPortfolioPhotos(): ActiveQuery

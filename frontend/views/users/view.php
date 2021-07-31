@@ -81,7 +81,7 @@ use yii\helpers\url;
             <div class="content-view__feedback-wrapper reviews-wrapper">
                 <?php foreach ($opinions as $opinion) : ?>
                     <?php $task = $opinion['task'] ?>
-                    <?php $writer = $opinion['writer'] ?>
+                    <?php $writer = $opinion['client'] ?>
                     <div class="feedback-card__reviews">
                         <p class="link-task link">Задание <a href="<?= Url::to(['tasks/view', 'id' => $task['id']]) ?>"
                                                              class="link-regular">«<?= $task['name'] ?>»</a></p>

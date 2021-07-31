@@ -229,27 +229,27 @@ class m210502_170010_create_bd extends Migration
         $this->createTable('opinions', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'title' => $this->string(255)->notNull(),
+            'completion' => $this->string(255)->notNull(),
             'description' => $this->text()->notNull(),
-            'rate' => $this->float(3.2),
-            'writer_id' => $this->integer(11)->notNull(),
-            'about_id' => $this->integer(11)->notNull(),
+            'rate' => $this->float(3.2)->notNull(),
+            'client_id' => $this->integer(11)->notNull(),
+            'doer_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);
 
         $this->addForeignKey(
-            'writer_o_id',
+            'doer_o_id',
             'opinions',
-            'writer_id',
+            'doer_id',
             'users',
             'id',
             'CASCADE'
         );
 
         $this->addForeignKey(
-            'about_o_id',
+            'client_o_id',
             'opinions',
-            'about_id',
+            'client_id',
             'users',
             'id',
             'CASCADE'
@@ -285,7 +285,8 @@ class m210502_170010_create_bd extends Migration
             'budget' => $this->integer(5),
             'comment' => $this->text()->notNull(),
             'doer_id' => $this->integer(11)->notNull(),
-            'task_id' => $this->integer(11)->notNull()
+            'task_id' => $this->integer(11)->notNull(),
+            'is_refused' => $this->integer(1)->notNull()
         ]);
 
         $this->addForeignKey(

@@ -8,5 +8,6 @@ return [
     'comment' => $faker->text,
     'budget' => $faker->numberBetween(100, 10000),
     'doer_id' => $faker->numberBetween(1, 10),
-    'task_id' => $faker->numberBetween(1, 10)
+    'task_id' => $faker->numberBetween(1, 10),
+    'is_refused' => 0
 ];

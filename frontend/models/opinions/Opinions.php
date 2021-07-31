@@ -15,16 +15,16 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property string $dt_add
- * @property string $title
+ * @property string $completion
  * @property string $description
  * @property float|null $rate
- * @property int $writer_id
- * @property int $about_id
+ * @property int $doer_id
+ * @property int $client_id
  * @property int $task_id
  *
- * @property Users $about
+ * @property Users $doer
  * @property Tasks $task
- * @property Users $writer
+ * @property Users $client
  */
 
 class Opinions extends ActiveRecord
@@ -38,14 +38,14 @@ class Opinions extends ActiveRecord
     {
         return [
             [['dt_add'], 'safe'],
-            [['title', 'description', 'writer_id', 'about_id', 'task_id'], 'required'],
+            [['completion', 'description', 'rate', 'doer_id', 'client_id', 'task_id'], 'required'],
             [['description'], 'string'],
+            [['completion'], 'string'],
             [['rate'], 'number'],
-            [['writer_id', 'about_id', 'task_id'], 'integer'],
-            [['title'], 'string', 'max' => 255],
-            [['about_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['about_id' => 'id']],
+            [['doer_id', 'client_id', 'task_id'], 'integer'],
+            [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['doer_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
-            [['writer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['writer_id' => 'id']],
+            [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['client_id' => 'id']],
         ];
     }
 
@@ -54,23 +54,23 @@ class Opinions extends ActiveRecord
         return [
             'id' => 'ID',
             'dt_add' => 'Dt Add',
-            'title' => 'Title',
+            'completion' => 'Status Opinion',
             'description' => 'Description',
             'rate' => 'Rate',
-            'writer_id' => 'Writer ID',
-            'about_id' => 'About ID',
+            'doer_id' => 'Doer ID',
+            'client_id' => 'Client ID',
             'task_id' => 'Task ID',
         ];
     }
 
-    public function getWriter(): ActiveQuery
+    public function getClient(): ActiveQuery
     {
-        return $this->hasOne(Users::class, ['id' => 'writer_id']);
+        return $this->hasOne(Users::class, ['id' => 'client_id']);
     }
 
-    public function getAbout(): ActiveQuery
+    public function getDoer(): ActiveQuery
     {
-        return $this->hasOne(Users::class, ['id' => 'about_id']);
+        return $this->hasOne(Users::class, ['id' => 'doer_id']);
     }
 
     public function getTask(): ActiveQuery
