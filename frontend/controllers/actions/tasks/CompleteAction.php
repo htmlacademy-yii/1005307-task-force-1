@@ -26,12 +26,13 @@ class CompleteAction extends BaseAction
 
         if ($completeForm->load($request->post())) {
             if ($completeForm->validate()) {
-                $task = Tasks::findOne($completeForm->task_id);
-                $task->status_task = $completeForm->completion === 1 ? 'done' : 'failed';
-                $task->save();
 
                 $opinions = new Opinions(['attributes' => $completeForm->attributes]);
                 $opinions->save(false);
+
+                $task = Tasks::findOne($opinions->task_id);
+                $opinions->completion == 1 ? $task->status_task = 'done' : $task->status_task = 'failed';
+                $task->save();
             }
         }
 

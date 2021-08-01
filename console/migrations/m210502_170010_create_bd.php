@@ -31,7 +31,7 @@ class m210502_170010_create_bd extends Migration
             'name' => $this->string(255)->notNull(),
             'password' => $this->string(255)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()'))->notNull(),
-            'user_role' => $this->string(255)->notNull()->defaultValue('client'),
+            'user_role' => $this->string(255)->notNull(),
             'address' => $this->string(255),
             'bd' => $this->date(),
             'avatar' => $this->string(255),

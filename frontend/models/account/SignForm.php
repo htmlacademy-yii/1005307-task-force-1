@@ -15,6 +15,7 @@ class SignForm extends Model
     public $email;
     public $password;
     public $city_id;
+    public $user_role;
     private $cities;
 
     public function getCities(): array
@@ -29,14 +30,14 @@ class SignForm extends Model
     public function rules(): array
     {
         return [
-            [['city_id', 'name', 'email', 'password'], 'required', 'message' => "Поле «{attribute}» не может быть пустым"],
+            [['city_id', 'name', 'email', 'password', 'user_role'], 'required', 'message' => "Поле «{attribute}» не может быть пустым"],
             [['email', 'name'], 'trim'],
             [['city_id'], 'integer', 'message' => "Выбрано не валидное значение «{value}» поля «{attribute}»"],
             [['password'], 'string', 'min' => 8, 'message' =>  "Длина пароля от 8 символов"],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::class, 'targetAttribute' => ['city_id' => 'id'], 'message' => "Выбран несуществующий город"],
             [['email'], 'email', 'message' => 'Введите валидный адрес электронной почты'],
             [['email'], 'unique', 'targetAttribute' => 'email', 'targetClass' => Users::class, 'message' => "Пользователь с еmail «{value}» уже зарегистрирован"],
-            [['city_id', 'name', 'email', 'password'], 'safe']
+            [['city_id', 'name', 'email', 'password', 'user_role'], 'safe']
         ];
     }
 
