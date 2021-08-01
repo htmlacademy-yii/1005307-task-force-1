@@ -1,7 +1,6 @@
 <?php
 
 use yii\widgets\ActiveForm;
-use kartik\rating\StarRating;
 
 ?>
 <section class="modal completion-form form-modal" id="complete-form">
@@ -67,13 +66,16 @@ use kartik\rating\StarRating;
         ],
         'template' => "{input}"
     ]) ?>
-    <div class="feedback-card__top--name completion-form-star">
-        <span class="star-disabled"></span>
-        <span class="star-disabled"></span>
-        <span class="star-disabled"></span>
-        <span class="star-disabled"></span>
-        <span class="star-disabled"></span>
-    </div>
+    <p class="form-modal-description">
+        Оценка
+        <div class="feedback-card__top--name completion-form-star">
+            <span class="star-disabled"></span>
+            <span class="star-disabled"></span>
+            <span class="star-disabled"></span>
+            <span class="star-disabled"></span>
+            <span class="star-disabled"></span>
+        </div>
+    </p>
     <button class="button modal-button" type="submit">Отправить</button>
     <?php ActiveForm::end(); ?>
     <button class="form-modal-close" type="button">Закрыть</button>
