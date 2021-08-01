@@ -22,7 +22,8 @@ $user = $this->params['user'];
                            <?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?>
                         </span>
                     </div>
-                    <b class="new-task__price new-task__price--<?= $task->category->icon ?> content-view-price"><?= $task->budget ?>
+                    <b class="new-task__price new-task__price--<?= $task->category->icon ?> content-view-price">
+                        <?= $task->budget ?>
                         <b> ₽</b></b>
                     <div
                         class="new-task__icon new-task__icon--<?= $task->category->icon ?> content-view-icon"></div>
@@ -33,12 +34,12 @@ $user = $this->params['user'];
                         <?= $task->description ?>
                     </p>
                 </div>
-                <?php $files = $task->fileTasks ?>
-                <?php if ($files): ?>
+                <?php $files = $task->fileTasks;
+                if ($files): ?>
                     <div class="content-view__attach">
                         <h3 class="content-view__h3">Вложения</h3>
-                        <?php foreach ($files as $file) : ?>
-                            <a href="#"> <?= $file->file_item ?></a>
+                        <?php foreach ($files as $file): ?>
+                            <a href="#"><?= $file->file_item ?></a>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
@@ -85,21 +86,23 @@ $user = $this->params['user'];
             <div class="content-view__feedback">
                 <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
                 <div class="content-view__feedback-wrapper">
-                    <?php foreach ($responses as $response) : ?>
-                        <?php if ($response->doer_id === $user->id || $user->id === $task->client_id): ?>
-                            <?php $doer = $response->doer;
-                            $rating = $formatter->getUserRating($doer->opinions) ?>
+                    <?php foreach ($responses as $response):
+                         if ($response->doer_id === $user->id || $user->id === $task->client_id):
+                            $doer = $response->doer;
+                            $rating = $formatter->getUserRating($doer->opinions)?>
                             <div class="content-view__feedback-card">
                                 <div class="feedback-card__top">
                                     <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
-                                        <?= $doer->avatar ? Html::img(Yii::$app->request->baseUrl . '/img/' . $doer->avatar, ['width' => '55', 'height' => '55']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
+                                        <?= $doer->avatar
+                                            ? Html::img(Yii::$app->request->baseUrl . '/img/' . $doer->avatar, ['width' => '55', 'height' => '55'])
+                                            : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
                                     </a>
                                     <div class="feedback-card__top--name">
                                         <p><a href="<?= Url::to(['users/view', 'id' => $doer->id]) ?>"
                                               class="link-regular"><?= $doer->name ?></a></p>
-                                        <?php if ($rating > 0) : ?>
-                                            <?php $starCount = round($rating) ?>
-                                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <?php if ($rating > 0):
+                                            $starCount = round($rating);
+                                            for ($i = 1; $i <= 5; $i++):?>
                                                 <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                                             <?php endfor; ?>
                                             <b><?= $rating ?></b>
@@ -127,8 +130,8 @@ $user = $this->params['user'];
                                     <?php endif;
                                 endif; ?>
                             </div>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+                        <?php endif;
+                    endforeach; ?>
                 </div>
             </div>
         <?php endif; ?>

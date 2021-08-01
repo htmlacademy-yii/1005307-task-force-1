@@ -1,5 +1,8 @@
 <?php
+
 use yii\widgets\ActiveForm;
+use kartik\rating\StarRating;
+
 ?>
 <section class="modal completion-form form-modal" id="complete-form">
     <h2>Завершение задания</h2>
@@ -59,6 +62,32 @@ use yii\widgets\ActiveForm;
     ])->textArea() ?>
     <p class="form-modal-description">
         Оценка
+        <?= StarRating::widget([
+            'name' => 'rating_1',
+            'model' => $model,
+            'attribute' => 'rate',
+            'pluginOptions' => [
+                'template' => '<div class="feedback-card__top--name completion-form-star">{star}</div>',
+                'theme' => 'krajee-svg',
+                'stars' => 5,
+                'step' => 1,
+                'min' => 0,
+                'max' => 5,
+                'showClear' => false,
+                'showCaption' => false,
+                'size' => 'sm',
+                'starCaptions' => [
+                    0 => 'Extremely Poor',
+                    1 => 'оценка 1',
+                    2 => 'оценка 2',
+                    3 => 'оценка 3',
+                    4 => 'оценка 4',
+                    5 => 'оценка 5',
+                ],
+            ],
+        ]); ?>
+    </p>
+
     <div class="feedback-card__top--name completion-form-star">
         <span class="star-disabled"></span>
         <span class="star-disabled"></span>
@@ -66,17 +95,7 @@ use yii\widgets\ActiveForm;
         <span class="star-disabled"></span>
         <span class="star-disabled"></span>
     </div>
-    </p>
-    <?= $form->field($model, 'rate', [
-        'inputOptions' => [
-            'id' => 'rating',
-            'type' => 'hidden'
-        ],
-        'template' => "{input}"
-    ]) ?>
-    <input type="hidden" name="rating" id="rating">
     <button class="button modal-button" type="submit">Отправить</button>
     <?php ActiveForm::end(); ?>
     <button class="form-modal-close" type="button">Закрыть</button>
-
 </section>

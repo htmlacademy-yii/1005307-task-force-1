@@ -35,7 +35,6 @@ $periodFilter = $searchForm->getPeriodFilter();
             'pager' => [
                 'options' => ([
                     'class' => 'new-task__pagination-list',
-                    'style' => 'width: 100%'
                 ]),
                 'pageCssClass' => 'pagination__item',
                 'prevPageCssClass' => 'pagination__item',
@@ -43,9 +42,6 @@ $periodFilter = $searchForm->getPeriodFilter();
                 'nextPageLabel' => '',
                 'prevPageLabel' => '',
                 'activePageCssClass' => 'pagination__item pagination__item--current',
-                'linkOptions' => ([
-                    'style' => 'padding-top: 45%; height: 100%; width: 100%; text-align: center'
-                ])
             ],
         ])
         ?>
@@ -65,8 +61,8 @@ $periodFilter = $searchForm->getPeriodFilter();
             ]); ?>
             <fieldset class="search-task__categories">
                 <legend>Категории</legend>
-                <?php $i = 1; ?>
-                <?php foreach ($categoriesFilter as $id => $name) : ?>
+                <?php $i = 1;
+                foreach ($categoriesFilter as $id => $name) : ?>
                     <?= $form->field($searchForm, 'searchedCategories[]', [
                         'template' => '{input}',
                         'options' => ['tag' => false]

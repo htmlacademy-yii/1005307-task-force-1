@@ -20,7 +20,7 @@ $additionalFilter = $searchForm->attributeLabels();
         ],
         'layout' => '<section class="user__search">
                  <div class="user__wrapper">
-                {items}{emptyText}
+                {items}
             </div></section>
             <div class="new-task__pagination" style="margin-right: 20px">{pager}</div>',
         'emptyText' => '<section class="user__search">
@@ -33,7 +33,6 @@ $additionalFilter = $searchForm->attributeLabels();
         'pager' => [
             'options' => ([
                 'class' => 'new-task__pagination-list',
-                'style' => 'width: 100%'
             ]),
             'pageCssClass' => 'pagination__item',
             'prevPageCssClass' => 'pagination__item',
@@ -42,9 +41,7 @@ $additionalFilter = $searchForm->attributeLabels();
             'prevPageLabel' => '',
             'maxButtonCount' => 5,
             'activePageCssClass' => 'pagination__item pagination__item--current',
-            'linkOptions' => ([
-                'style' => 'padding-top: 45%; height: 100%; width: 100%; text-align: center'
-            ])
+
         ],
     ])
     ?>

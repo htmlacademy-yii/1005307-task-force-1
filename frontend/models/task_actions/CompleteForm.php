@@ -32,6 +32,7 @@ class CompleteForm extends Model
             'client_id' => 'Заказчик',
             'task_id' => 'Задание',
             'description' => 'Комментарий',
+            'rate' => 'Оценка'
         ];
     }
 }

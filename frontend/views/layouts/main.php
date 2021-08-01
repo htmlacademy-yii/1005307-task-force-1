@@ -135,7 +135,10 @@ AppAsset::register($this);
                 </div>
                 <div class="header__account">
                     <a class="header__account-photo">
-                        <?= $user['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '43', 'height' => '44']) ?>
+                        <?= $user['avatar']
+                            ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44'])
+                            : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '43', 'height' => '44'])
+                        ?>
                     </a>
                     <span class="header__account-name">
                         <?= $user['name'] ?>
@@ -217,8 +220,8 @@ AppAsset::register($this);
         </div>
     </footer>
     <?php if ($this->title === 'Просмотр задания'): ?>
-        <?= $this->render('//modals/response_form', ['model' => new ResponseForm]); ?>
-        <?= $this->render('//modals/complete_form', ['model' => new CompleteForm]); ?>
+        <?= $this->render('//modals/response_form', ['model' => new ResponseForm]);?>
+        <?= $this->render('//modals/complete_form', ['model' => new CompleteForm]);?>
         <?= $this->render('//modals/refuse_form', ['model' => new RefuseForm]); ?>
     <?php endif; ?>
 </div>
