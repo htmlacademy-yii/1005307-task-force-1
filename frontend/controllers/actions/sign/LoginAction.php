@@ -16,14 +16,14 @@ class LoginAction extends Action
     public function run()
     {
         $loginForm = new LoginForm();
+        $request = Yii::$app->request;
 
-        if ($loginForm->load(Yii::$app->request->post())) {
+        if ($request->isAjax && $loginForm->load($request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($loginForm);
+        }
 
-            if (Yii::$app->request->isAjax) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return ActiveForm::validate($loginForm);
-            }
-
+        if ($loginForm->load($request->post())) {
             if ($loginForm->validate()) {
                 $user = $loginForm->getUser();
                 Yii::$app->user->login($user);

@@ -7,29 +7,29 @@ use yii\base\Action;
 
 use frontend\models\account\SignForm;
 use frontend\models\users\Users;
+use yii\widgets\ActiveForm;
+use yii\web\Response;
 
 use Yii;
 
 class IndexAction extends Action
 {
-    public function run(): string
+    public function run()
     {
         $signForm = new SignForm();
+        $request = Yii::$app->request;
 
-        if (Yii::$app->request->getIsPost()) {
-            $signForm->load(Yii::$app->request->post());
+        if ($request->isAjax && $signForm->load($request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
 
-            if (!$signForm->validate()) {
-                $errors = $signForm->getErrors();
-            }
+            return ActiveForm::validate($signForm);
+        }
 
+        if ($signForm->load($request->post())) {
             $user = new Users(['attributes' => $signForm->attributes]);
             $user->password = Yii::$app->security->generatePasswordHash($signForm->password);
-
-            if ($signForm->validate()) {
-                $user->save(false);
-                $this->controller->goHome();
-            }
+            $user->save(false);
+            $this->controller->goHome();
         }
 
         return $this->controller->render('index', ['signForm' => $signForm]);

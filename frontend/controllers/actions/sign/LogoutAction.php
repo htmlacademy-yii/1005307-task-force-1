@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace frontend\controllers\actions\sign;
-use yii\base\Action;
 
+use yii\base\Action;
 use Yii;
 
 class LogoutAction extends Action
