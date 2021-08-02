@@ -29,6 +29,12 @@ use yii\widgets\ActiveForm;
                     'labelOptions' => ['class' => null],
                 ]]) ?>
 
+            <?= $form->field($signForm, 'user_role', [
+                'inputOptions' => [
+                    'value' => 'client',
+                    'type' => 'hidden',
+                ]
+            ])->label(false); ?>
             <?= $form->field($signForm, "email", [
                 'inputOptions' => [
                     'id' => 16,

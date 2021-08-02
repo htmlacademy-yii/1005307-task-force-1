@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace frontend\models\replies;
+namespace frontend\models\responses;
 
 use frontend\models\{
     tasks\Tasks,
@@ -15,31 +15,31 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property string $dt_add
- * @property float|null $rate
- * @property int budget
- * @property string $description
+ * @property int $budget
+ * @property string $comment
  * @property int $doer_id
  * @property int $task_id
+ * @property bool $is_refused
  *
  * @property Users $doer
  * @property Tasks $task
  */
 
-class Replies extends ActiveRecord
+class Responses extends ActiveRecord
 {
 
     public static function tableName(): string
     {
-        return 'replies';
+        return 'Responses';
     }
 
     public function rules(): array
     {
         return [
             [['dt_add'], 'safe'],
-            [['rate'], ['budget'], 'number'],
-            [['description', 'doer_id', 'task_id'], 'required'],
-            [['description'], 'string'],
+            [['budget'], 'number'],
+            [['comment'], 'string'],
+            [['budget', 'comment', 'doer_id', 'task_id', 'is_refused'], 'required'],
             [['doer_id', 'task_id'], 'integer'],
             [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['doer_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
@@ -51,9 +51,8 @@ class Replies extends ActiveRecord
         return [
             'id' => 'ID',
             'dt_add' => 'Dt Add',
-            'rate' => 'Rate',
-            'title' => 'Title',
-            'description' => 'Description',
+            'budget' => 'Budget',
+            'comment' => 'Comment',
             'doer_id' => 'Doer ID',
             'task_id' => 'Task ID',
         ];
@@ -69,8 +68,8 @@ class Replies extends ActiveRecord
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
     }
 
-    public static function find(): RepliesQuery
+    public static function find(): ResponsesQuery
     {
-        return new RepliesQuery(get_called_class());
+        return new ResponsesQuery(get_called_class());
     }
 }

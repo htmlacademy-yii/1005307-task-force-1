@@ -4,9 +4,13 @@ $this->title = 'Список заданий';
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\ListView;
+use yii\helpers\Url;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
 $periodFilter = $searchForm->getPeriodFilter();
+//$filters = ;
+//$this->params['filter'] = $filters;
+
 ?>
 <div class="main-container page-container">
     <section class="new-task">
@@ -19,7 +23,9 @@ $periodFilter = $searchForm->getPeriodFilter();
                 {items}
             </div>\n
             <div class='new-task__pagination'>{pager}</div>",
-            'emptyText' => 'Новых заданий пока нет',
+            'emptyText' => '<div class="new-task__wrapper">
+                <h1>Новых заданий пока нет</h1>
+            </div>',
             'emptyTextOptions' => [
                 'tag' => 'p'
             ],
@@ -29,7 +35,6 @@ $periodFilter = $searchForm->getPeriodFilter();
             'pager' => [
                 'options' => ([
                     'class' => 'new-task__pagination-list',
-                    'style' => 'width: 100%'
                 ]),
                 'pageCssClass' => 'pagination__item',
                 'prevPageCssClass' => 'pagination__item',
@@ -37,9 +42,6 @@ $periodFilter = $searchForm->getPeriodFilter();
                 'nextPageLabel' => '',
                 'prevPageLabel' => '',
                 'activePageCssClass' => 'pagination__item pagination__item--current',
-                'linkOptions' => ([
-                    'style' => 'padding-top: 45%; height: 100%; width: 100%; text-align: center'
-                ])
             ],
         ])
         ?>
@@ -53,12 +55,14 @@ $periodFilter = $searchForm->getPeriodFilter();
                     'name' => 'test',
                     'class' => 'search-task__form'
                 ],
-                'action' => '/tasks/',
+                'action' => [
+                    '/tasks/'
+                ]
             ]); ?>
             <fieldset class="search-task__categories">
                 <legend>Категории</legend>
-                <?php $i = 1; ?>
-                <?php foreach ($categoriesFilter as $id => $name) : ?>
+                <?php $i = 1;
+                foreach ($categoriesFilter as $id => $name) : ?>
                     <?= $form->field($searchForm, 'searchedCategories[]', [
                         'template' => '{input}',
                         'options' => ['tag' => false]
@@ -76,17 +80,17 @@ $periodFilter = $searchForm->getPeriodFilter();
             </fieldset>
             <fieldset class="search-task__categories">
                 <legend>Дополнительно</legend>
-                <?= $form->field($searchForm, 'noReplies', [
+                <?= $form->field($searchForm, 'noResponses', [
                     'template' => '{input}',
                     'options' => ['tag' => false]
                 ])->checkbox([
                     'label' => false,
-                    'value' => 'noReplies',
+                    'value' => 'noResponses',
                     'uncheck' => null,
-                    'id' => 'noReplies',
+                    'id' => 'noResponses',
                     'class' => 'visually-hidden checkbox__input'
                 ]) ?>
-                <label for="noReplies">Без откликов</label>
+                <label for="noResponses">Без откликов</label>
                 <?= $form->field($searchForm, 'online', [
                     'template' => '{input}',
                     'options' => ['tag' => false]

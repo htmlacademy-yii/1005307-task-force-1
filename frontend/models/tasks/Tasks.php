@@ -8,7 +8,7 @@ use frontend\models\{cities\Cities,
     messages\Messages,
     notifications\Notifications,
     opinions\Opinions,
-    replies\Replies,
+    responses\Responses,
     users\Users
 };
 use yii;
@@ -22,24 +22,24 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string $dt_add
  * @property int|null $category_id
+ * @property int|null $city_id
+ * @property int|null $doer_id
+ * @property int $client_id
+ * @property string $name
  * @property string $description
  * @property string|null $expire
- * @property string $name
  * @property string|null $address
  * @property int|null $budget
  * @property string|null $latitude
  * @property string|null $longitude
  * @property string|null $location_comment
- * @property int|null $city_id
- * @property int|null $doer_id
- * @property int $client_id
  * @property string $status_task
  *
  * @property FileTask[] $fileTasks
  * @property Messages[] $messages
  * @property Notifications[] $notifications
  * @property Opinions[] $opinions
- * @property Replies[] $replies
+ * @property Responses[] $Responses
  * @property Categories $category
  * @property Cities $city
  * @property Users $client
@@ -108,9 +108,9 @@ class Tasks extends ActiveRecord
         return $this->hasMany(Opinions::class, ['task_id' => 'id']);
     }
 
-    public function getReplies(): ActiveQuery
+    public function getResponses(): ActiveQuery
     {
-        return $this->hasMany(Replies::class, ['task_id' => 'id']);
+        return $this->hasMany(Responses::class, ['task_id' => 'id']);
     }
 
     public function getCategory(): ActiveQuery
@@ -141,11 +141,11 @@ class Tasks extends ActiveRecord
     final public static function getNewTasksByFilters(TaskSearchForm $form): TasksQuery
     {
         $query = self::find()
-            ->joinWith('replies')
+            ->joinWith('responses')
             ->joinWith('city')
             ->select([
                 'tasks.*',
-                'count(replies.description) as replies_count'
+                'count(responses.comment) as responses_count'
             ])
             ->andwhere(['status_task' => 'new'])
             ->with('category')
@@ -158,7 +158,7 @@ class Tasks extends ActiveRecord
             $query->categoriesFilter($form->searchedCategories);
         }
 
-        if ($form->noReplies) {
+        if ($form->noResponses) {
             $query->withoutRepliesFilter();
         }
 

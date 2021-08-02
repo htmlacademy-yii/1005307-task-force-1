@@ -14,24 +14,13 @@ use yii\helpers\url;
                 <?= $user['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '120', 'height' => '120']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '120', 'height' => '120']) ?>
                 <div class="content-view__headline">
                     <?php $opinions = $user['opinions'];
-                    $rating = 0;
-
-                    if (!empty($opinions)) {
-                        $ratesCount = 0;
-                        $ratesSum = 0;
-
-                        foreach ($opinions as $opinion) {
-                            $ratesCount++;
-                            $ratesSum += $opinion['rate'];
-                        }
-
-                        $rating = round(($ratesSum / $ratesCount), 2);
+                    $rating = $formatter->getUserRating($user['opinions']);
                         $tasks = $user['tasksDoer'];
-                    } ?>
+                        $ratesCount = count($opinions) ?>
                     <h1><?= $user['name'] ?></h1>
                     <p>Россия, <?= $user['city']['city'] ?>
                         , <?= $user['bd'] ? $formatter->getAge($user['bd']) : "" ?> <?= $user['bd'] ? $formatter->getNounPluralForm($formatter->getAge($user['bd']), 'год', 'года', 'лет') : "" ?></p>
-                    <?php if ($opinions) : ?>
+                    <?php if ($rating) : ?>
                         <div class="profile-mini__name five-stars__rate">
                             <?php $starCount = round($rating) ?>
                             <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -92,7 +81,7 @@ use yii\helpers\url;
             <div class="content-view__feedback-wrapper reviews-wrapper">
                 <?php foreach ($opinions as $opinion) : ?>
                     <?php $task = $opinion['task'] ?>
-                    <?php $writer = $opinion['writer'] ?>
+                    <?php $writer = $opinion['client'] ?>
                     <div class="feedback-card__reviews">
                         <p class="link-task link">Задание <a href="<?= Url::to(['tasks/view', 'id' => $task['id']]) ?>"
                                                              class="link-regular">«<?= $task['name'] ?>»</a></p>

@@ -96,6 +96,7 @@ use yii\widgets\ListView;
             </div>
         </div>
     </div>
+
     <div class="landing-bottom">
         <?=
         ListView::widget([
@@ -106,7 +107,8 @@ use yii\widgets\ListView;
             ],
             'layout' => "<div class='landing-bottom-container'>
                    <h2>Последние задания на сайте</h2>{items}</div>",
-            'emptyText' => 'Новых заданий пока нет',
+            'emptyText' => "<div class='landing-bottom-container'>
+                   <h2>Новых заданий пока нет</h2></div>",
             'emptyTextOptions' => [
                 'tag' => 'p'
             ],

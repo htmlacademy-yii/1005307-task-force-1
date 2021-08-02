@@ -22,13 +22,13 @@ class LoginForm extends Model
     public function rules(): array
     {
         return [
-            [['email', 'password'], 'safe'],
             [['email', 'password'], 'required', 'message' => "Поле «{attribute}» не может быть пустым"],
-            [['password'], 'validatePassword'],
+            [['password'], 'validatePass'],
+            [['email', 'password'], 'safe'],
         ];
     }
 
-    public function validatePassword($attribute)
+    public function validatePass($attribute)
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();

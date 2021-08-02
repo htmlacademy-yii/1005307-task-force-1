@@ -10,7 +10,6 @@ class m210502_170010_create_bd extends Migration
      */
     public function safeUp()
     {
-
         $this->createTable('categories', [
             'id' => $this->primaryKey(),
             'name' => $this->string(255)->notNull()->unique(),
@@ -32,7 +31,7 @@ class m210502_170010_create_bd extends Migration
             'name' => $this->string(255)->notNull(),
             'password' => $this->string(255)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()'))->notNull(),
-            'user_role' => $this->string(255)->notNull()->defaultValue('client'),
+            'user_role' => $this->string(255)->notNull(),
             'address' => $this->string(255),
             'bd' => $this->date(),
             'avatar' => $this->string(255),
@@ -229,27 +228,27 @@ class m210502_170010_create_bd extends Migration
         $this->createTable('opinions', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'title' => $this->string(255)->notNull(),
+            'completion'  => $this->integer(1)->notNull(),
             'description' => $this->text()->notNull(),
-            'rate' => $this->float(3.2),
-            'writer_id' => $this->integer(11)->notNull(),
-            'about_id' => $this->integer(11)->notNull(),
+            'rate' => $this->float(3.2)->notNull(),
+            'client_id' => $this->integer(11)->notNull(),
+            'doer_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);
 
         $this->addForeignKey(
-            'writer_o_id',
+            'doer_o_id',
             'opinions',
-            'writer_id',
+            'doer_id',
             'users',
             'id',
             'CASCADE'
         );
 
         $this->addForeignKey(
-            'about_o_id',
+            'client_o_id',
             'opinions',
-            'about_id',
+            'client_id',
             'users',
             'id',
             'CASCADE'
@@ -279,20 +278,19 @@ class m210502_170010_create_bd extends Migration
             'CASCADE'
         );
 
-        $this->createTable('replies', [
+        $this->createTable('responses', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'rate' => $this->float(3.2),
-            'title' => $this->string(255)->notNull(),
             'budget' => $this->integer(5),
-            'description' => $this->text()->notNull(),
+            'comment' => $this->text()->notNull(),
             'doer_id' => $this->integer(11)->notNull(),
-            'task_id' => $this->integer(11)->notNull()
+            'task_id' => $this->integer(11)->notNull(),
+            'is_refused' => $this->integer(1)->notNull()
         ]);
 
         $this->addForeignKey(
             'doer_r_id',
-            'replies',
+            'responses',
             'doer_id',
             'users',
             'id',
@@ -301,7 +299,7 @@ class m210502_170010_create_bd extends Migration
 
         $this->addForeignKey(
             'task_r_id',
-            'replies',
+            'responses',
             'task_id',
             'tasks',
             'id',
@@ -316,7 +314,7 @@ class m210502_170010_create_bd extends Migration
         $this->dropTable('messages');
         $this->dropTable('notifications');
         $this->dropTable('opinions');
-        $this->dropTable('replies');
+        $this->dropTable('responses');
         $this->dropTable('tasks');
         $this->dropTable('file_task');
         $this->dropTable('users');

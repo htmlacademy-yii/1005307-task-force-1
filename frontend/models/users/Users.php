@@ -9,7 +9,7 @@ use frontend\models\{
     messages\Messages,
     notifications\Notifications,
     opinions\Opinions,
-    replies\Replies,
+    responses\Responses,
     tasks\Tasks
 };
 use yii\db\ActiveQuery;
@@ -41,7 +41,7 @@ use yii\db\ActiveRecord;
  * @property Opinions[] $opinions
  * @property Opinions[] $opinions0
  * @property PortfolioPhoto[] $portfolioPhotos
- * @property Replies[] $replies
+ * @property Responses[] $responses
  * @property Tasks[] $tasks
  * @property Tasks[] $tasks0
  * @property UserCategory[] $userCategories
@@ -111,12 +111,12 @@ class Users extends ActiveRecord
 
     public function getOpinions(): ActiveQuery
     {
-        return $this->hasMany(Opinions::class, ['about_id' => 'id']);
+        return $this->hasMany(Opinions::class, ['doer_id' => 'id']);
     }
 
     public function getOpinions0(): ActiveQuery
     {
-        return $this->hasMany(Opinions::class, ['writer_id' => 'id']);
+        return $this->hasMany(Opinions::class, ['client_id' => 'id']);
     }
 
     public function getPortfolioPhotos(): ActiveQuery
@@ -124,9 +124,9 @@ class Users extends ActiveRecord
         return $this->hasMany(PortfolioPhoto::class, ['user_id' => 'id']);
     }
 
-    public function getReplies(): ActiveQuery
+    public function getResponses(): ActiveQuery
     {
-        return $this->hasMany(Replies::class, ['doer_id' => 'id']);
+        return $this->hasMany(Responses::class, ['doer_id' => 'id']);
     }
 
     public function getTasks(): ActiveQuery
