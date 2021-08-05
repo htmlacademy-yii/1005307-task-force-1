@@ -149,7 +149,7 @@ $user = $this->params['user'];
         <div class="connect-desk__profile-mini">
             <div class="profile-mini__wrapper">
                 <?php $isClientNotNewTask = false;
-                if ($task->status_task !== 'Новое' && $user->id == $task->client_id) {
+                if ($task->status_task !== 'Новое' && $task->status_task !== 'Отменено' && $user->id == $task->client_id) {
                     $isClientNotNewTask = true;
                 } ?>
                 <h3><?= $isClientNotNewTask ? Исполнитель : Заказчик ?></h3>
@@ -169,8 +169,8 @@ $user = $this->params['user'];
                     <span><?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'задание', 'задания', 'заданий') ?></span>
                     <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
                 </p>
-                <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">Смотреть
-                    профиль</a>
+                <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">
+                    Смотреть профиль</a>
             </div>
         </div>
         <div id="chat-container">

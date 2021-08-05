@@ -91,7 +91,7 @@ class m210502_170010_create_bd extends Migration
             'city_id' => $this->integer(11),
             'doer_id' => $this->integer(11),
             'client_id' => $this->integer(11)->notNull(),
-            'status_task' => $this->string(255)->notNull()->defaultValue('new'),
+            'status_task' => $this->string(255)->notNull(),
         ]);
 
         $this->addForeignKey(

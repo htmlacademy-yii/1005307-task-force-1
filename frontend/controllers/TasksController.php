@@ -17,7 +17,7 @@ class TasksController extends SecuredController
             'refuse-response' => \frontend\controllers\actions\tasks\RefuseResponseAction::class,
             'start-work' => \frontend\controllers\actions\tasks\StartWorkAction::class,
             'cancel' => \frontend\controllers\actions\tasks\CancelAction::class,
-            'complete' => \frontend\controllers\actions\tasks\CompleteAction::class,
+            'request' => \frontend\controllers\actions\tasks\RequestAction::class,
         ];
     }
 }

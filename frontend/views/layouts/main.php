@@ -12,7 +12,7 @@ use frontend\models\cities\Cities;
 
 use frontend\models\{
     task_actions\ResponseForm,
-    task_actions\CompleteForm,
+    task_actions\RequestForm,
     task_actions\RefuseForm
 };
 
@@ -221,8 +221,8 @@ AppAsset::register($this);
     </footer>
     <?php if ($this->title === 'Просмотр задания'): ?>
         <?= $this->render('//modals/_response_form', ['model' => new ResponseForm]);?>
-        <?= $this->render('//modals/complete_form', ['model' => new CompleteForm]);?>
-        <?= $this->render('//modals/refuse_form', ['model' => new RefuseForm]); ?>
+        <?= $this->render('//modals/_request_form', ['model' => new RequestForm]);?>
+        <?= $this->render('//modals/_refuse_form', ['model' => new RefuseForm]); ?>
     <?php endif; ?>
 </div>
 
