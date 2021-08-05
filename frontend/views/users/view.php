@@ -11,26 +11,18 @@ use yii\helpers\url;
     <section class="content-view">
         <div class="user__card-wrapper">
             <div class="user__card">
-                <?= $user['avatar'] ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '120', 'height' => '120']) : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '120', 'height' => '120']) ?>
+                <?= $user['avatar']
+                    ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '120', 'height' => '120'])
+                    : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '120', 'height' => '120']) ?>
                 <div class="content-view__headline">
                     <?php $opinions = $user['opinions'];
-                    $rating = 0;
-
-                    if (!empty($opinions)) {
-                        $ratesCount = 0;
-                        $ratesSum = 0;
-
-                        foreach ($opinions as $opinion) {
-                            $ratesCount++;
-                            $ratesSum += $opinion['rate'];
-                        }
-
-                        $rating = round(($ratesSum / $ratesCount), 2);
-                        $tasks = $user['tasksDoer'];
-                    } ?>
+                    $rating = $formatter->getUserRating($user['opinions']);
+                    $tasks = $user['tasksDoer'];
+                    $ratesCount = count($opinions)
+                    ?>
                     <h1><?= $user['name'] ?></h1>
-                    <p>Россия, <?= $user['city']['city'] ?>
-                        , <?= $user['bd'] ? $formatter->getAge($user['bd']) : "" ?> <?= $user['bd'] ? $formatter->getNounPluralForm($formatter->getAge($user['bd']), 'год', 'года', 'лет') : "" ?></p>
+                    <p>Россия, <?= $user['city']['city'] ?>,
+                        <?= $user['bd'] ? $formatter->getAge($user['bd']) : "" ?> <?= $user['bd'] ? $formatter->getNounPluralForm($formatter->getAge($user['bd']), 'год', 'года', 'лет') : "" ?></p>
                     <?php if ($opinions) : ?>
                         <div class="profile-mini__name five-stars__rate">
                             <?php $starCount = round($rating) ?>
@@ -69,12 +61,13 @@ use yii\helpers\url;
                            href="tel:<?= $user['phone'] ?>"><?= $user['phone'] ?></a>
                         <?= $formatter->asEmail($user['email'], ['class' => 'user__card-link--email link-regular']) ?>
                         <?php if ($user['skype']) : ?>
-                        <a class="user__card-link--skype link-regular"
-                           href="skype:<?= $user['skype'] ?>"><?= $user['skype'] ?></a>
+                            <a class="user__card-link--skype link-regular"
+                               href="skype:<?= $user['skype'] ?>"><?= $user['skype'] ?></a>
+                        <?php endif; ?>
                     </div>
                 </div>
-                <?php endif; ?>
-                <?php if ($portfolio): ?>
+                <?php $portfolio = $user['portfolioPhotos'];
+                if ($portfolio): ?>
                     <div class="user__card-photo">
                         <h3 class="content-view__h3">Фото работ</h3>
                         <?php foreach ($portfolio as $portfolio_photo) : ?>
@@ -94,16 +87,21 @@ use yii\helpers\url;
                 <?php $task = $opinion['task'] ?>
                 <?php $writer = $opinion['client'] ?>
                 <div class="feedback-card__reviews">
-                    <p class="link-task link">Задание <a href="<?= Url::to(['tasks/view', 'id' => $task['id']]) ?>"
-                                                         class="link-regular">«<?= $task['name'] ?>»</a></p>
+                    <p class="link-task link">Задание
+                        <a href="<?= Url::to(['tasks/view', 'id' => $task['id']]) ?>"
+                           class="link-regular">«<?= $task['name'] ?>»</a></p>
                     <div class="card__review">
-                        <a href="<?= Url::to(['users/view', 'id' => $writer['id']]) ?>"><?= Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['width' => '55', 'height' => '54']) ?></a>
+                        <a href="<?= Url::to(['users/view', 'id' => $writer['id']]) ?>">
+                            <?= $writer->avatar
+                                ? Html::img(Yii::$app->request->baseUrl . '/img/' . $writer->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
+                                : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
                         <div class="feedback-card__reviews-content">
-                            <p class="link-name link"><a
-                                    href="<?= Url::to(['users/view', 'id' => $writer['id']]) ?>"
-                                    class="link-regular"><?= $writer['name'] ?></a></p>
+                            <p class="link-name link">
+                                <a href="<?= Url::to(['users/view', 'id' => $writer['id']]) ?>">
+                                    <?=$writer['name']?></a>
+                            </p>
                             <p class="review-text">
-                                <?= $opinion['description'] ?>
+                                <?=$opinion['description']?>
                             </p>
                         </div>
                         <div class="card__review-rate">
@@ -114,8 +112,8 @@ use yii\helpers\url;
                 </div>
                 <?php endforeach; ?>
             </div>
-            <?php endif; ?>
         </div>
+        <?php endif; ?>
     </section>
     <section class="connect-desk">
         <div class="connect-desk__chat">

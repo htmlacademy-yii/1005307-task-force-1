@@ -167,6 +167,7 @@ class Users extends ActiveRecord
             ->where(['user_role' => 'doer'])
             ->with('userCategories')
             ->with('favourites')
+            ->with('portfolioPhotos')
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
