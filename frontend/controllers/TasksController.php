@@ -10,6 +10,7 @@ class TasksController extends SecuredController
         return [
             'index' => \frontend\controllers\actions\tasks\IndexAction::class,
             'view' => \frontend\controllers\actions\tasks\ViewAction::class,
+            'filter' => \frontend\controllers\actions\tasks\FilterAction::class,
             'refuse' => \frontend\controllers\actions\tasks\RefuseAction::class,
             'create' => \frontend\controllers\actions\tasks\CreateAction::class,
             'response' => \frontend\controllers\actions\tasks\ResponseAction::class,

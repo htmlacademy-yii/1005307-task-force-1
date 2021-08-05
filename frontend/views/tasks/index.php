@@ -56,7 +56,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                     'class' => 'search-task__form'
                 ],
                 'action' => [
-                    '/tasks/'
+                    '/tasks/index',
                 ]
             ]); ?>
             <fieldset class="search-task__categories">

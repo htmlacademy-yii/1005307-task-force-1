@@ -27,7 +27,7 @@ class IndexAction extends Action
 
         return $this->controller->render('index', [
                 'dataProvider' => $dataProvider,
-                'searchForm' => $searchForm]
-        );
+                'searchForm' => $searchForm
+        ]);
     }
 }

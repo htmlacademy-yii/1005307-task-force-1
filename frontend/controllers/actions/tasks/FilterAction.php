@@ -6,17 +6,18 @@ namespace frontend\controllers\actions\tasks;
 
 use frontend\models\tasks\Tasks;
 use frontend\models\tasks\TaskSearchForm;
+use yii\base\BaseObject;
 use yii\data\ActiveDataProvider;
 use yii\base\Action;
 use Yii;
 
-class IndexAction extends Action
+class FilterAction extends Action
 {
     public function run(): string
     {
         $searchForm = new TaskSearchForm();
         $searchForm->search(Yii::$app->request->queryParams);
-     //   $params = $searchForm;
+        //   $params = $searchForm;
 
         $dataProvider = new ActiveDataProvider([
             'query' => Tasks::getNewTasksByFilters($searchForm),

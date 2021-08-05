@@ -15,11 +15,6 @@ class UserSearchForm extends Users
     public $hasOpinions;
     public $isFavourite;
 
-    public static function tableName(): string
-    {
-        return 'user_search_form';
-    }
-
     public function rules(): array
     {
         return [

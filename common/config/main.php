@@ -26,6 +26,8 @@ return [
                 'tasks/<page:\d+>' => 'tasks/index',
                 'users/<page:\d+>' => 'users/index',
                 'task/view/<id>' => 'tasks/view/',
+                'users/<filter:\d>' => 'users/index',
+                'tasks/<TaskSearchForm>/' => 'tasks/filter',
                 'user/view/<id>' => 'users/view/',
                 'task/create/' => 'tasks/create/',
                 'sign/' => 'sign/index',
