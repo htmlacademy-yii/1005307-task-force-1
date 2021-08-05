@@ -147,7 +147,7 @@ class Tasks extends ActiveRecord
                 'tasks.*',
                 'count(responses.comment) as responses_count'
             ])
-            ->andwhere(['status_task' => 'new'])
+            ->andwhere(['status_task' => 'Новое'])
             ->with('category')
             ->with('city')
             ->groupBy('tasks.id')
@@ -180,7 +180,7 @@ class Tasks extends ActiveRecord
     final public static function getLastTasks(): array
     {
         $query = self::find()
-            ->andwhere(['status_task' => 'new'])
+            ->andwhere(['status_task' => 'Новое'])
             ->with('category')
             ->with('city')
             ->limit(4)

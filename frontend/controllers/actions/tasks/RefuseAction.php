@@ -17,7 +17,7 @@ class RefuseAction extends BaseAction
 
         if ($refuseForm->load(Yii::$app->request->post())) {
             $task = Tasks::findOne($refuseForm->task_id);
-            $task->status_task = 'failed';
+            $task->status_task = 'Провалено';
             $task->save(false);
         }
 

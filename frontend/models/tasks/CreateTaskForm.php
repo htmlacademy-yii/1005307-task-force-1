@@ -16,6 +16,7 @@ class CreateTaskForm extends Model
     public $expire;
     public $client_id;
     public $category_id;
+    public $status_task;
 
     public function getCategories(): array
     {
@@ -42,7 +43,7 @@ class CreateTaskForm extends Model
             ['category_id', 'validateCat'],
             ['expire', 'validateDate'],
             ['expire', 'date', 'format' => 'yyyy*MM*dd', 'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire'], 'safe']
+            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task'], 'safe']
         ];
     }
 

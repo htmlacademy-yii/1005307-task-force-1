@@ -20,6 +20,7 @@ $user = $this->params['user'];
                         <span>Размещено в категории
                            <a href="#" class="link-regular"><?= $task->category->name ?></a>
                            <?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?>
+                           (<?= $task->status_task ?>)
                         </span>
                     </div>
                     <b class="new-task__price new-task__price--<?= $task->category->icon ?> content-view-price">
@@ -72,7 +73,7 @@ $user = $this->params['user'];
         }
         $possibleActions = $taskActions->getActionsUser($task['status_task']);
         if ($possibleActions):
-            if ($isUserAuthorOfResponse !== true || $task->status_task !== 'new'):?>
+            if ($isUserAuthorOfResponse !== true || $task->status_task !== 'Новое'):?>
                 <div class="content-view__action-buttons">
                     <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
                             type="button"
@@ -82,7 +83,15 @@ $user = $this->params['user'];
                 </div>
             <?php endif;
         endif; ?>
-        <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse && $task->status_task !== 'failed'): ?>
+        <?php if ($task->status_task == 'Новое' && $task->client_id == $user->id):?>
+        <div class="content-view__action-buttons">
+            <a class=" button button__big-color cancel-button open-modal"
+               href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">
+               Отменить
+            </a>
+        </div>
+        <?php endif; ?>
+        <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse && $task->status_task !== 'Провалено'): ?>
             <div class="content-view__feedback">
                 <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
                 <div class="content-view__feedback-wrapper">
@@ -118,7 +127,7 @@ $user = $this->params['user'];
                                     <span><?= $response->budget ?> ₽</span>
                                 </div>
                                 <?php if ($user->id == $task->client_id):
-                                    if ($response->is_refused == 0 && $task->status_task == 'new'): ?>
+                                    if ($response->is_refused == 0 && $task->status_task == 'Новое'): ?>
                                         <div class="feedback-card__actions">
                                             <a class="button__small-color request-button button"
                                                type="button"
@@ -140,7 +149,7 @@ $user = $this->params['user'];
         <div class="connect-desk__profile-mini">
             <div class="profile-mini__wrapper">
                 <?php $isClientNotNewTask = false;
-                if ($task->status_task !== 'new' && $user->id == $task->client_id) {
+                if ($task->status_task !== 'Новое' && $user->id == $task->client_id) {
                     $isClientNotNewTask = true;
                 } ?>
                 <h3><?= $isClientNotNewTask ? Исполнитель : Заказчик ?></h3>

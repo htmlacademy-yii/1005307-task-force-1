@@ -220,7 +220,7 @@ AppAsset::register($this);
         </div>
     </footer>
     <?php if ($this->title === 'Просмотр задания'): ?>
-        <?= $this->render('//modals/response_form', ['model' => new ResponseForm]);?>
+        <?= $this->render('//modals/_response_form', ['model' => new ResponseForm]);?>
         <?= $this->render('//modals/complete_form', ['model' => new CompleteForm]);?>
         <?= $this->render('//modals/refuse_form', ['model' => new RefuseForm]); ?>
     <?php endif; ?>

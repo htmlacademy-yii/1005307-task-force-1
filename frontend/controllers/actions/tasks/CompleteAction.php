@@ -31,7 +31,7 @@ class CompleteAction extends BaseAction
                 $opinions->save(false);
 
                 $task = Tasks::findOne($opinions->task_id);
-                $opinions->completion == 1 ? $task->status_task = 'done' : $task->status_task = 'failed';
+                $opinions->completion == 1 ? $task->status_task = 'Завершено' : $task->status_task = 'Провалено';
                 $task->save();
             }
         }

@@ -21,7 +21,7 @@ $categories = $createTaskForm->getCategories();
                     'enctype' => "multipart/form-data",
                 ],
                 'validationStateOn' => 'input',
-                'action' => '/tasks/create',
+                'action' => '/task/create',
                 'validateOnBlur' => true,
                 'validateOnChange' => true,
                 'validateOnSubmit' => true,
@@ -44,6 +44,15 @@ $categories = $createTaskForm->getCategories();
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'value' => $user['id'],
+                    'type' => 'hidden',
+                    'style' => 'margin-top: 0'
+                ]
+            ])->label(false); ?>
+            <?= $form->field($createTaskForm, 'status_task', [
+                'options' => ['style' => 'margin-top: 0'],
+                'inputOptions' => [
+                    'class' => 'input textarea',
+                    'value' => 'Новое',
                     'type' => 'hidden',
                     'style' => 'margin-top: 0'
                 ]
