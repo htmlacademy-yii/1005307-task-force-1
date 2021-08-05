@@ -53,7 +53,7 @@ return [
                 'users/<pages:\d+>' => 'users/index',
                 'users/<filter:\d+>' => 'users/index',
                 'task/view/<id>' => 'tasks/view/',
-              //  'user/view/<id>' => 'users/view/',
+                'user/view/<id>' => 'users/view/',
                 'task/create/' => 'tasks/create/'
             ],
         ],
