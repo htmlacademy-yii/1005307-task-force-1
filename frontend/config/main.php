@@ -58,6 +58,9 @@ return [
                 'task/create/' => 'tasks/create/'
             ],
         ],
+        'yandexMapsApi' => [
+            'class' => 'mirocow\yandexmaps\Api',
+        ]
     ],
     'defaultRoute' => 'landing/index',
     'params' => [

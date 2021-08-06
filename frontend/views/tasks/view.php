@@ -6,6 +6,7 @@ $formatter = \Yii::$app->formatter;
 use yii\helpers\Html;
 use yii\helpers\url;
 use yii\widgets\ActiveForm;
+
 $task = $this->params['task'];
 $user = $this->params['user'];
 
@@ -44,15 +45,11 @@ $user = $this->params['user'];
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-                <?php if ($task['city']): ?>
+                <?php if ($task['address']): ?>
                     <div class="content-view__location">
                         <h3 class="content-view__h3">Расположение</h3>
                         <div class="content-view__location-wrapper">
-                            <div class="content-view__map">
-                                <a href="#">
-                                    <img src="/img/map.jpg" width="361" height="292"
-                                         alt="<?= $task->city->city ?>, <?= $task->address ?>"></a>
-                            </div>
+                            <div id="map" style="width: 361px; height: 292px" class="content-view__map"></div>
                             <div class="content-view__address">
                                 <span class="address__town"><?= $task->city->city ?></span><br>
                                 <span><?= $task->address ?></span>
@@ -83,22 +80,22 @@ $user = $this->params['user'];
                 </div>
             <?php endif;
         endif; ?>
-        <?php if ($task->status_task == 'Новое' && $task->client_id == $user->id):?>
-        <div class="content-view__action-buttons">
-            <a class=" button button__big-color cancel-button open-modal"
-               href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">
-               Отменить
-            </a>
-        </div>
+        <?php if ($task->status_task == 'Новое' && $task->client_id == $user->id): ?>
+            <div class="content-view__action-buttons">
+                <a class=" button button__big-color cancel-button open-modal"
+                   href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">
+                    Отменить
+                </a>
+            </div>
         <?php endif; ?>
         <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse && $task->status_task !== 'Провалено'): ?>
             <div class="content-view__feedback">
                 <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
                 <div class="content-view__feedback-wrapper">
                     <?php foreach ($responses as $response):
-                         if ($response->doer_id === $user->id || $user->id === $task->client_id):
+                        if ($response->doer_id === $user->id || $user->id === $task->client_id):
                             $doer = $response->doer;
-                            $rating = $formatter->getUserRating($doer->opinions)?>
+                            $rating = $formatter->getUserRating($doer->opinions) ?>
                             <div class="content-view__feedback-card">
                                 <div class="feedback-card__top">
                                     <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">

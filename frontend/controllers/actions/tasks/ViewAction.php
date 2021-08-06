@@ -33,6 +33,8 @@ class ViewAction extends BaseAction
         $view->params['user'] = $this->user;
         $view->params['doer_id'] = $task->doer_id;
         $view->params['client_id'] = $task->client_id;
+        $view->params['longitude'] = $task->longitude;
+        $view->params['latitude'] = $task->latitude;
 
         return $this->controller->render('view', ['taskActions' => $taskActions, 'task' => $task, 'user' => $this->user]);
     }

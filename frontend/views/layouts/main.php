@@ -31,6 +31,25 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <?php if ($this->title === 'Просмотр задания'): ?>
+        <script src="https://api-maps.yandex.ru/2.1/?apikey=e666f398-c983-4bde-8f14-e3fec900592a&lang=ru_RU"
+                type="text/javascript">
+        </script>
+        <script type="text/javascript">
+            ymaps.ready(init);
+
+            function init() {
+                var myMap = new ymaps.Map("map", {
+                    center: [<?=$this->params['latitude']?>, <?=$this->params['longitude']?>, ],
+                    zoom: 7
+                });
+                var myPlacemark = new ymaps.Placemark(
+                    [<?=$this->params['latitude']?>, <?=$this->params['longitude']?>]
+                );
+                myMap.geoObjects.add(myPlacemark);
+            }
+        </script>
+    <?php endif; ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -220,8 +239,8 @@ AppAsset::register($this);
         </div>
     </footer>
     <?php if ($this->title === 'Просмотр задания'): ?>
-        <?= $this->render('//modals/_response_form', ['model' => new ResponseForm]);?>
-        <?= $this->render('//modals/_request_form', ['model' => new RequestForm]);?>
+        <?= $this->render('//modals/_response_form', ['model' => new ResponseForm]); ?>
+        <?= $this->render('//modals/_request_form', ['model' => new RequestForm]); ?>
         <?= $this->render('//modals/_refuse_form', ['model' => new RefuseForm]); ?>
     <?php endif; ?>
 </div>
