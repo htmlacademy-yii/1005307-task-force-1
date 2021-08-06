@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\tasks;
 
 use frontend\models\tasks\Tasks;
-use frontend\models\task_actions\TaskActions;
+use frontend\models\tasks\TaskActions;
 use yii\web\NotFoundHttpException;
 use yii\web\View;
 

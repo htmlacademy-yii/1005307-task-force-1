@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\tasks;
 
 use frontend\models\tasks\Tasks;
-use frontend\models\task_actions\CreateTaskForm;
+use frontend\models\tasks\CreateTaskForm;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use yii\web\UploadedFile;
-use frontend\models\task_actions\FileUploadForm;
+use frontend\models\tasks\FileUploadForm;
 use Yii;
 
 class CreateAction extends BaseAction

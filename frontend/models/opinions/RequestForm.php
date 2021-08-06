@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace frontend\models\task_actions;
+namespace frontend\models\opinions;
 
 use yii;
 use yii\base\Model;

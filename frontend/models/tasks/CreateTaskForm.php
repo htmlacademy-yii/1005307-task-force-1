@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace frontend\models\task_actions;
+namespace frontend\models\tasks;
 
 use frontend\models\categories\Categories;
 

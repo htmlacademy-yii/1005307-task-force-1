@@ -1,11 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace frontend\models\task_actions;
-
-use frontend\models\{
-    responses\Responses
-};
+namespace frontend\models\tasks;
 
 class TaskActions
 {

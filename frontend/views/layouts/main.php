@@ -11,9 +11,9 @@ use yii\widgets\Menu;
 use frontend\models\cities\Cities;
 
 use frontend\models\{
-    task_actions\ResponseForm,
-    task_actions\RequestForm,
-    task_actions\RefuseForm
+    responses\ResponseForm,
+    opinions\RequestForm,
+    tasks\RefuseForm
 };
 
 AppAsset::register($this);
@@ -40,7 +40,7 @@ AppAsset::register($this);
 
             function init() {
                 var myMap = new ymaps.Map("map", {
-                    center: [<?=$this->params['latitude']?>, <?=$this->params['longitude']?>, ],
+                    center: [<?=$this->params['latitude']?>, <?=$this->params['longitude']?>,],
                     zoom: 7
                 });
                 var myPlacemark = new ymaps.Placemark(

@@ -19,6 +19,6 @@ use yii\helpers\Html;
     </p>
     <b class="new-task__price new-task__price--<?= $model['category']['icon'] ?>">
         <?= $model['budget'] ?> <b> ₽</b></b>
-    <p class="new-task__place"><?= $model['city'] ? ($model['city']['city']) : 'Удаленная работа' ?> <?= $model['address'] ?></p>
+    <p class="new-task__place"><?= $model['address'] ? $model['address'] : 'Удаленная работа' ?> </p>
     <span class="new-task__time"><?= $formatter->asRelativeTime($model['dt_add'], strftime("%F %T")) ?></span>
 </div>
