@@ -3,13 +3,10 @@
 declare(strict_types=1);
 
 namespace frontend\controllers\actions\users;
-
-use frontend\models\users\Users;
 use frontend\models\users\UserSearchForm;
 use yii\base\Action;
 
 use Yii;
-use yii\data\ActiveDataProvider;
 
 class IndexAction extends Action
 {

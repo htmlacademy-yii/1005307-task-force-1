@@ -4,12 +4,9 @@ $this->title = 'Список заданий';
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\ListView;
-use yii\helpers\Url;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
 $periodFilter = $searchForm->getPeriodFilter();
-//$filters = ;
-//$this->params['filter'] = $filters;
 
 ?>
 <div class="main-container page-container">
@@ -48,7 +45,8 @@ $periodFilter = $searchForm->getPeriodFilter();
     </section>
     <section class="search-task">
         <div class="search-task__wrapper">
-            <?php $form = ActiveForm::begin([
+            <?php
+            $form = ActiveForm::begin([
                 'id' => 'searchForm',
                 'method' => 'get',
                 'options' => [
