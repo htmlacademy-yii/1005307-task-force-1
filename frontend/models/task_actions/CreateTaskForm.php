@@ -1,12 +1,15 @@
 <?php
 declare(strict_types = 1);
 
-namespace frontend\models\tasks;
+namespace frontend\models\task_actions;
 
 use frontend\models\categories\Categories;
 
 use yii;
 use yii\base\Model;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\{BadResponseException, ServerException};
+use GuzzleHttp\Psr7\Request as GuzzleRequest;
 
 class CreateTaskForm extends Model
 {
@@ -17,6 +20,9 @@ class CreateTaskForm extends Model
     public $client_id;
     public $category_id;
     public $status_task;
+    public $address;
+    public $latitude;
+    public $longitude;
 
     public function getCategories(): array
     {
@@ -43,7 +49,7 @@ class CreateTaskForm extends Model
             ['category_id', 'validateCat'],
             ['expire', 'validateDate'],
             ['expire', 'date', 'format' => 'yyyy*MM*dd', 'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task'], 'safe']
+            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address'], 'safe']
         ];
     }
 
@@ -61,6 +67,41 @@ class CreateTaskForm extends Model
         }
     }
 
+    public function getCoordinates(string $address): ?array
+    {
+        $coordinates = null;
+        $client = new Client(['base_uri' => 'https://geocode-maps.yandex.ru/']);
+        $request = new GuzzleRequest('GET', '1.x');
+        $response = $client->send($request, [
+            'query' => [
+                'geocode' => $address,
+                'apikey' => Yii::$app->params['apiKey'],
+                'format' => 'json',
+            ]
+        ]);
+
+        if ($response->getStatusCode() !== 200) {
+            throw new BadResponseException("Ошибка ответа: " . $response->getReasonPhrase(), $request, $response);
+        }
+        $jsonResponseData = $response->getBody()->getContents();
+        $responseData = json_decode($jsonResponseData, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new ServerException("Некорректный json-формат", $request, $response);
+        }
+        $error = $responseData['message'] ?? null;
+
+        if ($error) {
+            throw new BadResponseException("API ошибка: " . $error, $request, $response);
+        }
+
+        if ($responseData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'] ?? null) {
+            $coordinates = explode(' ', $responseData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']);
+        }
+
+        return $coordinates;
+    }
+
     public function attributeLabels(): array
     {
         return [
@@ -70,6 +111,7 @@ class CreateTaskForm extends Model
             'budget' => 'Бюджет',
             'expire' => 'Срок исполнения',
             'category_id' => 'Категория',
+            'address' => 'Локация',
         ];
     }
 }

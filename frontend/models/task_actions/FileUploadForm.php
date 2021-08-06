@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace frontend\models\tasks;
+namespace frontend\models\task_actions;
 
 use yii\base\Model;
 

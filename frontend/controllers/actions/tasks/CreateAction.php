@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\tasks;
 
 use frontend\models\tasks\Tasks;
-use frontend\models\tasks\CreateTaskForm;
+use frontend\models\task_actions\CreateTaskForm;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use yii\web\UploadedFile;
-use frontend\models\tasks\FileUploadForm;
+use frontend\models\task_actions\FileUploadForm;
 use Yii;
 
 class CreateAction extends BaseAction
@@ -39,6 +39,13 @@ class CreateAction extends BaseAction
                     true
                 );
                 $task = new Tasks(['attributes' => $createTaskForm->attributes]);
+
+                if ($task->address ?? null) {
+                    $coordinates = $createTaskForm->getCoordinates($task->address);
+                    $task->longitude = $coordinates[0] ?? null;
+                    $task->latitude = $coordinates[1] ?? null;
+                }
+
                 $task->save(false);
                 $this->uploadFile($task);
 
