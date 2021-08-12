@@ -18,10 +18,10 @@ class RequestForm extends Model
     public function rules(): array
     {
         return [
-            [['doer_id', 'client_id', 'task_id', 'status_task'], 'required'],
+            [['doer_id', 'client_id', 'task_id'], 'required'],
             [['completion'], 'required', 'message' => "Сообщите выполнено ли задание"],
             [['description'], 'required', 'message' => "Напишите ваще мнение о выполнении задания"],
-            [['doer_id', 'client_id', 'task_id', 'completion', 'description', 'rate', 'status_task'], 'safe']
+            [['doer_id', 'client_id', 'task_id', 'completion', 'description', 'rate'], 'safe']
         ];
     }
 

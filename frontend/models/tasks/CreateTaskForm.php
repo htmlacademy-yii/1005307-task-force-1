@@ -23,6 +23,7 @@ class CreateTaskForm extends Model
     public $address;
     public $latitude;
     public $longitude;
+    public $city_id;
 
     public function getCategories(): array
     {

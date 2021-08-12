@@ -31,19 +31,31 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <?php $this->head() ?>
     <title><?= Html::encode($this->title) ?></title>
-<!--    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;load=SuggestView&amp;onload=onLoad"></script>
-    <script>-->
-    <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU&load=SuggestView&onload=onLoad"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 
     <?php if ($this->title === 'Публикация нового задания'): ?>
-    <script>
-        function onLoad (ymaps) {
-            var suggestView = new ymaps.SuggestView('createtaskform-address');
-        }
-    </script>
+        <script>
+            ymaps.ready(init);
+            function init() {
+                new ymaps.SuggestView('address')
+            }
+            var provider = {
+                suggest : function(request, options) {
+                    let arr = ['Москва'];
+                    let suggest = new ymaps.suggest(request);
+                    var result = suggest.then(items => {
+                        console.log('first');
+                    });
+
+                    console.log('last');
+                    return suggest;
+
+                }
+            }
+        </script>
     <?php endif; ?>
     <?php if ($this->title === 'Просмотр задания'): ?>
-       <script src="https://api-maps.yandex.ru/2.1/?apikey=e666f398-c983-4bde-8f14-e3fec900592a&lang=ru_RU"
+        <script src="https://api-maps.yandex.ru/2.1/?apikey=e666f398-c983-4bde-8f14-e3fec900592a&lang=ru_RU"
                 type="text/javascript">
         </script>
         <script type="text/javascript">

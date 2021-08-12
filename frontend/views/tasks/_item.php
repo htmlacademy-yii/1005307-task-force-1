@@ -10,8 +10,11 @@ use yii\helpers\Html;
 <div class="new-task__card">
     <div class="new-task__title">
         <a href="<?= Url::to(['tasks/view/', 'id' => $model['id']]) ?>" class="link-regular">
-            <h2><?= $model['name'] ?></h2></a>
-        <a href="<?= Url::to(['tasks/index', ['categories_id' => $model['category_id']]]) ?>" class="link-regular"><?= $model['category']['name'] ?></a>
+            <h2><?= $model['name'] ?></h2>
+        </a>
+        <a href="<?= Url::to(['tasks/filter', 'category_id' => $model['category_id']]) ?>" class="link-regular">
+            <?= $model['category']['name'] ?>
+        </a>
     </div>
     <div class="new-task__icon new-task__icon--<?= $model['category']['icon'] ?>"></div>
     <p class="new-task_description">

@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\tasks;
 
 use frontend\models\tasks\TaskSearchForm;
-use Yii;
 
-class IndexAction extends BaseAction
+class FilterCategoriesAction extends BaseAction
 {
-    public function run(): string
+    public function run($category_id): string
     {
         $searchForm = new TaskSearchForm;
-        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchForm->searchByCategories($category_id);
 
         return $this->controller->render('index', [
             'dataProvider' => $dataProvider,

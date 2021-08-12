@@ -20,6 +20,7 @@ $categories = $createTaskForm->getCategories();
                 'enableClientValidation' => false,
                 'options' => ['class' => 'create__task-form form-create',
                     'enctype' => "multipart/form-data",
+                    'tag' => false,
                 ],
                 'validationStateOn' => 'input',
                 'action' => '/task/create',
@@ -63,14 +64,20 @@ $categories = $createTaskForm->getCategories();
                     'class' => 'input textarea',
                     'id' => 10,
                     'rows' => 1,
-                ]
+                ],
+                'options' => [
+                    'tag' => false,
+                ],
             ])->textArea()->hint('Пожалуйста, введите имя') ?>
             <?= $form->field($createTaskForm, "description", [
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 11,
                     'rows' => 7
-                ]
+                ],
+                'options' => [
+                    'tag' => false,
+                ],
             ])->textArea() ?>
             <label>Файлы</label>
             <span>Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу</span>
@@ -87,7 +94,10 @@ $categories = $createTaskForm->getCategories();
                             'widgetClientOptions' => [
                                 'buttonsHide' => ['image', 'file'],
                             ]
-                        ]
+                        ],
+                        'options' => [
+                            'tag' => false,
+                        ],
                     ])->label(false)->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
                 </label>
             </div>
@@ -110,7 +120,7 @@ JS;
             ?>
             <?= $form->field($createTaskForm, "category_id", [
                 'options' => [
-                    'style' => 'margin-top: 27px; margin-bottom: 0;'
+                    'tag' => false,
                 ],
                 'inputOptions' => [
                     'style' => 'width: 520px; margin-top: 12px; margin-bottom: 7px;',
@@ -124,19 +134,23 @@ JS;
                 ]
             ]) ?>
             <?= $form->field($createTaskForm, "address", [
-                'options' => [
-                    'style' => 'margin-top: 29px;',
+                'inputOptions' => [
                     'id' => 'address',
                     'class' => 'input-navigation input-middle input',
-
                     'type' => 'search',
+                ],
+                'options' => [
+                    'tag' => false,
                 ],
                 'template' =>
                     "{label}\n{input}\n"
                     . "<span>Укажите адрес исполнения, если задание требует присутствия</span>",
             ]) ?>
             <?= $form->field($createTaskForm, 'latitude', [
-                'options' => ['style' => 'margin-top: 0'],
+                'options' => [
+                    'style' => 'margin-top: 0',
+                    'tag' => false,
+                ],
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'value' => $data[0],
@@ -156,6 +170,10 @@ JS;
             <div class="create__price-time">
                 <div class="create__price-time--wrapper">
                     <?= $form->field($createTaskForm, "budget", [
+                        'options' => [
+                            'style' => 'margin-top: 0',
+                            'tag' => false,
+                        ],
                         'inputOptions' => [
                             'class' => 'input textarea input-money',
                             'id' => 15,
@@ -165,6 +183,10 @@ JS;
                 </div>
                 <div class="create__price-time--wrapper">
                     <?= $form->field($createTaskForm, "expire", [
+                        'options' => [
+                            'style' => 'margin-top: 0',
+                            'tag' => false,
+                        ],
                         'inputOptions' => [
                             'class' => 'input-middle input input-date',
                             'id' => 16,

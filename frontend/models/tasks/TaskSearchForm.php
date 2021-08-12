@@ -35,22 +35,8 @@ class TaskSearchForm extends Tasks
         ];
     }
 
-    public function search($params): ActiveDataProvider
+    private function getTasks($query): void
     {
-        $query = Tasks::find();
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 5,
-            ],
-        ]);
-        $this->load($params);
-
-        if (!$this->validate()) {
-            return $dataProvider;
-        }
-
         $query->joinWith('responses')
             ->joinWith('city')
             ->select([
@@ -63,6 +49,24 @@ class TaskSearchForm extends Tasks
             ->groupBy('tasks.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
+    }
+
+    public function search($params): ActiveDataProvider
+    {
+        $query = Tasks::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+        $this->load($params);
+        $this->getTasks($query);
+
+        if (!$this->validate()) {
+            return $dataProvider;
+        }
 
         if ($this->searchedCategories) {
             $query->categoriesFilter($this->searchedCategories);
@@ -83,6 +87,23 @@ class TaskSearchForm extends Tasks
         if ($this->searchName) {
             $query->nameSearch($this->searchName);
         }
+
+        return $dataProvider;
+    }
+
+    public function searchByCategories($category): ActiveDataProvider
+    {
+        $query = Tasks::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+
+        $this->getTasks($query);
+        $query->andWhere(['category_id' => $category]);
 
         return $dataProvider;
     }
