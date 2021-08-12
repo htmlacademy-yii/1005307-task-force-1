@@ -27,14 +27,11 @@ $user = $this->params['user'];
                     <b class="new-task__price new-task__price--<?= $task->category->icon ?> content-view-price">
                         <?= $task->budget ?>
                         <b> ₽</b></b>
-                    <div
-                        class="new-task__icon new-task__icon--<?= $task->category->icon ?> content-view-icon"></div>
+                    <div class="new-task__icon new-task__icon--<?= $task->category->icon ?> content-view-icon"></div>
                 </div>
                 <div class="content-view__description">
                     <h3 class="content-view__h3">Общее описание</h3>
-                    <p>
-                        <?= $task->description ?>
-                    </p>
+                    <p><?= $task->description ?></p>
                 </div>
                 <?php $files = $task->fileTasks;
                 if ($files): ?>
@@ -61,20 +58,18 @@ $user = $this->params['user'];
             </div>
         </div>
         <?php $responses = $task->responses;
-        $isUserAuthorOfResponse = false;
-        foreach ($task->responses as $response) {
-            if ($response->doer_id === $user->id) {
-                $isUserAuthorOfResponse = true;
-                break;
+            $isUserAuthorOfResponse = false;
+            foreach ($task->responses as $response) {
+                if ($response->doer_id === $user->id) {
+                    $isUserAuthorOfResponse = true;
+                    break;
+                }
             }
-        }
-        $possibleActions = $taskActions->getActionsUser($task['status_task']);
-        if ($possibleActions):
-            if ($isUserAuthorOfResponse !== true || $task->status_task !== 'Новое'):?>
-                <div class="content-view__action-buttons">
-                    <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
-                            type="button"
-                            data-for="<?= $possibleActions['data'] ?>-form">
+            $possibleActions = $taskActions->getActionsUser($task['status_task']);
+            if ($possibleActions):
+                if ($isUserAuthorOfResponse !== true || $task->status_task !== 'Новое'):?>
+                    <div class="content-view__action-buttons">
+                        <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal" type="button" data-for="<?= $possibleActions['data'] ?>-form">
                         <?= $possibleActions['name'] ?>
                     </button>
                 </div>
@@ -82,10 +77,7 @@ $user = $this->params['user'];
         endif; ?>
         <?php if ($task->status_task == 'Новое' && $task->client_id == $user->id): ?>
             <div class="content-view__action-buttons">
-                <a class=" button button__big-color cancel-button open-modal"
-                   href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">
-                    Отменить
-                </a>
+                <a class=" button button__big-color cancel-button open-modal" href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">Отменить</a>
             </div>
         <?php endif; ?>
         <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse && $task->status_task !== 'Провалено'): ?>
@@ -104,8 +96,7 @@ $user = $this->params['user'];
                                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
                                     </a>
                                     <div class="feedback-card__top--name">
-                                        <p><a href="<?= Url::to(['users/view', 'id' => $doer->id]) ?>"
-                                              class="link-regular"><?= $doer->name ?></a></p>
+                                        <p><a href="<?= Url::to(['users/view', 'id' => $doer->id]) ?>" class="link-regular"><?= $doer->name ?></a></p>
                                         <?php if ($rating > 0):
                                             $starCount = round($rating);
                                             for ($i = 1; $i <= 5; $i++):?>
@@ -114,23 +105,18 @@ $user = $this->params['user'];
                                             <b><?= $rating ?></b>
                                         <?php endif; ?>
                                     </div>
-                                    <span
-                                        class="new-task__time"><?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?></span>
+                                    <span class="new-task__time"><?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?></span>
                                 </div>
                                 <div class="feedback-card__content">
-                                    <p>
-                                        <?= $response->comment ?>
-                                    </p>
+                                    <p><?= $response->comment ?></p>
                                     <span><?= $response->budget ?> ₽</span>
                                 </div>
                                 <?php if ($user->id == $task->client_id):
                                     if ($response->is_refused == 0 && $task->status_task == 'Новое'): ?>
                                         <div class="feedback-card__actions">
-                                            <a class="button__small-color request-button button"
-                                               type="button"
+                                            <a class="button__small-color request-button button" type="button"
                                                href="<?= Url::to(['tasks/start-work', 'taskId' => $task->id, 'doerId' => $response->doer_id]) ?>">Подтвердить</a>
-                                            <a class="button__small-color refusal-button button"
-                                               type="button"
+                                            <a class="button__small-color refusal-button button" type="button"
                                                href="<?= Url::to(['tasks/refuse-response', 'responseId' => $response->id]) ?>">Отказать</a>
                                         </div>
                                     <?php endif;
@@ -153,7 +139,7 @@ $user = $this->params['user'];
                 <?php $isClientNotNewTask
                     ? $user_show = $task->doer
                     : $user_show = $task->client;
-                $doer = $task->doer ?>
+                     $doer = $task->doer ?>
                 <div class="profile-mini__top">
                     <?= $user_show->avatar
                         ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user_show->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
@@ -166,8 +152,7 @@ $user = $this->params['user'];
                     <span><?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'задание', 'задания', 'заданий') ?></span>
                     <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
                 </p>
-                <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">
-                    Смотреть профиль</a>
+                <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">Смотреть профиль</a>
             </div>
         </div>
         <div id="chat-container">

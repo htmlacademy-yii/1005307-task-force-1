@@ -1,5 +1,6 @@
 <?php
 use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 ?>
 
 <section class="modal response-form form-modal" id="response-form">
@@ -10,7 +11,10 @@ use yii\widgets\ActiveForm;
         'enableClientValidation' => true,
         'validationStateOn' => 'input',
         'action' => '/tasks/response',
-        'options' => ['style' => 'margin-top: 12px; margin-bottom: 8px;'],
+        'options' => [
+            'style' => 'margin-top: 12px;
+            margin-bottom: 8px;'
+        ],
         'validateOnBlur' => true,
         'validateOnChange' => true,
         'validateOnSubmit' => true,
@@ -19,7 +23,10 @@ use yii\widgets\ActiveForm;
                 'class' => 'form-modal-description',
                 'style' => 'margin-top: 12px; margin-bottom: 8px;',
             ],
-            'errorOptions' => ['tag' => 'span', 'style' => 'color: red'],
+            'errorOptions' => [
+                'tag' => 'span',
+                'style' => 'color: red'
+            ],
             'labelOptions' => [
                 'class' => 'form-modal-description',
             ],
@@ -58,7 +65,8 @@ use yii\widgets\ActiveForm;
             'rows' => 4
         ]
     ])->textArea() ?>
-    <button class="button modal-button" type="submit">Отправить</button>
+    <?= Html::submitButton('Отправить',
+        ['class' => 'button modal-button']) ?>
     <?php ActiveForm::end(); ?>
     <button class="form-modal-close" type="button">Закрыть</button>
 </section>

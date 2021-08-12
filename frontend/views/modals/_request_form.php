@@ -1,6 +1,7 @@
 <?php
 
 use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 
 ?>
 <section class="modal completion-form form-modal" id="complete-form">
@@ -10,7 +11,10 @@ use yii\widgets\ActiveForm;
             'method' => 'post',
             'action' => '/tasks/complete',
             'fieldConfig' => [
-                'errorOptions' => ['tag' => 'span', 'style' => 'color: red']
+                'errorOptions' => [
+                    'tag' => 'span',
+                    'style' => 'color: red'
+                ]
             ]
         ]
     )
@@ -76,7 +80,11 @@ use yii\widgets\ActiveForm;
             <span class="star-disabled"></span>
         </div>
     </p>
-    <button class="button modal-button" type="submit">Отправить</button>
+    <?= Html::submitButton('Отправить',
+        ['class' => 'button modal-button']) ?>
+    <button class="button modal-button"
+            type="button">Отмена
+    </button>
     <?php ActiveForm::end(); ?>
     <button class="form-modal-close" type="button">Закрыть</button>
 </section>

@@ -36,11 +36,13 @@ AppAsset::register($this);
     <?php if ($this->title === 'Публикация нового задания'): ?>
         <script>
             ymaps.ready(init);
+
             function init() {
                 new ymaps.SuggestView('address')
             }
+
             var provider = {
-                suggest : function(request, options) {
+                suggest: function (request, options) {
                     let arr = ['Москва'];
                     let suggest = new ymaps.suggest(request);
                     var result = suggest.then(items => {

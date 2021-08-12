@@ -18,7 +18,8 @@ $categories = $createTaskForm->getCategories();
                 'method' => 'post',
                 'enableAjaxValidation' => true,
                 'enableClientValidation' => false,
-                'options' => ['class' => 'create__task-form form-create',
+                'options' => [
+                    'class' => 'create__task-form form-create',
                     'enctype' => "multipart/form-data",
                     'tag' => false,
                 ],
@@ -36,7 +37,10 @@ $categories = $createTaskForm->getCategories();
                         'class' => 'input textarea',
                         'style' => 'width: 93%; margin-top: 12px; margin-bottom: 8px;',
                     ],
-                    'errorOptions' => ['tag' => 'span', 'style' => 'color: red'],
+                    'errorOptions' => [
+                        'tag' => 'span',
+                        'style' => 'color: red'
+                    ],
                     'labelOptions' => [
                         'class' => null,
                     ],
