@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
 
-use frontend\models\task_actions\RequestForm;
+use frontend\models\opinions\RequestForm;
 use frontend\models\opinions\Opinions;
 use frontend\models\tasks\Tasks;
 use yii\widgets\ActiveForm;

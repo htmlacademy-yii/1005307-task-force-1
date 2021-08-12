@@ -8,11 +8,11 @@ use frontend\models\tasks\TaskSearchForm;
 use yii\base\Action;
 use Yii;
 
-class IndexAction extends Action
+class IndexAction extends BaseAction
 {
     public function run(): string
     {
-        $searchForm = new TaskSearchForm();
+        $searchForm = new TaskSearchForm;
         $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
 
         return $this->controller->render('index', [

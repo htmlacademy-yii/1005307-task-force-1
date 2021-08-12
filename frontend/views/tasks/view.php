@@ -19,7 +19,7 @@ $user = $this->params['user'];
                     <div class="content-view__headline">
                         <h1><?= $task->name ?></h1>
                         <span>Размещено в категории
-                           <a href="#" class="link-regular"><?= $task->category->name ?></a>
+                           <a href="<?= Url::to(['tasks/index', 'categories_id' => $task->category->id]) ?>" class="link-regular"><?= $task->category->name ?></a>
                            <?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?>
                            (<?= $task->status_task ?>)
                         </span>

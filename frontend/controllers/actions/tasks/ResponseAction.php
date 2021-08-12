@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
 
-use frontend\models\task_actions\ResponseForm;
+use frontend\models\responses\ResponseForm;
 use frontend\models\responses\Responses;
 use yii\widgets\ActiveForm;
 use yii\web\Response;

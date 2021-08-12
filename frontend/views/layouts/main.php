@@ -29,10 +29,21 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <title><?= Html::encode($this->title) ?></title>
+<!--    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;load=SuggestView&amp;onload=onLoad"></script>
+    <script>-->
+    <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU&load=SuggestView&onload=onLoad"></script>
+
+    <?php if ($this->title === 'Публикация нового задания'): ?>
+    <script>
+        function onLoad (ymaps) {
+            var suggestView = new ymaps.SuggestView('createtaskform-address');
+        }
+    </script>
+    <?php endif; ?>
     <?php if ($this->title === 'Просмотр задания'): ?>
-        <script src="https://api-maps.yandex.ru/2.1/?apikey=e666f398-c983-4bde-8f14-e3fec900592a&lang=ru_RU"
+       <script src="https://api-maps.yandex.ru/2.1/?apikey=e666f398-c983-4bde-8f14-e3fec900592a&lang=ru_RU"
                 type="text/javascript">
         </script>
         <script type="text/javascript">

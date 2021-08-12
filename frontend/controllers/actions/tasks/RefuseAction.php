@@ -6,7 +6,7 @@ namespace frontend\controllers\actions\tasks;
 use frontend\models\tasks\Tasks;
 use Yii;
 
-use frontend\models\task_actions\RefuseForm;
+use frontend\models\tasks\RefuseForm;
 use yii\web\Response;
 
 class RefuseAction extends BaseAction

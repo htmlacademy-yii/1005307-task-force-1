@@ -67,9 +67,8 @@ class CreateTaskForm extends Model
         }
     }
 
-    public function getCoordinates(string $address): ?array
+    public function getGeoData(string $address): ?array
     {
-        $coordinates = null;
         $client = new Client(['base_uri' => 'https://geocode-maps.yandex.ru/']);
         $request = new GuzzleRequest('GET', '1.x');
         $response = $client->send($request, [
@@ -94,6 +93,13 @@ class CreateTaskForm extends Model
         if ($error) {
             throw new BadResponseException("API ошибка: " . $error, $request, $response);
         }
+
+        return $responseData;
+    }
+
+    public function getCoordinates($address) {
+        $coordinates = null;
+        $responseData = $this->getGeoData($address);
 
         if ($responseData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'] ?? null) {
             $coordinates = explode(' ', $responseData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']);
