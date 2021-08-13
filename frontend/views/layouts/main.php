@@ -51,8 +51,8 @@ AppAsset::register($this);
                 }
             }
         </script>
-
     <?php endif; ?>
+
     <?php if ($this->title === 'Просмотр задания'): ?>
         <script src="https://api-maps.yandex.ru/2.1/?apikey=e666f398-c983-4bde-8f14-e3fec900592a&lang=ru_RU"
                 type="text/javascript">
@@ -63,7 +63,7 @@ AppAsset::register($this);
             function init() {
                 var myMap = new ymaps.Map("map", {
                     center: [<?=$this->params['latitude']?>, <?=$this->params['longitude']?>,],
-                    zoom: 7
+                    zoom: 12
                 });
                 var myPlacemark = new ymaps.Placemark(
                     [<?=$this->params['latitude']?>, <?=$this->params['longitude']?>]
@@ -72,6 +72,7 @@ AppAsset::register($this);
             }
         </script>
     <?php endif; ?>
+
 </head>
 <body>
 <?php $this->beginBody() ?>

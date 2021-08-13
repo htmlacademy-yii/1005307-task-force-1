@@ -150,27 +150,6 @@ JS;
                     "{label}\n{input}\n"
                     . "<span>Укажите адрес исполнения, если задание требует присутствия</span>",
             ]) ?>
-            <?= $form->field($createTaskForm, 'latitude', [
-                'options' => [
-                    'style' => 'margin-top: 0',
-                    'tag' => false,
-                ],
-                'inputOptions' => [
-                    'class' => 'input textarea',
-                    'value' => $data[0],
-                    'type' => 'number',
-                    'style' => 'margin-top: 0'
-                ]
-            ])->label(false); ?>
-            <?= $form->field($createTaskForm, 'longitude', [
-                'options' => ['style' => 'margin-top: 0'],
-                'inputOptions' => [
-                    'class' => 'input textarea',
-                    'value' => $data[1],
-                    'type' => 'number',
-                    'style' => 'margin-top: 0'
-                ]
-            ])->label(false); ?>
             <div class="create__price-time">
                 <div class="create__price-time--wrapper">
                     <?= $form->field($createTaskForm, "budget", [
