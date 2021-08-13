@@ -14,7 +14,10 @@ use yii\helpers\Html;
         'fieldConfig' => [
             'template' => "{label}\n{input}\n{error}",
             'inputOptions' => ['class' => 'enter-form-email input input-middle'],
-            'errorOptions' => ['tag' => 'span', 'style' => 'margin: -30px 0 20px;', 'color: #FF116E;'],
+            'errorOptions' => [
+                'tag' => 'span',
+                'style' => 'margin: -30px 0 20px;', 'color: #FF116E;'
+            ],
             'options' => ['tag' => 'p'],
             'labelOptions' => ['class' => 'form-modal-description'],
         ],
@@ -25,8 +28,10 @@ use yii\helpers\Html;
     ]); ?>
     <?= $form->field($model, 'email',
         ['enableAjaxValidation' => true])
-        ->textInput(['id' => 'enter-email',
-            'type' => 'email']) ?>
+        ->textInput([
+            'id' => 'enter-email',
+            'type' => 'email'
+        ]) ?>
     <?= $form->field($model, "password",
         ['enableAjaxValidation' => true])
         ->passwordInput([

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\tasks;
 
 use frontend\models\tasks\Tasks;
-use frontend\models\task_actions\TaskActions;
+use frontend\models\tasks\TaskActions;
 use yii\web\NotFoundHttpException;
 use yii\web\View;
 
@@ -16,7 +16,7 @@ class ViewAction extends BaseAction
         $tasks = new Tasks();
         $task = $tasks->getOneTask($id);
 
-        if ($task->status_task !== 'new') {
+        if ($task->status_task !== 'Новое') {
             if ($this->user->id !== $task->client_id && $this->user->id !== $task->doer_id) {
                 $this->controller->redirect('/tasks/index');
             }
@@ -33,6 +33,8 @@ class ViewAction extends BaseAction
         $view->params['user'] = $this->user;
         $view->params['doer_id'] = $task->doer_id;
         $view->params['client_id'] = $task->client_id;
+        $view->params['longitude'] = $task->longitude;
+        $view->params['latitude'] = $task->latitude;
 
         return $this->controller->render('view', ['taskActions' => $taskActions, 'task' => $task, 'user' => $this->user]);
     }

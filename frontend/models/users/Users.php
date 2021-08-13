@@ -154,50 +154,6 @@ class Users extends ActiveRecord
         return new UsersQuery(get_called_class());
     }
 
-    final public static function getDoersByFilters(UserSearchForm $form): UsersQuery
-    {
-        $query = self::find()
-            ->joinWith('opinions')
-            ->select([
-                'users.*',
-                'AVG(opinions.rate) as rating',
-                'count(opinions.rate) as finished_task_count',
-                'count(opinions.description) as opinions_count',
-            ])
-            ->where(['user_role' => 'doer'])
-            ->with('userCategories')
-            ->with('favourites')
-            ->groupBy('users.id')
-            ->orderBy(['dt_add' => SORT_DESC])
-            ->asArray();
-
-        if ($form->searchedCategories) {
-            $query->categoriesFilter($form->searchedCategories);
-        }
-
-        if ($form->isFreeNow) {
-            $query->isFreeNowFilter();
-        }
-
-        if ($form->isOnlineNow) {
-            $query->isOnlineNowFilter();
-        }
-
-        if ($form->hasOpinions) {
-            $query->withOpinionsFilter(0);
-        }
-
-        if ($form->isFavourite) {
-            $query->isFavouriteFilter();
-        }
-
-        if ($form->searchName) {
-            $query->nameSearch($form->searchName);
-        }
-
-        return $query;
-    }
-
     final public static function getOneUser($id): Users
     {
         return self::findOne($id);

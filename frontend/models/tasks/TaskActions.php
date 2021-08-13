@@ -1,11 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace frontend\models\task_actions;
-
-use frontend\models\{
-    responses\Responses
-};
+namespace frontend\models\tasks;
 
 class TaskActions
 {
@@ -27,9 +23,9 @@ class TaskActions
     public function nextAction($currentStatus, $role)
     {
         switch ($currentStatus) {
-            case 'new':
+            case 'Новое':
                 return $role == self::ROLE_DOER ? ['title' => 'response', 'name' => 'откликнуться', 'data' => 'response'] : '';
-            case 'work':
+            case 'На исполнении':
                 return $role == self::ROLE_DOER ? ['title' => 'refusal', 'name' => 'Отказаться', 'data' => 'refuse'] : ['title' => 'request', 'name' => 'Завершить', 'data' => 'complete'];
         }
 

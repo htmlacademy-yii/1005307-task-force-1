@@ -18,22 +18,12 @@ $additionalFilter = $searchForm->attributeLabels();
         'itemOptions' => [
             'tag' => false,
         ],
-        'layout' => '<section class="user__search">
-                 <div class="user__wrapper">
-                {items}
-            </div></section>
+        'layout' => '<section class="user__search"><div class="user__wrapper">{items}</div></section>
             <div class="new-task__pagination" style="margin-right: 20px">{pager}</div>',
-        'emptyText' => '<section class="user__search">
-                 <div class="user__wrapper">
-                Исполнителей пока нет
-            </div></section>',
-        'emptyTextOptions' => [
-            'tag' => 'p'
-        ],
+        'emptyText' => '<section class="user__search"><div class="user__wrapper">Исполнителей пока нет</div></section>',
+        'emptyTextOptions' => ['tag' => 'p'],
         'pager' => [
-            'options' => ([
-                'class' => 'new-task__pagination-list',
-            ]),
+            'options' => (['class' => 'new-task__pagination-list',]),
             'pageCssClass' => 'pagination__item',
             'prevPageCssClass' => 'pagination__item',
             'nextPageCssClass' => 'pagination__item',

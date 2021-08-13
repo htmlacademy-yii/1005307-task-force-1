@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
 
-use frontend\models\task_actions\CompleteForm;
+use frontend\models\opinions\RequestForm;
 use frontend\models\opinions\Opinions;
 use frontend\models\tasks\Tasks;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use Yii;
 
-class CompleteAction extends BaseAction
+class RequestAction extends BaseAction
 {
     public function run()
     {
-        $completeForm = new CompleteForm();
+        $completeForm = new RequestForm();
         $request = Yii::$app->request;
 
         if ($request->isAjax && $completeForm->load($request->post())) {
@@ -31,7 +31,7 @@ class CompleteAction extends BaseAction
                 $opinions->save(false);
 
                 $task = Tasks::findOne($opinions->task_id);
-                $opinions->completion == 1 ? $task->status_task = 'done' : $task->status_task = 'failed';
+                $opinions->completion == 1 ? $task->status_task = 'Завершено' : $task->status_task = 'Провалено';
                 $task->save();
             }
         }

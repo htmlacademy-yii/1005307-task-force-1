@@ -138,49 +138,10 @@ class Tasks extends ActiveRecord
         return new TasksQuery(get_called_class());
     }
 
-    final public static function getNewTasksByFilters(TaskSearchForm $form): TasksQuery
-    {
-        $query = self::find()
-            ->joinWith('responses')
-            ->joinWith('city')
-            ->select([
-                'tasks.*',
-                'count(responses.comment) as responses_count'
-            ])
-            ->andwhere(['status_task' => 'new'])
-            ->with('category')
-            ->with('city')
-            ->groupBy('tasks.id')
-            ->orderBy(['dt_add' => SORT_DESC])
-            ->asArray();
-
-        if ($form->searchedCategories) {
-            $query->categoriesFilter($form->searchedCategories);
-        }
-
-        if ($form->noResponses) {
-            $query->withoutRepliesFilter();
-        }
-
-        if ($form->online) {
-            $query->onlineFilter();
-        }
-
-        if ($form->periodFilter) {
-            $query->periodFilter($form->periodFilter);
-        }
-
-        if ($form->searchName) {
-            $query->nameSearch($form->searchName);
-        }
-
-        return $query;
-    }
-
     final public static function getLastTasks(): array
     {
         $query = self::find()
-            ->andwhere(['status_task' => 'new'])
+            ->andwhere(['status_task' => 'Новое'])
             ->with('category')
             ->with('city')
             ->limit(4)

@@ -2,7 +2,8 @@
 $this->title = 'Публикация нового задания';
 
 use yii\widgets\ActiveForm;
-use kartik\rating\StarRating;
+use yii\jui\AutoComplete;
+use frontend\models\cities\Cities;
 
 $categories = $createTaskForm->getCategories();
 
@@ -17,11 +18,13 @@ $categories = $createTaskForm->getCategories();
                 'method' => 'post',
                 'enableAjaxValidation' => true,
                 'enableClientValidation' => false,
-                'options' => ['class' => 'create__task-form form-create',
+                'options' => [
+                    'class' => 'create__task-form form-create',
                     'enctype' => "multipart/form-data",
+                    'tag' => false,
                 ],
                 'validationStateOn' => 'input',
-                'action' => '/tasks/create',
+                'action' => '/task/create',
                 'validateOnBlur' => true,
                 'validateOnChange' => true,
                 'validateOnSubmit' => true,
@@ -34,7 +37,10 @@ $categories = $createTaskForm->getCategories();
                         'class' => 'input textarea',
                         'style' => 'width: 93%; margin-top: 12px; margin-bottom: 8px;',
                     ],
-                    'errorOptions' => ['tag' => 'span', 'style' => 'color: red'],
+                    'errorOptions' => [
+                        'tag' => 'span',
+                        'style' => 'color: red'
+                    ],
                     'labelOptions' => [
                         'class' => null,
                     ],
@@ -48,19 +54,34 @@ $categories = $createTaskForm->getCategories();
                     'style' => 'margin-top: 0'
                 ]
             ])->label(false); ?>
+            <?= $form->field($createTaskForm, 'status_task', [
+                'options' => ['style' => 'margin-top: 0'],
+                'inputOptions' => [
+                    'class' => 'input textarea',
+                    'value' => 'Новое',
+                    'type' => 'hidden',
+                    'style' => 'margin-top: 0'
+                ]
+            ])->label(false); ?>
             <?= $form->field($createTaskForm, "name", [
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 10,
                     'rows' => 1,
-                ]
+                ],
+                'options' => [
+                    'tag' => false,
+                ],
             ])->textArea()->hint('Пожалуйста, введите имя') ?>
             <?= $form->field($createTaskForm, "description", [
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 11,
                     'rows' => 7
-                ]
+                ],
+                'options' => [
+                    'tag' => false,
+                ],
             ])->textArea() ?>
             <label>Файлы</label>
             <span>Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу</span>
@@ -77,7 +98,10 @@ $categories = $createTaskForm->getCategories();
                             'widgetClientOptions' => [
                                 'buttonsHide' => ['image', 'file'],
                             ]
-                        ]
+                        ],
+                        'options' => [
+                            'tag' => false,
+                        ],
                     ])->label(false)->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
                 </label>
             </div>
@@ -100,7 +124,7 @@ JS;
             ?>
             <?= $form->field($createTaskForm, "category_id", [
                 'options' => [
-                    'style' => 'margin-top: 27px; margin-bottom: 0;'
+                    'tag' => false,
                 ],
                 'inputOptions' => [
                     'style' => 'width: 520px; margin-top: 12px; margin-bottom: 7px;',
@@ -113,13 +137,26 @@ JS;
                     'options' => ['value' => 'choose']
                 ]
             ]) ?>
-            <label for="14">Локация</label>
-            <input class="input-navigation input-middle input" id="14" type="search" name="q"
-                   placeholder="Санкт-Петербург, Калининский район">
-            <span>Укажите адрес исполнения, если задание требует присутствия</span>
+            <?= $form->field($createTaskForm, "address", [
+                'inputOptions' => [
+                    'id' => 'address',
+                    'class' => 'input-navigation input-middle input',
+                    'type' => 'search',
+                ],
+                'options' => [
+                    'tag' => false,
+                ],
+                'template' =>
+                    "{label}\n{input}\n"
+                    . "<span>Укажите адрес исполнения, если задание требует присутствия</span>",
+            ]) ?>
             <div class="create__price-time">
                 <div class="create__price-time--wrapper">
                     <?= $form->field($createTaskForm, "budget", [
+                        'options' => [
+                            'style' => 'margin-top: 0',
+                            'tag' => false,
+                        ],
                         'inputOptions' => [
                             'class' => 'input textarea input-money',
                             'id' => 15,
@@ -129,6 +166,10 @@ JS;
                 </div>
                 <div class="create__price-time--wrapper">
                     <?= $form->field($createTaskForm, "expire", [
+                        'options' => [
+                            'style' => 'margin-top: 0',
+                            'tag' => false,
+                        ],
                         'inputOptions' => [
                             'class' => 'input-middle input input-date',
                             'id' => 16,

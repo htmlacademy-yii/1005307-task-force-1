@@ -11,9 +11,9 @@ use yii\widgets\Menu;
 use frontend\models\cities\Cities;
 
 use frontend\models\{
-    task_actions\ResponseForm,
-    task_actions\CompleteForm,
-    task_actions\RefuseForm
+    responses\ResponseForm,
+    opinions\RequestForm,
+    tasks\RefuseForm
 };
 
 AppAsset::register($this);
@@ -29,8 +29,50 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+
+    <title><?= Html::encode($this->title) ?></title>
+
+    <?php if ($this->title === 'Публикация нового задания'): ?>
+        <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU&load=SuggestView&onload=onLoad"></script>
+        <script>
+            function onLoad(ymaps) {
+                var suggestView = new ymaps.SuggestView('address',
+                    {boundedBy: getCoordinates()})
+            }
+
+            function getCoordinates() {
+                if (<?= $user['city_id']?> === 1) {
+                    return [[55.474531, 37.054360], [55.246032, 37.798108]];
+                }
+
+                if (<?= $user['city_id']?> === 2) {
+                    return [[59.574531, 30.054360], [59.246032, 30.798108]];
+                }
+            }
+        </script>
+    <?php endif; ?>
+
+    <?php if ($this->title === 'Просмотр задания'): ?>
+        <script src="https://api-maps.yandex.ru/2.1/?apikey=e666f398-c983-4bde-8f14-e3fec900592a&lang=ru_RU"
+                type="text/javascript">
+        </script>
+        <script type="text/javascript">
+            ymaps.ready(init);
+
+            function init() {
+                var myMap = new ymaps.Map("map", {
+                    center: [<?=$this->params['latitude']?>, <?=$this->params['longitude']?>,],
+                    zoom: 12
+                });
+                var myPlacemark = new ymaps.Placemark(
+                    [<?=$this->params['latitude']?>, <?=$this->params['longitude']?>]
+                );
+                myMap.geoObjects.add(myPlacemark);
+            }
+        </script>
+    <?php endif; ?>
+
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -220,9 +262,9 @@ AppAsset::register($this);
         </div>
     </footer>
     <?php if ($this->title === 'Просмотр задания'): ?>
-        <?= $this->render('//modals/response_form', ['model' => new ResponseForm]);?>
-        <?= $this->render('//modals/complete_form', ['model' => new CompleteForm]);?>
-        <?= $this->render('//modals/refuse_form', ['model' => new RefuseForm]); ?>
+        <?= $this->render('//modals/_response_form', ['model' => new ResponseForm]); ?>
+        <?= $this->render('//modals/_request_form', ['model' => new RequestForm]); ?>
+        <?= $this->render('//modals/_refuse_form', ['model' => new RefuseForm]); ?>
     <?php endif; ?>
 </div>
 

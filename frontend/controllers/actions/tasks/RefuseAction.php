@@ -6,7 +6,7 @@ namespace frontend\controllers\actions\tasks;
 use frontend\models\tasks\Tasks;
 use Yii;
 
-use frontend\models\task_actions\RefuseForm;
+use frontend\models\tasks\RefuseForm;
 use yii\web\Response;
 
 class RefuseAction extends BaseAction
@@ -17,7 +17,7 @@ class RefuseAction extends BaseAction
 
         if ($refuseForm->load(Yii::$app->request->post())) {
             $task = Tasks::findOne($refuseForm->task_id);
-            $task->status_task = 'failed';
+            $task->status_task = 'Провалено';
             $task->save(false);
         }
 

@@ -39,6 +39,13 @@ class CreateAction extends BaseAction
                     true
                 );
                 $task = new Tasks(['attributes' => $createTaskForm->attributes]);
+
+                if ($task->address ?? null) {
+                    $coordinates = $createTaskForm->getCoordinates($task->address);
+                    $task->longitude = $coordinates[0] ?? null;
+                    $task->latitude = $coordinates[1] ?? null;
+                }
+
                 $task->save(false);
                 $this->uploadFile($task);
 
