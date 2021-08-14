@@ -4,7 +4,7 @@ $this->title = 'Просмотр задания';
 $formatter = \Yii::$app->formatter;
 
 use yii\helpers\Html;
-use yii\helpers\url;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 $task = $this->params['task'];
@@ -19,7 +19,7 @@ $user = $this->params['user'];
                     <div class="content-view__headline">
                         <h1><?= $task->name ?></h1>
                         <span>Размещено в категории
-                           <a href="<?= Url::to(['tasks/filter', 'category_id' => $task['category_id']]) ?>" class="link-regular"><?= $task->category->name ?></a>
+                           <a href="<?= Url::to(['tasks/filter', 'category_id' => $task['category_id'] ]) ?>" class="link-regular"><?= $task->category->name ?></a>
                            <?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?>
                            (<?= $task->status_task ?>)
                         </span>
@@ -135,7 +135,7 @@ $user = $this->params['user'];
                 if ($task->status_task !== 'Новое' && $task->status_task !== 'Отменено' && $user->id == $task->client_id) {
                     $isClientNotNewTask = true;
                 } ?>
-                <h3><?= $isClientNotNewTask ? Исполнитель : Заказчик ?></h3>
+                <h3><?= $isClientNotNewTask ? 'Исполнитель' : 'Заказчик' ?></h3>
                 <?php $isClientNotNewTask
                     ? $user_show = $task->doer
                     : $user_show = $task->client;
@@ -157,7 +157,7 @@ $user = $this->params['user'];
         </div>
         <div id="chat-container">
             <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
-            <chat class="connect-desk__chat"></chat>
+            <chat class="connect-desk__chat" task="<?= $task->id ?>"></chat>
         </div>
     </section>
 </div>

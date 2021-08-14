@@ -2,8 +2,6 @@
 $this->title = 'Публикация нового задания';
 
 use yii\widgets\ActiveForm;
-use yii\jui\AutoComplete;
-use frontend\models\cities\Cities;
 
 $categories = $createTaskForm->getCategories();
 

@@ -3,7 +3,7 @@ $formatter = Yii::$app->formatter;
 $this->title = 'Исполнитель ' . $user['name'];
 
 use yii\helpers\Html;
-use yii\helpers\url;
+use yii\helpers\Url;
 
 ?>
 

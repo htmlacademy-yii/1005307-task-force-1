@@ -32,8 +32,8 @@ class Messages extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['text', 'writer_id', 'task_id'], 'required'],
-            [['text'], 'string'],
+            [['message', 'writer_id', 'task_id'], 'required'],
+            [['message'], 'string'],
             [['dt_add'], 'safe'],
             [['writer_id', 'task_id'], 'integer'],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
@@ -45,7 +45,7 @@ class Messages extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'text' => 'Text',
+            'message' => 'Message',
             'dt_add' => 'Dt Add',
             'writer_id' => 'Writer ID',
             'task_id' => 'Task ID',

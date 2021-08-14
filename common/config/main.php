@@ -29,6 +29,21 @@ return [
                 'user/view/<id>' => 'users/view/',
                 'task/create/' => 'tasks/create/',
                 'sign/' => 'sign/index',
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['messages' => 'api/messages'],
+                    'patterns' => [
+                        'GET'  => 'view-task-messages',
+                        'POST' => 'add-message',
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['tasks' => 'api/tasks'],
+                    'patterns' => [
+                        'GET'  => 'view-executant-tasks'
+                    ]
+                ]
             ],
         ],
     ],

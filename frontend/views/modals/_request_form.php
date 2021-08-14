@@ -1,9 +1,8 @@
 <?php
-
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
-
 ?>
+
 <section class="modal completion-form form-modal" id="complete-form">
     <h2>Завершение задания</h2>
     <p class="form-modal-description">Задание выполнено?</p>

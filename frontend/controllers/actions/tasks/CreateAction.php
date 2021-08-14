@@ -41,6 +41,7 @@ class CreateAction extends BaseAction
                 $task = new Tasks(['attributes' => $createTaskForm->attributes]);
 
                 if ($task->address ?? null) {
+                    $address = $createTaskForm->getGeoData($task->address);
                     $coordinates = $createTaskForm->getCoordinates($task->address);
                     $task->longitude = $coordinates[0] ?? null;
                     $task->latitude = $coordinates[1] ?? null;

@@ -2,9 +2,7 @@
 $formatter = \Yii::$app->formatter;
 $this->title = 'Главная страница';
 
-use yii\helpers\Url;
 use yii\widgets\ListView;
-
 ?>
 
 <div class="landing-container">

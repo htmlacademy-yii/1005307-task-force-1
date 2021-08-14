@@ -52,10 +52,9 @@ return [
                 'tasks/<pages:\d+>' => 'tasks/index',
                 'users/<pages:\d+>' => 'users/index',
                 'users/<filter:\d+>' => 'users/index',
-           //     'tasks/<filter:\d+>' => 'users/index',
                 'task/view/<id>' => 'tasks/view/',
                 'user/view/<id>' => 'users/view/',
-                'task/create/' => 'tasks/create/'
+                'task/create/' => 'tasks/create/',
             ],
         ],
         'yandexMapsApi' => [
@@ -65,5 +64,10 @@ return [
     'defaultRoute' => 'landing/index',
     'params' => [
         'apiKey' => 'e666f398-c983-4bde-8f14-e3fec900592a'
+    ],
+    'modules' => [
+        'api' => [
+            'class' => 'frontend\modules\api\Module'
+        ]
     ],
 ];
