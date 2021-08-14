@@ -22,7 +22,7 @@ class MessagesController extends ActiveController
         $messages = Messages::find()->where(['task_id' => $taskId])->orderBy('date_time ASC')->all();
 
         foreach ($messages ?? [] as $message) {
-            $message->is_mine = $userId === $message->user_id;
+            $message->is_mine = $userId === $message->writer_id;
         }
 
         return $messages;

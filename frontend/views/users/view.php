@@ -17,7 +17,11 @@ use yii\helpers\Url;
                 <div class="content-view__headline">
                     <?php $opinions = $user['opinions'];
                         $rating = $formatter->getUserRating($user['opinions']);
-                        $tasks = $user['tasksDoer'];
+                        $isClient = false;
+                        if ($user['user_role'] == 'client') {
+                            $isClient = true;
+                        }
+                        $isClient ? $tasks = $user['tasksClient'] : $tasks = $user['tasksDoer'];
                         $ratesCount = count($opinions)
                     ?>
                     <h1><?= $user['name'] ?></h1>
@@ -33,7 +37,9 @@ use yii\helpers\Url;
                             <?php endfor; ?>
                             <b><?= $rating ?></b>
                         </div>
-                        <b class="done-task">Выполнил <?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'заказ', 'заказа', 'заказов') ?></b>
+                    <?php endif; ?>
+                    <?php if ($tasks): ?>
+                        <b class="done-task"><?= $isClient ? 'Создал' : 'Выполнил'?> <?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'заказ', 'заказа', 'заказов') ?></b>
                         <b class="done-review">Получил <?= $ratesCount ?> <?= $formatter->getNounPluralForm($ratesCount, 'отзыв', 'отзыва', 'отзывов') ?></b>
                     <?php endif; ?>
                 </div>

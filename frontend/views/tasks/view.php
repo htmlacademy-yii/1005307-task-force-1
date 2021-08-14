@@ -139,7 +139,9 @@ $user = $this->params['user'];
                 <?php $isClientNotNewTask
                     ? $user_show = $task->doer
                     : $user_show = $task->client;
-                     $doer = $task->doer ?>
+                     $doer = $task->doer;
+                     $isClientNotNewTask ? $taskNumber = $user_show['tasksDoer'] : $taskNumber = $user_show['tasksClient'];
+                 ?>
                 <div class="profile-mini__top">
                     <?= $user_show->avatar
                         ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user_show->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
@@ -149,7 +151,7 @@ $user = $this->params['user'];
                     </div>
                 </div>
                 <p class="info-customer">
-                    <span><?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'задание', 'задания', 'заданий') ?></span>
+                    <span><?= count($taskNumber) ?> <?= $formatter->getNounPluralForm(count($taskNumber), 'задание', 'задания', 'заданий') ?></span>
                     <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
                 </p>
                 <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">Смотреть профиль</a>

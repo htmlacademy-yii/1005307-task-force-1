@@ -7,6 +7,8 @@ use frontend\models\{
     tasks\Tasks,
     users\Users
 };
+use yii\base\BaseObject;
+use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -65,5 +67,12 @@ class Messages extends ActiveRecord
     public static function find(): MessagesQuery
     {
         return new MessagesQuery(get_called_class());
+    }
+
+    public function getMessagesByTask($taskId): array
+    {
+        return self::find()
+            ->where(['task_id' => $taskId])
+            ->asArray()->all();
     }
 }
