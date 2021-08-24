@@ -6,6 +6,7 @@ $formatter = \Yii::$app->formatter;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use frontend\models\messages\Messages;
 
 $task = $this->params['task'];
 $user = $this->params['user'];
@@ -19,7 +20,8 @@ $user = $this->params['user'];
                     <div class="content-view__headline">
                         <h1><?= $task->name ?></h1>
                         <span>Размещено в категории
-                           <a href="<?= Url::to(['tasks/filter', 'category_id' => $task['category_id'] ]) ?>" class="link-regular"><?= $task->category->name ?></a>
+                           <a href="<?= Url::to(['tasks/filter', 'category_id' => $task['category_id']]) ?>"
+                              class="link-regular"><?= $task->category->name ?></a>
                            <?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?>
                            (<?= $task->status_task ?>)
                         </span>
@@ -58,18 +60,19 @@ $user = $this->params['user'];
             </div>
         </div>
         <?php $responses = $task->responses;
-            $isUserAuthorOfResponse = false;
-            foreach ($task->responses as $response) {
-                if ($response->doer_id === $user->id) {
-                    $isUserAuthorOfResponse = true;
-                    break;
-                }
+        $isUserAuthorOfResponse = false;
+        foreach ($task->responses as $response) {
+            if ($response->doer_id === $user->id) {
+                $isUserAuthorOfResponse = true;
+                break;
             }
-            $possibleActions = $taskActions->getActionsUser($task['status_task']);
-            if ($possibleActions):
-                if ($isUserAuthorOfResponse !== true || $task->status_task !== 'Новое'):?>
-                    <div class="content-view__action-buttons">
-                        <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal" type="button" data-for="<?= $possibleActions['data'] ?>-form">
+        }
+        $possibleActions = $taskActions->getActionsUser($task['status_task']);
+        if ($possibleActions):
+            if ($isUserAuthorOfResponse !== true || $task->status_task !== 'Новое'):?>
+                <div class="content-view__action-buttons">
+                    <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
+                            type="button" data-for="<?= $possibleActions['data'] ?>-form">
                         <?= $possibleActions['name'] ?>
                     </button>
                 </div>
@@ -77,7 +80,8 @@ $user = $this->params['user'];
         endif; ?>
         <?php if ($task->status_task == 'Новое' && $task->client_id == $user->id): ?>
             <div class="content-view__action-buttons">
-                <a class=" button button__big-color cancel-button open-modal" href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">Отменить</a>
+                <a class=" button button__big-color cancel-button open-modal"
+                   href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">Отменить</a>
             </div>
         <?php endif; ?>
         <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse && $task->status_task !== 'Провалено'): ?>
@@ -96,7 +100,8 @@ $user = $this->params['user'];
                                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
                                     </a>
                                     <div class="feedback-card__top--name">
-                                        <p><a href="<?= Url::to(['users/view', 'id' => $doer->id]) ?>" class="link-regular"><?= $doer->name ?></a></p>
+                                        <p><a href="<?= Url::to(['users/view', 'id' => $doer->id]) ?>"
+                                              class="link-regular"><?= $doer->name ?></a></p>
                                         <?php if ($rating > 0):
                                             $starCount = round($rating);
                                             for ($i = 1; $i <= 5; $i++):?>
@@ -105,7 +110,8 @@ $user = $this->params['user'];
                                             <b><?= $rating ?></b>
                                         <?php endif; ?>
                                     </div>
-                                    <span class="new-task__time"><?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?></span>
+                                    <span
+                                        class="new-task__time"><?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?></span>
                                 </div>
                                 <div class="feedback-card__content">
                                     <p><?= $response->comment ?></p>
@@ -139,9 +145,9 @@ $user = $this->params['user'];
                 <?php $isClientNotNewTask
                     ? $user_show = $task->doer
                     : $user_show = $task->client;
-                     $doer = $task->doer;
-                     $isClientNotNewTask ? $taskNumber = $user_show['tasksDoer'] : $taskNumber = $user_show['tasksClient'];
-                 ?>
+                $doer = $task->doer;
+                $isClientNotNewTask ? $taskNumber = $user_show['tasksDoer'] : $taskNumber = $user_show['tasksClient'];
+                ?>
                 <div class="profile-mini__top">
                     <?= $user_show->avatar
                         ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user_show->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
@@ -154,7 +160,9 @@ $user = $this->params['user'];
                     <span><?= count($taskNumber) ?> <?= $formatter->getNounPluralForm(count($taskNumber), 'задание', 'задания', 'заданий') ?></span>
                     <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
                 </p>
-                <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">Смотреть профиль</a>
+                <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">
+                    Смотреть профиль
+                </a>
             </div>
         </div>
         <div id="chat-container">

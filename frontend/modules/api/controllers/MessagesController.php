@@ -2,8 +2,19 @@
 
 namespace frontend\modules\api\controllers;
 
+use frontend\controllers\actions\tasks\ViewAction;
+
+//use frontend\modules\api\models\Messages;
+use http\Message;
+use yii\base\BaseObject;
+use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 use frontend\models\messages\Messages;
+
+//use frontend\models\messages\Messages;
+use yii\data\ActiveDataFilter;
+
+use frontend\modules\api\models\DataFilter;
 use yii\web\ServerErrorHttpException;
 use yii\helpers\Url;
 use Yii;
@@ -15,17 +26,27 @@ class MessagesController extends ActiveController
 {
     public $modelClass = Messages::class;
 
-    public function actionViewTaskMessages(): array
+    public function actions(): array
+    {
+        $actions = parent::actions();
+        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+
+        $actions['index']['dataFilter'] = [
+            'class' => ActiveDataFilter::class,
+            'searchModel' => $this->modelClass,
+        ];
+
+        return $actions;
+    }
+
+    public function prepareDataProvider(): ActiveDataProvider
     {
         $taskId = Yii::$app->request->get('task_id');
-        $userId = Yii::$app->user->getId();
-        $messages = Messages::find()->where(['task_id' => $taskId])->orderBy('date_time ASC')->all();
-
-        foreach ($messages ?? [] as $message) {
-            $message->is_mine = $userId === $message->writer_id;
-        }
-
-        return $messages;
+        return new ActiveDataProvider([
+            'query' => Messages::find()
+                ->where(['task_id' => 53])
+                ->orderBy('published_at ASC')
+        ]);
     }
 
     public function actionAddMessage()

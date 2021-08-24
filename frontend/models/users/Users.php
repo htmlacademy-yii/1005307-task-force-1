@@ -101,7 +101,7 @@ class Users extends ActiveRecord
 
     public function getMessages(): ActiveQuery
     {
-        return $this->hasMany(Messages::class, ['writer_id' => 'id']);
+        return $this->hasMany(Messages::class, ['users_id' => 'id']);
     }
 
     public function getNotifications(): ActiveQuery

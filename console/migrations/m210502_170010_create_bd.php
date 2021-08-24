@@ -174,7 +174,7 @@ class m210502_170010_create_bd extends Migration
         $this->createTable('messages', [
             'id' => $this->primaryKey(),
             'message' => $this->text()->notNull(),
-            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
+            'published_at' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'writer_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);

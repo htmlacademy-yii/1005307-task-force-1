@@ -32,9 +32,10 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['messages' => 'api/messages'],
+                    'pluralize' => true,
                     'patterns' => [
-                        'GET'  => 'view-task-messages',
-                        'POST' => 'add-message',
+                        'GET'  => 'index',
+                        'POST' => 'add',
                     ]
                 ],
                 [
@@ -46,6 +47,15 @@ return [
                 ]
             ],
         ],
+        'request' => [
+            'enableCsrfValidation' => false,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
+        ],
     ],
     'defaultRoute' => ['landing/index'],
+    'params' => [
+        'apiKey' => 'e666f398-c983-4bde-8f14-e3fec900592a'
+    ]
 ];
