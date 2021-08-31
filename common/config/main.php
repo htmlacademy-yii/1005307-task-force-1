@@ -32,11 +32,7 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['messages' => 'api/messages'],
-                    'pluralize' => true,
-                    'patterns' => [
-                        'GET'  => 'index',
-                        'POST' => 'add',
-                    ]
+                    'pluralize' => true
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',

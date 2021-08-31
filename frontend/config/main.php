@@ -43,7 +43,7 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['messages' => 'api/Messages'],
                     'patterns' => [
-                        'GET'  => 'index',
+                        'GET'  => 'view-messages',
                         'POST' => 'add',
                     ]
                 ]

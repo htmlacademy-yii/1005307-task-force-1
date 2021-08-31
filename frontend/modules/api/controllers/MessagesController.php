@@ -2,19 +2,10 @@
 
 namespace frontend\modules\api\controllers;
 
-use frontend\controllers\actions\tasks\ViewAction;
-
-//use frontend\modules\api\models\Messages;
-use http\Message;
 use yii\base\BaseObject;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 use frontend\models\messages\Messages;
-
-//use frontend\models\messages\Messages;
-use yii\data\ActiveDataFilter;
-
-use frontend\modules\api\models\DataFilter;
 use yii\web\ServerErrorHttpException;
 use yii\helpers\Url;
 use Yii;
@@ -31,11 +22,6 @@ class MessagesController extends ActiveController
         $actions = parent::actions();
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
 
-        $actions['index']['dataFilter'] = [
-            'class' => ActiveDataFilter::class,
-            'searchModel' => $this->modelClass,
-        ];
-
         return $actions;
     }
 
@@ -44,7 +30,7 @@ class MessagesController extends ActiveController
         $taskId = Yii::$app->request->get('task_id');
         return new ActiveDataProvider([
             'query' => Messages::find()
-                ->where(['task_id' => 53])
+                ->where(['task_id' => $taskId])
                 ->orderBy('published_at ASC')
         ]);
     }
