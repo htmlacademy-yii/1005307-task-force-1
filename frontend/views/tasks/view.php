@@ -165,9 +165,11 @@ $user = $this->params['user'];
                 </a>
             </div>
         </div>
-        <div id="chat-container">
-            <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
-            <chat class="connect-desk__chat" task="<?= $task->id ?>"></chat>
-        </div>
+        <?php if ($task->status_task === 'На исполнении' || $task->status_task === 'Выполнено'): ?>
+            <div id="chat-container">
+                <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
+                <chat class="connect-desk__chat" task="<?= $task->id ?>"></chat>
+            </div>
+        <?php endif; ?>
     </section>
 </div>
