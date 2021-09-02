@@ -15,6 +15,9 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'formatter' => [
             'class' => 'frontend\components\MyFormatter',
@@ -38,15 +41,7 @@ return [
                 'task/view/<id>' => 'tasks/view/',
                 'user/view/<id>' => 'users/view/',
                 'task/create/' => 'tasks/create/',
-                'sign/' => 'sign/index',
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => ['messages' => 'api/Messages'],
-                    'patterns' => [
-                        'GET'  => 'view-messages',
-                        'POST' => 'add',
-                    ]
-                ]
+                'sign/' => 'sign/index'
             ],
         ],
         'session' => [

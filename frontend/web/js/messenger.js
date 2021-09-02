@@ -21,7 +21,6 @@ Vue.component('chat', {
     }
     else {
       this.api_url = '/api/messages?task_id=' + this.task;
-      alert(this.api_url);
       this.getMessages();
     }
   },

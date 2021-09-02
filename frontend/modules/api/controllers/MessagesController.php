@@ -16,6 +16,7 @@ use Yii;
 class MessagesController extends ActiveController
 {
     public $modelClass = Messages::class;
+    public $messages;
 
     public function actions(): array
     {
@@ -28,19 +29,35 @@ class MessagesController extends ActiveController
     public function prepareDataProvider(): ActiveDataProvider
     {
         $taskId = Yii::$app->request->get('task_id');
-        return new ActiveDataProvider([
+        $userId = Yii::$app->user->getId();
+        $this->messages = new ActiveDataProvider([
             'query' => Messages::find()
                 ->where(['task_id' => $taskId])
                 ->orderBy('published_at ASC')
         ]);
+        foreach ($this->messages ?? [] as $message) {
+            var_dump($message);
+            $message->is_mine = $userId === $message->getUser()->user_id;
+        }
+
+        return $this->messages;
+    }
+
+    public function actionView(): ActiveDataProvider
+    {
+        $messages = $this->prepareDataProvider();
+
+        return $messages;
     }
 
     public function actionAddMessage()
     {
         $user_id = Yii::$app->user->getId();
+        $taskId = Yii::$app->request->get('task_id');
         $newMessage = new $this->modelClass();
         $newMessage->load(Yii::$app->getRequest()->getBodyParams(), '');
-        $newMessage->writer_id = $user_id;
+        $newMessage->user_id = $user_id;
+        $newMessage->task_id = $taskId;
 
         if ($newMessage->save(false)) {
             $response = Yii::$app->getResponse();

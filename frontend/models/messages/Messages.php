@@ -20,6 +20,7 @@ use yii\db\ActiveRecord;
  * @property string $published_at
  * @property int $user_id
  * @property int $task_id
+ * @property int $is_mine
  *
  * @property Tasks $task
  * @property Users $user
@@ -34,9 +35,9 @@ class Messages extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['message', 'user_id', 'task_id'], 'required'],
+            [['message', 'user_id', 'task_id', 'is_mine'], 'required'],
             [['message'], 'string'],
-            [['published_at'], 'safe'],
+            [['published_at', 'message', 'user_id', 'task_id'], 'safe'],
             [['user_id', 'task_id'], 'integer'],
             [['task_id'],
                 'exist',
@@ -75,5 +76,15 @@ class Messages extends ActiveRecord
     public static function find(): MessagesQuery
     {
         return new MessagesQuery(get_called_class());
+    }
+
+    public function getMessages($taskId): ActiveDataProvider
+    {
+        return new ActiveDataProvider([
+            'query' => Messages::find()
+                ->where(['task_id' => $taskId])
+                ->orderBy('published_at ASC')
+        ]);
+
     }
 }
