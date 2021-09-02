@@ -41,7 +41,10 @@ return [
                 'task/view/<id>' => 'tasks/view/',
                 'user/view/<id>' => 'users/view/',
                 'task/create/' => 'tasks/create/',
-                'sign/' => 'sign/index'
+                'sign/' => 'sign/index',
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/messages',
+                    'pluralize' => false]
             ],
         ],
         'session' => [

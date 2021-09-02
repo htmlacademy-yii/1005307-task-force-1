@@ -27,15 +27,9 @@ return [
                 'users/<page:\d+>' => 'users/index',
                 'task/view/<id>' => 'tasks/view/',
                 'user/view/<id>' => 'users/view/',
-                'task/create/' => 'tasks/create/',
                 'sign/' => 'sign/index',
+                'task/create/' => 'tasks/create/'
             ],
-        ],
-        'request' => [
-            'enableCsrfValidation' => false,
-            'parsers' => [
-                'application/json' => 'yii\web\JsonParser',
-            ]
         ],
     ],
     'defaultRoute' => ['landing/index'],

@@ -175,14 +175,14 @@ class m210502_170010_create_bd extends Migration
             'id' => $this->primaryKey(),
             'message' => $this->text()->notNull(),
             'published_at' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'writer_id' => $this->integer(11)->notNull(),
+            'user_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);
 
         $this->addForeignKey(
-            'writer_m_id',
+            'user_m_id',
             'messages',
-            'writer_id',
+            'user_id',
             'users',
             'id',
             'CASCADE'

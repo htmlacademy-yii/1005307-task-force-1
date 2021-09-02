@@ -26,10 +26,10 @@ Vue.component('chat', {
   },
   methods: {
     sendMessage: function() {
-      fetch(this.api_url, {
+        fetch('/api/messages', {
         method: 'POST',
-        body: JSON.stringify({message: this.message})
-      })
+            body: JSON.stringify({message: this.message, task_id: this.task})
+        })
       .then(result => {
         if (result.status !== 201) {
           return Promise.reject(new Error('Запрошенный ресурс не существует'));
@@ -38,7 +38,7 @@ Vue.component('chat', {
         return result.json();
       })
       .then(msg => {
-        this.messages.push(msg);
+        this.messages.push(JSON.parse(msg));
         this.message = null;
       })
       .catch(err => {
