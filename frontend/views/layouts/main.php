@@ -190,10 +190,10 @@ AppAsset::register($this);
                 <div class="account__pop-up">
                     <ul class="account__pop-up-list">
                         <li>
-                            <a href="#">Мои задания</a>
+                            <a href="<?= Url::toRoute('my-tasks/index') ?>">Мои задания</a>
                         </li>
                         <li>
-                            <a href="#">Настройки</a>
+                            <a href="<?= Url::toRoute('settings/index') ?>">Настройки</a>
                         </li>
                         <li>
                             <a href="<?= Url::toRoute('sign/logout') ?>">Выход</a>

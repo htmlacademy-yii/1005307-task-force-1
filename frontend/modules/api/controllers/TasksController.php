@@ -4,6 +4,7 @@ namespace frontend\modules\api\controllers;
 
 use yii\rest\ActiveController;
 use frontend\models\tasks\Tasks;
+use yii;
 
 /**
  * Default controller for the `api` module
@@ -14,7 +15,7 @@ class TasksController extends ActiveController
 
     public function actionViewExecutantTasks()
     {
-        $user_id = \Yii::$app->user->getId();
+        $user_id = Yii::$app->user->getId();
 
         return Tasks::findAll(['doer_id' => $user_id]);
     }

@@ -60,7 +60,6 @@ class MessagesController extends ActiveController
             ]
         ]);
 
-
         return $messages;
     }
 
