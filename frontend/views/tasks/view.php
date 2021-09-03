@@ -69,15 +69,15 @@ $user = $this->params['user'];
         }
         $possibleActions = $taskActions->getActionsUser($task['status_task']);
         if ($possibleActions):
-            if ($user->user_role == 'doer' ||  $task->client_id == $user->id) :
-            if ($isUserAuthorOfResponse !== true || $task->status_task !== 'Новое'):?>
-                <div class="content-view__action-buttons">
-                    <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
-                            type="button" data-for="<?= $possibleActions['data'] ?>-form">
-                        <?= $possibleActions['name'] ?>
-                    </button>
-                </div>
-            <?php endif;
+            if ($user->user_role == 'doer' || $user->id == $task->client_id) :
+                if ($isUserAuthorOfResponse !== true || $task->status_task !== 'Новое'):?>
+                    <div class="content-view__action-buttons">
+                        <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
+                                type="button" data-for="<?= $possibleActions['data'] ?>-form">
+                            <?= $possibleActions['name'] ?>
+                        </button>
+                    </div>
+                <?php endif;
             endif;
         endif; ?>
         <?php if ($task->status_task == 'Новое' && $task->client_id == $user->id): ?>

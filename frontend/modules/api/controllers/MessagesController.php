@@ -86,9 +86,9 @@ class MessagesController extends ActiveController
         $newMessage->writer_id = $user_id;
         $newMessage->task_id = $post->task_id;
 
-        $user_id = $newMessage->task->doer_id ?
+        $user_id === $newMessage->task->doer_id ?
             $newMessage->recipient_id = $newMessage->task->client_id
-            : $newMessage->task->doer_id;
+            : $newMessage->recipient_id = $newMessage->task->doer_id;
 
         if (Users::find()->where(['id' => $newMessage->recipient_id])->exists()) {
             if ($newMessage->save()) {
