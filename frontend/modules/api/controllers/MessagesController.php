@@ -97,6 +97,8 @@ class MessagesController extends ActiveController
             } elseif (!$newMessage->hasErrors()) {
                 throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
             }
+        } else {
+            throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
         }
 
         return json_encode($newMessage->toArray());

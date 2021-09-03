@@ -69,6 +69,7 @@ $user = $this->params['user'];
         }
         $possibleActions = $taskActions->getActionsUser($task['status_task']);
         if ($possibleActions):
+            if ($user->user_role == 'doer' ||  $task->client_id == $user->id) :
             if ($isUserAuthorOfResponse !== true || $task->status_task !== 'Новое'):?>
                 <div class="content-view__action-buttons">
                     <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
@@ -77,13 +78,14 @@ $user = $this->params['user'];
                     </button>
                 </div>
             <?php endif;
+            endif;
         endif; ?>
         <?php if ($task->status_task == 'Новое' && $task->client_id == $user->id): ?>
             <div class="content-view__action-buttons">
                 <a class=" button button__big-color cancel-button open-modal"
                    href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">Отменить</a>
             </div>
-        <?php endif; ?>
+        <?php endif;?>
         <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse && $task->status_task !== 'Провалено'): ?>
             <div class="content-view__feedback">
                 <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
@@ -146,7 +148,7 @@ $user = $this->params['user'];
                     ? $user_show = $task->doer
                     : $user_show = $task->client;
                 $doer = $task->doer;
-                $isClientNotNewTask ? $taskNumber = $user_show['tasksDoer'] : $taskNumber = $user_show['tasksClient'];
+                $user_show->user_role == 'doer' ? $taskNumber = $user_show['tasksDoer'] : $taskNumber = $user_show['tasksClient'];
                 ?>
                 <div class="profile-mini__top">
                     <?= $user_show->avatar
@@ -165,7 +167,7 @@ $user = $this->params['user'];
                 </a>
             </div>
         </div>
-        <?php if ($task->status_task === 'На исполнении' || $task->status_task === 'Выполнено'): ?>
+        <?php if ($task->doer_id && $user->id == $task->doer_id || $user->id == $task->client_id): ?>
             <div id="chat-container">
                 <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
                 <chat class="connect-desk__chat" task="<?= $task->id ?>"></chat>

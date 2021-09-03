@@ -16,7 +16,7 @@ class ViewAction extends BaseAction
         $tasks = new Tasks();
         $task = $tasks->getOneTask($id);
 
-        if ($task->status_task !== 'Новое') {
+        if ($task->status_task !== 'Новое' && $task->status_task !== 'Выполнено') {
             if ($this->user->id !== $task->client_id && $this->user->id !== $task->doer_id) {
                 $this->controller->redirect('/tasks/index');
             }
