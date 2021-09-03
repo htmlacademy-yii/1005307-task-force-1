@@ -176,6 +176,7 @@ class m210502_170010_create_bd extends Migration
             'message' => $this->text()->notNull(),
             'published_at' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'writer_id' => $this->integer(11)->notNull(),
+            'recipient_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);
 
@@ -183,6 +184,15 @@ class m210502_170010_create_bd extends Migration
             'user_m_id',
             'messages',
             'writer_id',
+            'users',
+            'id',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            'user_mr_id',
+            'messages',
+            'recipient_id',
             'users',
             'id',
             'CASCADE'

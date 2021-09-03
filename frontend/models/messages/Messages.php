@@ -19,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property string $message
  * @property string $published_at
  * @property int $writer_id
+ * @property int $recipient_id
  * @property int $task_id
  * @property int $is_mine
  */
@@ -36,7 +37,7 @@ class Messages extends ActiveRecord
         return [
             [['message', 'task_id'], 'required'],
             [['message'], 'string'],
-            [['published_at', 'message', 'writer_id', 'task_id', 'is_mine'], 'safe'],
+            [['published_at', 'message', 'writer_id', 'recipient_id', 'task_id', 'is_mine'], 'safe'],
             [['writer_id', 'task_id'], 'integer'],
             [['task_id'],
                 'exist',
@@ -48,6 +49,11 @@ class Messages extends ActiveRecord
                 'skipOnError' => true,
                 'targetClass' => Users::class,
                 'targetAttribute' => ['writer_id' => 'id']],
+            [['recipient_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['recipient_id' => 'id']],
         ];
     }
 

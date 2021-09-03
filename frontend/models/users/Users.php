@@ -136,12 +136,12 @@ class Users extends ActiveRecord
 
     public function getTasksDoer(): ActiveQuery
     {
-        return $this->hasMany(Tasks::class, ['doer_id' => 'id'])->andWhere(['status_task' => 'Завершено']);
+        return $this->hasMany(Tasks::class, ['doer_id' => 'id'])->andWhere(['status_task' => 'Выполнено']);
     }
 
     public function getTasksClient(): ActiveQuery
     {
-        return $this->hasMany(Tasks::class, ['client_id' => 'id'])->andWhere(['status_task' => 'Завершено']);
+        return $this->hasMany(Tasks::class, ['client_id' => 'id'])->andWhere(['status_task' => 'Выполнено']);
     }
 
     public function getUserCategories(): ActiveQuery

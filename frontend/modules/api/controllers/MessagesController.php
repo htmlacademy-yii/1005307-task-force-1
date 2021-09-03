@@ -6,6 +6,7 @@ use yii\base\BaseObject;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 use frontend\models\messages\Messages;
+use frontend\models\users\Users;
 use yii\web\ServerErrorHttpException;
 use yii\filters\ContentNegotiator;
 use yii\web\Response;
@@ -85,11 +86,17 @@ class MessagesController extends ActiveController
         $newMessage->writer_id = $user_id;
         $newMessage->task_id = $post->task_id;
 
-        if ($newMessage->save()) {
-            $response = Yii::$app->getResponse();
-            $response->setStatusCode(201);
-        } elseif (!$newMessage->hasErrors()) {
-            throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
+        $user_id = $newMessage->task->doer_id ?
+            $newMessage->recipient_id = $newMessage->task->client_id
+            : $newMessage->task->doer_id;
+
+        if (Users::find()->where(['id' => $newMessage->recipient_id])->exists()) {
+            if ($newMessage->save()) {
+                $response = Yii::$app->getResponse();
+                $response->setStatusCode(201);
+            } elseif (!$newMessage->hasErrors()) {
+                throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
+            }
         }
 
         return json_encode($newMessage->toArray());
