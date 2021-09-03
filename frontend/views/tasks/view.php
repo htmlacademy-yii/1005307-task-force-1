@@ -156,6 +156,20 @@ $user = $this->params['user'];
                         : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
                     <div class="profile-mini__name five-stars__rate">
                         <p><?= $user_show->name ?></p>
+                        <?php $opinions = $user_show['opinions'];
+                        $rating = $formatter->getUserRating($user_show['opinions']);
+                        $isClient ? $tasks = $user_show['tasksClient'] : $tasks = $user_show['tasksDoer'];
+                        $ratesCount = count($opinions)
+                        ?>
+                        <?php if ($opinions && $isClientNotNewTask): ?>
+                            <div class="profile-mini__name five-stars__rate">
+                                <?php $starCount = round($rating) ?>
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
+                                <?php endfor; ?>
+                                <b><?= $rating ?></b>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <p class="info-customer">
