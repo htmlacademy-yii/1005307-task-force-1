@@ -55,7 +55,7 @@ $user_account = $this->params['user'];
                 } ?>
                 <div class="content-view__headline user__card-bookmark <?= $isFavourite ? 'user__card-bookmark--current' : ''?>">
                     <span>Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time'], strftime("%F %T")) ?></span>
-                    <a href="#"><b></b></a>
+                    <a href="<?= Url::to(['users/add-favourite', 'isFavouriteValue' => $isFavourite, 'id' => $user->id])?>"><b></b></a>
                 </div>
             </div>
             <div class="content-view__description">

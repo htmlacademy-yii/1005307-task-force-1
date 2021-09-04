@@ -6,7 +6,6 @@ namespace frontend\controllers\actions\users;
 
 use frontend\models\users\Users;
 use yii\web\NotFoundHttpException;
-use yii\base\Action;
 use yii\web\View;
 
 class ViewAction extends BaseAction
