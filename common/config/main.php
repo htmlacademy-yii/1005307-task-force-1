@@ -27,10 +27,13 @@ return [
                 'users/<page:\d+>' => 'users/index',
                 'task/view/<id>' => 'tasks/view/',
                 'user/view/<id>' => 'users/view/',
-                'task/create/' => 'tasks/create/',
                 'sign/' => 'sign/index',
+                'task/create/' => 'tasks/create/'
             ],
         ],
     ],
     'defaultRoute' => ['landing/index'],
+    'params' => [
+        'apiKey' => 'e666f398-c983-4bde-8f14-e3fec900592a'
+    ]
 ];

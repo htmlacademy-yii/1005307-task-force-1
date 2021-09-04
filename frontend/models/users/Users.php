@@ -101,7 +101,7 @@ class Users extends ActiveRecord
 
     public function getMessages(): ActiveQuery
     {
-        return $this->hasMany(Messages::class, ['writer_id' => 'id']);
+        return $this->hasMany(Messages::class, ['users_id' => 'id']);
     }
 
     public function getNotifications(): ActiveQuery
@@ -136,7 +136,12 @@ class Users extends ActiveRecord
 
     public function getTasksDoer(): ActiveQuery
     {
-        return $this->hasMany(Tasks::class, ['doer_id' => 'id'])->andWhere(['status_task' => 'done']);
+        return $this->hasMany(Tasks::class, ['doer_id' => 'id'])->andWhere(['status_task' => 'Выполнено']);
+    }
+
+    public function getTasksClient(): ActiveQuery
+    {
+        return $this->hasMany(Tasks::class, ['client_id' => 'id'])->andWhere(['status_task' => 'Выполнено']);
     }
 
     public function getUserCategories(): ActiveQuery

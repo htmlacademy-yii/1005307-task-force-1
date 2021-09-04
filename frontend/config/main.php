@@ -15,6 +15,9 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'formatter' => [
             'class' => 'frontend\components\MyFormatter',
@@ -25,8 +28,26 @@ return [
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
             'loginUrl' => ['landing/index']
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'enableStrictParsing' => false,
+            'rules' => [
+                '/' => 'landing/index',
+                'tasks/' => 'tasks/index',
+                'users/' => 'users/index',
+                'tasks/<page:\d+>' => 'tasks/index',
+                'users/<page:\d+>' => 'users/index',
+                'task/view/<id>' => 'tasks/view/',
+                'user/view/<id>' => 'users/view/',
+                'task/create/' => 'tasks/create/',
+                'sign/' => 'sign/index',
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/messages',
+                    'pluralize' => false]
+            ],
+        ],
         'session' => [
-            // this is the name of the session cookie used for login on the frontend
             'name' => 'advanced-frontend',
         ],
         'log' => [
@@ -41,29 +62,17 @@ return [
         'errorHandler' => [
             'errorAction' => 'landing/error',
         ],
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'enableStrictParsing' => false,
-            'rules' => [
-                '/' => 'landing/index',
-                'tasks/' => 'tasks/index',
-                'users/' => 'users/index',
-                'tasks/<pages:\d+>' => 'tasks/index',
-                'users/<pages:\d+>' => 'users/index',
-                'users/<filter:\d+>' => 'users/index',
-           //     'tasks/<filter:\d+>' => 'users/index',
-                'task/view/<id>' => 'tasks/view/',
-                'user/view/<id>' => 'users/view/',
-                'task/create/' => 'tasks/create/'
-            ],
-        ],
         'yandexMapsApi' => [
             'class' => 'mirocow\yandexmaps\Api',
-        ]
+        ],
     ],
     'defaultRoute' => 'landing/index',
     'params' => [
-        'apiKey' => 'e666f398-c983-4bde-8f14-e3fec900592a'
+        'params' => $params,
+    ],
+    'modules' => [
+        'api' => [
+            'class' => 'frontend\modules\api\Module'
+        ]
     ],
 ];

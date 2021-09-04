@@ -8,6 +8,7 @@ use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= yii::$app->language ?>">

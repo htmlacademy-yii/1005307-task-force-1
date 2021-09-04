@@ -10,7 +10,6 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property string $dt_add
- * @property string|null $type_favourite
  * @property int $user_id
  * @property int $favourite_person_id
  *
@@ -32,7 +31,6 @@ class Favourites extends ActiveRecord
             [['dt_add'], 'safe'],
             [['user_id', 'favourite_person_id'], 'required'],
             [['user_id', 'favourite_person_id'], 'integer'],
-            [['type_favourite'], 'string', 'max' => 255],
             [['favourite_person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['favourite_person_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -43,7 +41,6 @@ class Favourites extends ActiveRecord
         return [
             'id' => 'ID',
             'dt_add' => 'Dt Add',
-            'type_favourite' => 'Type Favourite',
             'user_id' => 'User ID',
             'favourite_person_id' => 'Favourite Person ID',
         ];

@@ -54,6 +54,7 @@ AppAsset::register($this);
     <?php endif; ?>
 
     <?php if ($this->title === 'Просмотр задания'): ?>
+
         <script src="https://api-maps.yandex.ru/2.1/?apikey=e666f398-c983-4bde-8f14-e3fec900592a&lang=ru_RU"
                 type="text/javascript">
         </script>
@@ -189,10 +190,10 @@ AppAsset::register($this);
                 <div class="account__pop-up">
                     <ul class="account__pop-up-list">
                         <li>
-                            <a href="#">Мои задания</a>
+                            <a href="<?= Url::toRoute('my-tasks/index') ?>">Мои задания</a>
                         </li>
                         <li>
-                            <a href="#">Настройки</a>
+                            <a href="<?= Url::toRoute('settings/index') ?>">Настройки</a>
                         </li>
                         <li>
                             <a href="<?= Url::toRoute('sign/logout') ?>">Выход</a>

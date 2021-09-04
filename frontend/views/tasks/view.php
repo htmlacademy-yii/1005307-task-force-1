@@ -4,8 +4,9 @@ $this->title = 'Просмотр задания';
 $formatter = \Yii::$app->formatter;
 
 use yii\helpers\Html;
-use yii\helpers\url;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use frontend\models\messages\Messages;
 
 $task = $this->params['task'];
 $user = $this->params['user'];
@@ -19,7 +20,8 @@ $user = $this->params['user'];
                     <div class="content-view__headline">
                         <h1><?= $task->name ?></h1>
                         <span>Размещено в категории
-                           <a href="<?= Url::to(['tasks/filter', 'category_id' => $task['category_id']]) ?>" class="link-regular"><?= $task->category->name ?></a>
+                           <a href="<?= Url::to(['tasks/filter', 'category_id' => $task['category_id']]) ?>"
+                              class="link-regular"><?= $task->category->name ?></a>
                            <?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?>
                            (<?= $task->status_task ?>)
                         </span>
@@ -58,26 +60,30 @@ $user = $this->params['user'];
             </div>
         </div>
         <?php $responses = $task->responses;
-            $isUserAuthorOfResponse = false;
-            foreach ($task->responses as $response) {
-                if ($response->doer_id === $user->id) {
-                    $isUserAuthorOfResponse = true;
-                    break;
-                }
+        $isUserAuthorOfResponse = false;
+        foreach ($task->responses as $response) {
+            if ($response->doer_id === $user->id) {
+                $isUserAuthorOfResponse = true;
+                break;
             }
-            $possibleActions = $taskActions->getActionsUser($task['status_task']);
-            if ($possibleActions):
+        }
+        $possibleActions = $taskActions->getActionsUser($task['status_task']);
+        if ($possibleActions):
+            if ($user->user_role == 'doer' || $user->id == $task->client_id) :
                 if ($isUserAuthorOfResponse !== true || $task->status_task !== 'Новое'):?>
                     <div class="content-view__action-buttons">
-                        <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal" type="button" data-for="<?= $possibleActions['data'] ?>-form">
-                        <?= $possibleActions['name'] ?>
-                    </button>
-                </div>
-            <?php endif;
+                        <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
+                                type="button" data-for="<?= $possibleActions['data'] ?>-form">
+                            <?= $possibleActions['name'] ?>
+                        </button>
+                    </div>
+                <?php endif;
+            endif;
         endif; ?>
         <?php if ($task->status_task == 'Новое' && $task->client_id == $user->id): ?>
             <div class="content-view__action-buttons">
-                <a class=" button button__big-color cancel-button open-modal" href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">Отменить</a>
+                <a class=" button button__big-color cancel-button open-modal"
+                   href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">Отменить</a>
             </div>
         <?php endif; ?>
         <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse && $task->status_task !== 'Провалено'): ?>
@@ -96,7 +102,8 @@ $user = $this->params['user'];
                                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
                                     </a>
                                     <div class="feedback-card__top--name">
-                                        <p><a href="<?= Url::to(['users/view', 'id' => $doer->id]) ?>" class="link-regular"><?= $doer->name ?></a></p>
+                                        <p><a href="<?= Url::to(['users/view', 'id' => $doer->id]) ?>"
+                                              class="link-regular"><?= $doer->name ?></a></p>
                                         <?php if ($rating > 0):
                                             $starCount = round($rating);
                                             for ($i = 1; $i <= 5; $i++):?>
@@ -105,7 +112,8 @@ $user = $this->params['user'];
                                             <b><?= $rating ?></b>
                                         <?php endif; ?>
                                     </div>
-                                    <span class="new-task__time"><?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?></span>
+                                    <span
+                                        class="new-task__time"><?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?></span>
                                 </div>
                                 <div class="feedback-card__content">
                                     <p><?= $response->comment ?></p>
@@ -135,29 +143,49 @@ $user = $this->params['user'];
                 if ($task->status_task !== 'Новое' && $task->status_task !== 'Отменено' && $user->id == $task->client_id) {
                     $isClientNotNewTask = true;
                 } ?>
-                <h3><?= $isClientNotNewTask ? Исполнитель : Заказчик ?></h3>
+                <h3><?= $isClientNotNewTask ? 'Исполнитель' : 'Заказчик' ?></h3>
                 <?php $isClientNotNewTask
                     ? $user_show = $task->doer
                     : $user_show = $task->client;
-                     $doer = $task->doer ?>
+                $doer = $task->doer;
+                $user_show->user_role == 'doer' ? $taskNumber = $user_show['tasksDoer'] : $taskNumber = $user_show['tasksClient'];
+                ?>
                 <div class="profile-mini__top">
                     <?= $user_show->avatar
                         ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user_show->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
                         : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
                     <div class="profile-mini__name five-stars__rate">
                         <p><?= $user_show->name ?></p>
+                        <?php $opinions = $user_show['opinions'];
+                        $rating = $formatter->getUserRating($user_show['opinions']);
+                        $isClient ? $tasks = $user_show['tasksClient'] : $tasks = $user_show['tasksDoer'];
+                        $ratesCount = count($opinions)
+                        ?>
+                        <?php if ($opinions && $isClientNotNewTask): ?>
+                            <div class="profile-mini__name five-stars__rate">
+                                <?php $starCount = round($rating) ?>
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
+                                <?php endfor; ?>
+                                <b><?= $rating ?></b>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <p class="info-customer">
-                    <span><?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'задание', 'задания', 'заданий') ?></span>
+                    <span><?= count($taskNumber) ?> <?= $formatter->getNounPluralForm(count($taskNumber), 'задание', 'задания', 'заданий') ?></span>
                     <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
                 </p>
-                <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">Смотреть профиль</a>
+                <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">
+                    Смотреть профиль
+                </a>
             </div>
         </div>
-        <div id="chat-container">
-            <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
-            <chat class="connect-desk__chat"></chat>
-        </div>
+        <?php if ($task->doer_id && $user->id == $task->doer_id || $user->id == $task->client_id): ?>
+            <div id="chat-container">
+                <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
+                <chat class="connect-desk__chat" task="<?= $task->id ?>"></chat>
+            </div>
+        <?php endif; ?>
     </section>
 </div>

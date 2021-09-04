@@ -133,7 +133,6 @@ class m210502_170010_create_bd extends Migration
         $this->createTable('favourites', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'type_favourite' => $this->string(255),
             'user_id' => $this->integer(11)->notNull(),
             'favourite_person_id' => $this->integer(11)->notNull()
         ]);
@@ -173,16 +172,26 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('messages', [
             'id' => $this->primaryKey(),
-            'text' => $this->text()->notNull(),
-            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
+            'message' => $this->text()->notNull(),
+            'published_at' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'writer_id' => $this->integer(11)->notNull(),
+            'recipient_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);
 
         $this->addForeignKey(
-            'writer_m_id',
+            'user_m_id',
             'messages',
             'writer_id',
+            'users',
+            'id',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            'user_mr_id',
+            'messages',
+            'recipient_id',
             'users',
             'id',
             'CASCADE'

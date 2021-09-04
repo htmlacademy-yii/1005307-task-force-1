@@ -3,7 +3,6 @@
 $formatter = \Yii::$app->formatter;
 
 use yii\helpers\Url;
-use yii\helpers\Html;
 
 ?>
 

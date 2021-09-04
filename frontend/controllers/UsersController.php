@@ -23,6 +23,7 @@ class UsersController extends SecuredController
         return [
             'index' => \frontend\controllers\actions\users\IndexAction::class,
             'view' => \frontend\controllers\actions\users\ViewAction::class,
+            'add-favourite' => \frontend\controllers\actions\users\AddFavouriteAction::class,
         ];
     }
 }

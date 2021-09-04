@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\messages;
 
@@ -7,6 +7,8 @@ use frontend\models\{
     tasks\Tasks,
     users\Users
 };
+
+use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -14,16 +16,17 @@ use yii\db\ActiveRecord;
  * This is the model class for table "messages".
  *
  * @property int $id
- * @property string $text
- * @property string $dt_add
+ * @property string $message
+ * @property string $published_at
  * @property int $writer_id
+ * @property int $recipient_id
  * @property int $task_id
- *
- * @property Tasks $task
- * @property Users $writer
+ * @property int $is_mine
  */
 class Messages extends ActiveRecord
 {
+    public $is_mine;
+
     public static function tableName(): string
     {
         return 'messages';
@@ -32,12 +35,25 @@ class Messages extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['text', 'writer_id', 'task_id'], 'required'],
-            [['text'], 'string'],
-            [['dt_add'], 'safe'],
+            [['message', 'task_id'], 'required'],
+            [['message'], 'string'],
+            [['published_at', 'message', 'writer_id', 'recipient_id', 'task_id', 'is_mine'], 'safe'],
             [['writer_id', 'task_id'], 'integer'],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
-            [['writer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['writer_id' => 'id']],
+            [['task_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Tasks::class,
+                'targetAttribute' => ['task_id' => 'id']],
+            [['writer_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['writer_id' => 'id']],
+            [['recipient_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['recipient_id' => 'id']],
         ];
     }
 
@@ -45,10 +61,22 @@ class Messages extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'text' => 'Text',
-            'dt_add' => 'Dt Add',
-            'writer_id' => 'Writer ID',
+            'message' => 'Message',
+            'published_at' => 'Published At',
+            'writer_id' => 'User ID',
             'task_id' => 'Task ID',
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'id',
+            'message',
+            'published_at',
+            'writer_id',
+            'task_id',
+            'is_mine',
         ];
     }
 
@@ -57,7 +85,7 @@ class Messages extends ActiveRecord
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
-    public function getWriter(): ActiveQuery
+    public function getUser(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'writer_id']);
     }

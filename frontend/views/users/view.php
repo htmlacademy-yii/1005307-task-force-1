@@ -3,7 +3,9 @@ $formatter = Yii::$app->formatter;
 $this->title = 'Исполнитель ' . $user['name'];
 
 use yii\helpers\Html;
-use yii\helpers\url;
+use yii\helpers\Url;
+//$user_acc = $this->params['user'];
+$user_account = $this->params['user'];
 
 ?>
 
@@ -17,7 +19,11 @@ use yii\helpers\url;
                 <div class="content-view__headline">
                     <?php $opinions = $user['opinions'];
                         $rating = $formatter->getUserRating($user['opinions']);
-                        $tasks = $user['tasksDoer'];
+                        $isClient = false;
+                        if ($user['user_role'] == 'client') {
+                            $isClient = true;
+                        }
+                        $isClient ? $tasks = $user['tasksClient'] : $tasks = $user['tasksDoer'];
                         $ratesCount = count($opinions)
                     ?>
                     <h1><?= $user['name'] ?></h1>
@@ -33,13 +39,23 @@ use yii\helpers\url;
                             <?php endfor; ?>
                             <b><?= $rating ?></b>
                         </div>
-                        <b class="done-task">Выполнил <?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'заказ', 'заказа', 'заказов') ?></b>
+                    <?php endif; ?>
+                    <?php if ($tasks): ?>
+                        <b class="done-task"><?= $isClient ? 'Создал' : 'Выполнил'?> <?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'заказ', 'заказа', 'заказов') ?></b>
                         <b class="done-review">Получил <?= $ratesCount ?> <?= $formatter->getNounPluralForm($ratesCount, 'отзыв', 'отзыва', 'отзывов') ?></b>
                     <?php endif; ?>
                 </div>
-                <div class="content-view__headline user__card-bookmark user__card-bookmark--current">
+                <?php $favourites = $user['favourites'];
+                $isFavourite = false;
+                foreach ($favourites as $favourite) {
+                    if ($favourite['user_id'] === $user_account['id']) {
+                        $isFavourite = true;
+                        break;
+                    }
+                } ?>
+                <div class="content-view__headline user__card-bookmark <?= $isFavourite ? 'user__card-bookmark--current' : ''?>">
                     <span>Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time'], strftime("%F %T")) ?></span>
-                    <a href="#"><b></b></a>
+                    <a href="<?= Url::to(['users/add-favourite', 'isFavouriteValue' => $isFavourite, 'id' => $user->id])?>"><b></b></a>
                 </div>
             </div>
             <div class="content-view__description">
@@ -52,7 +68,8 @@ use yii\helpers\url;
                         <h3 class="content-view__h3">Специализации</h3>
                         <div class="link-specialization">
                             <?php foreach ($categories as $category) : ?>
-                                <a href="<?= Url::to(['tasks/filter', 'category_id' => $category['id']]) ?>" class="link-regular"><?= $category['profession'] ?></a>
+                                <a href="<?= Url::to(['tasks/filter',
+                                    'category_id' => $category['id']]) ?>" class="link-regular"><?= $category['profession'] ?></a>
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
