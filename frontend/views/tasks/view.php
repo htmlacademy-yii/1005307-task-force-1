@@ -85,7 +85,7 @@ $user = $this->params['user'];
                 <a class=" button button__big-color cancel-button open-modal"
                    href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">Отменить</a>
             </div>
-        <?php endif;?>
+        <?php endif; ?>
         <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse && $task->status_task !== 'Провалено'): ?>
             <div class="content-view__feedback">
                 <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>

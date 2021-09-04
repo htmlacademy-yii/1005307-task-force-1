@@ -133,7 +133,6 @@ class m210502_170010_create_bd extends Migration
         $this->createTable('favourites', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'type_favourite' => $this->string(255),
             'user_id' => $this->integer(11)->notNull(),
             'favourite_person_id' => $this->integer(11)->notNull()
         ]);

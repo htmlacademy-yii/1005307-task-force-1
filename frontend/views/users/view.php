@@ -4,6 +4,8 @@ $this->title = 'Исполнитель ' . $user['name'];
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+//$user_acc = $this->params['user'];
+$user_account = $this->params['user'];
 
 ?>
 
@@ -43,7 +45,15 @@ use yii\helpers\Url;
                         <b class="done-review">Получил <?= $ratesCount ?> <?= $formatter->getNounPluralForm($ratesCount, 'отзыв', 'отзыва', 'отзывов') ?></b>
                     <?php endif; ?>
                 </div>
-                <div class="content-view__headline user__card-bookmark user__card-bookmark--current">
+                <?php $favourites = $user['favourites'];
+                $isFavourite = false;
+                foreach ($favourites as $favourite) {
+                    if ($favourite['user_id'] === $user_account['id']) {
+                        $isFavourite = true;
+                        break;
+                    }
+                } ?>
+                <div class="content-view__headline user__card-bookmark <?= $isFavourite ? 'user__card-bookmark--current' : ''?>">
                     <span>Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time'], strftime("%F %T")) ?></span>
                     <a href="#"><b></b></a>
                 </div>
@@ -58,7 +68,8 @@ use yii\helpers\Url;
                         <h3 class="content-view__h3">Специализации</h3>
                         <div class="link-specialization">
                             <?php foreach ($categories as $category) : ?>
-                                <a href="<?= Url::to(['tasks/filter', 'category_id' => $category['id']]) ?>" class="link-regular"><?= $category['profession'] ?></a>
+                                <a href="<?= Url::to(['tasks/filter',
+                                    'category_id' => $category['id']]) ?>" class="link-regular"><?= $category['profession'] ?></a>
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
