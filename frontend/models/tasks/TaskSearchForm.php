@@ -108,7 +108,7 @@ class TaskSearchForm extends Tasks
         return $dataProvider;
     }
 
-    public function searchByStatus($params): ActiveDataProvider
+    public function searchByStatus($params, $user_id): ActiveDataProvider
     {
         $query = Tasks::find();
 
@@ -119,7 +119,12 @@ class TaskSearchForm extends Tasks
             ],
         ]);
         $this->load($params);
-        $this->getTasks($query);
+        $query->with('category')
+            ->groupBy('tasks.id')
+            ->orderBy(['dt_add' => SORT_DESC])
+            ->asArray();
+
+        $query->andWhere(['client_id' => $user_id]);
 
         return $dataProvider;
     }
