@@ -107,4 +107,20 @@ class TaskSearchForm extends Tasks
 
         return $dataProvider;
     }
+
+    public function searchByStatus($params): ActiveDataProvider
+    {
+        $query = Tasks::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+        $this->load($params);
+        $this->getTasks($query);
+
+        return $dataProvider;
+    }
 }
