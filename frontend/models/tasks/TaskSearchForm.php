@@ -126,8 +126,10 @@ class TaskSearchForm extends Tasks
             ->asArray();
 
         $user_role == 'client' ?
-            $query->andWhere(['client_id' => $user_id]) :
-            $query->andWhere(['doer_id' => $user_id]);
+            $query->andWhere(['client_id' => $user_id])
+                ->joinWith('doer') :
+            $query->andWhere(['doer_id' => $user_id])
+                ->joinWith('client');
 
         return $dataProvider;
     }

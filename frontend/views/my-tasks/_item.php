@@ -3,6 +3,7 @@
 $formatter = \Yii::$app->formatter;
 
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 ?>
 
@@ -16,12 +17,17 @@ use yii\helpers\Url;
         <?= $model['description'] ?>
     </p>
     <div class="feedback-card__top ">
-        <a href="#"><img src="./img/man-glasses.jpg" width="36" height="36"></a>
+        <?php if ($user->user_role == 'client'): ?>
+        <a href="#"><?= $model['doer']['avatar']
+                ? Html::img(Yii::$app->request->baseUrl . '/img/' . $model['doer']['avatar'], ['width' => '55', 'height' => '55'])
+                : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
+        </a>
         <div class="feedback-card__top--name my-list__bottom">
-            <p class="link-name"><a href="#" class="link-regular">Астахов Павел</a></p>
+            <p class="link-name"><a href="#" class="link-regular"><?= $model['doer']['name'] ?></a></p>
             <a href="#" class="my-list__bottom-chat  my-list__bottom-chat--new"><b>3</b></a>
             <span></span><span></span><span></span><span></span><span class="star-disabled"></span>
             <b>4.25</b>
         </div>
+    <?php endif;?>
     </div>
 </div>
