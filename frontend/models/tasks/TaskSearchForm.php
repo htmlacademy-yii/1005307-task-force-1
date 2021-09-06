@@ -5,6 +5,7 @@ namespace frontend\models\tasks;
 
 use frontend\models\categories\Categories;
 use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 
 class TaskSearchForm extends Tasks
 {
@@ -119,11 +120,24 @@ class TaskSearchForm extends Tasks
             ],
         ]);
         $this->load($params);
+
         $query->with('category')
             ->groupBy('tasks.id')
-            ->orderBy(['dt_add' => SORT_DESC])
-            ->andWhere(['status_task' => $status_task])
-            ->asArray();
+            ->orderBy(['dt_add' => SORT_DESC])->asArray();
+
+        if ($status_task !== 'Просроченное') {
+            $query->where(['status_task' => $status_task]);
+        }
+
+        if ($status_task == 'На исполнении') {
+            $query->andWhere(['is', 'expire', null])
+                ->orFilterWhere(['>=', 'expire', new Expression('NOW()')]);
+        }
+
+        if ($status_task == 'Просроченное') {
+            $query->andWhere(['status_task' => 'На исполнении'])
+                ->andFilterWhere(['<', 'expire', new Expression('NOW()')]);
+        }
 
         $user_role == 'client' ?
             $query->andWhere(['client_id' => $user_id])
