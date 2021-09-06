@@ -190,7 +190,9 @@ AppAsset::register($this);
                 <div class="account__pop-up">
                     <ul class="account__pop-up-list">
                         <li>
-                            <a href="<?= Url::toRoute('my-tasks/index') ?>">Мои задания</a>
+                            <a href="<?= $user['user_role'] == 'client'
+                                ? Url::to(['my-tasks/index', 'status_task' => 'Новое'])
+                                : Url::to(['my-tasks/index', 'status_task' => 'На исполнении']) ?>">Мои задания</a>
                         </li>
                         <li>
                             <a href="<?= Url::toRoute('settings/index') ?>">Настройки</a>
