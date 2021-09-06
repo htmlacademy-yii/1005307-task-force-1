@@ -4,7 +4,7 @@ $this->title = 'Список заданий';
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\ListView;
-use yii\widgets\Menu;
+use yii\bootstrap\Nav;
 use yii\helpers\Url;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();
@@ -16,7 +16,7 @@ $periodFilter = $searchForm->getPeriodFilter();
     <div class="main-container page-container">
         <section class="menu-toggle">
             <ul class="menu-toggle__list">
-                <li class="menu-toggle__item menu-toggle__item--completed">
+                <li class="menu-toggle__item <?= $status_task === 'Выполнено' ? 'menu_toggle__item--current' : ''?> menu-toggle__item--completed">
                     <div class="menu-toggle__svg-wrapper">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M0 10C0 4.47715 4.47715 0 10 0C12.6522 0 15.1957 1.05357 17.0711 2.92893C18.9464 4.8043 20 7.34784 20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10ZM9.73 13.61L14.3 7.61V7.58C14.5179 7.29419 14.5668 6.91382 14.4283 6.58218C14.2897 6.25054 13.9848 6.01801 13.6283 5.97218C13.2718 5.92635 12.9179 6.07419 12.7 6.36L8.92 11.36L7.29 9.28C7.07028 8.99776 6.71668 8.85418 6.36239 8.90334C6.00811 8.9525 5.70696 9.18694 5.57239 9.51834C5.43783 9.84974 5.49028 10.2278 5.71 10.51L8.15 13.62C8.34082 13.8615 8.63222 14.0017 8.94 14C9.2495 13.9993 9.54121 13.8552 9.73 13.61Z" />
@@ -27,7 +27,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                     </a>
                 </li>
                 <?php if ($user->user_role == 'client'):?>
-                <li class="menu-toggle__item menu_toggle__item--current menu-toggle__item--new">
+                <li class="menu-toggle__item <?= $status_task === 'Новое' ? 'menu_toggle__item--current' : ''?> menu-toggle__item--new">
                     <div class="menu-toggle__svg-wrapper">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect opacity="0.01" x="24" y="24" width="24" height="24" transform="rotate(180 24 24)"
@@ -66,7 +66,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                     </a>
                 </li>
                 <?php endif; ?>
-                <li class="menu-toggle__item menu-toggle__item--active">
+                <li class="menu-toggle__item <?= $status_task === 'На исполнении' ? 'menu_toggle__item--current' : ''?> menu-toggle__item--active">
                     <div class="menu-toggle__svg-wrapper">
                         <svg width="21" height="19" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -78,7 +78,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                         Активные
                     </a>
                 </li>
-                <li class="menu-toggle__item menu-toggle__item--canceled">
+                <li class="menu-toggle__item <?= $status_task === 'Отмененное' ? 'menu_toggle__item--current' : ''?> menu-toggle__item--canceled">
                     <div class="menu-toggle__svg-wrapper">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -90,7 +90,7 @@ $periodFilter = $searchForm->getPeriodFilter();
                         Отменённые
                     </a>
                 </li>
-                <li class="menu-toggle__item menu-toggle__item--hidden">
+                <li class="menu-toggle__item <?= $status_task === 'Провалено' ? 'menu_toggle__item--current' : ''?> menu-toggle__item--hidden">
                     <div class="menu-toggle__svg-wrapper">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect opacity="0.01" x="24" width="24" height="24" transform="rotate(90 24 0)"

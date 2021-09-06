@@ -17,7 +17,8 @@ class IndexAction extends BaseAction
         return $this->controller->render('index', [
             'dataProvider' => $dataProvider,
             'searchForm' => $searchForm,
-            'user' => $this->user
+            'user' => $this->user,
+            'status_task' => $status_task
         ]);
     }
 }
