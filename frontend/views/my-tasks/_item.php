@@ -17,7 +17,7 @@ $isClient ? $user_show = $model['doer'] : $user_show = $model['client'];
 
 <div class="new-task__card">
     <div class="new-task__title">
-        <a href="#" class="link-regular"><h2><?= $model['name'] ?></h2></a>
+        <a href="<?= Url::to(['tasks/view/', 'id' => $model['id']]) ?>" class="link-regular"><h2><?= $model['name'] ?></h2></a>
         <a class="new-task__type link-regular"
            href="<?= Url::to(['tasks/filter', 'category_id' => $model['category_id']]) ?>">
             <p><?= $model['category']['name'] ?></p></a>

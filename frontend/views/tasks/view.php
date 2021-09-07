@@ -139,7 +139,7 @@ $user = $this->params['user'];
         <div class="connect-desk__profile-mini">
             <div class="profile-mini__wrapper">
                 <?php $isClientNotNewTask = false;
-                if ($task->status_task !== 'Новое' && $task->status_task !== 'Отменено' && $user->id == $task->client_id) {
+                if ($task->status_task !== 'Новое' && $task->status_task !== 'Отмененное' && $user->id == $task->client_id) {
                     $isClientNotNewTask = true;
                 } ?>
                 <h3><?= $isClientNotNewTask ? 'Исполнитель' : 'Заказчик' ?></h3>
@@ -175,11 +175,13 @@ $user = $this->params['user'];
                 </a>
             </div>
         </div>
-        <?php if ($task->doer_id && $user->id == $task->doer_id || $user->id == $task->client_id): ?>
+        <?php if ($task->doer_id && $user->id == $task->doer_id || $user->id == $task->client_id):
+            if ($task->status_task !== 'Новое' && $task->status_task !== 'Отмененное'): ?>
             <div id="chat-container">
                 <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
                 <chat class="connect-desk__chat" task="<?= $task->id ?>"></chat>
             </div>
-        <?php endif; ?>
+        <?php endif;
+        endif; ?>
     </section>
 </div>
