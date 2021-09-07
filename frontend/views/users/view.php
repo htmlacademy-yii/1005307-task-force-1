@@ -19,7 +19,6 @@ $user_account = $this->params['user'];
                     : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '120', 'height' => '120']) ?>
                 <div class="content-view__headline">
                     <?php $opinions = $user['opinions'];
-                    $rating = $formatter->getUserRating($user['opinions']);
                     $isClient = false;
                     if ($user['user_role'] == 'client') {
                         $isClient = true;
@@ -32,13 +31,13 @@ $user_account = $this->params['user'];
                         <?= $user['bd'] ? $formatter->getAge($user['bd']) : "" ?>
                         <?= $user['bd'] ? $formatter->getNounPluralForm($formatter->getAge($user['bd']), 'год', 'года', 'лет') : "" ?>
                     </p>
-                    <?php if ($opinions): ?>
+                    <?php if ($user['rating'] > 0): ?>
                         <div class="profile-mini__name five-stars__rate">
-                            <?php $starCount = round($rating) ?>
-                            <?php for ($i = 1; $i <= 5; $i++): ?>
-                                <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
-                            <?php endfor; ?>
-                            <b><?= $rating ?></b>
+                                <?php $starCount = round($user['rating']) ?>
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
+                                <?php endfor; ?>
+                                <b><?= round($user['rating'], 2) ?></b>
                         </div>
                     <?php endif; ?>
                     <?php if ($tasks): ?>
@@ -124,7 +123,7 @@ $user_account = $this->params['user'];
                                     <p class="review-text"><?= $opinion['description'] ?></p>
                                 </div>
                                 <div class="card__review-rate">
-                                    <p class="<?= $formatter->getRatingType(intval($opinion['rate'])) ?>-rate big-rate"><?= intval($opinion['rate']) ?>
+                                    <p class="<?= $formatter->getRatingType($opinion['rate']) ?>-rate big-rate"><?= $opinion['rate'] ?>
                                         <span></span></p>
                                 </div>
                             </div>

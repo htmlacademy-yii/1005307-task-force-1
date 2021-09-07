@@ -33,6 +33,7 @@ use yii\db\ActiveRecord;
  * @property string|null $telegram
  * @property int|null $city_id
  * @property string $last_activity_time
+ * @property float|null $rating
  *
  * @property Favourites[] $favourites
  * @property Favourites[] $favourites0
@@ -58,7 +59,7 @@ class Users extends ActiveRecord
     {
         return [
             [['email', 'name', 'password', 'user_role'], 'required'],
-            [['dt_add', 'bd', 'last_activity_time'], 'safe'],
+            [['dt_add', 'bd', 'last_activity_time', 'rating'], 'safe'],
             [['about'], 'string'],
             [['city_id'], 'integer'],
             [['email', 'name', 'password', 'user_role', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
@@ -80,6 +81,7 @@ class Users extends ActiveRecord
             'address' => 'Address',
             'bd' => 'Bd',
             'avatar' => 'Avatar',
+            'rating' => 'Rating',
             'about' => 'About',
             'phone' => 'Phone',
             'skype' => 'Skype',

@@ -25,11 +25,11 @@ use yii\helpers\Html;
         <div class="feedback-card__top--name user__search-card">
             <p class="link-name"><a href="<?= Url::to(['users/view', 'id' => $model['id']]) ?>" class="link-regular"><?= $model['name'] ?></a></p>
             <?php if ($model['rating'] > 0) : ?>
-                <?php $starCount = round((float)$model['rating']) ?>
+                <?php $starCount = round($model['rating']) ?>
                 <?php for ($i = 1; $i <= 5; $i++): ?>
                     <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                 <?php endfor; ?>
-                <b><?= floor($model['rating'] * 100) / 100 ?></b>
+                <b><?= round($model['rating'], 2) ?></b>
             <?php endif; ?>
             <p class="user__search-content">
                 <?= $model['about'] ?>

@@ -47,7 +47,6 @@ class UserSearchForm extends Users
         $query->joinWith('opinions')
             ->select([
                 'users.*',
-                'AVG(opinions.rate) as rating',
                 'count(opinions.rate) as finished_task_count',
                 'count(opinions.description) as opinions_count',
             ])

@@ -7,6 +7,7 @@ namespace frontend\controllers\actions\tasks;
 use frontend\models\opinions\RequestForm;
 use frontend\models\opinions\Opinions;
 use frontend\models\tasks\Tasks;
+use frontend\models\users\Users;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use Yii;
@@ -31,6 +32,10 @@ class RequestAction extends BaseAction
                 $opinions->save(false);
 
                 $task = Tasks::findOne($opinions->task_id);
+                $user = Users::findOne($opinions->doer_id);
+                $opinion = Opinions::find()->andWhere(['doer_id' => $user->id]);
+                $user->rating = $opinion->select('AVG(rate) as rating');
+                $user->save();
                 $opinions->completion == 1 ? $task->status_task = 'Завершено' : $task->status_task = 'Провалено';
                 $task->save();
             }

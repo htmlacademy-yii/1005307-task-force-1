@@ -84,7 +84,8 @@ class MyFormatter extends Formatter
         return $interval;
     }
 
-    public function getUserRating($opinions) {
+    public function getUserRating($opinions)
+    {
         $rating = 0;
 
         if (!empty($opinions)) {
@@ -96,9 +97,18 @@ class MyFormatter extends Formatter
                 $ratesSum += $opinion['rate'];
             }
 
-             $rating = round(($ratesSum / $ratesCount), 2);
+            $rating = round(($ratesSum / $ratesCount), 2);
         }
         return $rating;
+    }
+
+    public function getStatusColor($status): string
+    {
+        if ($status == 'Выполнено') {
+            return 'done';
+        }
+
+        return 'new';
     }
 
 }

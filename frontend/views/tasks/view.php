@@ -92,8 +92,7 @@ $user = $this->params['user'];
                 <div class="content-view__feedback-wrapper">
                     <?php foreach ($responses as $response):
                         if ($response->doer_id === $user->id || $user->id === $task->client_id):
-                            $doer = $response->doer;
-                            $rating = $formatter->getUserRating($doer->opinions) ?>
+                            $doer = $response->doer;?>
                             <div class="content-view__feedback-card">
                                 <div class="feedback-card__top">
                                     <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
@@ -104,12 +103,12 @@ $user = $this->params['user'];
                                     <div class="feedback-card__top--name">
                                         <p><a href="<?= Url::to(['users/view', 'id' => $doer->id]) ?>"
                                               class="link-regular"><?= $doer->name ?></a></p>
-                                        <?php if ($rating > 0):
-                                            $starCount = round($rating);
+                                        <?php if ($doer->rating > 0):
+                                            $starCount = round($doer['rating']);
                                             for ($i = 1; $i <= 5; $i++):?>
                                                 <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                                             <?php endfor; ?>
-                                            <b><?= $rating ?></b>
+                                            <b><?= round($doer['rating'], 2) ?></b>
                                         <?php endif; ?>
                                     </div>
                                     <span
@@ -156,18 +155,13 @@ $user = $this->params['user'];
                         : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
                     <div class="profile-mini__name five-stars__rate">
                         <p><?= $user_show->name ?></p>
-                        <?php $opinions = $user_show['opinions'];
-                        $rating = $formatter->getUserRating($user_show['opinions']);
-                        $isClient ? $tasks = $user_show['tasksClient'] : $tasks = $user_show['tasksDoer'];
-                        $ratesCount = count($opinions)
-                        ?>
-                        <?php if ($opinions && $isClientNotNewTask): ?>
+                        <?php if ($user_show['rating'] !== 0 && $isClientNotNewTask): ?>
                             <div class="profile-mini__name five-stars__rate">
-                                <?php $starCount = round($rating) ?>
+                                <?php $starCount = round($user_show['rating']) ?>
                                 <?php for ($i = 1; $i <= 5; $i++): ?>
                                     <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                                 <?php endfor; ?>
-                                <b><?= $rating ?></b>
+                                <b><?= round($user_show['rating'], 2) ?></b>
                             </div>
                         <?php endif; ?>
                     </div>

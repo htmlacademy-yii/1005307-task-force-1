@@ -8,7 +8,7 @@ use yii\helpers\Html;
     <p class="form-modal-description">Задание выполнено?</p>
     <?php $form = ActiveForm::begin([
             'method' => 'post',
-            'action' => '/tasks/complete',
+            'action' => '/tasks/request',
             'fieldConfig' => [
                 'errorOptions' => [
                     'tag' => 'span',
