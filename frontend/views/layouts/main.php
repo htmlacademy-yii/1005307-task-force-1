@@ -274,6 +274,15 @@ AppAsset::register($this);
 <div class="overlay"></div>
 <script src="/js/main.js"></script>
 <script src="/js/messenger.js"></script>
+<script src="js/dropzone.js"></script>
+<script>
+    Dropzone.autoDiscover = false;
+
+    var dropzone = new Dropzone(".dropzone", {
+        url: window.location.href, maxFiles: 6, uploadMultiple: true,
+        acceptedFiles: 'image/*', previewTemplate: '<a href="#"><img data-dz-thumbnail alt="Фото работы"></a>'
+    });
+</script>
 
 <?php $this->endBody() ?>
 </body>
