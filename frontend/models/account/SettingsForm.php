@@ -1,10 +1,11 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\account;
 
 use yii\base\Model;
 use frontend\models\users\Users;
+use yii\web\UploadedFile;
 
 class SettingsForm extends Model
 {
@@ -12,13 +13,14 @@ class SettingsForm extends Model
     public $email;
     public $user;
     public $bd;
-
+    public $avatar;
     public $about;
 
     public function attributeLabels(): array
     {
         return [
             'name' => 'Ваше имя',
+            'avatar' => 'Сменить аватар',
             'email' => 'email',
             'about' => 'Информация о себе',
             'bd' => 'День рождения',
@@ -28,20 +30,29 @@ class SettingsForm extends Model
     public function rules(): array
     {
         return [
-       //     [['email'], 'message' => "Поле «{attribute}» не может быть пустым"],
-            [['email', 'about', 'bd'], 'safe'],
+            [['email'], 'email', 'message' => "Введите корректный email"],
+            [['avatar'], 'file'],
+            ['email', 'unique', 'targetAttribute' => 'email', 'targetClass' => Users::class,
+                'message' => "Пользователь с еmail «{value}» уже зарегистрирован",
+                'when' => function ($model, $attribute) {
+                    return $attribute !== \Yii::$app->user->identity->email;
+                }],
+            [['email', 'about', 'bd', 'avatar'], 'safe'],
+
         ];
     }
 
     public function saveProfileData(Users $user): bool
     {
-        $this->validate();
-        if (!$this->hasErrors()) {
+        if ($this->validate()) {
+            $this->avatar = UploadedFile::getInstance($this, 'avatar');
+            $this->upload();
             $this->saveCommonData($user);
 
             return true;
         }
 
+        //$this->getErrors();
         return false;
     }
 
@@ -58,5 +69,22 @@ class SettingsForm extends Model
         }
 
         $user->save(false, $attributesToBeSaved);
+    }
+
+    public function upload(): bool
+    {
+        if (!empty($this->avatar)) {
+
+            if (!$this->validate()) {
+                $errors = $this->getErrors();
+            }
+            if ($this->validate()) {
+          //      $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
+                $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
+            }
+            return true;
+        }
+
+        return false;
     }
 }

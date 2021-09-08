@@ -30,9 +30,9 @@ class IndexAction extends Action
     {
         $settingsForm = new SettingsForm();
         $request = \Yii::$app->request;
-        $user = Users::findOne(\Yii::$app->user->getId());
+        $user = Users::findOne($this->user->id);
 
-        if ($request->isAjax && $settingsForm->load($request->post())) {
+        if ($request->isAjax) {
             \Yii::$app->response->format = Response::FORMAT_JSON;
 
             return ActiveForm::validate($settingsForm);

@@ -62,7 +62,7 @@ class Users extends ActiveRecord
         return [
             [['email', 'name', 'password', 'user_role'], 'required'],
             [['dt_add', 'bd', 'last_activity_time', 'rating'], 'safe'],
-            [['name', 'email', 'about', 'bd'], 'safe',
+            [['name', 'email', 'about', 'bd', 'avatar'], 'safe',
                 'on' => self::SCENARIO_UPDATE],
             [['about'], 'string'],
             [['city_id'], 'integer'],

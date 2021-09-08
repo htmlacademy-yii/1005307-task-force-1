@@ -2,6 +2,7 @@
 $this->title = 'Редактирование настроек пользователя';
 
 use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 
 //$categories = $createTaskForm->getCategories();
 
@@ -15,7 +16,7 @@ use yii\widgets\ActiveForm;
                 'id' => 'account',
                 'method' => 'post',
                 'enableAjaxValidation' => true,
-                'enableClientValidation' => false,
+                'enableClientValidation' => true,
                 'options' => [
                     'enctype' => "multipart/form-data",
                     'tag' => false,
@@ -46,9 +47,27 @@ use yii\widgets\ActiveForm;
                     <h3 class="div-line">Настройки аккаунта</h3>
                     <div class="account__redaction-section-wrapper">
                         <div class="account__redaction-avatar">
-                            <img src="./img/man-glasses.jpg" width="156" height="156">
-                            <input type="file" name="avatar" id="upload-avatar">
-                            <label for="upload-avatar" class="link-regular">Сменить аватар</label>
+                            <?= $user['avatar']
+                                ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '156', 'height' => '156'])
+                                : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '156', 'height' => '156']) ?>
+                            <?= $form->field($settingsForm, 'avatar', [
+                                'inputOptions' => [
+                                    'class' => 'create__file',
+                                    'style' => 'display: none',
+                                    'id' => 'upload-avatar',
+
+                                    'widgetClientOptions' => [
+                                        'buttonsHide' => ['image', 'file'],
+                                    ]
+                                ],
+                                'labelOptions' => [
+                                    'class' => 'link-regular',
+                                    'for' => 'upload-avatar'
+                                ],
+                                'options' => [
+                                    'tag' => false,
+                                ],
+                            ])->label()->fileInput(['accept' => 'image/*']); ?>
                         </div>
                         <div class="account__redaction">
                             <div class="account__input account__input--name">
@@ -91,7 +110,8 @@ use yii\widgets\ActiveForm;
                                         'class' => 'input-middle input input-date',
                                         'id' => '203',
                                         'type' => 'date',
-                                        'placeholder' => $user['bd']
+                                        'placeholder' => $user['bd'],
+                                        'max' => '2010-12-31'
                                     ]
                                 ]) ?>
                             </div>
