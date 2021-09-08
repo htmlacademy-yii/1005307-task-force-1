@@ -50,6 +50,8 @@ use yii\db\ActiveRecord;
  */
 class Users extends ActiveRecord
 {
+    const SCENARIO_UPDATE = 'update';
+
     public static function tableName(): string
     {
         return 'users';
@@ -60,6 +62,8 @@ class Users extends ActiveRecord
         return [
             [['email', 'name', 'password', 'user_role'], 'required'],
             [['dt_add', 'bd', 'last_activity_time', 'rating'], 'safe'],
+            [['name', 'email', 'about', 'bd'], 'safe',
+                'on' => self::SCENARIO_UPDATE],
             [['about'], 'string'],
             [['city_id'], 'integer'],
             [['email', 'name', 'password', 'user_role', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],

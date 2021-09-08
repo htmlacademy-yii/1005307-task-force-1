@@ -16,6 +16,7 @@ return [
         'telegram' => 'eum',
         'city_id' => 1,
         'last_activity_time' => '2021-01-15 01:43:38',
+        'rating' => '3.43'
     ],
     [
         'email' => 'dkris@braun.com',
@@ -32,6 +33,7 @@ return [
         'telegram' => 'officia',
         'city_id' => 2,
         'last_activity_time' => '2021-04-01 20:08:11',
+        'rating' => '4.13'
     ],
     [
         'email' => 'wiley17@damore.com',
@@ -48,6 +50,7 @@ return [
         'telegram' => 'omnis',
         'city_id' => 1,
         'last_activity_time' => '2021-02-18 09:59:07',
+        'rating' => '4.13'
     ],
     [
         'email' => 'robin42@yahoo.com',
@@ -64,6 +67,7 @@ return [
         'telegram' => 'voluptate',
         'city_id' => 2,
         'last_activity_time' => '2021-04-27 02:00:40',
+        'rating' => '4.13'
     ],
     [
         'email' => 'satterfield.merritt@hotmail.com',
@@ -80,6 +84,7 @@ return [
         'telegram' => 'iure',
         'city_id' => 2,
         'last_activity_time' => '2021-03-01 11:10:07',
+        'rating' => '4.13'
     ],
     [
         'email' => 'perry.raynor@pollich.com',
@@ -96,6 +101,7 @@ return [
         'telegram' => 'nesciunt',
         'city_id' => 2,
         'last_activity_time' => '2021-04-21 14:56:44',
+        'rating' => '4.13'
     ],
     [
         'email' => 'hahn.craig@satterfield.com',
@@ -112,6 +118,7 @@ return [
         'telegram' => 'aut',
         'city_id' => 1,
         'last_activity_time' => '2021-04-07 05:53:33',
+        'rating' => '4.13'
     ],
     [
         'email' => 'miracle.brown@gmail.com',
@@ -128,6 +135,7 @@ return [
         'telegram' => 'excepturi',
         'city_id' => 2,
         'last_activity_time' => '2021-02-24 12:00:25',
+        'rating' => '4.13'
     ],
     [
         'email' => 'edmund95@hotmail.com',
@@ -144,6 +152,7 @@ return [
         'telegram' => 'sed',
         'city_id' => 1,
         'last_activity_time' => '2021-02-28 11:39:24',
+        'rating' => '4.13'
     ],
     [
         'email' => 'elias97@hotmail.com',
@@ -160,6 +169,7 @@ return [
         'telegram' => 'voluptatem',
         'city_id' => 1,
         'last_activity_time' => '2021-03-19 21:23:45',
+        'rating' => '4.13'
     ],
     [
         'email' => 'edythe60@lindgren.com',
@@ -176,6 +186,7 @@ return [
         'telegram' => 'natus',
         'city_id' => 2,
         'last_activity_time' => '2021-05-03 05:26:30',
+        'rating' => '4.13'
     ],
     [
         'email' => 'gkassulke@boehm.info',
@@ -192,6 +203,7 @@ return [
         'telegram' => 'velit',
         'city_id' => 2,
         'last_activity_time' => '2021-01-24 18:54:59',
+        'rating' => '4.13'
     ],
     [
         'email' => 'lockman.esteban@maggio.info',
@@ -208,6 +220,7 @@ return [
         'telegram' => 'corrupti',
         'city_id' => 2,
         'last_activity_time' => '2021-04-16 14:00:47',
+        'rating' => '4.13'
     ],
     [
         'email' => 'hettie45@swaniawski.org',
@@ -224,6 +237,7 @@ return [
         'telegram' => 'fugit',
         'city_id' => 1,
         'last_activity_time' => '2021-01-15 18:19:22',
+        'rating' => '4.13'
     ],
     [
         'email' => 'ratke.kristopher@funk.info',
@@ -240,6 +254,7 @@ return [
         'telegram' => 'omnis',
         'city_id' => 2,
         'last_activity_time' => '2021-03-04 14:16:48',
+        'rating' => '4.13'
     ],
     [
         'email' => 'nelda.pfeffer@hermann.com',
@@ -256,6 +271,7 @@ return [
         'telegram' => 'accusamus',
         'city_id' => 2,
         'last_activity_time' => '2021-04-06 13:26:32',
+        'rating' => '4.13'
     ],
     [
         'email' => 'feeney.herta@thompson.net',
@@ -272,6 +288,7 @@ return [
         'telegram' => 'qui',
         'city_id' => 1,
         'last_activity_time' => '2021-05-04 18:55:34',
+        'rating' => '4.13'
     ],
     [
         'email' => 'jeramie.pacocha@jenkins.com',
@@ -288,6 +305,7 @@ return [
         'telegram' => 'quisquam',
         'city_id' => 1,
         'last_activity_time' => '2021-04-29 02:05:50',
+        'rating' => '4.13'
     ],
     [
         'email' => 'maxine.jacobson@terry.com',
@@ -304,6 +322,7 @@ return [
         'telegram' => 'voluptas',
         'city_id' => 1,
         'last_activity_time' => '2021-03-13 01:05:25',
+        'rating' => '4.13'
     ],
     [
         'email' => 'brandy14@wolff.com',
@@ -320,5 +339,6 @@ return [
         'telegram' => 'aut',
         'city_id' => 2,
         'last_activity_time' => '2021-01-14 21:58:46',
+        'rating' => '4.13'
     ],
 ];

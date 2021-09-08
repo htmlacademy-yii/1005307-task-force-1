@@ -10,6 +10,6 @@ return [
     'task_id' => $faker->numberBetween(11, 30),
     'completion' => $faker->numberBetween(0, 1),
     'description' => $faker->text,
-    'rate' => $faker->randomFloat($nbMaxDecimals = 2, $min = 3, $max = 5),
+    'rate' => $faker->numberBetween(1, 5),
 
 ];

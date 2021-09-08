@@ -170,7 +170,7 @@ return [
         'location_comment' => 'Marty Rodriguez',
         'city_id' => 2,
         'client_id' => 8,
-        'status_task' => 'cancelled',
+        'status_task' => 'Отмененное',
     ],
     [//13
         'dt_add' => '2021-03-22 08:45:49',
@@ -185,7 +185,7 @@ return [
         'location_comment' => 'Maegan Larkin',
         'city_id' => 10,
         'client_id' => 1,
-        'status_task' => 'cancelled',
+        'status_task' => 'Отмененное',
     ],
     [//14
         'dt_add' => '2021-04-20 19:51:11',

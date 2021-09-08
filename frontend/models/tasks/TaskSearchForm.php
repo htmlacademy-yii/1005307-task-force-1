@@ -132,8 +132,7 @@ class TaskSearchForm extends Tasks
 
         if ($status_task == 'На исполнении') {
             $query->andWhere(['is', 'expire', null])
-                ->orFilterWhere(['>=', 'expire', new Expression('NOW()')])
-                ->andwhere(['status_task' => $status_task]);
+                ->orFilterWhere(['>=', 'expire', new Expression('NOW()')]);
         }
 
         if ($status_task == 'Просроченное') {

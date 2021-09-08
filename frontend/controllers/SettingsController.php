@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use frontend\controllers\actions\myTasks\IndexAction;
+use frontend\controllers\actions\settings\IndexAction;
 
 class SettingsController extends SecuredController
 {
