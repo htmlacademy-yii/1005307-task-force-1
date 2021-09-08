@@ -4,6 +4,8 @@ $this->title = 'Редактирование настроек пользоват
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
+$cities = $settingsForm->getCities();
+
 //$categories = $createTaskForm->getCategories();
 
 ?>
@@ -92,16 +94,17 @@ use yii\helpers\Html;
                                 ]
                             ]) ?>
                         </div>
+
                         <div class="account__input account__input--name">
-                            <label for="202">Город</label>
-                            <select class="multiple-select input multiple-select-big" size="1" id="202"
-                                    name="town[]">
-                                <option value="Moscow">Москва</option>
-                                <option selected="" value="SPB">Санкт-Петербург</option>
-                                <option value="Krasnodar">Краснодар</option>
-                                <option value="Irkutsk">Иркутск</option>
-                                <option value="Vladivostok">Владивосток</option>
-                            </select>
+                            <?= $form->field($settingsForm, "city_id")
+                                ->dropDownList($cities, [
+                                    'class' => 'multiple-select input multiple-select-big',
+                                    'size' => 1,
+                                    'id' => 202,
+                                    'options'=>array(
+                                        $user['city_id'] => ['label' => $user['city']['city'],'selected'=>true],
+                                    ),
+                                ]) ?>
                         </div>
                         <div class="account__input account__input--date">
                             <?= $form->field($settingsForm, 'bd', [

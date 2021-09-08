@@ -33,7 +33,6 @@ class IndexAction extends Action
     public function run()
     {
         $settingsForm = new SettingsForm();
-        $this->fileUploadForm = new FileUploadForm();
         $request = \Yii::$app->request;
         $user = Users::findOne($this->user->id);
 

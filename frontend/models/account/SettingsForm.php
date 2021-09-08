@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace frontend\models\account;
 
+use frontend\models\cities\Cities;
 use yii\base\Model;
 use frontend\models\users\Users;
+use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
 class SettingsForm extends Model
@@ -18,6 +20,17 @@ class SettingsForm extends Model
     public $phone;
     public $skype;
     public $telegram;
+    public $city_id;
+    private $cities;
+
+    public function getCities(): array
+    {
+        if (!isset($this->cities)) {
+            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
+        }
+
+        return $this->cities;
+    }
 
     public function attributeLabels(): array
     {
@@ -27,6 +40,7 @@ class SettingsForm extends Model
             'email' => 'email',
             'about' => 'Информация о себе',
             'bd' => 'День рождения',
+            'city_id' => 'Город',
         ];
     }
 
@@ -40,8 +54,7 @@ class SettingsForm extends Model
                 'when' => function ($model, $attribute) {
                     return $attribute !== \Yii::$app->user->identity->email;
                 }],
-            [['email', 'about', 'bd', 'avatar', 'phone', 'skype', 'telegram'], 'safe'],
-
+            [['email', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram'], 'safe'],
         ];
     }
 
@@ -71,5 +84,22 @@ class SettingsForm extends Model
         }
 
         $user->save(false, $attributesToBeSaved);
+    }
+
+    public function upload(): bool
+    {
+        if (!empty($this->avatar)) {
+
+            if (!$this->validate()) {
+                $errors = $this->getErrors();
+            }
+            if ($this->validate()) {
+                //      $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
+                $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
+            }
+            return true;
+        }
+
+        return false;
     }
 }

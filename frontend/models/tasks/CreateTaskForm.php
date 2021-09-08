@@ -5,11 +5,13 @@ namespace frontend\models\tasks;
 
 use frontend\models\categories\Categories;
 
+use frontend\models\cities\Cities;
 use yii;
 use yii\base\Model;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\{BadResponseException, ServerException};
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
+use yii\helpers\ArrayHelper;
 
 class CreateTaskForm extends Model
 {
@@ -24,6 +26,17 @@ class CreateTaskForm extends Model
     public $latitude;
     public $longitude;
     public $city_id;
+    private $cities;
+
+    public function getCities(): array
+    {
+        if (!isset($this->cities)) {
+            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
+        }
+
+        return $this->cities;
+    }
+
 
     public function getCategories(): array
     {
