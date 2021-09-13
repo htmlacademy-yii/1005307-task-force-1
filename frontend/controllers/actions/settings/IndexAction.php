@@ -38,7 +38,7 @@ class IndexAction extends Action
         if (!$settingsForm->load($request->post())) {
             $settingsForm->loadCurrentUserData($user);
         }
-        else {
+        if ($settingsForm->load($request->post())) {
             if ($request->isAjax) {
                 \Yii::$app->response->format = Response::FORMAT_JSON;
 

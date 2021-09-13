@@ -11,6 +11,7 @@ use frontend\models\users\Users;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use frontend\models\users\UserCategory;
+use frontend\models\users\UserOptionSettings;
 
 class SettingsForm extends Model
 {
@@ -25,6 +26,7 @@ class SettingsForm extends Model
     public $telegram;
     public $city_id;
     public $specializations;
+    public $optionSet;
     private $cities;
     private $existingSpecializations;
 
@@ -61,9 +63,9 @@ class SettingsForm extends Model
     public function rules(): array
     {
         return [
-            [['email', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram', 'specializations'], 'safe'],
             [['email'], 'email', 'message' => "Введите корректный email"],
             [['avatar'], 'file'],
+            [['email', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram', 'specializations', 'optionSet'], 'safe'],
               //    [['about'], 'required', 'message' => 'нужен'],
             //        ['email', 'unique', 'targetAttribute' => 'email', 'targetClass' => Users::class,
             //           'message' => "Пользователь с еmail «{value}» уже зарегистрирован",
@@ -81,21 +83,29 @@ class SettingsForm extends Model
         foreach ($user->userCategories as $specialization) {
             $this->specializations[] = $specialization->id;
         }
+
+        $optionSet = $user->optionSet;
+
+        foreach ($optionSet ? $optionSet->attributes : [] as $name => $value) {
+            if ($value && $name !== 'user_id') {
+                $this->optionSet[] = $name;
+            }
+        }
     }
 
     public function saveProfileData(Users $user): bool
     {
         $this->validate();
         if (!$this->hasErrors()) {
-            $this->saveCommonData($user);
             $this->saveAvatar();
             $this->saveCategories($user);
             $this->checkRole($user);
+            $this->saveOptionSet($user);
+            $this->saveCommonData($user);
 
             return true;
         }
 
-        $this->getErrors();
         return false;
     }
 
@@ -114,21 +124,20 @@ class SettingsForm extends Model
         $user->save(false, $attributesToBeSaved);
     }
 
-    public function saveAvatar(): bool
+    private function saveAvatar(): void
     {
         $this->avatar = UploadedFile::getInstance($this, 'avatar');
+
         if (!empty($this->avatar)) {
 
-            if (!$this->hasErrors()) {
+            if (!$this->validate()) {
                 $errors = $this->getErrors();
             }
             if ($this->validate()) {
                 $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
             }
-            return true;
         }
 
-        return false;
     }
 
     private function saveCategories(Users $user): void
@@ -141,7 +150,6 @@ class SettingsForm extends Model
         }
 
         foreach ($this->getExistingSpecializations() as $id => $name) {
-
             if (!in_array($id, $this->specializations ?? [])) {
                 $specializationToBeDeleted = UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id]);
 
@@ -160,5 +168,24 @@ class SettingsForm extends Model
             $user->user_role = 'doer';
         }
         $user->save(false, ['user_role']);
+    }
+
+    private function saveOptionSet(Users $user): void
+    {
+        $optionSet = $user->optionSet;
+
+        if ($optionSet === null) {
+            $optionSet = new UserOptionSettings();
+        }
+
+        foreach ($optionSet->attributes as $name => $value) {
+            $optionSet->$name = $name !== 'user_id' ? 0 : $user->id;
+        }
+
+        foreach ($this->optionSet ?? [] as $name) {
+            $optionSet->$name = 1;
+        }
+
+        $optionSet->save();
     }
 }

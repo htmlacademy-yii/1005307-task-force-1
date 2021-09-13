@@ -18,7 +18,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                 'id' => 'account',
                 'method' => 'post',
                 'enableAjaxValidation' => true,
-                'enableClientValidation' => true,
+                'enableClientValidation' => false,
                 'options' => [
                     'enctype' => "multipart/form-data",
                     'tag' => false,
@@ -101,7 +101,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                                     'size' => 1,
                                     'id' => 202,
                                     'options' => array(
-                                        $user['city_id'] => ['label' => $user['city']['city'],'selected'=>true],
+                                        $user['city_id'] => ['label' => $user['city']['city'], 'selected' => true],
                                     ),
                                 ]) ?>
                         </div>
@@ -132,20 +132,19 @@ $specializations = $settingsForm->getExistingSpecializations();
                 <h3 class="div-line">Выберите свои специализации</h3>
                 <div class="account__redaction-section-wrapper">
                     <div class="search-task__categories account_checkbox--bottom">
-                    <?= $form->field($settingsForm, 'specializations', [
-                        'options' => ['class' => 'search-task__categories account_checkbox--bottom'],
-                        'template' => "{input}"
-                    ])->checkboxList($specializations, [
-                        'tag' => false,
-                        'unselect' => null,
-                        'item' => function ($index, $label, $name, $checked, $value) {
-                            //var_dump($checked);
-                            return '<input id="' . $index . '" name="' . $name . '" value="' . $value . '" '
-                                . 'type="checkbox" class="visually-hidden checkbox__input" '
-                                . ($checked ? 'checked ' : '') . '>'
-                                . '<label for="' . $index . '">' . $label . '</label>';
-                        }
-                    ]); ?>
+                        <?= $form->field($settingsForm, 'specializations', [
+                            'options' => ['class' => 'search-task__categories account_checkbox--bottom'],
+                            'template' => "{input}"
+                        ])->checkboxList($specializations, [
+                            'tag' => false,
+                            'unselect' => null,
+                            'item' => function ($index, $label, $name, $checked, $value) {
+                                return '<input id="' . $index . '" name="' . $name . '" value="' . $value . '" '
+                                    . 'type="checkbox" class="visually-hidden checkbox__input" '
+                                    . ($checked ? 'checked ' : '') . '>'
+                                    . '<label for="' . $index . '">' . $label . '</label>';
+                            }
+                        ]); ?>
                     </div>
                 </div>
                 <h3 class="div-line">Безопасность</h3>
@@ -172,9 +171,9 @@ $specializations = $settingsForm->getExistingSpecializations();
                                 'class' => 'input textarea',
                                 'placeholder' => $user['phone'],
                                 'id' => '213',
-                                'type' => 'tel',
+                                'type' => 'text',
                                 'style' => 'margin-top: 0',
-                                'pattern' => "[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                                //    'pattern' => "[0-9]{3}-[0-9]{3}-[0-9]{4}"
                             ]
                         ]) ?>
                     </div>
@@ -204,24 +203,29 @@ $specializations = $settingsForm->getExistingSpecializations();
                 <h3 class="div-line">Настройки сайта</h3>
                 <h4>Уведомления</h4>
                 <div class="account__redaction-section-wrapper account_section--bottom">
-                    <div class="search-task__categories account_checkbox--bottom">
-                        <input class="visually-hidden checkbox__input" id="216" type="checkbox" name="" value=""
-                               checked>
-                        <label for="216">Новое сообщение</label>
-                        <input class="visually-hidden checkbox__input" id="217" type="checkbox" name="" value=""
-                               checked>
-                        <label for="217">Действия по заданию</label>
-                        <input class="visually-hidden checkbox__input" id="218" type="checkbox" name="" value=""
-                               checked>
-                        <label for="218">Новый отзыв</label>
-                    </div>
-                    <div class="search-task__categories account_checkbox account_checkbox--secrecy">
-                        <input class="visually-hidden checkbox__input" id="219" type="checkbox" name="" value="">
-                        <label for="219">Показывать мои контакты только заказчику</label>
-                        <input class="visually-hidden checkbox__input" id="220" type="checkbox" name="" value=""
-                               checked>
-                        <label for="220">Не показывать мой профиль</label>
-                    </div>
+                    <?= $form->field($settingsForm, 'optionSet', [
+                        'template' => "{input}"
+                    ])->checkboxList([
+                        'is_subscribed_messages' => 'Новое сообщение',
+                        'is_subscribed_actions' => 'Действия по заданию',
+                        'is_subscribed_opinions' => 'Новый отзыв',
+                        'is_hidden_contacts' => 'Показывать мои контакты только заказчику',
+                        'is_hidden_account' => 'Не показывать мой профиль',
+                    ],
+                        [
+                            'tag' => false,
+                            'unselect' => null,
+                            'item' => function ($index, $label, $name, $checked, $value) {
+                                return ($index == 0 ? '<div class="search-task__categories account_checkbox--bottom">' : '')
+                                    . '<input id="' . $value . '" name="' . $name . '" value="' . $value . '" '
+                                    . 'type="checkbox" class="visually-hidden checkbox__input" '
+                                    . ($checked ? 'checked ' : '') . '>'
+                                    . '<label for="' . $value . '">' . $label . '</label>'
+                                    . ($index == 2 ? '</div><div class="search-task__categories account_checkbox '
+                                        . 'account_checkbox--secrecy">' : '')
+                                    . ($index == 4 ? '</div>' : '');
+                            }
+                        ]); ?>
                 </div>
             </div>
             <button class="button" type="submit">Сохранить изменения</button>

@@ -160,6 +160,16 @@ class Users extends ActiveRecord
         return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
+    /**
+     * Gets query for [[UsersOptionalSetting]].
+     *
+     * @return \yii\db\ActiveQuery|UserOptionSettingsQuery
+     */
+    public function getOptionSet()
+    {
+        return $this->hasOne(UserOptionSettings::class, ['user_id' => 'id']);
+    }
+
     public static function find(): UsersQuery
     {
         return new UsersQuery(get_called_class());
