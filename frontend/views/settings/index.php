@@ -1,10 +1,11 @@
 <?php
 $this->title = 'Редактирование настроек пользователя';
 
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 $cities = $settingsForm->getCities();
+$specializations = $settingsForm->getExistingSpecializations();
 
 //$categories = $createTaskForm->getCategories();
 
@@ -30,7 +31,6 @@ $cities = $settingsForm->getCities();
                 'fieldConfig' => [
                     'template' => "{label}\n{input}\n{error}",
                     'options' => [
-                        'style' => 'margin-top: 29px',
                         'tag' => false
                     ],
                     'inputOptions' => [
@@ -38,7 +38,7 @@ $cities = $settingsForm->getCities();
                     ],
                     'errorOptions' => [
                         'tag' => 'span',
-                        'style' => 'color: red'
+                        'style' => 'color: red; display: block'
                     ],
                     'labelOptions' => [
                         'class' => null,
@@ -94,14 +94,13 @@ $cities = $settingsForm->getCities();
                                 ]
                             ]) ?>
                         </div>
-
                         <div class="account__input account__input--name">
                             <?= $form->field($settingsForm, "city_id")
                                 ->dropDownList($cities, [
                                     'class' => 'multiple-select input multiple-select-big',
                                     'size' => 1,
                                     'id' => 202,
-                                    'options'=>array(
+                                    'options' => array(
                                         $user['city_id'] => ['label' => $user['city']['city'],'selected'=>true],
                                     ),
                                 ]) ?>
@@ -124,30 +123,29 @@ $cities = $settingsForm->getCities();
                                     'placeholder' => 'Place your text',
                                     'id' => '201',
                                     'type' => 'text',
-                                    'style' => 'margin-top: 0',
                                 ]
-                            ])->textArea()->hint('Пожалуйста, введите имя') ?>
+                            ])->textArea() ?>
                         </div>
                     </div>
                 </div>
+
                 <h3 class="div-line">Выберите свои специализации</h3>
                 <div class="account__redaction-section-wrapper">
                     <div class="search-task__categories account_checkbox--bottom">
-                        <input class="visually-hidden checkbox__input" id="205" type="checkbox" name="" value=""
-                               checked>
-                        <label for="205">Курьерские услуги</label>
-                        <input class="visually-hidden checkbox__input" id="206" type="checkbox" name="" value=""
-                               checked>
-                        <label for="206">Грузоперевозки</label>
-                        <input class="visually-hidden checkbox__input" id="207" type="checkbox" name="" value="">
-                        <label for="207">Перевод текстов</label>
-                        <input class="visually-hidden checkbox__input" id="208" type="checkbox" name="" value=""
-                               checked>
-                        <label for="208">Ремонт транспорта</label>
-                        <input class="visually-hidden checkbox__input" id="209" type="checkbox" name="" value="">
-                        <label for="209">Удалённая помощь</label>
-                        <input class="visually-hidden checkbox__input" id="210" type="checkbox" name="" value="">
-                        <label for="210">Выезд на стрелку</label>
+                    <?= $form->field($settingsForm, 'specializations', [
+                        'options' => ['class' => 'search-task__categories account_checkbox--bottom'],
+                        'template' => "{input}"
+                    ])->checkboxList($specializations, [
+                        'tag' => false,
+                        'unselect' => null,
+                        'item' => function ($index, $label, $name, $checked, $value) {
+                            //var_dump($checked);
+                            return '<input id="' . $index . '" name="' . $name . '" value="' . $value . '" '
+                                . 'type="checkbox" class="visually-hidden checkbox__input" '
+                                . ($checked ? 'checked ' : '') . '>'
+                                . '<label for="' . $index . '">' . $label . '</label>';
+                        }
+                    ]); ?>
                     </div>
                 </div>
                 <h3 class="div-line">Безопасность</h3>
@@ -176,6 +174,7 @@ $cities = $settingsForm->getCities();
                                 'id' => '213',
                                 'type' => 'tel',
                                 'style' => 'margin-top: 0',
+                                'pattern' => "[0-9]{3}-[0-9]{3}-[0-9]{4}"
                             ]
                         ]) ?>
                     </div>
@@ -183,9 +182,9 @@ $cities = $settingsForm->getCities();
                         <?= $form->field($settingsForm, 'skype', [
                             'inputOptions' => [
                                 'class' => 'input textarea',
-                                'placeholder' => $user['phone'],
+                                'placeholder' => $user['skype'],
                                 'id' => '214',
-                                'type' => 'tel',
+                                'type' => 'text',
                                 'style' => 'margin-top: 0',
                             ]
                         ]) ?>
@@ -194,9 +193,9 @@ $cities = $settingsForm->getCities();
                         <?= $form->field($settingsForm, 'telegram', [
                             'inputOptions' => [
                                 'class' => 'input textarea',
-                                'placeholder' => $user['phone'],
+                                'placeholder' => $user['telegram'],
                                 'id' => '215',
-                                'type' => 'tel',
+                                'type' => 'text',
                                 'style' => 'margin-top: 0',
                             ]
                         ]) ?>

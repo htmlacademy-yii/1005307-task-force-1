@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\settings;
 
 use frontend\models\account\SettingsForm;
-use frontend\models\account\FileUploadForm;
 use frontend\models\opinions\Opinions;
 use frontend\models\tasks\Tasks;
 use frontend\models\users\Users;
@@ -36,13 +35,15 @@ class IndexAction extends Action
         $request = \Yii::$app->request;
         $user = Users::findOne($this->user->id);
 
-        if ($request->isAjax) {
-            \Yii::$app->response->format = Response::FORMAT_JSON;
-
-            return ActiveForm::validate($settingsForm);
-        }
-
+     //   if (!$settingsForm->load($request->post())) {
+   //         $settingsForm->loadCurrentUserData($user);
+    //    }
         if ($settingsForm->load($request->post())) {
+            if ($request->isAjax) {
+                \Yii::$app->response->format = Response::FORMAT_JSON;
+
+                return ActiveForm::validate($settingsForm);
+            }
             if ($settingsForm->saveProfileData($user)) {
 
                 return $this->controller->redirect(['users/view', 'id' => $user->id]);
@@ -51,10 +52,10 @@ class IndexAction extends Action
 
         return $this->controller->render(
             '/settings/index',
-            ['user' => $user,
+            [
+                'user' => $user,
                 'settingsForm' => $settingsForm,
-             'fileUploadForm' => $this->fileUploadForm,
-        ]
+            ]
         );
     }
 }
