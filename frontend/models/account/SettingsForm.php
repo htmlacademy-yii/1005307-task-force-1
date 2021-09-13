@@ -77,6 +77,10 @@ class SettingsForm extends Model
     public function loadCurrentUserData(Users $user): void
     {
         $this->attributes = $user->attributes;
+
+        foreach ($user->userCategories as $specialization) {
+            $this->specializations[] = $specialization->id;
+        }
     }
 
     public function saveProfileData(Users $user): bool
@@ -130,8 +134,10 @@ class SettingsForm extends Model
     private function saveCategories(Users $user): void
     {
         foreach ($this->specializations ?? [] as $id) {
-            $userCategory = new UserCategory(['category_id' => $id, 'user_id' => $user->id]);
-            $userCategory->save();
+            if (!UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id])) {
+                $userCategory = new UserCategory(['category_id' => $id, 'user_id' => $user->id]);
+                $userCategory->save();
+            }
         }
 
         foreach ($this->getExistingSpecializations() as $id => $name) {
@@ -148,7 +154,7 @@ class SettingsForm extends Model
 
     private function checkRole(Users $user): void
     {
-        if ($this->specializations === []) {
+        if ($user->userCategories === []) {
             $user->user_role = 'client';
         } else {
             $user->user_role = 'doer';
