@@ -151,12 +151,12 @@ $specializations = $settingsForm->getExistingSpecializations();
                         <?= $form->field($settingsForm, 'password', [
                             'options' => ['class' => 'account__input'],
                             'inputOptions' => ['class' => 'input textarea']
-                        ])->passwordInput(); ?>
+                        ])->passwordInput(['maxlength' => 6]); ?>
                     </div>
                     <div class="account__input">
                         <?= $form->field($settingsForm, 'password_repeat', [
                             'options' => ['class' => 'account__input'],
-                            'inputOptions' => ['class' => 'input textarea']
+                            'inputOptions' => ['class' => 'input textarea', 'value' => $user['password']]
                         ])->passwordInput(); ?>
                     </div>
                 </div>

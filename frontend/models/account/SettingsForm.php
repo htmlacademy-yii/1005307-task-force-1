@@ -86,6 +86,7 @@ class SettingsForm extends Model
     public function loadCurrentUserData(Users $user): void
     {
         $this->attributes = $user->attributes;
+        $password = $this->password;
 
         foreach ($user->userCategories as $specialization) {
             $this->specializations[] = $specialization->id;
@@ -98,6 +99,8 @@ class SettingsForm extends Model
                 $this->optionSet[] = $name;
             }
         }
+
+        $this->password = $password;
     }
 
     public function saveProfileData(Users $user): bool
@@ -191,14 +194,20 @@ class SettingsForm extends Model
             $optionSet = new UserOptionSettings();
         }
 
+  //      $optionSet = UserOptionSettings::findOne(['user_id' => $user['id']]);
+
         foreach ($optionSet->attributes as $name => $value) {
-            $optionSet->$name = $name !== 'user_id' ? 0 : $user->id;
+            if ($name !== 'id') {
+                $optionSet->$name = $name !== 'user_id' ? 0 : $user->id;
+            }
         }
 
         foreach ($this->optionSet ?? [] as $name) {
-            $optionSet->$name = 1;
+            if ($name !== 'id') {
+                $optionSet->$name = 1;
+            }
         }
 
-        $optionSet->save();
+        $optionSet->save(false);
     }
 }
