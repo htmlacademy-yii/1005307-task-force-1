@@ -77,6 +77,25 @@ class m210502_170010_create_bd extends Migration
             'CASCADE'
         );
 
+        $this->createTable('user_option_set', [
+            'id' => $this->primaryKey(),
+            'user_id' => $this->integer(11)->notNull(),
+            'is_subscribed_messages' => $this->integer(1)->notNull(),
+            'is_subscribed_actions' => $this->integer(1)->notNull(),
+            'is_subscribed_opinions' => $this->integer(1)->notNull(),
+            'is_hidden_contacts' => $this->integer(1)->notNull(),
+            'is_hidden_account' => $this->integer(1)->notNull()
+        ]);
+
+        $this->addForeignKey(
+            'user_opt_id',
+            'user_option_set',
+            'user_id',
+            'users',
+            'id',
+            'CASCADE'
+        );
+
         $this->createTable('tasks', [
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),

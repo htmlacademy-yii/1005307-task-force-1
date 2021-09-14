@@ -87,7 +87,6 @@ $specializations = $settingsForm->getExistingSpecializations();
                             <?= $form->field($settingsForm, 'email', [
                                 'inputOptions' => [
                                     'class' => 'input textarea',
-                                    'placeholder' => $user['email'],
                                     'id' => '201',
                                     'type' => 'text',
                                     'style' => 'margin-top: 0',
@@ -111,7 +110,6 @@ $specializations = $settingsForm->getExistingSpecializations();
                                     'class' => 'input-middle input input-date',
                                     'id' => '203',
                                     'type' => 'date',
-                                    'placeholder' => $user['bd'],
                                     'max' => '2010-12-31'
                                 ]
                             ]) ?>
@@ -150,16 +148,19 @@ $specializations = $settingsForm->getExistingSpecializations();
                 <h3 class="div-line">Безопасность</h3>
                 <div class="account__redaction-section-wrapper account__redaction">
                     <div class="account__input">
-                        <label for="211">Новый пароль</label>
-                        <input class="input textarea" type="password" id="211" name="" value="moiparol">
+                        <?= $form->field($settingsForm, 'password', [
+                            'options' => ['class' => 'account__input'],
+                            'inputOptions' => ['class' => 'input textarea']
+                        ])->passwordInput(); ?>
                     </div>
                     <div class="account__input">
-                        <label for="212">Повтор пароля</label>
-                        <input class="input textarea" type="password" id="212" name="" value="moiparol">
+                        <?= $form->field($settingsForm, 'password_repeat', [
+                            'options' => ['class' => 'account__input'],
+                            'inputOptions' => ['class' => 'input textarea']
+                        ])->passwordInput(); ?>
                     </div>
                 </div>
                 <h3 class="div-line">Фото работ</h3>
-
                 <div class="account__redaction-section-wrapper account__redaction">
                     <span class="dropzone">Выбрать фотографии</span>
                 </div>
@@ -169,11 +170,9 @@ $specializations = $settingsForm->getExistingSpecializations();
                         <?= $form->field($settingsForm, 'phone', [
                             'inputOptions' => [
                                 'class' => 'input textarea',
-                                'placeholder' => $user['phone'],
                                 'id' => '213',
                                 'type' => 'text',
                                 'style' => 'margin-top: 0',
-                                //    'pattern' => "[0-9]{3}-[0-9]{3}-[0-9]{4}"
                             ]
                         ]) ?>
                     </div>
@@ -181,7 +180,6 @@ $specializations = $settingsForm->getExistingSpecializations();
                         <?= $form->field($settingsForm, 'skype', [
                             'inputOptions' => [
                                 'class' => 'input textarea',
-                                'placeholder' => $user['skype'],
                                 'id' => '214',
                                 'type' => 'text',
                                 'style' => 'margin-top: 0',
@@ -192,7 +190,6 @@ $specializations = $settingsForm->getExistingSpecializations();
                         <?= $form->field($settingsForm, 'telegram', [
                             'inputOptions' => [
                                 'class' => 'input textarea',
-                                'placeholder' => $user['telegram'],
                                 'id' => '215',
                                 'type' => 'text',
                                 'style' => 'margin-top: 0',
@@ -208,7 +205,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                     ])->checkboxList([
                         'is_subscribed_messages' => 'Новое сообщение',
                         'is_subscribed_actions' => 'Действия по заданию',
-                        'is_subscribed_opinions' => 'Новый отзыв',
+                        'is_subscribed_options' => 'Новый отзыв',
                         'is_hidden_contacts' => 'Показывать мои контакты только заказчику',
                         'is_hidden_account' => 'Не показывать мой профиль',
                     ],

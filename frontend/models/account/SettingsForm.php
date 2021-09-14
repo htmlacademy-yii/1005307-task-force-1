@@ -12,11 +12,14 @@ use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use frontend\models\users\UserCategory;
 use frontend\models\users\UserOptionSettings;
+use Yii;
 
 class SettingsForm extends Model
 {
     public $name;
     public $email;
+    public $password;
+    public $password_repeat;
     public $user;
     public $bd;
     public $avatar;
@@ -54,6 +57,8 @@ class SettingsForm extends Model
             'avatar' => 'Сменить аватар',
             'name' => 'Ваше имя',
             'email' => 'email',
+            'password' => 'Новый пароль',
+            'password_repeat' => 'Повтор пароля',
             'city_id' => 'Город',
             'bd' => 'День рождения',
             'about' => 'Информация о себе',
@@ -65,7 +70,9 @@ class SettingsForm extends Model
         return [
             [['email'], 'email', 'message' => "Введите корректный email"],
             [['avatar'], 'file'],
-            [['email', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram', 'specializations', 'optionSet'], 'safe'],
+            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Должен быть равным паролю из поля «НОВЫЙ ПАРОЛЬ»'],
+            ['password', 'compare', 'message' => 'Должен быть равным паролю из поля «ПОВТОР ПАРОЛЯ»'],
+            [['email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram', 'specializations', 'optionSet'], 'safe'],
               //    [['about'], 'required', 'message' => 'нужен'],
             //        ['email', 'unique', 'targetAttribute' => 'email', 'targetClass' => Users::class,
             //           'message' => "Пользователь с еmail «{value}» уже зарегистрирован",
@@ -114,6 +121,12 @@ class SettingsForm extends Model
         $user->setScenario(Users::SCENARIO_UPDATE);
         $user->setAttributes($this->attributes);
         $attributesToBeSaved = [];
+
+
+        if (isset($this->password)) {
+            $user->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+            $user->save(false, ['password']);
+        }
 
         foreach ($user->attributes as $name => $value) {
             if (!empty($value)) {
