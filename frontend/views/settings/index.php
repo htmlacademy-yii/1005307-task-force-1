@@ -162,7 +162,26 @@ $specializations = $settingsForm->getExistingSpecializations();
                 </div>
                 <h3 class="div-line">Фото работ</h3>
                 <div class="account__redaction-section-wrapper account__redaction">
-                    <span class="dropzone">Выбрать фотографии</span>
+                    <span class="dropzone">
+                        <?php foreach ($user->portfolioPhotos as $photo): ?>
+                            <a><img alt="Фото работы" width="120px" height="120px" src=""></a>
+                        <?php endforeach; ?>
+                        <?= $form->field($settingsForm, 'portfolio_photo[]', [
+                            'inputOptions' => [
+                                'class' => 'create__file',
+                                'style' => 'display: none',
+                                'multiple' => true,
+                                'id' => 'file_task',
+
+                                'widgetClientOptions' => [
+                                    'buttonsHide' => ['image', 'file'],
+                                ]
+                            ],
+                            'options' => [
+                                'tag' => false,
+                            ],
+                        ])->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
+                    </span>
                 </div>
                 <h3 class="div-line">Контакты</h3>
                 <div class="account__redaction-section-wrapper account__redaction">

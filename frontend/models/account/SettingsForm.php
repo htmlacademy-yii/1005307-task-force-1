@@ -5,13 +5,13 @@ namespace frontend\models\account;
 
 use frontend\models\categories\Categories;
 use frontend\models\cities\Cities;
-use yii\base\BaseObject;
 use yii\base\Model;
 use frontend\models\users\Users;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use frontend\models\users\UserCategory;
 use frontend\models\users\UserOptionSettings;
+use frontend\models\users\PortfolioPhoto;
 use Yii;
 
 class SettingsForm extends Model
@@ -30,6 +30,7 @@ class SettingsForm extends Model
     public $city_id;
     public $specializations;
     public $optionSet;
+    public $portfolio_photo;
     private $cities;
     private $existingSpecializations;
 
@@ -62,6 +63,7 @@ class SettingsForm extends Model
             'city_id' => 'Город',
             'bd' => 'День рождения',
             'about' => 'Информация о себе',
+            'portfolio_photo' => 'Выбрать фотографии',
         ];
     }
 
@@ -72,8 +74,11 @@ class SettingsForm extends Model
             [['avatar'], 'file'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Должен быть равным паролю из поля «НОВЫЙ ПАРОЛЬ»'],
             ['password', 'compare', 'message' => 'Должен быть равным паролю из поля «ПОВТОР ПАРОЛЯ»'],
-            [['email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram', 'specializations', 'optionSet'], 'safe'],
-              //    [['about'], 'required', 'message' => 'нужен'],
+            [['portfolio_photo'], 'file',
+                'skipOnEmpty' => true,
+                'maxFiles' => 6],
+            [['email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram', 'specializations', 'optionSet', 'portfolio_photo'], 'safe'],
+            //    [['about'], 'required', 'message' => 'нужен'],
             //        ['email', 'unique', 'targetAttribute' => 'email', 'targetClass' => Users::class,
             //           'message' => "Пользователь с еmail «{value}» уже зарегистрирован",
             //           'when' => function ($model, $attribute) {
@@ -194,8 +199,6 @@ class SettingsForm extends Model
             $optionSet = new UserOptionSettings();
         }
 
-  //      $optionSet = UserOptionSettings::findOne(['user_id' => $user['id']]);
-
         foreach ($optionSet->attributes as $name => $value) {
             if ($name !== 'id') {
                 $optionSet->$name = $name !== 'user_id' ? 0 : $user->id;
@@ -209,5 +212,23 @@ class SettingsForm extends Model
         }
 
         $optionSet->save(false);
+    }
+
+    public function upload(): bool
+    {
+        if (!empty($this->portfolio_photo)) {
+
+            if (!$this->validate()) {
+                $errors = $this->getErrors();
+            }
+            if ($this->validate()) {
+                foreach ($this->portfolio_photo as $file) {
+                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+                }
+            }
+            return true;
+        }
+
+        return false;
     }
 }

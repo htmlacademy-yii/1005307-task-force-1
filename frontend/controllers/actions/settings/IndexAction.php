@@ -7,6 +7,7 @@ namespace frontend\controllers\actions\settings;
 use frontend\models\account\SettingsForm;
 use frontend\models\opinions\Opinions;
 use frontend\models\tasks\Tasks;
+use frontend\models\users\PortfolioPhoto;
 use frontend\models\users\Users;
 use yii\base\Action;
 use yii\base\BaseObject;
@@ -17,7 +18,7 @@ use yii\web\UploadedFile;
 
 class IndexAction extends Action
 {
-    public $fileUploadForm;
+    public $settingsForm;
 
     public $user;
 
@@ -31,20 +32,21 @@ class IndexAction extends Action
 
     public function run()
     {
-        $settingsForm = new SettingsForm();
+        $this->settingsForm = new SettingsForm();
         $request = \Yii::$app->request;
         $user = Users::findOne($this->user->id);
 
-        if (!$settingsForm->load($request->post())) {
-            $settingsForm->loadCurrentUserData($user);
+        if (!$this->settingsForm->load($request->post())) {
+            $this->settingsForm->loadCurrentUserData($user);
         }
-        if ($settingsForm->load($request->post())) {
+        if ($this->settingsForm->load($request->post())) {
             if ($request->isAjax) {
                 \Yii::$app->response->format = Response::FORMAT_JSON;
 
-                return ActiveForm::validate($settingsForm);
+                return ActiveForm::validate($this->settingsForm);
             }
-            if ($settingsForm->saveProfileData($user)) {
+            if ($this->settingsForm->saveProfileData($user)) {
+                $this->uploadFile($user);
 
                 return $this->controller->redirect(['users/view', 'id' => $user->id]);
             }
@@ -54,8 +56,33 @@ class IndexAction extends Action
             '/settings/index',
             [
                 'user' => $user,
-                'settingsForm' => $settingsForm,
+                'settingsForm' => $this->settingsForm,
             ]
         );
+    }
+
+    private function uploadFile($user): void
+    {
+        $request = Yii::$app->request;
+
+        if ($this->settingsForm->load($request->post())) {
+            $this->settingsForm->portfolio_photo = UploadedFile::getInstances($this->settingsForm, 'portfolio_photo');
+
+            if (!empty($this->settingsForm->portfolio_photo) && $this->settingsForm->upload()) {
+                PortfolioPhoto::deleteAll(['user_id' => $user->id]);
+                $files = array();
+
+                foreach ($this->settingsForm->portfolio_photo as $fileItem) {
+                    $files[] = [$fileItem, $user->id];
+                }
+
+                Yii::$app->db->createCommand()
+                    ->batchInsert('portfolio_photo',
+                        ['photo', 'user_id'],
+                        $files)
+                    ->execute();
+                return;
+            }
+        }
     }
 }
