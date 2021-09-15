@@ -164,7 +164,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                 <div class="account__redaction-section-wrapper account__redaction">
                     <span class="dropzone">
                         <?php foreach ($user->portfolioPhotos as $photo): ?>
-                            <a><img alt="Фото работы" width="120px" height="120px" src=""></a>
+                            <a><?= Html::img(Yii::$app->request->baseUrl . '/img/' . $photo->photo, ['width' => '65', 'height' => '65']) ?> </a>
                         <?php endforeach; ?>
                         <?= $form->field($settingsForm, 'portfolio_photo[]', [
                             'inputOptions' => [
@@ -183,6 +183,23 @@ $specializations = $settingsForm->getExistingSpecializations();
                         ])->fileInput(['multiple' => true, 'accept' => 'image/*']); ?>
                     </span>
                 </div>
+                <?php $js = <<<JS
+                    const fileSpan = document.querySelector('.dropzone label');
+                    file_task.addEventListener('change', (event) => {
+                        const fileList = event.target.files;
+                        if (fileList.length === 1) {
+                            fileSpan.textContent = 'Загружен ' + fileList.length + ' файл';
+                        }
+                        if (fileList.length > 1) {
+                            fileSpan.textContent = 'Загружены ' + fileList.length + ' файла';
+                        }
+                        if (fileList.length > 4) {
+                            fileSpan.textContent = 'Загружено ' + fileList.length + ' файлов';
+                        }
+                    })
+JS;
+                $this->registerJs($js);
+                ?>
                 <h3 class="div-line">Контакты</h3>
                 <div class="account__redaction-section-wrapper account__redaction">
                     <div class="account__input">
