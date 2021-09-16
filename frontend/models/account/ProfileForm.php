@@ -70,20 +70,16 @@ class ProfileForm extends Model
     public function rules(): array
     {
         return [
-            [['email'], 'required', 'message' => "Введите корректный email"],
-            [['avatar'], 'file'],
+            [['email'], 'required', 'message' => "Это поле необходимо заполнить"],
+            [['email'], 'email', 'message' => "Введите корректный email"],
+            ['email', 'unique', 'targetAttribute' => 'email', 'targetClass' => Users::class,
+                'message' => "Пользователь с еmail «{value}» уже зарегистрирован",
+                'when' => function () {
+                    return $this->email !== Yii::$app->user->identity->email;
+                }],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Должен быть равным паролю из поля «НОВЫЙ ПАРОЛЬ»'],
             ['password', 'compare', 'message' => 'Должен быть равным паролю из поля «ПОВТОР ПАРОЛЯ»'],
-            [['portfolio_photo'], 'file',
-                'skipOnEmpty' => true,
-                'maxFiles' => 6],
-            [['email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram', 'specializations', 'optionSet', 'portfolio_photo'], 'safe'],
-            //    [['about'], 'required', 'message' => 'нужен'],
-            //        ['email', 'unique', 'targetAttribute' => 'email', 'targetClass' => Users::class,
-            //           'message' => "Пользователь с еmail «{value}» уже зарегистрирован",
-            //           'when' => function ($model, $attribute) {
-            //                return $attribute !== \Yii::$app->user->identity->email;
-            //            }],
+            [['avatar','email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'phone', 'skype', 'telegram', 'specializations', 'optionSet', 'portfolio_photo'], 'safe'],
 
         ];
     }
@@ -110,11 +106,11 @@ class ProfileForm extends Model
 
     public function saveProfileData(Users $user)
     {
-            $this->saveAvatar();
-            $this->saveCategories($user);
-            $this->checkRole($user);
-            $this->saveOptionSet($user);
-            $this->saveCommonData($user);
+        $this->saveAvatar();
+        $this->saveCategories($user);
+        $this->checkRole($user);
+        $this->saveOptionSet($user);
+        $this->saveCommonData($user);
     }
 
     private function saveCommonData(Users $user): void
@@ -151,7 +147,6 @@ class ProfileForm extends Model
                 $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
             }
         }
-
     }
 
     private function saveCategories(Users $user): void

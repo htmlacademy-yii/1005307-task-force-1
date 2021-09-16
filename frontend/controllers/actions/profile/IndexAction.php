@@ -39,12 +39,15 @@ class IndexAction extends Action
         if (!$this->profileForm->load($request->post())) {
             $this->profileForm->loadCurrentUserData($user);
         }
-        if ($this->profileForm->load($request->post())) {
-            if ($request->isAjax) {
-                \Yii::$app->response->format = Response::FORMAT_JSON;
 
-                return ActiveForm::validate($this->profileForm);
-            }
+        if ($request->isAjax && $this->profileForm->load($request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            Yii::$app->end();
+
+            return ActiveForm::validate($this->profileForm);
+        }
+
+        if ($this->profileForm->load($request->post())) {
             if ($this->profileForm->validate()) {
                 $this->profileForm->saveProfileData($user);
                 $this->uploadFile($user);
