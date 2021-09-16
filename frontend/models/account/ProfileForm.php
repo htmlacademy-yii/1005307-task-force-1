@@ -14,7 +14,7 @@ use frontend\models\users\UserOptionSettings;
 use frontend\models\users\PortfolioPhoto;
 use Yii;
 
-class SettingsForm extends Model
+class ProfileForm extends Model
 {
     public $name;
     public $email;
@@ -70,7 +70,7 @@ class SettingsForm extends Model
     public function rules(): array
     {
         return [
-            [['email'], 'email', 'message' => "Введите корректный email"],
+            [['email'], 'required', 'message' => "Введите корректный email"],
             [['avatar'], 'file'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Должен быть равным паролю из поля «НОВЫЙ ПАРОЛЬ»'],
             ['password', 'compare', 'message' => 'Должен быть равным паролю из поля «ПОВТОР ПАРОЛЯ»'],
@@ -108,20 +108,13 @@ class SettingsForm extends Model
         $this->password = $password;
     }
 
-    public function saveProfileData(Users $user): bool
+    public function saveProfileData(Users $user)
     {
-        $this->validate();
-        if (!$this->hasErrors()) {
             $this->saveAvatar();
             $this->saveCategories($user);
             $this->checkRole($user);
             $this->saveOptionSet($user);
             $this->saveCommonData($user);
-
-            return true;
-        }
-
-        return false;
     }
 
     private function saveCommonData(Users $user): void

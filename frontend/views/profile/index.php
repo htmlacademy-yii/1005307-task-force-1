@@ -4,8 +4,8 @@ $this->title = 'Редактирование настроек пользоват
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
-$cities = $settingsForm->getCities();
-$specializations = $settingsForm->getExistingSpecializations();
+$cities = $profileForm->getCities();
+$specializations = $profileForm->getExistingSpecializations();
 
 //$categories = $createTaskForm->getCategories();
 
@@ -24,7 +24,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                     'tag' => false,
                 ],
                 'validationStateOn' => 'input',
-                'action' => '/settings/index',
+                'action' => '/profile/index',
                 'validateOnBlur' => true,
                 'validateOnChange' => true,
                 'validateOnSubmit' => true,
@@ -51,7 +51,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                         <?= $user['avatar']
                             ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '156', 'height' => '156'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '156', 'height' => '156']) ?>
-                        <?= $form->field($settingsForm, 'avatar', [
+                        <?= $form->field($profileForm, 'avatar', [
                             'inputOptions' => [
                                 'class' => 'create__file',
                                 'style' => 'display: none',
@@ -72,7 +72,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                     </div>
                     <div class="account__redaction">
                         <div class="account__input account__input--name">
-                            <?= $form->field($settingsForm, 'name', [
+                            <?= $form->field($profileForm, 'name', [
                                 'inputOptions' => [
                                     'class' => 'input textarea',
                                     'placeholder' => $user['name'],
@@ -84,7 +84,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                             ]) ?>
                         </div>
                         <div class="account__input account__input--email">
-                            <?= $form->field($settingsForm, 'email', [
+                            <?= $form->field($profileForm, 'email', [
                                 'inputOptions' => [
                                     'class' => 'input textarea',
                                     'id' => '201',
@@ -94,7 +94,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                             ]) ?>
                         </div>
                         <div class="account__input account__input--name">
-                            <?= $form->field($settingsForm, "city_id")
+                            <?= $form->field($profileForm, "city_id")
                                 ->dropDownList($cities, [
                                     'class' => 'multiple-select input multiple-select-big',
                                     'size' => 1,
@@ -105,7 +105,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                                 ]) ?>
                         </div>
                         <div class="account__input account__input--date">
-                            <?= $form->field($settingsForm, 'bd', [
+                            <?= $form->field($profileForm, 'bd', [
                                 'inputOptions' => [
                                     'class' => 'input-middle input input-date',
                                     'id' => '203',
@@ -115,7 +115,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                             ]) ?>
                         </div>
                         <div class="account__input account__input--info">
-                            <?= $form->field($settingsForm, 'about', [
+                            <?= $form->field($profileForm, 'about', [
                                 'inputOptions' => [
                                     'class' => 'input textarea',
                                     'placeholder' => 'Place your text',
@@ -130,7 +130,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                 <h3 class="div-line">Выберите свои специализации</h3>
                 <div class="account__redaction-section-wrapper">
                     <div class="search-task__categories account_checkbox--bottom">
-                        <?= $form->field($settingsForm, 'specializations', [
+                        <?= $form->field($profileForm, 'specializations', [
                             'options' => ['class' => 'search-task__categories account_checkbox--bottom'],
                             'template' => "{input}"
                         ])->checkboxList($specializations, [
@@ -148,13 +148,13 @@ $specializations = $settingsForm->getExistingSpecializations();
                 <h3 class="div-line">Безопасность</h3>
                 <div class="account__redaction-section-wrapper account__redaction">
                     <div class="account__input">
-                        <?= $form->field($settingsForm, 'password', [
+                        <?= $form->field($profileForm, 'password', [
                             'options' => ['class' => 'account__input'],
                             'inputOptions' => ['class' => 'input textarea']
                         ])->passwordInput(['maxlength' => 6]); ?>
                     </div>
                     <div class="account__input">
-                        <?= $form->field($settingsForm, 'password_repeat', [
+                        <?= $form->field($profileForm, 'password_repeat', [
                             'options' => ['class' => 'account__input'],
                             'inputOptions' => ['class' => 'input textarea', 'value' => $user['password']]
                         ])->passwordInput(); ?>
@@ -166,7 +166,7 @@ $specializations = $settingsForm->getExistingSpecializations();
                         <?php foreach ($user->portfolioPhotos as $photo): ?>
                             <a><?= Html::img(Yii::$app->request->baseUrl . '/img/' . $photo->photo, ['width' => '65', 'height' => '65']) ?> </a>
                         <?php endforeach; ?>
-                        <?= $form->field($settingsForm, 'portfolio_photo[]', [
+                        <?= $form->field($profileForm, 'portfolio_photo[]', [
                             'inputOptions' => [
                                 'class' => 'create__file',
                                 'style' => 'display: none',
@@ -203,7 +203,7 @@ JS;
                 <h3 class="div-line">Контакты</h3>
                 <div class="account__redaction-section-wrapper account__redaction">
                     <div class="account__input">
-                        <?= $form->field($settingsForm, 'phone', [
+                        <?= $form->field($profileForm, 'phone', [
                             'inputOptions' => [
                                 'class' => 'input textarea',
                                 'id' => '213',
@@ -213,7 +213,7 @@ JS;
                         ]) ?>
                     </div>
                     <div class="account__input">
-                        <?= $form->field($settingsForm, 'skype', [
+                        <?= $form->field($profileForm, 'skype', [
                             'inputOptions' => [
                                 'class' => 'input textarea',
                                 'id' => '214',
@@ -223,7 +223,7 @@ JS;
                         ]) ?>
                     </div>
                     <div class="account__input">
-                        <?= $form->field($settingsForm, 'telegram', [
+                        <?= $form->field($profileForm, 'telegram', [
                             'inputOptions' => [
                                 'class' => 'input textarea',
                                 'id' => '215',
@@ -236,7 +236,7 @@ JS;
                 <h3 class="div-line">Настройки сайта</h3>
                 <h4>Уведомления</h4>
                 <div class="account__redaction-section-wrapper account_section--bottom">
-                    <?= $form->field($settingsForm, 'optionSet', [
+                    <?= $form->field($profileForm, 'optionSet', [
                         'template' => "{input}"
                     ])->checkboxList([
                         'is_subscribed_messages' => 'Новое сообщение',
@@ -266,4 +266,3 @@ JS;
         </section>
     </div>
 </main>
-

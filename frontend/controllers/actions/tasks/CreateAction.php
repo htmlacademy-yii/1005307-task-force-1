@@ -15,6 +15,7 @@ use Yii;
 class CreateAction extends BaseAction
 {
     public $fileUploadForm;
+
     public function run()
     {
         $createTaskForm = new CreateTaskForm();

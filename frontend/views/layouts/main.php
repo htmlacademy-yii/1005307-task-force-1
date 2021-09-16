@@ -194,7 +194,7 @@ AppAsset::register($this);
                                 : Url::to(['my-tasks/index', 'status_task' => 'На исполнении']) ?>">Мои задания</a>
                         </li>
                         <li>
-                            <a href="<?= Url::toRoute('settings/index') ?>">Настройки</a>
+                            <a href="<?= Url::toRoute('profile/index') ?>">Настройки</a>
                         </li>
                         <li>
                             <a href="<?= Url::toRoute('sign/logout') ?>">Выход</a>

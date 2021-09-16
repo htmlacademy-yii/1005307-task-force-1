@@ -179,4 +179,12 @@ class Users extends ActiveRecord
     {
         return self::findOne($id);
     }
+
+    /**
+     * @return Users the loaded model
+     */
+    public function findModel(): Users
+    {
+        return self::findOne(\Yii::$app->user->identity->getId());
+    }
 }

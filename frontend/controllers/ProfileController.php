@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use frontend\controllers\actions\settings\IndexAction;
+use frontend\controllers\actions\profile\IndexAction;
 
-class SettingsController extends SecuredController
+class ProfileController extends SecuredController
 {
     public function actions(): array
     {

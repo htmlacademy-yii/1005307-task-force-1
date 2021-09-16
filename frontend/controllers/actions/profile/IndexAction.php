@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace frontend\controllers\actions\settings;
+namespace frontend\controllers\actions\profile;
 
-use frontend\models\account\SettingsForm;
+use frontend\models\account\ProfileForm;
 use frontend\models\opinions\Opinions;
 use frontend\models\tasks\Tasks;
 use frontend\models\users\PortfolioPhoto;
@@ -18,7 +18,7 @@ use yii\web\UploadedFile;
 
 class IndexAction extends Action
 {
-    public $settingsForm;
+    public $profileForm;
 
     public $user;
 
@@ -32,20 +32,21 @@ class IndexAction extends Action
 
     public function run()
     {
-        $this->settingsForm = new SettingsForm();
+        $this->profileForm = new ProfileForm();
         $request = \Yii::$app->request;
         $user = Users::findOne($this->user->id);
 
-        if (!$this->settingsForm->load($request->post())) {
-            $this->settingsForm->loadCurrentUserData($user);
+        if (!$this->profileForm->load($request->post())) {
+            $this->profileForm->loadCurrentUserData($user);
         }
-        if ($this->settingsForm->load($request->post())) {
+        if ($this->profileForm->load($request->post())) {
             if ($request->isAjax) {
                 \Yii::$app->response->format = Response::FORMAT_JSON;
 
-                return ActiveForm::validate($this->settingsForm);
+                return ActiveForm::validate($this->profileForm);
             }
-            if ($this->settingsForm->saveProfileData($user)) {
+            if ($this->profileForm->validate()) {
+                $this->profileForm->saveProfileData($user);
                 $this->uploadFile($user);
 
                 return $this->controller->redirect(['users/view', 'id' => $user->id]);
@@ -53,10 +54,10 @@ class IndexAction extends Action
         }
 
         return $this->controller->render(
-            '/settings/index',
+            '/profile/index',
             [
                 'user' => $user,
-                'settingsForm' => $this->settingsForm,
+                'profileForm' => $this->profileForm,
             ]
         );
     }
@@ -65,14 +66,14 @@ class IndexAction extends Action
     {
         $request = Yii::$app->request;
 
-        if ($this->settingsForm->load($request->post())) {
-            $this->settingsForm->portfolio_photo = UploadedFile::getInstances($this->settingsForm, 'portfolio_photo');
+        if ($this->profileForm->load($request->post())) {
+            $this->profileForm->portfolio_photo = UploadedFile::getInstances($this->profileForm, 'portfolio_photo');
 
-            if (!empty($this->settingsForm->portfolio_photo) && $this->settingsForm->upload()) {
+            if (!empty($this->profileForm->portfolio_photo) && $this->profileForm->upload()) {
                 PortfolioPhoto::deleteAll(['user_id' => $user->id]);
                 $files = array();
 
-                foreach ($this->settingsForm->portfolio_photo as $fileItem) {
+                foreach ($this->profileForm->portfolio_photo as $fileItem) {
                     $files[] = [$fileItem, $user->id];
                 }
 

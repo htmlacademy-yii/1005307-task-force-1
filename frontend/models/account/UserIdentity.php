@@ -8,6 +8,8 @@ use yii\web\IdentityInterface;
 
 class UserIdentity extends ActiveRecord implements IdentityInterface
 {
+    private $_id;
+    private $email;
 
     public static function tableName(): string
     {
@@ -42,5 +44,20 @@ class UserIdentity extends ActiveRecord implements IdentityInterface
     public function validatePassword($password): bool
     {
         return \Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    private $_model = null;
+    //private $email;
+    private function getModel()
+    {
+        if (!$this->isGuest && $this->_model === NULL) {
+            $this->_model = Client::model()->findByPk($this->id, array('select'=>array('email')));
+        }
+        return $this->_model;
     }
 }
