@@ -239,9 +239,9 @@ JS;
                     <?= $form->field($profileForm, 'optionSet', [
                         'template' => "{input}"
                     ])->checkboxList([
-                        'is_subscribed_messages' => 'Новое сообщение',
-                        'is_subscribed_actions' => 'Действия по заданию',
-                        'is_subscribed_reviews' => 'Новый отзыв',
+                        'messages' => 'Новое сообщение',
+                        'executor' => 'Действия по заданию',
+                        'close' => 'Новый отзыв',
                         'is_hidden_contacts' => 'Показывать мои контакты только заказчику',
                         'is_hidden_account' => 'Не показывать мой профиль',
                     ],

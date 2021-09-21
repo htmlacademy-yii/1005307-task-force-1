@@ -167,11 +167,14 @@ AppAsset::register($this);
                     </select>
                 </div>
                 <?php $notifications = new Notifications();
-                $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id) ?>
+
+
+            $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id)
+             //   var_dump($user_notifications->prepare(\Yii::$app->db->queryBuilder)->createCommand()->rawSql()); ?>
                 <div style="position: relative">
                     <div
-                        class="header__lightbulb <?php if (Notifications::getVisibleNoticesByUser(Yii::$app->user->id)): ?>active<?php endif ?>"></div>
-                    <div class="lightbulb__pop-up" style="left: -100%; top: 58px">
+                        class="header__lightbulb" <?php if ($user_notifications): ?>style="background-image: url('/img/lightbulb-white.png')" <?php endif ?>></div>
+                    <div class="lightbulb__pop-up" style="left: -100%; top: 58px; display: block">
                         <h3>Новые события</h3>
                         <?php foreach ($user_notifications as $notice): ?>
                             <p class="lightbulb__new-task lightbulb__new-task--<?= $notice['notificationsCategory']['type'] ?>">
@@ -183,7 +186,6 @@ AppAsset::register($this);
                         <?php endforeach; ?>
                     </div>
                 </div>
-
                 <div class="header__account">
                     <a class="header__account-photo">
                         <?= $user['avatar']

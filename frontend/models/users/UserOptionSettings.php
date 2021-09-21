@@ -32,8 +32,8 @@ class UserOptionSettings extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['user_id', 'is_hidden_contacts', 'is_hidden_account', 'is_subscribed_messages', 'is_subscribed_actions', 'is_subscribed_reviews'], 'required'],
-            [['user_id', 'is_hidden_contacts', 'is_hidden_account', 'is_subscribed_messages', 'is_subscribed_actions', 'is_subscribed_reviews'], 'integer'],
+            [['user_id', 'is_hidden_contacts', 'is_hidden_account', 'is_subscribed_messages', 'is_subscribed_reviews', 'close'], 'required'],
+            [['user_id', 'is_hidden_contacts', 'is_hidden_account', 'is_subscribed_messages', 'is_subscribed_reviews', 'close'], 'integer'],
             [['user_id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -48,9 +48,9 @@ class UserOptionSettings extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'is_hidden_contacts' => 'Is Hidden Contacts',
             'is_hidden_account' => 'Is Hidden Account',
-            'is_subscribed_messages' => 'Is Subscribed Messages',
-            'is_subscribed_actions' => 'Is Subscribed Actions',
-            'is_subscribed_reviews' => 'Is Subscribed Reviews',
+            'is_subscribed_messages' => 'Messages',
+            'is_subscribed_actions' => 'Executor',
+            'is_subscribed_reviews' => 'Close',
         ];
     }
 

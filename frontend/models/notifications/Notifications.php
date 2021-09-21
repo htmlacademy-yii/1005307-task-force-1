@@ -3,10 +3,8 @@ declare(strict_types = 1);
 
 namespace frontend\models\notifications;
 
-use frontend\models\{
-    tasks\Tasks,
-    users\Users
-};
+use common\fixtures\UserCategoryFixture;
+use frontend\models\{tasks\Tasks, users\UserOptionSettings, users\Users};
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -71,22 +69,37 @@ class Notifications extends ActiveRecord
         return $this->hasOne(NotificationsCategories::class, ['id' => 'notification_category_id']);
     }
 
+    public function getUserOptionSet(): ActiveQuery
+    {
+        return $this->hasOne(UserOptionSettings::class, ['user_id' => 'user_id']);
+    }
+
     public static function find(): NotificationsQuery
     {
         return new NotificationsQuery(get_called_class());
     }
 
-    public function getNotifications($user_id): NotificationsQuery
-    {
-        return self::find()->where(['user_id' => $user_id]);
-    }
-
     public static function getVisibleNoticesByUser($id): array
     {
-        return self::find()
+        $user_option = UserOptionSettings::findOne(['user_id' => $id]);
+        $query = self::find()
             ->where([
-                'visible' => 0,
+                'visible' => 1,
                 'user_id' => $id
-            ])->all();
+            ]);
+
+        if ($user_option->is_subscribed_actions == 0) {
+            $query->andWhere(['!=', 'notification_category_id', 1])->andWhere(['!=', 'notification_category_id', 3])->andWhere(['!=', 'notification_category_id', 4]);
+        }
+
+        if ($user_option->is_subscribed_messages == 0) {
+            $query->andWhere(['!=', 'notification_category_id', 2]);
+        }
+
+        if ($user_option->is_subscribed_reviews == 0) {
+            $query->andWhere(['!=', 'notification_category_id', 5]);
+        }
+
+        return $query->all();
     }
 }
