@@ -24,7 +24,6 @@ class m210502_170010_create_bd extends Migration
             'latitude' => $this->string(255)->notNull(),
             'longitude' => $this->string(255)->notNull()
         ]);
-
         $this->createTable('users', [
             'id' => $this->primaryKey(),
             'email' => $this->string(255)->notNull()->unique(),
@@ -82,7 +81,7 @@ class m210502_170010_create_bd extends Migration
             'user_id' => $this->integer(11)->notNull(),
             'is_subscribed_messages' => $this->integer(1)->notNull(),
             'is_subscribed_actions' => $this->integer(1)->notNull(),
-            'is_subscribed_opinions' => $this->integer(1)->notNull(),
+            'is_subscribed_reviews' => $this->integer(1)->notNull(),
             'is_hidden_contacts' => $this->integer(1)->notNull(),
             'is_hidden_account' => $this->integer(1)->notNull()
         ]);
@@ -225,13 +224,16 @@ class m210502_170010_create_bd extends Migration
             'id',
             'CASCADE'
         );
-
+        $this->createTable('notifications_categories', [
+            'id' => $this->primaryKey(),
+            'name' => $this->string(255)->notNull()->unique(),
+            'type' => $this->string(255)->notNull(),
+        ]);
         $this->createTable('notifications', [
             'id' => $this->primaryKey(),
-            'title' => $this->string(255)->notNull(),
-            'is_view' => $this->integer(1)->notNull(),
+            'notification_category_id' => $this->integer(11)->notNull(),
+            'visible' => $this->integer(1)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'type' => $this->string(255)->notNull(),
             'user_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);
@@ -241,6 +243,15 @@ class m210502_170010_create_bd extends Migration
             'notifications',
             'user_id',
             'users',
+            'id',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            'notification_category_id',
+            'notifications',
+            'notification_category_id',
+            'notifications_categories',
             'id',
             'CASCADE'
         );

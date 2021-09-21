@@ -9,6 +9,7 @@ use frontend\assets\AppAsset;
 use yii\helpers\Url;
 use yii\widgets\Menu;
 use frontend\models\cities\Cities;
+use frontend\models\notifications\Notifications;
 
 use frontend\models\{
     responses\ResponseForm,
@@ -17,6 +18,7 @@ use frontend\models\{
 };
 
 AppAsset::register($this);
+$this->registerJsFile('/js/lightbulb.js');
 $user = \Yii::$app->user->getIdentity();
 
 AppAsset::register($this);
@@ -72,7 +74,12 @@ AppAsset::register($this);
             }
         </script>
     <?php endif; ?>
-
+    <script>
+        var lightbulb = document.getElementsByClassName('header__lightbulb')[0];
+        lightbulb.addEventListener('mouseover', function () {
+            fetch('/index.php?r=event/index');
+        });
+    </script>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -159,21 +166,18 @@ AppAsset::register($this);
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="header__lightbulb"></div>
+            <?php $notifications = new Notifications();
+            $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id) ?>
+                <div class="header__lightbulb <?php if (Notifications::getVisibleNoticesByUser(Yii::$app->user->id)): ?>active<?php endif ?>"></div>
                 <div class="lightbulb__pop-up">
                     <h3>Новые события</h3>
-                    <p class="lightbulb__new-task lightbulb__new-task--message">
-                        Новое сообщение в чате
-                        <a href="#" class="link-regular">«Помочь с курсовой»</a>
-                    </p>
-                    <p class="lightbulb__new-task lightbulb__new-task--executor">
-                        Выбран исполнитель для
-                        <a href="#" class="link-regular">«Помочь с курсовой»</a>
-                    </p>
-                    <p class="lightbulb__new-task lightbulb__new-task--close">
-                        Завершено задание
-                        <a href="#" class="link-regular">«Помочь с курсовой»</a>
-                    </p>
+                    <?php foreach ($user_notifications as $notice): ?>
+                        <p class="lightbulb__new-task lightbulb__new-task--<?= $notice['notificationsCategory']['type'] ?>">
+                        <span class="label label-primary"
+                              style="display: block; margin-bottom: 2px; padding-top: 3px"><?= Html::encode($notice['notificationsCategory']['name']) ?></span>
+                            <a href="<?= Url::to(['tasks/view', 'id' => $notice['task']['id']]) ?>" class="link-regular">«<?= $notice['task']['name'] ?>»</a>
+                        </p>
+                    <?php endforeach; ?>
                 </div>
                 <div class="header__account">
                     <a class="header__account-photo">

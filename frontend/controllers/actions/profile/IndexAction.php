@@ -89,5 +89,4 @@ class IndexAction extends Action
             return;
         }
     }
-
 }
