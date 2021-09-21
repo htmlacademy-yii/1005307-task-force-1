@@ -50,8 +50,8 @@ class IndexAction extends Action
 
         if ($this->profileForm->load($request->post())) {
             if ($this->profileForm->validate() && $this->portfolioPhotoForm->validate()) {
-                $this->profileForm->saveProfileData($user);
                 $this->profileForm->avatar = UploadedFile::getInstance($this->profileForm, 'avatar');
+                $this->profileForm->saveProfileData($user);
                 $this->uploadFile($user);
 
                 return $this->controller->redirect(['users/view', 'id' => $user->id]);

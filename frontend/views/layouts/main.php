@@ -166,19 +166,24 @@ AppAsset::register($this);
                         <?php endforeach; ?>
                     </select>
                 </div>
-            <?php $notifications = new Notifications();
-            $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id) ?>
-                <div class="header__lightbulb <?php if (Notifications::getVisibleNoticesByUser(Yii::$app->user->id)): ?>active<?php endif ?>"></div>
-                <div class="lightbulb__pop-up">
-                    <h3>Новые события</h3>
-                    <?php foreach ($user_notifications as $notice): ?>
-                        <p class="lightbulb__new-task lightbulb__new-task--<?= $notice['notificationsCategory']['type'] ?>">
+                <?php $notifications = new Notifications();
+                $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id) ?>
+                <div style="position: relative">
+                    <div
+                        class="header__lightbulb <?php if (Notifications::getVisibleNoticesByUser(Yii::$app->user->id)): ?>active<?php endif ?>"></div>
+                    <div class="lightbulb__pop-up" style="left: -100%; top: 58px">
+                        <h3>Новые события</h3>
+                        <?php foreach ($user_notifications as $notice): ?>
+                            <p class="lightbulb__new-task lightbulb__new-task--<?= $notice['notificationsCategory']['type'] ?>">
                         <span class="label label-primary"
                               style="display: block; margin-bottom: 2px; padding-top: 3px"><?= Html::encode($notice['notificationsCategory']['name']) ?></span>
-                            <a href="<?= Url::to(['tasks/view', 'id' => $notice['task']['id']]) ?>" class="link-regular">«<?= $notice['task']['name'] ?>»</a>
-                        </p>
-                    <?php endforeach; ?>
+                                <a href="<?= Url::to(['tasks/view', 'id' => $notice['task']['id']]) ?>"
+                                   class="link-regular">«<?= $notice['task']['name'] ?>»</a>
+                            </p>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
+
                 <div class="header__account">
                     <a class="header__account-photo">
                         <?= $user['avatar']
@@ -187,8 +192,8 @@ AppAsset::register($this);
                         ?>
                     </a>
                     <span class="header__account-name">
-                        <?= $user['name'] ?>
-                    </span>
+               <?= $user['name'] ?>
+             </span>
                 </div>
                 <div class="account__pop-up">
                     <ul class="account__pop-up-list">
