@@ -12,7 +12,7 @@ class IndexAction extends BaseAction
     public function run(): string
     {
         $searchForm = new TaskSearchForm;
-        $dataProvider = $searchForm->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchForm->search(Yii::$app->request->queryParams, $this->user);
 
         return $this->controller->render('index', [
             'dataProvider' => $dataProvider,

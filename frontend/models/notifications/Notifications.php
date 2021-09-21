@@ -89,7 +89,9 @@ class Notifications extends ActiveRecord
             ]);
 
         if ($user_option->is_subscribed_actions == 0) {
-            $query->andWhere(['!=', 'notification_category_id', 1])->andWhere(['!=', 'notification_category_id', 3])->andWhere(['!=', 'notification_category_id', 4]);
+            $query->andWhere(['!=', 'notification_category_id', 1])
+                ->andWhere(['!=', 'notification_category_id', 3])
+                ->andWhere(['!=', 'notification_category_id', 4]);
         }
 
         if ($user_option->is_subscribed_messages == 0) {

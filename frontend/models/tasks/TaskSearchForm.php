@@ -52,7 +52,7 @@ class TaskSearchForm extends Tasks
             ->asArray();
     }
 
-    public function search($params): ActiveDataProvider
+    public function search($params, $user): ActiveDataProvider
     {
         $query = Tasks::find();
 
@@ -63,7 +63,9 @@ class TaskSearchForm extends Tasks
             ],
         ]);
         $this->load($params);
-        $this->getTasks($query);
+        $this->getTasks($query
+            ->andWhere(['city_id' => $user->city_id])
+            ->orWhere(['city_id' => null]));
 
         if (!$this->validate()) {
             return $dataProvider;
@@ -92,7 +94,7 @@ class TaskSearchForm extends Tasks
         return $dataProvider;
     }
 
-    public function searchByCategories($category): ActiveDataProvider
+    public function searchByCategories($category, $user): ActiveDataProvider
     {
         $query = Tasks::find();
 
@@ -103,7 +105,7 @@ class TaskSearchForm extends Tasks
             ],
         ]);
 
-        $this->getTasks($query);
+        $this->getTasks($query->andWhere(['city_id' => $user->city_id]));
         $query->andWhere(['category_id' => $category]);
 
         return $dataProvider;
