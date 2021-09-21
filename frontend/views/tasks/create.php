@@ -86,7 +86,7 @@ $categories = $createTaskForm->getCategories();
             <div class="create__file" style="position: relative">
                 <span>Добавить новый файл</span>
                 <label for="file_task" style="position: absolute; width: 100%; height: 100%;">
-                    <?= $form->field($fileUploadForm, 'file_item[]', [
+                    <?= $form->field($fileTaskForm, 'file_item[]', [
                         'inputOptions' => [
                             'class' => 'create__file',
                             'style' => 'display: none',

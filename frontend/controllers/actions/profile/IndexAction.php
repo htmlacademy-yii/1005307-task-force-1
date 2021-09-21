@@ -5,21 +5,19 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\profile;
 
 use frontend\models\account\ProfileForm;
-use frontend\models\opinions\Opinions;
-use frontend\models\tasks\Tasks;
+use frontend\models\account\PortfolioPhotoForm;
 use frontend\models\users\PortfolioPhoto;
 use frontend\models\users\Users;
-use yii\base\Action;
-use yii\base\BaseObject;
-use yii\web\Response;
-use yii\widgets\ActiveForm;
 use yii;
+use yii\base\Action;
+use yii\web\Response;
 use yii\web\UploadedFile;
+use yii\widgets\ActiveForm;
 
 class IndexAction extends Action
 {
     public $profileForm;
-
+    public $portfolioPhotoForm;
     public $user;
 
     public function init()
@@ -33,6 +31,7 @@ class IndexAction extends Action
     public function run()
     {
         $this->profileForm = new ProfileForm();
+        $this->portfolioPhotoForm = new PortfolioPhotoForm();
         $request = \Yii::$app->request;
         $user = Users::findOne($this->user->id);
 
@@ -40,27 +39,32 @@ class IndexAction extends Action
             $this->profileForm->loadCurrentUserData($user);
         }
 
-        if ($request->isAjax && $this->profileForm->load($request->post())) {
+        if ($request->isAjax && $this->profileForm->load($request->post()) && $this->portfolioPhotoForm->load($request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             Yii::$app->end();
 
-            return ActiveForm::validate($this->profileForm);
+            return ActiveForm::validateMultiple([$this->profileForm, $this->portfolioPhotoForm]);
         }
 
+        $this->portfolioPhotoForm->photo = UploadedFile::getInstances($this->portfolioPhotoForm, 'photo');
+
         if ($this->profileForm->load($request->post())) {
-            if ($this->profileForm->validate()) {
+            if ($this->profileForm->validate() && $this->portfolioPhotoForm->validate()) {
                 $this->profileForm->saveProfileData($user);
+                $this->profileForm->avatar = UploadedFile::getInstance($this->profileForm, 'avatar');
                 $this->uploadFile($user);
 
                 return $this->controller->redirect(['users/view', 'id' => $user->id]);
             }
         }
+        //}
 
         return $this->controller->render(
             '/profile/index',
             [
                 'user' => $user,
                 'profileForm' => $this->profileForm,
+                'portfolioPhotoForm' => $this->portfolioPhotoForm
             ]
         );
     }
@@ -68,25 +72,22 @@ class IndexAction extends Action
     private function uploadFile($user): void
     {
         $request = Yii::$app->request;
+        if ($this->portfolioPhotoForm->load($request->post())) {
+            $this->portfolioPhotoForm->photo = UploadedFile::getInstances($this->portfolioPhotoForm, 'photo');
+            PortfolioPhoto::deleteAll(['user_id' => $user->id]);
+            $files = array();
 
-        if ($this->profileForm->load($request->post())) {
-            $this->profileForm->portfolio_photo = UploadedFile::getInstances($this->profileForm, 'portfolio_photo');
-
-            if (!empty($this->profileForm->portfolio_photo) && $this->profileForm->upload()) {
-                PortfolioPhoto::deleteAll(['user_id' => $user->id]);
-                $files = array();
-
-                foreach ($this->profileForm->portfolio_photo as $fileItem) {
-                    $files[] = [$fileItem, $user->id];
-                }
-
-                Yii::$app->db->createCommand()
-                    ->batchInsert('portfolio_photo',
-                        ['photo', 'user_id'],
-                        $files)
-                    ->execute();
-                return;
+            foreach ($this->portfolioPhotoForm->photo as $fileItem) {
+                $files[] = [$fileItem, $user->id];
             }
+
+            Yii::$app->db->createCommand()
+                ->batchInsert('portfolio_photo',
+                    ['photo', 'user_id'],
+                    $files)
+                ->execute();
+            return;
         }
     }
+
 }

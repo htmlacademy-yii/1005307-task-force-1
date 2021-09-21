@@ -5,14 +5,12 @@ namespace frontend\models\account;
 
 use frontend\models\categories\Categories;
 use frontend\models\cities\Cities;
-use yii\base\Model;
-use frontend\models\users\Users;
-use yii\helpers\ArrayHelper;
-use yii\web\UploadedFile;
 use frontend\models\users\UserCategory;
 use frontend\models\users\UserOptionSettings;
-use frontend\models\users\PortfolioPhoto;
+use frontend\models\users\Users;
 use Yii;
+use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 class ProfileForm extends Model
 {
@@ -30,7 +28,6 @@ class ProfileForm extends Model
     public $city_id;
     public $specializations;
     public $optionSet;
-    public $portfolio_photo;
     private $cities;
     private $existingSpecializations;
 
@@ -63,13 +60,14 @@ class ProfileForm extends Model
             'city_id' => 'Город',
             'bd' => 'День рождения',
             'about' => 'Информация о себе',
-            'portfolio_photo' => 'Выбрать фотографии',
         ];
     }
 
     public function rules(): array
     {
         return [
+            [['avatar'], 'image', 'extensions' => 'jpeg, png, jpg', 'message' => 'Загружаемый файл должен быть изображением'],
+            ['bd', 'date', 'format' => 'yyyy*MM*dd', 'message' => 'Необходимый формат «гггг.мм.дд»'],
             [['email'], 'required', 'message' => "Это поле необходимо заполнить"],
             [['email'], 'email', 'message' => "Введите корректный email"],
             ['email', 'unique', 'targetAttribute' => 'email', 'targetClass' => Users::class,
@@ -77,10 +75,11 @@ class ProfileForm extends Model
                 'when' => function () {
                     return $this->email !== Yii::$app->user->identity->email;
                 }],
-            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Должен быть равным паролю из поля «НОВЫЙ ПАРОЛЬ»'],
-            ['password', 'compare', 'message' => 'Должен быть равным паролю из поля «ПОВТОР ПАРОЛЯ»'],
-            [['avatar','email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'phone', 'skype', 'telegram', 'specializations', 'optionSet', 'portfolio_photo'], 'safe'],
-
+            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Должен совпадать с паролем из поля «НОВЫЙ ПАРОЛЬ»'],
+            ['password', 'compare', 'message' => 'Должен совпадать с паролем из поля «ПОВТОР ПАРОЛЯ»'],
+            ['phone', 'match', 'pattern' => "/^\d{11}$/", 'message' => 'Введите 11-значное число'],
+            [['skype', 'telegram'], 'match', 'pattern' => "/^[a-zA-Z0-9]{3,}$/", 'message' => 'Значение должно состоять из латинских символов и цифр, от 3-х знаков в длину'],
+            [['avatar', 'email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'phone', 'skype', 'telegram', 'specializations', 'optionSet'], 'safe'],
         ];
     }
 
@@ -119,7 +118,6 @@ class ProfileForm extends Model
         $user->setAttributes($this->attributes);
         $attributesToBeSaved = [];
 
-
         if (isset($this->password)) {
             $user->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
             $user->save(false, ['password']);
@@ -136,16 +134,8 @@ class ProfileForm extends Model
 
     private function saveAvatar(): void
     {
-        $this->avatar = UploadedFile::getInstance($this, 'avatar');
-
         if (!empty($this->avatar)) {
-
-            if (!$this->validate()) {
-                $errors = $this->getErrors();
-            }
-            if ($this->validate()) {
-                $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
-            }
+            $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
         }
     }
 
@@ -200,23 +190,5 @@ class ProfileForm extends Model
         }
 
         $optionSet->save(false);
-    }
-
-    public function upload(): bool
-    {
-        if (!empty($this->portfolio_photo)) {
-
-            if (!$this->validate()) {
-                $errors = $this->getErrors();
-            }
-            if ($this->validate()) {
-                foreach ($this->portfolio_photo as $file) {
-                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
-                }
-            }
-            return true;
-        }
-
-        return false;
     }
 }

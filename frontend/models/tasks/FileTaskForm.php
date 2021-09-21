@@ -5,7 +5,7 @@ namespace frontend\models\tasks;
 
 use yii\base\Model;
 
-class FileUploadForm extends Model
+class FileTaskForm extends Model
 {
     public $file_item;
     public $task_id;
@@ -14,8 +14,7 @@ class FileUploadForm extends Model
     {
         return [
             [['file_item'], 'file',
-                'skipOnEmpty' => true,
-                'maxFiles' => 5],
+                'skipOnEmpty' => true],
             [['task_id', 'file_item'], 'safe']
         ];
     }

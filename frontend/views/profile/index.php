@@ -167,12 +167,11 @@ $specializations = $profileForm->getExistingSpecializations();
                         <?php foreach ($user->portfolioPhotos as $photo): ?>
                             <a><?= Html::img(Yii::$app->request->baseUrl . '/img/' . $photo->photo, ['width' => '65', 'height' => '65']) ?> </a>
                         <?php endforeach; ?>
-                        <?= $form->field($profileForm, 'portfolio_photo[]', [
+                        <?= $form->field($portfolioPhotoForm, 'photo[]', [
                             'inputOptions' => [
                                 'class' => 'create__file',
                                 'style' => 'display: none',
-                                'multiple' => true,
-                                'id' => 'file_task',
+                                'id' => 'portfolio_photo',
 
                                 'widgetClientOptions' => [
                                     'buttonsHide' => ['image', 'file'],
@@ -186,7 +185,7 @@ $specializations = $profileForm->getExistingSpecializations();
                 </div>
                 <?php $js = <<<JS
                     const fileSpan = document.querySelector('.dropzone label');
-                    file_task.addEventListener('change', (event) => {
+                    portfolio_photo.addEventListener('change', (event) => {
                         const fileList = event.target.files;
                         if (fileList.length === 1) {
                             fileSpan.textContent = 'Загружен ' + fileList.length + ' файл';

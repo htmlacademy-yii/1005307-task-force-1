@@ -25,7 +25,7 @@ class IndexAction extends Action
             return ActiveForm::validate($signForm);
         }
 
-        if ($signForm->load($request->post())) {
+        if ($signForm->load($request->post()) && $signForm->validate()) {
             $user = new Users(['attributes' => $signForm->attributes]);
             $user->password = Yii::$app->security->generatePasswordHash($signForm->password);
             $user->save(false);
