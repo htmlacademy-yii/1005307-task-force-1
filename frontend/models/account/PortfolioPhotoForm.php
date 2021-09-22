@@ -29,21 +29,12 @@ class PortfolioPhotoForm extends Model
         ];
     }
 
-    public function upload(): bool
+    public function upload()
     {
         if (!empty($this->photo)) {
-
-            if (!$this->validate()) {
-                $errors = $this->getErrors();
+            foreach ($this->photo as $file) {
+                $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
             }
-            if ($this->validate()) {
-                foreach ($this->photo as $file) {
-                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
-                }
-            }
-            return true;
         }
-
-        return false;
     }
 }

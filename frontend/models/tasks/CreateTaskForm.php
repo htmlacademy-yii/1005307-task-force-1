@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
@@ -26,11 +26,13 @@ class CreateTaskForm extends Model
     public $client_id;
     public $category_id;
     public $status_task;
+    public $file_item;
     public $address;
     public $latitude;
     public $longitude;
     public $city_id;
     private $cities;
+    public $task_id;
 
     public function getCities(): array
     {
@@ -55,16 +57,18 @@ class CreateTaskForm extends Model
                 'message' => 'Кратко опишите суть работы'],
             [['name', 'description'], 'trim'],
             ['name', 'match',
-                'pattern' => "/(?=(.*[^ ]{10,}))/",
+                'pattern' => "/(?=(.*[^ ]{2,}))/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
-            ['description', 'required'
-                , 'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
-            ['description', 'string', 'min' => 30],
+            ['description', 'required',
+                'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
+            ['description', 'string', 'min' => 2],
             ['description', 'match',
                 'pattern' => "/(?=(.*[^ ]))/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 30 не пробельных символов'
             ],
+            [['file_item'], 'file',
+                'skipOnEmpty' => true],
             ['budget', 'integer',
                 'min' => 1,
                 'message' => 'Значение должно быть целым положительным числом',
@@ -79,17 +83,19 @@ class CreateTaskForm extends Model
             ['expire', 'date',
                 'format' => 'yyyy*MM*dd',
                 'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address'], 'safe']
+            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address', 'file_item', 'task_id'], 'safe']
         ];
     }
 
-    public function validateCat() {
+    public function validateCat()
+    {
         if ($this->category_id == 0) {
             $this->addError('category_id', 'Выберите категорию');
         }
     }
 
-    public function validateDate() {
+    public function validateDate()
+    {
         $currentDate = date('Y-m-d H:i:s');
 
         if ($currentDate > $this->expire) {
@@ -129,7 +135,8 @@ class CreateTaskForm extends Model
         return $responseData;
     }
 
-    public function getCoordinates($address) {
+    public function getCoordinates($address)
+    {
         $coordinates = null;
         $responseData = $this->getGeoData($address);
 
@@ -138,6 +145,24 @@ class CreateTaskForm extends Model
         }
 
         return $coordinates;
+    }
+
+    public function upload(): bool
+    {
+        if (!empty($this->file_item)) {
+
+            if (!$this->validate()) {
+                $errors = $this->getErrors();
+            }
+            if ($this->validate()) {
+                foreach ($this->file_item as $file) {
+                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+                }
+            }
+            return true;
+        }
+
+        return false;
     }
 
     public function attributeLabels(): array
