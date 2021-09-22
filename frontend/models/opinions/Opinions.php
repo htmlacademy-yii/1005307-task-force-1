@@ -43,9 +43,18 @@ class Opinions extends ActiveRecord
             [['completion'], 'string'],
             [['rate'], 'number'],
             [['doer_id', 'client_id', 'task_id'], 'integer'],
-            [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['doer_id' => 'id']],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
-            [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['client_id' => 'id']],
+            [['doer_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['doer_id' => 'id']],
+            [['task_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Tasks::class,
+                'targetAttribute' => ['task_id' => 'id']],
+            [['client_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['client_id' => 'id']],
         ];
     }
 

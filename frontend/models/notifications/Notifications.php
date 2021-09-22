@@ -36,9 +36,18 @@ class Notifications extends ActiveRecord
             [['visible', 'notification_category_id', 'user_id', 'task_id'], 'required'],
             [['visible', 'notification_category_id', 'user_id', 'task_id'], 'integer'],
             [['dt_add'], 'safe'],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
-            [['notification_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => NotificationsCategories::class, 'targetAttribute' => ['notification_category_id' => 'id']],
+            [['task_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Tasks::class,
+                'targetAttribute' => ['task_id' => 'id']],
+            [['user_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['user_id' => 'id']],
+            [['notification_category_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => NotificationsCategories::class,
+                'targetAttribute' => ['notification_category_id' => 'id']],
         ];
     }
 

@@ -69,7 +69,10 @@ class Users extends ActiveRecord
             [['email', 'name', 'password', 'user_role', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['name'], 'unique'],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::class, 'targetAttribute' => ['city_id' => 'id']],
+            [['city_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Cities::class,
+                'targetAttribute' => ['city_id' => 'id']],
         ];
     }
 

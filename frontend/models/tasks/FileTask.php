@@ -29,7 +29,10 @@ class FileTask extends ActiveRecord
             [['file_item', 'task_id'], 'required'],
             [['task_id'], 'integer'],
             [['file_item'], 'string', 'max' => 255],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
+            [['task_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Tasks::class,
+                'targetAttribute' => ['task_id' => 'id']],
         ];
     }
 

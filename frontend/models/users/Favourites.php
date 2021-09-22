@@ -31,8 +31,14 @@ class Favourites extends ActiveRecord
             [['dt_add'], 'safe'],
             [['user_id', 'favourite_person_id'], 'required'],
             [['user_id', 'favourite_person_id'], 'integer'],
-            [['favourite_person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['favourite_person_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['favourite_person_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['favourite_person_id' => 'id']],
+            [['user_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 

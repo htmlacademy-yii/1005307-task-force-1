@@ -47,22 +47,34 @@ class CreateTaskForm extends Model
     {
         return [
             ['client_id', 'required'],
-            ['name', 'required', 'message' => 'Кратко опишите суть работы'],
+            ['name', 'required',
+                'message' => 'Кратко опишите суть работы'],
             [['name', 'description'], 'trim'],
-            ['name', 'match', 'pattern' => "/(?=(.*[^ ]{10,}))/",
+            ['name', 'match',
+                'pattern' => "/(?=(.*[^ ]{10,}))/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
-            ['description', 'required', 'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
+            ['description', 'required'
+                , 'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
             ['description', 'string', 'min' => 30],
-            ['description', 'match', 'pattern' => "/(?=(.*[^ ]))/",
+            ['description', 'match',
+                'pattern' => "/(?=(.*[^ ]))/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 30 не пробельных символов'
             ],
-            ['budget', 'integer', 'min' => 1,
+            ['budget', 'integer',
+                'min' => 1,
                 'message' => 'Значение должно быть целым положительным числом',
             ],
+            [['category_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Categories::class,
+                'targetAttribute' => ['category_id' => 'id'],
+                'message' => "Выбрана несуществующая категория"],
             ['category_id', 'validateCat'],
             ['expire', 'validateDate'],
-            ['expire', 'date', 'format' => 'yyyy*MM*dd', 'message' => 'Необходимый формат «гггг.мм.дд»'],
+            ['expire', 'date',
+                'format' => 'yyyy*MM*dd',
+                'message' => 'Необходимый формат «гггг.мм.дд»'],
             [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address'], 'safe']
         ];
     }
@@ -96,6 +108,7 @@ class CreateTaskForm extends Model
         if ($response->getStatusCode() !== 200) {
             throw new BadResponseException("Ошибка ответа: " . $response->getReasonPhrase(), $request, $response);
         }
+
         $jsonResponseData = $response->getBody()->getContents();
         $responseData = json_decode($jsonResponseData, true);
 

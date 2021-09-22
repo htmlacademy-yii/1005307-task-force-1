@@ -41,8 +41,14 @@ class Responses extends ActiveRecord
             [['comment'], 'string'],
             [['budget', 'comment', 'doer_id', 'task_id', 'is_refused'], 'required'],
             [['doer_id', 'task_id'], 'integer'],
-            [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['doer_id' => 'id']],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
+            [['doer_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['doer_id' => 'id']],
+            [['task_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Tasks::class,
+                'targetAttribute' => ['task_id' => 'id']],
         ];
     }
 

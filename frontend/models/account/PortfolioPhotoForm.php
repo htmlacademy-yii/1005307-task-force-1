@@ -15,7 +15,9 @@ class PortfolioPhotoForm extends Model
     public function rules(): array
     {
         return [
-            [['photo'], 'file', 'extensions' => "jpeg, png, jpg", 'maxFiles' => 6,
+            [['photo'], 'file',
+                'extensions' => "jpeg, png, jpg",
+                'maxFiles' => 6,
                 'message' => 'Загружаемый файл должен быть изображением в формате jpeg, png'],
             [['user_id', 'photo'], 'safe']
         ];

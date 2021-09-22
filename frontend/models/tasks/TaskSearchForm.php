@@ -105,7 +105,9 @@ class TaskSearchForm extends Tasks
             ],
         ]);
 
-        $this->getTasks($query->andWhere(['city_id' => $user->city_id]));
+        $this->getTasks($query
+            ->andWhere(['city_id' => $user->city_id])
+            ->orWhere(['city_id' => null]));
         $query->andWhere(['category_id' => $category]);
 
         return $dataProvider;
