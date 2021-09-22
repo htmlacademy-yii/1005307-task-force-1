@@ -167,7 +167,7 @@ $specializations = $profileForm->getExistingSpecializations();
                         <?php foreach ($user->portfolioPhotos as $photo): ?>
                             <a><?= Html::img(Yii::$app->request->baseUrl . '/img/' . $photo->photo, ['width' => '65', 'height' => '65']) ?> </a>
                         <?php endforeach; ?>
-                        <?= $form->field($portfolioPhotoForm, 'photo[]', [
+                        <?= $form->field($profileForm, 'photo[]', [
                             'inputOptions' => [
                                 'class' => 'create__file',
                                 'style' => 'display: none',

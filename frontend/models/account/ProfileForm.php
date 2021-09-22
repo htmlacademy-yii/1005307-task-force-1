@@ -31,6 +31,7 @@ class ProfileForm extends Model
     public $city_id;
     public $specializations;
     public $optionSet;
+    public $photo;
     private $cities;
     private $existingSpecializations;
 
@@ -63,6 +64,7 @@ class ProfileForm extends Model
             'city_id' => 'Город',
             'bd' => 'День рождения',
             'about' => 'Информация о себе',
+            'photo' => 'Выбрать фотографии',
         ];
     }
 
@@ -90,13 +92,17 @@ class ProfileForm extends Model
                 'message' => 'Должен совпадать с паролем из поля «НОВЫЙ ПАРОЛЬ»'],
             ['password', 'compare',
                 'message' => 'Должен совпадать с паролем из поля «ПОВТОР ПАРОЛЯ»'],
+            [['photo'], 'file',
+                'extensions' => "jpeg, png, jpg",
+                'maxFiles' => 6,
+                'message' => 'Загружаемый файл должен быть изображением в формате jpeg, png'],
             ['phone', 'match',
                 'pattern' => "/^\d{11}$/",
                 'message' => 'Введите 11-значное число'],
             [['skype', 'telegram'], 'match',
                 'pattern' => "/^[a-zA-Z0-9]{3,}$/",
                 'message' => 'Значение должно состоять из латинских символов и цифр, от 3-х знаков в длину'],
-            [['avatar', 'email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'phone', 'skype', 'telegram', 'specializations', 'optionSet'], 'safe'],
+            [['avatar', 'email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'phone', 'skype', 'telegram', 'specializations', 'optionSet', 'photo'], 'safe'],
         ];
     }
 
@@ -207,5 +213,16 @@ class ProfileForm extends Model
         }
 
         $optionSet->save(false);
+    }
+
+    public function upload(): bool
+    {
+        if (!empty($this->photo)) {
+            foreach ($this->photo as $file) {
+                $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+            }
+            return true;
+        }
+        return false;
     }
 }
