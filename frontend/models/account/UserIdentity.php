@@ -50,14 +50,4 @@ class UserIdentity extends ActiveRecord implements IdentityInterface
     {
         return $this->email;
     }
-
-    private $_model = null;
-    //private $email;
-    private function getModel()
-    {
-        if (!$this->isGuest && $this->_model === NULL) {
-            $this->_model = Client::model()->findByPk($this->id, array('select'=>array('email')));
-        }
-        return $this->_model;
-    }
 }

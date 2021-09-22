@@ -12,6 +12,7 @@ use frontend\models\{
     responses\Responses,
     tasks\Tasks
 };
+
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -163,12 +164,7 @@ class Users extends ActiveRecord
         return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
-    /**
-     * Gets query for [[UsersOptionalSetting]].
-     *
-     * @return \yii\db\ActiveQuery|UserOptionSettingsQuery
-     */
-    public function getOptionSet()
+    public function getOptionSet(): ActiveQuery
     {
         return $this->hasOne(UserOptionSettings::class, ['user_id' => 'id']);
     }
@@ -183,9 +179,6 @@ class Users extends ActiveRecord
         return self::findOne($id);
     }
 
-    /**
-     * @return Users the loaded model
-     */
     public function findModel(): Users
     {
         return self::findOne(\Yii::$app->user->identity->getId());

@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace frontend\models\responses;
 
-use yii;
 use yii\base\Model;
 
 class ResponseForm extends Model

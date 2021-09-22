@@ -31,7 +31,6 @@ class AddFavouriteAction extends BaseAction
 
         if ($isFavouriteValue) {
             $favourite = Favourites::findOne($id);
-       //     var_dump($this->favourite);
             $favourite->delete();
         }
 

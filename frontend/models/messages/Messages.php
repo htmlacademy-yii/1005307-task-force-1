@@ -8,7 +8,6 @@ use frontend\models\{
     users\Users
 };
 
-use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 

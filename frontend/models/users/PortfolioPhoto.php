@@ -2,7 +2,6 @@
 
 namespace frontend\models\users;
 
-
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 

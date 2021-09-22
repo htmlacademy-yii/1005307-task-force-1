@@ -1,10 +1,12 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\account;
 
-use frontend\models\cities\Cities;
-use frontend\models\users\Users;
+use frontend\models\{
+    cities\Cities,
+    users\Users
+};
 
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -37,7 +39,7 @@ class SignForm extends Model
                 'message' => "Выбрано не валидное значение «{value}» поля «{attribute}»"],
             [['password'], 'string',
                 'min' => 8,
-                'message' =>  "Длина пароля от 8 символов"],
+                'message' => "Длина пароля от 8 символов"],
             [['city_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Cities::class,

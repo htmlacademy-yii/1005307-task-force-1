@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace frontend\models\opinions;
 
-use yii;
 use yii\base\Model;
 
 class RequestForm extends Model
@@ -19,8 +18,10 @@ class RequestForm extends Model
     {
         return [
             [['doer_id', 'client_id', 'task_id'], 'required'],
-            [['completion'], 'required', 'message' => "Сообщите выполнено ли задание"],
-            [['description'], 'required', 'message' => "Напишите ваще мнение о выполнении задания"],
+            [['completion'], 'required',
+                'message' => "Сообщите выполнено ли задание"],
+            [['description'], 'required',
+                'message' => "Напишите ваще мнение о выполнении задания"],
             [['doer_id', 'client_id', 'task_id', 'completion', 'description', 'rate'], 'safe']
         ];
     }

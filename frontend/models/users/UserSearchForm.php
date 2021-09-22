@@ -4,7 +4,6 @@ namespace frontend\models\users;
 
 use frontend\models\categories\Categories;
 
-use yii;
 use yii\data\ActiveDataProvider;
 
 class UserSearchForm extends Users

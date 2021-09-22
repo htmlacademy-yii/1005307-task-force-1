@@ -11,7 +11,6 @@ use frontend\models\{cities\Cities,
     responses\Responses,
     users\Users
 };
-use yii;
 
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;

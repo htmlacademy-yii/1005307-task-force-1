@@ -123,6 +123,7 @@ class TaskSearchForm extends Tasks
                 'pageSize' => 5,
             ],
         ]);
+
         $this->load($params);
 
         $query->with('category')

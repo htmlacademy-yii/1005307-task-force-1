@@ -3,8 +3,12 @@ declare(strict_types = 1);
 
 namespace frontend\models\notifications;
 
-use common\fixtures\UserCategoryFixture;
-use frontend\models\{tasks\Tasks, users\UserOptionSettings, users\Users};
+use frontend\models\{
+    tasks\Tasks,
+    users\UserOptionSettings,
+    users\Users
+};
+
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 

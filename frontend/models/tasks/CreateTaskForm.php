@@ -3,13 +3,17 @@ declare(strict_types = 1);
 
 namespace frontend\models\tasks;
 
-use frontend\models\categories\Categories;
-
-use frontend\models\cities\Cities;
+use frontend\models\{
+    categories\Categories,
+    cities\Cities
+};
 use yii;
 use yii\base\Model;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\{BadResponseException, ServerException};
+use GuzzleHttp\Exception\{
+    BadResponseException,
+    ServerException
+};
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use yii\helpers\ArrayHelper;
 
@@ -115,6 +119,7 @@ class CreateTaskForm extends Model
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new ServerException("Некорректный json-формат", $request, $response);
         }
+
         $error = $responseData['message'] ?? null;
 
         if ($error) {

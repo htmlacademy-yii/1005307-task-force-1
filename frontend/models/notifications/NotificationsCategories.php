@@ -3,11 +3,6 @@ declare(strict_types = 1);
 
 namespace frontend\models\notifications;
 
-use frontend\models\{
-    tasks\Tasks,
-    users\Users
-};
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**

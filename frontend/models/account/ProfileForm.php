@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace frontend\models\account;
 
-use frontend\models\categories\Categories;
-use frontend\models\cities\Cities;
-use frontend\models\users\UserCategory;
-use frontend\models\users\UserOptionSettings;
-use frontend\models\users\Users;
+use frontend\models\{
+    categories\Categories,
+    cities\Cities,
+    users\UserCategory,
+    users\UserOptionSettings,
+    users\Users
+};
+
 use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;

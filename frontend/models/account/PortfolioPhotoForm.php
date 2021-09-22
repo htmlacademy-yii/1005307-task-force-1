@@ -5,8 +5,6 @@ namespace frontend\models\account;
 
 use yii\base\Model;
 
-use yii\web\UploadedFile;
-
 class PortfolioPhotoForm extends Model
 {
     public $photo;
