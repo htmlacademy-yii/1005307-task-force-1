@@ -138,7 +138,7 @@ AppAsset::register($this);
     </footer>
     <?= $this->render('//modals/_login_form', ['model' => new LoginForm]); ?>
 </div>
-<div class="overlay"></div>
+<div class="overlay" style="display: block"></div>
 <script src="js/main.js"></script>
 <?php $this->endBody() ?>
 </body>

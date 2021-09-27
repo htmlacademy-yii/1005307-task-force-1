@@ -2,8 +2,10 @@
 $this->title = 'Публикация нового задания';
 
 use yii\widgets\ActiveForm;
+use frontend\models\users\Users;
 
 $categories = $createTaskForm->getCategories();
+$user = Users::findOne($user->id);
 
 ?>
 
@@ -140,6 +142,7 @@ JS;
                     'id' => 'address',
                     'class' => 'input-navigation input-middle input',
                     'type' => 'search',
+                    'value' => $user['city']['city']
                 ],
                 'options' => [
                     'tag' => false,
