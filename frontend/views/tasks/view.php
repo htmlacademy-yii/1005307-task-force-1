@@ -147,7 +147,6 @@ $user = $this->params['user'];
                     ? $user_show = $task->doer
                     : $user_show = $task->client;
                 $doer = $task->doer;
-                $user_show->user_role == 'doer' ? $taskNumber = $user_show['tasksDoer'] : $taskNumber = $user_show['tasksClient'];
                 ?>
                 <div class="profile-mini__top">
                     <?= $user_show->avatar
@@ -167,9 +166,8 @@ $user = $this->params['user'];
                     </div>
                 </div>
                 <p class="info-customer">
-                    <span><?= count($taskNumber) ?> <?= $formatter->getNounPluralForm(count($taskNumber), 'задание', 'задания', 'заданий') ?></span>
-                    <span>Провалено <?= $user_show->failed_tasks ?> <?= $formatter->getNounPluralForm($user_show['failed_tasks'], 'задание', 'задания', 'заданий') ?></span>
-
+                    <span>Выполнено <?= $user_show->done_tasks ?> <?= $formatter->getNounPluralForm($user_show->done_tasks, 'задание', 'задания', 'заданий') ?></span>
+                    <span>Провалено <?= $user_show->failed_tasks ?> <?= $formatter->getNounPluralForm($user_show->failed_tasks, 'задание', 'задания', 'заданий') ?></span>
                     <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
                 </p>
                 <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">

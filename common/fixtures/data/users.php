@@ -16,7 +16,7 @@ return [
         'telegram' => 'eum',
         'city_id' => 1,
         'last_activity_time' => '2021-01-15 01:43:38',
-        'rating' => '3.43'
+        'rating' => '3.43',
     ],
     [
         'email' => 'dkris@braun.com',
