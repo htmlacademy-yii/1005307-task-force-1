@@ -18,6 +18,7 @@ class SignForm extends Model
     public $password;
     public $city_id;
     public $user_role;
+    public $failed_tasks;
     private $cities;
 
     public function getCities(): array
@@ -51,7 +52,7 @@ class SignForm extends Model
                 'targetAttribute' => 'email',
                 'targetClass' => Users::class,
                 'message' => "Пользователь с еmail «{value}» уже зарегистрирован"],
-            [['city_id', 'name', 'email', 'password', 'user_role'], 'safe']
+            [['city_id', 'name', 'email', 'password', 'user_role', 'failed_tasks'], 'safe']
         ];
     }
 
@@ -62,6 +63,7 @@ class SignForm extends Model
             'email' => 'Электронная почта',
             'name' => 'Ваше имя',
             'password' => 'Пароль',
+            'failed_tasks' => 'Проваленные задания',
         ];
     }
 }

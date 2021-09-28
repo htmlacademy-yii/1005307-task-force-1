@@ -20,8 +20,6 @@ class RequestForm extends Model
             [['doer_id', 'client_id', 'task_id'], 'required'],
             [['completion'], 'required',
                 'message' => "Сообщите выполнено ли задание"],
-            [['description'], 'required',
-                'message' => "Напишите ваще мнение о выполнении задания"],
             [['doer_id', 'client_id', 'task_id', 'completion', 'description', 'rate'], 'safe']
         ];
     }

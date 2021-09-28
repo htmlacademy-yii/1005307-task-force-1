@@ -168,6 +168,8 @@ $user = $this->params['user'];
                 </div>
                 <p class="info-customer">
                     <span><?= count($taskNumber) ?> <?= $formatter->getNounPluralForm(count($taskNumber), 'задание', 'задания', 'заданий') ?></span>
+                    <span>Провалено <?= $user_show->failed_tasks ?> <?= $formatter->getNounPluralForm($user_show['failed_tasks'], 'задание', 'задания', 'заданий') ?></span>
+
                     <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
                 </p>
                 <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">

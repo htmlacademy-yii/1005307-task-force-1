@@ -5,7 +5,7 @@ use yii\helpers\Html;
 
 ?>
 
-<section class="modal enter-form form-modal" id="enter-form" style="display: block">
+<section class="modal enter-form form-modal" id="enter-form">
     <h2>Вход на сайт</h2>
 
     <?php $form = ActiveForm::begin([

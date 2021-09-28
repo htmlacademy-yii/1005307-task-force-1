@@ -39,7 +39,7 @@ class Opinions extends ActiveRecord
     {
         return [
             [['dt_add'], 'safe'],
-            [['completion', 'description', 'rate', 'doer_id', 'client_id', 'task_id'], 'required'],
+            [['completion', 'doer_id', 'client_id', 'task_id'], 'required'],
             [['description'], 'string'],
             [['completion'], 'string'],
             [['rate'], 'number'],

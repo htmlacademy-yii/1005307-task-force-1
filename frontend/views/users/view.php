@@ -122,10 +122,12 @@ $user_account = $this->params['user'];
                                     </p>
                                     <p class="review-text"><?= $opinion['description'] ?></p>
                                 </div>
+                                <?php if($opinion['rate']): ?>
                                 <div class="card__review-rate">
                                     <p class="<?= $formatter->getRatingType($opinion['rate']) ?>-rate big-rate"><?= $opinion['rate'] ?>
                                         <span></span></p>
                                 </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>

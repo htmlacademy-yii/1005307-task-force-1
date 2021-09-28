@@ -38,7 +38,8 @@ class m210502_170010_create_bd extends Migration
             'phone' => $this->string(255),
             'skype' => $this->string(255),
             'telegram' => $this->string(255),
-            'city_id' => $this->integer(11),
+            'city_id' => $this->integer(11)->notNull(),
+            'failed_tasks' => $this->integer(11)->notNull(),
             'rating' => $this->float(3.2),
             'last_activity_time' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
         ]);
@@ -269,8 +270,8 @@ class m210502_170010_create_bd extends Migration
             'id' => $this->primaryKey(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'completion'  => $this->integer(1)->notNull(),
-            'description' => $this->text()->notNull(),
-            'rate' => $this->integer(1)->notNull(),
+            'description' => $this->text(),
+            'rate' => $this->integer(1),
             'client_id' => $this->integer(11)->notNull(),
             'doer_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull()

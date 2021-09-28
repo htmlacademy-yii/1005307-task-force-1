@@ -142,7 +142,6 @@ JS;
                     'id' => 'address',
                     'class' => 'input-navigation input-middle input',
                     'type' => 'search',
-                    'value' => $user['city']['city']
                 ],
                 'options' => [
                     'tag' => false,

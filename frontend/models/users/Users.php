@@ -32,7 +32,8 @@ use yii\db\ActiveRecord;
  * @property string|null $phone
  * @property string|null $skype
  * @property string|null $telegram
- * @property int|null $city_id
+ * @property int $city_id
+ * @property int|null $failed_tasks
  * @property string $last_activity_time
  * @property float|null $rating
  *
@@ -52,6 +53,7 @@ use yii\db\ActiveRecord;
 class Users extends ActiveRecord
 {
     const SCENARIO_UPDATE = 'update';
+  //  public $failed_tasks;
 
     public static function tableName(): string
     {
@@ -62,11 +64,11 @@ class Users extends ActiveRecord
     {
         return [
             [['email', 'name', 'password', 'user_role'], 'required'],
-            [['dt_add', 'bd', 'last_activity_time', 'rating'], 'safe'],
+            [['dt_add', 'bd', 'last_activity_time', 'rating', 'failed_tasks'], 'safe'],
             [['name', 'email', 'password', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram'], 'safe',
                 'on' => self::SCENARIO_UPDATE],
             [['about'], 'string'],
-            [['city_id'], 'integer'],
+            [['city_id', 'failed_tasks'], 'integer'],
             [['email', 'name', 'password', 'user_role', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['name'], 'unique'],
@@ -96,6 +98,7 @@ class Users extends ActiveRecord
             'telegram' => 'Telegram',
             'city_id' => 'City ID',
             'last_activity_time' => 'Last Activity Time',
+            'failed_tasks' => 'Failed Tasks',
         ];
     }
 

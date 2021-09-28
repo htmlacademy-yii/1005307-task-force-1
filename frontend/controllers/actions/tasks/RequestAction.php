@@ -33,7 +33,8 @@ class RequestAction extends BaseAction
 
                 $task = Tasks::findOne($opinions->task_id);
                 $user = Users::findOne($opinions->doer_id);
-                $opinion = Opinions::find()->andWhere(['doer_id' => $user->id]);
+                $opinion = Opinions::find()->where(['doer_id' => $user->id]);
+                $user->failed_tasks = $opinion->andWhere(['completion' => '2'])->count();
                 $user->rating = $opinion->select('AVG(rate) as rating');
                 $user->save();
                 $opinions->completion == 1 ? $task->status_task = 'Завершено' : $task->status_task = 'Провалено';
