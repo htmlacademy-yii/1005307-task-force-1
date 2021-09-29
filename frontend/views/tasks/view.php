@@ -92,7 +92,7 @@ $user = $this->params['user'];
                 <div class="content-view__feedback-wrapper">
                     <?php foreach ($responses as $response):
                         if ($response->doer_id === $user->id || $user->id === $task->client_id):
-                            $doer = $response->doer;?>
+                            $doer = $response->doer; ?>
                             <div class="content-view__feedback-card">
                                 <div class="feedback-card__top">
                                     <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
@@ -166,9 +166,15 @@ $user = $this->params['user'];
                     </div>
                 </div>
                 <p class="info-customer">
-                    <span>Выполнено <?= $user_show->done_tasks ?> <?= $formatter->getNounPluralForm($user_show->done_tasks, 'задание', 'задания', 'заданий') ?></span>
-                    <span>Провалено <?= $user_show->failed_tasks ?> <?= $formatter->getNounPluralForm($user_show->failed_tasks, 'задание', 'задания', 'заданий') ?></span>
-                    <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
+                    <?php if ($isClientNotNewTask): ?>
+                        <span>Выполнено <?= $user_show->done_tasks ?> <?= $formatter->getNounPluralForm($user_show->done_tasks, 'задание', 'задания', 'заданий') ?></span>
+                        <span>Провалено <?= $user_show->failed_tasks ?> <?= $formatter->getNounPluralForm($user_show->failed_tasks, 'задание', 'задания', 'заданий') ?></span>
+                        <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
+                    <?php endif; ?>
+                    <?php if (!$isClientNotNewTask): ?>
+                        <span>Создано <?= $user_show->created_tasks ?> <?= $formatter->getNounPluralForm($user_show->created_tasks, 'задание', 'задания', 'заданий') ?></span>
+                        <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
+                    <?php endif; ?>
                 </p>
                 <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">
                     Смотреть профиль
@@ -177,11 +183,10 @@ $user = $this->params['user'];
         </div>
         <?php if ($task->doer_id && $user->id == $task->doer_id || $user->id == $task->client_id):
             if ($task->status_task !== 'Новое' && $task->status_task !== 'Отмененное'): ?>
-            <div id="chat-container">
-                <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
-                <chat class="connect-desk__chat" task="<?= $task->id ?>"></chat>
-            </div>
-        <?php endif;
+                <div id="chat-container">
+                    <chat class="connect-desk__chat" task="<?= $task->id ?>"></chat>
+                </div>
+            <?php endif;
         endif; ?>
     </section>
 </div>

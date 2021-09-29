@@ -18,13 +18,11 @@ $user_account = $this->params['user'];
                     ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '120', 'height' => '120'])
                     : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '120', 'height' => '120']) ?>
                 <div class="content-view__headline">
-                    <?php $opinions = $user['opinions'];
+                    <?php
                     $isClient = false;
                     if ($user['user_role'] == 'client') {
                         $isClient = true;
                     }
-                    $isClient ? $tasks = $user['tasksClient'] : $tasks = $user['tasksDoer'];
-                    $ratesCount = count($opinions)
                     ?>
                     <h1><?= $user['name'] ?></h1>
                     <p>Россия, <?= $user['city']['city'] ?>,
@@ -33,17 +31,24 @@ $user_account = $this->params['user'];
                     </p>
                     <?php if ($user['rating'] > 0): ?>
                         <div class="profile-mini__name five-stars__rate">
-                                <?php $starCount = round($user['rating']) ?>
-                                <?php for ($i = 1; $i <= 5; $i++): ?>
-                                    <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
-                                <?php endfor; ?>
-                                <b><?= round($user['rating'], 2) ?></b>
+                            <?php $starCount = round($user['rating']) ?>
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
+                            <?php endfor; ?>
+                            <b><?= round($user['rating'], 2) ?></b>
                         </div>
                     <?php endif; ?>
-                    <?php if ($tasks): ?>
-                        <b class="done-task"><?= $isClient ? 'Создал' : 'Выполнил' ?> <?= count($tasks) ?> <?= $formatter->getNounPluralForm(count($tasks), 'заказ', 'заказа', 'заказов') ?></b>
-                        <b class="done-review">Получил <?= $ratesCount ?> <?= $formatter->getNounPluralForm($ratesCount, 'отзыв', 'отзыва', 'отзывов') ?></b>
-                    <?php endif; ?>
+                    <?php if ($isClient !== true):
+                        if ($user['done_tasks'] !== 0):?>
+                            <b class="done-task"><?= 'Выполнил' ?> <?= $user['done_tasks'] ?> <?= $formatter->getNounPluralForm($user['done_tasks'], 'заказ', 'заказа', 'заказов') ?></b>
+                            <b class="done-review">Получил <?= $user['done_tasks'] ?> <?= $formatter->getNounPluralForm($user['done_tasks'], 'отзыв', 'отзыва', 'отзывов') ?></b>
+                        <?php endif;
+                    endif; ?>
+                    <?php if ($isClient == true):
+                        if ($user['created_tasks'] !== 0):?>
+                            <b class="done-task"><?= 'Создал' ?> <?= $user['created_tasks'] ?> <?= $formatter->getNounPluralForm($user['created_tasks'], 'заказ', 'заказа', 'заказов') ?></b>
+                        <?php endif;
+                    endif; ?>
                 </div>
                 <?php $favourites = $user['favourites'];
                 $isFavourite = false;
@@ -53,13 +58,13 @@ $user_account = $this->params['user'];
                         break;
                     }
                 } ?>
-                <?php if ($user->id != $user_account->id) : ?>
-                    <div
-                        class="content-view__headline user__card-bookmark <?= $isFavourite ? 'user__card-bookmark--current' : '' ?>">
-                        <span>Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time'], strftime("%F %T")) ?></span>
+                <div
+                    class="content-view__headline user__card-bookmark <?= $isFavourite ? 'user__card-bookmark--current' : '' ?>">
+                    <span>Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time'], strftime("%F %T")) ?></span>
+                    <?php if ($user->id != $user_account->id) : ?>
                         <a href="<?= Url::to(['users/add-favourite', 'isFavouriteValue' => $isFavourite, 'id' => $user->id]) ?>"><b></b></a>
-                    </div>
-                <?php endif; ?>
+                    <?php endif; ?>
+                </div>
             </div>
             <div class="content-view__description">
                 <p><?= $user['about'] ?></p>
@@ -99,7 +104,8 @@ $user_account = $this->params['user'];
                 <?php endif; ?>
             </div>
         </div>
-        <?php if ($opinions): ?>
+        <?php $opinions = $user['opinions'];
+        if ($opinions): ?>
             <div class="content-view__feedback">
                 <h2>Отзывы<span>(<?= count($opinions) ?>)</span></h2>
                 <div class="content-view__feedback-wrapper reviews-wrapper">
@@ -122,11 +128,11 @@ $user_account = $this->params['user'];
                                     </p>
                                     <p class="review-text"><?= $opinion['description'] ?></p>
                                 </div>
-                                <?php if($opinion['rate']): ?>
-                                <div class="card__review-rate">
-                                    <p class="<?= $formatter->getRatingType($opinion['rate']) ?>-rate big-rate"><?= $opinion['rate'] ?>
-                                        <span></span></p>
-                                </div>
+                                <?php if ($opinion['rate']): ?>
+                                    <div class="card__review-rate">
+                                        <p class="<?= $formatter->getRatingType($opinion['rate']) ?>-rate big-rate"><?= $opinion['rate'] ?>
+                                            <span></span></p>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         </div>

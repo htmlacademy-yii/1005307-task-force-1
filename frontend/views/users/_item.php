@@ -14,12 +14,12 @@ use yii\helpers\Html;
                     ? Html::img(Yii::$app->request->baseUrl . '/img/' . $model['avatar'], ['width' => '65', 'height' => '65'])
                     : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '65', 'height' => '65']) ?> </a>
             <span>
-                <?= $model['finished_task_count'] ?>
-                <?= $formatter->getNounPluralForm($model['finished_task_count'], 'задание', 'задания', 'заданий') ?>
+                <?= $model['done_tasks'] ?>
+                <?= $formatter->getNounPluralForm($model['done_tasks'], 'задание', 'задания', 'заданий') ?>
             </span>
             <span>
-                <?= $model['opinions_count'] ?>
-                <?= $formatter->getNounPluralForm($model['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?>
+                <?= $model['done_tasks'] ?>
+                <?= $formatter->getNounPluralForm($model['done_tasks'], 'отзыв', 'отзыва', 'отзывов') ?>
             </span>
         </div>
         <div class="feedback-card__top--name user__search-card">

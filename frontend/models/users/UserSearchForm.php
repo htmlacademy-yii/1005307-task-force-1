@@ -43,13 +43,7 @@ class UserSearchForm extends Users
             return $dataProvider;
         }
 
-        $query->joinWith('opinions')
-            ->select([
-                'users.*',
-                'count(opinions.rate) as finished_task_count',
-                'count(opinions.description) as opinions_count',
-            ])
-            ->where(['user_role' => 'doer'])
+        $query->where(['user_role' => 'doer'])
             ->with('userCategories')
             ->with('favourites')
             ->with('portfolioPhotos')

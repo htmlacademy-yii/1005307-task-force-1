@@ -21,14 +21,14 @@ class UsersQuery extends ActiveQuery
 
     public function withOpinionsFilter(int $min): self
     {
-        return $this->andFilterHaving(['>', 'opinions_count', $min]);
+        return $this->andFilterHaving(['>', 'done_tasks', $min]);
     }
 
     public function isFreeNowFilter(): self
     {
         $subQuery = Tasks::find()
             ->select(['doer_id'])
-            ->andFilterWhere(['=', 'status_task', 'work']);
+            ->andFilterWhere(['=', 'status_task', 'На исполнении']);
 
         return $this->andFilterWhere(['not', ['users.id' => $subQuery]]);
     }
