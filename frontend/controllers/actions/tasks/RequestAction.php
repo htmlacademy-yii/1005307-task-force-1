@@ -44,6 +44,7 @@ class RequestAction extends BaseAction
                     $user_doer->done_tasks = $tasks_doer->andWhere(['status_task' => 'Выполнено'])->count() :
                     $user_doer->failed_tasks = $tasks_doer->andWhere(['status_task' => 'Провалено'])->count();
                 $user_client->created_tasks = $tasks_client->andWhere(['status_task' => 'Выполнено'])->count();
+                $user_doer->opinions_count = $opinions->count();
                 $user_doer->save();
                 $user_client->save();
             }

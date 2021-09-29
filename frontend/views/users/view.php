@@ -41,7 +41,7 @@ $user_account = $this->params['user'];
                     <?php if ($isClient !== true):
                         if ($user['done_tasks'] !== 0):?>
                             <b class="done-task"><?= 'Выполнил' ?> <?= $user['done_tasks'] ?> <?= $formatter->getNounPluralForm($user['done_tasks'], 'заказ', 'заказа', 'заказов') ?></b>
-                            <b class="done-review">Получил <?= $user['done_tasks'] ?> <?= $formatter->getNounPluralForm($user['done_tasks'], 'отзыв', 'отзыва', 'отзывов') ?></b>
+                            <b class="done-review">Получил <?= $user['opinions_count'] ?> <?= $formatter->getNounPluralForm($user['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?></b>
                         <?php endif;
                     endif; ?>
                     <?php if ($isClient == true):

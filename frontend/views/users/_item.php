@@ -18,8 +18,8 @@ use yii\helpers\Html;
                 <?= $formatter->getNounPluralForm($model['done_tasks'], 'задание', 'задания', 'заданий') ?>
             </span>
             <span>
-                <?= $model['done_tasks'] ?>
-                <?= $formatter->getNounPluralForm($model['done_tasks'], 'отзыв', 'отзыва', 'отзывов') ?>
+                <?= $model['opinions_count'] ?>
+                <?= $formatter->getNounPluralForm($model['opinions_count'], 'отзыв', 'отзыва', 'отзывов') ?>
             </span>
         </div>
         <div class="feedback-card__top--name user__search-card">

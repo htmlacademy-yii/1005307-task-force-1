@@ -21,7 +21,7 @@ class UsersQuery extends ActiveQuery
 
     public function withOpinionsFilter(int $min): self
     {
-        return $this->andFilterHaving(['>', 'done_tasks', $min]);
+        return $this->andFilterHaving(['>', 'opinions_count', $min]);
     }
 
     public function isFreeNowFilter(): self

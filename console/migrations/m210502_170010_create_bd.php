@@ -42,6 +42,7 @@ class m210502_170010_create_bd extends Migration
             'failed_tasks' => $this->integer(11)->defaultValue(0)->notNull(),
             'done_tasks' => $this->integer(11)->defaultValue(0)->notNull(),
             'created_tasks' => $this->integer(11)->defaultValue(0)->notNull(),
+            'opinions_count' => $this->integer(11)->defaultValue(0)->notNull(),
             'rating' => $this->float(3.2),
             'last_activity_time' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
         ]);

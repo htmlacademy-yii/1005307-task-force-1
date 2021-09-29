@@ -20,6 +20,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 0,
         'created_tasks' => 4,
+        'opinions_count' => 2
     ],
     [
         'email' => 'dkris@braun.com',
@@ -40,6 +41,7 @@ return [
         'failed_tasks' => 2,
         'done_tasks' => 1,
         'created_tasks' => 0,
+        'opinions_count' => 0
     ],
     [
         'email' => 'wiley17@damore.com',
@@ -60,6 +62,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 1,
+        'opinions_count' => 1
     ],
     [
         'email' => 'robin42@yahoo.com',
@@ -80,6 +83,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 1,
+        'opinions_count' => 1
     ],
     [
         'email' => 'satterfield.merritt@hotmail.com',
@@ -100,6 +104,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 2,
         'created_tasks' => 1,
+        'opinions_count' => 2
     ],
     [
         'email' => 'perry.raynor@pollich.com',
@@ -120,6 +125,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 0,
         'created_tasks' => 2,
+        'opinions_count' => 0
     ],
     [
         'email' => 'hahn.craig@satterfield.com',
@@ -140,6 +146,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 2,
         'created_tasks' => 2,
+        'opinions_count' => 1
     ],
     [
         'email' => 'miracle.brown@gmail.com',
@@ -160,6 +167,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 4,
+        'opinions_count' => 1
     ],
     [
         'email' => 'edmund95@hotmail.com',
@@ -180,6 +188,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 1,
+        'opinions_count' => 1
     ],
     [
         'email' => 'elias97@hotmail.com',
@@ -200,6 +209,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 2,
         'created_tasks' => 1,
+        'opinions_count' => 2
     ],
     [
         'email' => 'edythe60@lindgren.com',
@@ -220,6 +230,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 0,
         'created_tasks' => 0,
+        'opinions_count' => 0
     ],
     [
         'email' => 'gkassulke@boehm.info',
@@ -240,6 +251,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 0,
+        'opinions_count' => 1
     ],
     [
         'email' => 'lockman.esteban@maggio.info',
@@ -260,6 +272,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 0,
+        'opinions_count' => 1
     ],
     [
         'email' => 'hettie45@swaniawski.org',
@@ -280,6 +293,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 0,
+        'opinions_count' => 1
     ],
     [
         'email' => 'ratke.kristopher@funk.info',
@@ -300,6 +314,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 0,
+        'opinions_count' => 1
     ],
     [
         'email' => 'nelda.pfeffer@hermann.com',
@@ -320,6 +335,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 0,
+        'opinions_count' => 1
     ],
     [
         'email' => 'feeney.herta@thompson.net',
@@ -340,6 +356,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 0,
+        'opinions_count' => 1
     ],
     [
         'email' => 'jeramie.pacocha@jenkins.com',
@@ -360,6 +377,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 0,
+        'opinions_count' => 1
     ],
     [
         'email' => 'maxine.jacobson@terry.com',
@@ -380,6 +398,7 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 0,
+        'opinions_count' => 1
     ],
     [
         'email' => 'brandy14@wolff.com',
@@ -400,5 +419,6 @@ return [
         'failed_tasks' => 0,
         'done_tasks' => 1,
         'created_tasks' => 0,
+        'opinions_count' => 0
     ],
 ];
