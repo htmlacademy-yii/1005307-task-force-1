@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\account;
 
@@ -9,6 +9,7 @@ class LoginForm extends Model
 {
     public $email;
     public $password;
+    public $err;
     public $user;
 
     public function attributeLabels(): array
@@ -25,6 +26,13 @@ class LoginForm extends Model
             [['email', 'password'], 'required',
                 'message' => "Поле «{attribute}» не может быть пустым"],
             [['password'], 'validatePass'],
+            [['err', 'email', 'password'], function () {
+                if (!empty($this->errors)) {
+                    if ($this->email) {
+                        $this->addError('err', 'Введите верный логин/пароль');
+                    }
+                }
+            }],
             [['email', 'password'], 'safe'],
         ];
     }
