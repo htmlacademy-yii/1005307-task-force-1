@@ -21,9 +21,10 @@ class RefuseAction extends BaseAction
             $task->status_task = 'Провалено';
             $task->save(false);
             $user_doer = Users::findOne($this->user->id);
-            $tasks = Tasks::find()->where(['doer_id' => $user_doer->id]);
-            $user_doer->failed_tasks = $tasks->andWhere(['status_task' => 'Провалено'])->count();
-            $user_doer->save();
+            $user_doer->failed_tasks = Tasks::find()
+                ->where(['doer_id' => $this->user->id])
+                ->andWhere(['status_task' => 'Провалено'])->count();
+            $user_doer->save(false);
         }
 
         return $this->controller->redirect([
