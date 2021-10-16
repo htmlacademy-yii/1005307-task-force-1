@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 /*
-
 */
 
 namespace frontend\controllers\actions\tasks;
@@ -13,13 +12,10 @@ use yii\widgets\ActiveForm;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
-//use frontend\models\tasks\FileTaskForm;
 use Yii;
 
 class CreateAction extends BaseAction
 {
-    public $fileUploadForm;
-
     public function run()
     {
         $createTaskForm = new CreateTaskForm();
@@ -32,9 +28,8 @@ class CreateAction extends BaseAction
 
         if ($request->isAjax && $createTaskForm->load($request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            Yii::$app->end();
 
-            return ActiveForm::validate($createTaskForm);
+            return ActiveForm::validateMultiple([$createTaskForm]);
         }
 
         if ($createTaskForm->load($request->post())) {
@@ -52,10 +47,10 @@ class CreateAction extends BaseAction
                     $task->city_id = $this->user->city_id;
                 }
 
-                $task->save(false);
+                $task->save();
                 $createTaskForm->file_item = UploadedFile::getInstances($createTaskForm, 'file_item');
-
                 $createTaskForm->upload();
+
                 foreach ($createTaskForm->file_item as $fileItem) {
                     $fileTask = new FileTask([
                         'file_item' => $fileItem,

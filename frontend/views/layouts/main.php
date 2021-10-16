@@ -7,8 +7,10 @@
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
 use yii\helpers\Url;
-use yii\widgets\Menu;
 use frontend\models\cities\Cities;
+use yii\widgets\ActiveForm;
+use yii\widgets\Menu;
+use frontend\models\users\Users;
 use frontend\models\notifications\Notifications;
 
 use frontend\models\{
@@ -19,7 +21,8 @@ use frontend\models\{
 
 AppAsset::register($this);
 $this->registerJsFile('/js/lightbulb.js');
-$user = \Yii::$app->user->getIdentity();
+$users = \Yii::$app->user->getIdentity();
+$user = Users::getOneUser($users->id);
 
 AppAsset::register($this);
 ?>
@@ -34,26 +37,6 @@ AppAsset::register($this);
     <?php $this->head() ?>
 
     <title><?= Html::encode($this->title) ?></title>
-
-    <?php if ($this->title === 'Публикация нового задания'): ?>
-        <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU&load=SuggestView&onload=onLoad"></script>
-        <script>
-            function onLoad(ymaps) {
-                var suggestView = new ymaps.SuggestView('address',
-                    {boundedBy: getCoordinates()})
-            }
-
-            function getCoordinates() {
-                if (<?= $user['city_id']?> === 1) {
-                    return [[55.474531, 37.054360], [55.246032, 37.798108]];
-                }
-
-                if (<?= $user['city_id']?> === 2) {
-                    return [[59.574531, 30.054360], [59.246032, 30.798108]];
-                }
-            }
-        </script>
-    <?php endif; ?>
 
     <?php if ($this->title === 'Просмотр задания'): ?>
         <script src="https://api-maps.yandex.ru/2.1/?apikey=e666f398-c983-4bde-8f14-e3fec900592a&lang=ru_RU"
@@ -277,20 +260,25 @@ AppAsset::register($this);
         <?= $this->render('//modals/_refuse_form', ['model' => new RefuseForm]); ?>
     <?php endif; ?>
 </div>
-
 <div class="overlay"></div>
 <script src="/js/main.js"></script>
 <script src="/js/messenger.js"></script>
-<script src="js/dropzone.js"></script>
-<script>
-    Dropzone.autoDiscover = false;
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js"></script>
 
-    var dropzone = new Dropzone(".dropzone", {
-        url: window.location.href, maxFiles: 6, uploadMultiple: true,
-        acceptedFiles: 'image/*', previewTemplate: '<a href="#"><img data-dz-thumbnail alt="Фото работы"></a>'
+<script type="text/javascript">
+
+    <?php if ($this->title === 'Публикация нового задания'): ?>
+    $("#address").suggestions({
+        token: "5e9234412c360c19d520220cc87dc076c8e65389",
+        type: "ADDRESS",
+        constraints: {
+            locations: { region: "<?= $user['city']['city'] ?>" },
+        },
     });
+    <?php endif; ?>
 </script>
-
 <?php $this->endBody() ?>
 </body>
 </html>

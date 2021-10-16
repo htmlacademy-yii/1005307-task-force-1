@@ -127,7 +127,6 @@ class TaskSearchForm extends Tasks
         $this->load($params);
 
         $query->with('category')
-            ->with('opinions')
             ->groupBy('tasks.id')
             ->orderBy(['dt_add' => SORT_DESC])->asArray();
 

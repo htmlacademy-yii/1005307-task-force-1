@@ -52,7 +52,7 @@ class CreateTaskForm extends Model
     public function rules(): array
     {
         return [
-            ['client_id', 'required'],
+            [['client_id', 'address'], 'required'],
             ['name', 'required',
                 'message' => 'Кратко опишите суть работы'],
             [['name', 'description'], 'trim'],
@@ -83,7 +83,7 @@ class CreateTaskForm extends Model
             ['expire', 'date',
                 'format' => 'yyyy*MM*dd',
                 'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address', 'file_item', 'task_id'], 'safe']
+            [['client_id', 'name', 'address', 'description', 'category_id', 'budget', 'expire', 'status_task', 'file_item', 'task_id'], 'safe']
         ];
     }
 

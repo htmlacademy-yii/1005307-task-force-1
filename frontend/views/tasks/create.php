@@ -68,6 +68,7 @@ $user = Users::findOne($user->id);
                     'class' => 'input textarea',
                     'id' => 10,
                     'rows' => 1,
+                    'value' => 'Новое',
                 ],
                 'options' => [
                     'tag' => false,
@@ -77,7 +78,8 @@ $user = Users::findOne($user->id);
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 11,
-                    'rows' => 7
+                    'rows' => 7,
+                    'value' => 'Новое',
                 ],
                 'options' => [
                     'tag' => false,
@@ -134,14 +136,14 @@ JS;
                 'class' => 'multiple-select input multiple-select-big',
                 'prompt' => [
                     'text' => 'Выберите категорию',
-                    'options' => ['value' => 'choose']
+                    'options' => ['value' => '1']
                 ]
             ]) ?>
             <?= $form->field($createTaskForm, "address", [
                 'inputOptions' => [
-                    'id' => 'address',
                     'class' => 'input-navigation input-middle input',
-                    'type' => 'search',
+                    'id' => 'address',
+                    'rows' => 1,
                 ],
                 'options' => [
                     'tag' => false,
@@ -149,7 +151,8 @@ JS;
                 'template' =>
                     "{label}\n{input}\n"
                     . "<span>Укажите адрес исполнения, если задание требует присутствия</span>",
-            ]) ?>
+
+            ])->input('text') ?>
             <div class="create__price-time">
                 <div class="create__price-time--wrapper">
                     <?= $form->field($createTaskForm, "budget", [
