@@ -52,17 +52,17 @@ class CreateTaskForm extends Model
     public function rules(): array
     {
         return [
-            [['client_id', 'address'], 'required'],
+            ['client_id', 'required'],
             ['name', 'required',
                 'message' => 'Кратко опишите суть работы'],
             [['name', 'description'], 'trim'],
             ['name', 'match',
-                'pattern' => "/(?=(.*[^ ]{0,}))/",
+                'pattern' => "/(?=(.*[^ ]{10,}))/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
             ['description', 'required',
                 'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
-            ['description', 'string', 'min' => 0],
+            ['description', 'string', 'min' => 30],
             ['description', 'match',
                 'pattern' => "/(?=(.*[^ ]))/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 30 не пробельных символов'
@@ -83,7 +83,7 @@ class CreateTaskForm extends Model
             ['expire', 'date',
                 'format' => 'yyyy*MM*dd',
                 'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['client_id', 'name', 'address', 'description', 'category_id', 'budget', 'expire', 'status_task', 'file_item', 'task_id'], 'safe']
+            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address', 'file_item', 'task_id'], 'safe']
         ];
     }
 

@@ -68,7 +68,6 @@ $user = Users::findOne($user->id);
                     'class' => 'input textarea',
                     'id' => 10,
                     'rows' => 1,
-                    'value' => 'Новое',
                 ],
                 'options' => [
                     'tag' => false,
@@ -79,7 +78,6 @@ $user = Users::findOne($user->id);
                     'class' => 'input textarea',
                     'id' => 11,
                     'rows' => 7,
-                    'value' => 'Новое',
                 ],
                 'options' => [
                     'tag' => false,
@@ -136,7 +134,7 @@ JS;
                 'class' => 'multiple-select input multiple-select-big',
                 'prompt' => [
                     'text' => 'Выберите категорию',
-                    'options' => ['value' => '1']
+                    'options' => ['value' => '0']
                 ]
             ]) ?>
             <?= $form->field($createTaskForm, "address", [

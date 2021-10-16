@@ -29,7 +29,7 @@ class CreateAction extends BaseAction
         if ($request->isAjax && $createTaskForm->load($request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
 
-            return ActiveForm::validateMultiple([$createTaskForm]);
+            return ActiveForm::validate($createTaskForm);
         }
 
         if ($createTaskForm->load($request->post())) {
