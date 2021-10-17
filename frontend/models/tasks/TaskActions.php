@@ -24,7 +24,7 @@ class TaskActions
     {
         switch ($currentStatus) {
             case 'Новое':
-                return $role == self::ROLE_DOER ? ['title' => 'response', 'name' => 'откликнуться', 'data' => 'response'] : '';
+                return $role == self::ROLE_DOER ? ['title' => 'response', 'name' => 'Откликнуться', 'data' => 'response'] : '';
             case 'На исполнении':
                 return $role == self::ROLE_DOER ? ['title' => 'refusal', 'name' => 'Отказаться', 'data' => 'refuse'] : ['title' => 'request', 'name' => 'Завершить', 'data' => 'complete'];
         }

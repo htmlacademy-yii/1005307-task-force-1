@@ -12,7 +12,7 @@ class CancelAction extends BaseAction
     public function run(int $taskId): Response
     {
         $task = Tasks::findOne($taskId);
-        $task->status_task = 'Отмененное';
+        $task->status_task = 'Отменено';
         $task->save(false);
 
         return $this->controller->redirect([

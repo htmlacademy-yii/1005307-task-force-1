@@ -18,7 +18,7 @@ return [
         'last_activity_time' => '2021-01-15 01:43:38',
         'rating' => '3.43',
         'failed_tasks' => 0,
-        'done_tasks' => 0,
+        'done_tasks' => 2,
         'created_tasks' => 4,
         'opinions_count' => 2
     ],
@@ -39,7 +39,7 @@ return [
         'last_activity_time' => '2021-04-01 20:08:11',
         'rating' => '4.13',
         'failed_tasks' => 2,
-        'done_tasks' => 1,
+        'done_tasks' => 0,
         'created_tasks' => 0,
         'opinions_count' => 0
     ],
@@ -144,7 +144,7 @@ return [
         'last_activity_time' => '2021-04-07 05:53:33',
         'rating' => '4.13',
         'failed_tasks' => 0,
-        'done_tasks' => 2,
+        'done_tasks' => 1,
         'created_tasks' => 2,
         'opinions_count' => 1
     ],
@@ -186,9 +186,9 @@ return [
         'last_activity_time' => '2021-02-28 11:39:24',
         'rating' => '4.13',
         'failed_tasks' => 0,
-        'done_tasks' => 1,
-        'created_tasks' => 1,
-        'opinions_count' => 1
+        'done_tasks' => 2,
+        'created_tasks' => 0,
+        'opinions_count' => 2
     ],
     [
         'email' => 'elias97@hotmail.com',
@@ -249,9 +249,9 @@ return [
         'last_activity_time' => '2021-01-24 18:54:59',
         'rating' => '4.13',
         'failed_tasks' => 0,
-        'done_tasks' => 1,
-        'created_tasks' => 0,
-        'opinions_count' => 1
+        'done_tasks' => 0,
+        'created_tasks' => 1,
+        'opinions_count' => 0
     ],
     [
         'email' => 'lockman.esteban@maggio.info',
@@ -374,10 +374,10 @@ return [
         'city_id' => 1,
         'last_activity_time' => '2021-04-29 02:05:50',
         'rating' => '4.13',
-        'failed_tasks' => 0,
-        'done_tasks' => 1,
+        'failed_tasks' => 1,
+        'done_tasks' => 0,
         'created_tasks' => 0,
-        'opinions_count' => 1
+        'opinions_count' => 0
     ],
     [
         'email' => 'maxine.jacobson@terry.com',
@@ -395,10 +395,10 @@ return [
         'city_id' => 1,
         'last_activity_time' => '2021-03-13 01:05:25',
         'rating' => '4.13',
-        'failed_tasks' => 0,
-        'done_tasks' => 1,
+        'failed_tasks' => 1,
+        'done_tasks' => 0,
         'created_tasks' => 0,
-        'opinions_count' => 1
+        'opinions_count' => 0
     ],
     [
         'email' => 'brandy14@wolff.com',
@@ -416,8 +416,8 @@ return [
         'city_id' => 2,
         'last_activity_time' => '2021-01-14 21:58:46',
         'rating' => '4.13',
-        'failed_tasks' => 0,
-        'done_tasks' => 1,
+        'failed_tasks' => 1,
+        'done_tasks' => 0,
         'created_tasks' => 0,
         'opinions_count' => 0
     ],
