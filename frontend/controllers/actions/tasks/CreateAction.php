@@ -1,7 +1,6 @@
 <?php
+
 declare(strict_types=1);
-/*
-*/
 
 namespace frontend\controllers\actions\tasks;
 
@@ -11,11 +10,11 @@ use frontend\models\tasks\FileTask;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use yii\web\UploadedFile;
-
 use Yii;
 
 class CreateAction extends BaseAction
 {
+    public $fileUploadForm;
     public function run()
     {
         $createTaskForm = new CreateTaskForm();

@@ -56,8 +56,7 @@ class CreateTaskForm extends Model
             ['name', 'required',
                 'message' => 'Кратко опишите суть работы'],
             [['name', 'description'], 'trim'],
-            ['name', 'match',
-                'pattern' => "/(?=(.*[^ ]{10,}))/",
+            ['name', 'string', 'min' => 10,
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
             ['description', 'required',
