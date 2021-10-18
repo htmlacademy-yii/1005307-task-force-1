@@ -5,7 +5,6 @@ $this->title = 'Исполнитель ' . $user['name'];
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-//$user_acc = $this->params['user'];
 $user_account = $this->params['user'];
 
 ?>
@@ -93,12 +92,15 @@ $user_account = $this->params['user'];
                         <?php endif; ?>
                     </div>
                 </div>
+
                 <?php $portfolio = $user['portfolioPhotos'];
                 if ($portfolio): ?>
                     <div class="user__card-photo">
                         <h3 class="content-view__h3">Фото работ</h3>
                         <?php foreach ($portfolio as $portfolio_photo) : ?>
-                            <a href="#"><?= Html::img(Yii::$app->request->baseUrl . '/img/' . $portfolio_photo['photo'], ['alt' => 'Фото работы', 'width' => '85', 'height' => '86']) ?></a>
+                            <a>
+                                <img src='/img/<?=$portfolio_photo["photo"]?>' alt='Фото' width='85' height='86' onclick = 'openImageWindow(this.src);' />
+                            </a>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
