@@ -50,7 +50,7 @@ $specializations = $profileForm->getExistingSpecializations();
                 <div class="account__redaction-section-wrapper">
                     <div class="account__redaction-avatar">
                         <?= $user['avatar']
-                            ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '156', 'height' => '156'])
+                            ? Html::img(Yii::$app->request->baseUrl . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '156', 'height' => '156'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '156', 'height' => '156']) ?>
                         <?= $form->field($profileForm, 'avatar', [
                             'inputOptions' => [
@@ -165,7 +165,7 @@ $specializations = $profileForm->getExistingSpecializations();
                 <div class="account__redaction-section-wrapper account__redaction">
                     <span class="dropzone">
                         <?php foreach ($user->portfolioPhotos as $photo): ?>
-                            <a><?= Html::img(Yii::$app->request->baseUrl . '/img/' . $photo->photo, ['width' => '65', 'height' => '65']) ?> </a>
+                            <a><?= Html::img(Yii::$app->request->baseUrl . $photo->photo, ['width' => '65', 'height' => '65']) ?> </a>
                         <?php endforeach; ?>
                         <?= $form->field($profileForm, 'photo[]', [
                             'inputOptions' => [

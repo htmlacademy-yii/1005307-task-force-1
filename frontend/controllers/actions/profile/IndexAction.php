@@ -55,7 +55,7 @@ class IndexAction extends Action
 
                     foreach ($profileForm->photo as $photo) {
                         $portfolioPhoto = new PortfolioPhoto([
-                            'photo' => $photo,
+                            'photo' => '/uploads/' . $photo,
                             'user_id' => $user->id]);
                         $portfolioPhoto->save(false);
                     }

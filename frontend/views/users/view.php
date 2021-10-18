@@ -14,7 +14,7 @@ $user_account = $this->params['user'];
         <div class="user__card-wrapper">
             <div class="user__card">
                 <?= $user['avatar']
-                    ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '120', 'height' => '120'])
+                    ? Html::img(Yii::$app->request->baseUrl . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '120', 'height' => '120'])
                     : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '120', 'height' => '120']) ?>
                 <div class="content-view__headline">
                     <?php
@@ -99,7 +99,7 @@ $user_account = $this->params['user'];
                         <h3 class="content-view__h3">Фото работ</h3>
                         <?php foreach ($portfolio as $portfolio_photo) : ?>
                             <a>
-                                <img src='/img/<?=$portfolio_photo["photo"]?>' alt='Фото' width='85' height='86' onclick = 'openImageWindow(this.src);' />
+                                <img src='<?=$portfolio_photo["photo"]?>' alt='Фото' width='85' height='86' onclick = 'openImageWindow(this.src);' />
                             </a>
                         <?php endforeach; ?>
                     </div>
@@ -122,7 +122,7 @@ $user_account = $this->params['user'];
                             <div class="card__review">
                                 <a href="<?= Url::to(['users/view', 'id' => $writer['id']]) ?>">
                                     <?= $writer->avatar
-                                        ? Html::img(Yii::$app->request->baseUrl . '/img/' . $writer->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
+                                        ? Html::img(Yii::$app->request->baseUrl . $writer->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
                                         : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?></a>
                                 <div class="feedback-card__reviews-content">
                                     <p class="link-name link">

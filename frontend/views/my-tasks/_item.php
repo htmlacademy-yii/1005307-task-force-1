@@ -31,7 +31,7 @@ $isClient ? $user_show = $model['doer'] : $user_show = $model['client'];
         <div class="feedback-card__top ">
             <a href="<?= Url::to(['users/view/', 'id' => $user_show['id']]) ?>">
                 <?= $user_show['avatar']
-                    ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user_show['avatar'], ['width' => '55', 'height' => '55'])
+                    ? Html::img(Yii::$app->request->baseUrl . $user_show['avatar'], ['width' => '55', 'height' => '55'])
                     : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
             </a>
             <div class="feedback-card__top--name my-list__bottom">

@@ -159,6 +159,7 @@ class ProfileForm extends Model
     {
         if (!empty($this->avatar)) {
             $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
+            $this->avatar = '/uploads/' . $this->avatar;
         }
     }
 

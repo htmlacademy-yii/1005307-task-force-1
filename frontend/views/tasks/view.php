@@ -97,7 +97,7 @@ $user = $this->params['user'];
                                 <div class="feedback-card__top">
                                     <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
                                         <?= $doer->avatar
-                                            ? Html::img(Yii::$app->request->baseUrl . '/img/' . $doer->avatar, ['width' => '55', 'height' => '55'])
+                                            ? Html::img(Yii::$app->request->baseUrl . $doer->avatar, ['width' => '55', 'height' => '55'])
                                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
                                     </a>
                                     <div class="feedback-card__top--name">
@@ -154,7 +154,7 @@ $user = $this->params['user'];
                     <h3><?= $isClientNotNewTask ? 'Исполнитель' : 'Заказчик' ?></h3>
                     <div class="profile-mini__top">
                         <?= $user_show->avatar
-                            ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user_show->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
+                            ? Html::img(Yii::$app->request->baseUrl . $user_show->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
                         <div class="profile-mini__name five-stars__rate">
                             <p><?= $user_show->name ?></p>

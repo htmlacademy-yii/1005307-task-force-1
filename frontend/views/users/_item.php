@@ -11,7 +11,7 @@ use yii\helpers\Html;
         <div class="user__search-icon">
             <a href="<?= Url::to(['users/view', 'id' => $model['id']]) ?>">
                 <?= $model['avatar']
-                    ? Html::img(Yii::$app->request->baseUrl . '/img/' . $model['avatar'], ['width' => '65', 'height' => '65'])
+                    ? Html::img(Yii::$app->request->baseUrl . $model['avatar'], ['width' => '65', 'height' => '65'])
                     : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '65', 'height' => '65']) ?> </a>
             <span>
                 <?= $model['done_tasks'] ?>
