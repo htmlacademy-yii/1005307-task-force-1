@@ -139,7 +139,7 @@ $user = $this->params['user'];
         <div class="connect-desk__profile-mini">
             <div class="profile-mini__wrapper">
                 <?php $isClientNotNewTask = false;
-                if ($task->status_task !== 'Новое' && $task->status_task !== 'Отмененное' && $user->id == $task->client_id) {
+                if ($task->status_task !== 'Новое' && $task->status_task !== 'Отменено' && $user->id == $task->client_id) {
                     $isClientNotNewTask = true;
                 } ?>
                 <h3><?= $isClientNotNewTask ? 'Исполнитель' : 'Заказчик' ?></h3>

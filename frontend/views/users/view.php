@@ -49,20 +49,20 @@ $user_account = $this->params['user'];
                             <b class="done-task"><?= 'Создал' ?> <?= $user['created_tasks'] ?> <?= $formatter->getNounPluralForm($user['created_tasks'], 'заказ', 'заказа', 'заказов') ?></b>
                         <?php endif;
                     endif; ?>
+                    <?php $favourites = $user['favourites'];
+                    $isFavourite = false;
+                    foreach ($favourites as $favourite) {
+                        if ($favourite['user_id'] === $user_account['id']) {
+                            $isFavourite = true;
+                            break;
+                        }
+                    } ?>
                 </div>
-                <?php $favourites = $user['favourites'];
-                $isFavourite = false;
-                foreach ($favourites as $favourite) {
-                    if ($favourite['user_id'] === $user_account['id']) {
-                        $isFavourite = true;
-                        break;
-                    }
-                } ?>
                 <div
                     class="content-view__headline user__card-bookmark <?= $isFavourite ? 'user__card-bookmark--current' : '' ?>">
                     <span>Был на сайте <?= $formatter->asRelativeTime($user['last_activity_time'], strftime("%F %T")) ?></span>
                     <?php if ($user->id != $user_account->id) : ?>
-                        <a href="<?= Url::to(['users/add-favourite', 'isFavouriteValue' => $isFavourite, 'id' => $user->id]) ?>"><b></b></a>
+                        <a href="<?= Url::to(['users/add-favourite', 'isFavouriteValue' => $isFavourite, 'id' => $user['id']]) ?>"><b></b></a>
                     <?php endif; ?>
                 </div>
             </div>

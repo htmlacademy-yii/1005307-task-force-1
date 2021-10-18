@@ -304,7 +304,7 @@ return [
         'client_id' => 8,
         'status_task' => 'Выполнено'
     ],
-    [//22
+    [
         'dt_add' => '2021-03-25 02:57:55',
         'category_id' => 1,
         'description' => 'Ullam consequatur nihil maxime consequuntur qui commodi tempora. Reprehenderit aliquam quaerat sunt explicabo molestias ut placeat ea. Nihil harum cum ratione ut quo.',
@@ -315,7 +315,7 @@ return [
         'doer_id' => 1,
         'status_task' => 'Выполнено'
     ],
-    [//23
+    [
         'dt_add' => '2021-04-27 22:41:46',
         'category_id' => 1,
         'description' => 'Aut modi exercitationem ut quo et adipisci eum deserunt. Quia omnis cumque officiis nulla. Atque est aperiam et iure inventore qui accusamus quis. Qui dolor dolorem sunt dolores quasi doloribus.',
@@ -326,7 +326,7 @@ return [
         'client_id' => 7,
         'status_task' => 'Выполнено'
     ],
-    [//24
+    [
         'dt_add' => '2021-02-13 01:23:33',
         'category_id' => 1,
         'description' => 'Odit architecto error fuga ut veritatis. Quia sint et sit ut. Fuga culpa dolor enim nesciunt.',
@@ -337,7 +337,7 @@ return [
         'client_id' => 10,
         'status_task' => 'Выполнено'
     ],
-    [//25
+    [
         'dt_add' => '2021-01-04 20:06:37',
         'category_id' => 8,
         'description' => 'Autem deleniti quasi blanditiis doloremque. Mollitia labore porro sunt suscipit.',
@@ -353,7 +353,7 @@ return [
         'client_id' => 1,
         'status_task' => 'Выполнено'
     ],
-    [//26
+    [
         'dt_add' => '2021-02-01 01:33:59',
         'category_id' => 3,
         'description' => 'Dolorum et sit amet at. Autem tempora sed numquam nemo mollitia facere totam enim. Occaecati et ut at est amet sit molestiae.',
@@ -369,7 +369,7 @@ return [
         'client_id' => 4,
         'status_task' => 'Выполнено'
     ],
-    [//27
+    [
         'dt_add' => '2021-02-20 13:44:19',
         'category_id' => 4,
         'description' => 'Earum quos eaque alias voluptatem tenetur deserunt magnam. Sit laudantium sequi et cumque. Architecto nihil minima aut suscipit. Unde assumenda ea sapiente et.',
@@ -385,7 +385,7 @@ return [
         'client_id' => 8,
         'status_task' => 'Выполнено'
     ],
-    [//28
+    [
         'dt_add' => '2021-01-22 21:28:22',
         'category_id' => 5,
         'description' => 'Sed impedit cum aut quo repellat cumque est. Fuga voluptate quis dolorem corrupti quidem pariatur eum dicta. Quis qui qui maiores labore modi alias. Et nulla nisi ut sit omnis beatae.',
@@ -401,7 +401,7 @@ return [
         'client_id' => 3,
         'status_task' => 'Выполнено'
     ],
-    [//29
+    [
         'dt_add' => '2021-01-26 10:38:01',
         'category_id' => 5,
         'description' => 'Dolorem numquam veniam fuga sint sint. In officiis voluptas velit nulla saepe qui ipsum. Et et sit quia sit aut.',
@@ -417,7 +417,7 @@ return [
         'client_id' => 8,
         'status_task' => 'Выполнено'
     ],
-    [//30
+    [
         'dt_add' => '2021-02-09 01:50:14',
         'category_id' => 7,
         'description' => 'Consequatur et facere ipsa aliquid repudiandae minus quo occaecati. Dolor minima vel quasi molestiae nemo sint nam quas. Suscipit quasi ut molestias ut voluptas aperiam.',
@@ -433,7 +433,7 @@ return [
         'client_id' => 7,
         'status_task' => 'Выполнено'
     ],
-    [//31
+    [
         'dt_add' => '2021-03-29 02:58:17',
         'category_id' => 4,
         'description' => 'Non dolorum nisi aut beatae veniam. Necessitatibus minus ratione recusandae quam. Voluptates necessitatibus dolore qui et. Dicta beatae non fugiat nostrum nobis.',
@@ -449,7 +449,7 @@ return [
         'client_id' => 1,
         'status_task' => 'Выполнено'
     ],
-    [//32
+    [
         'dt_add' => '2021-03-14 22:03:40',
         'category_id' => 2,
         'description' => 'Ad ea sit quod ratione aut vero. Dolorem voluptatem dignissimos nisi iure excepturi qui. Quos ratione exercitationem magnam veniam. Iure voluptatem accusantium at sequi dolorem autem.',
@@ -465,7 +465,7 @@ return [
         'client_id' => 8,
         'status_task' => 'Выполнено'
     ],
-    [//33
+    [
         'dt_add' => '2021-01-29 23:44:37',
         'category_id' => 8,
         'description' => 'Cum voluptatem id quas adipisci sit. Ut eos vero ipsam. Aut ut minus ut est necessitatibus.',
@@ -481,7 +481,7 @@ return [
         'client_id' => 1,
         'status_task' => 'Выполнено'
     ],
-    [//34
+    [
         'dt_add' => '2021-03-27 06:02:06',
         'category_id' => 3,
         'description' => 'Eos sunt quia omnis consequatur. Qui ut ut ratione incidunt non. Provident voluptatibus quia non.',
@@ -497,7 +497,7 @@ return [
         'client_id' => 5,
         'status_task' => 'Выполнено'
     ],
-    [//35
+    [
         'dt_add' => '2021-01-01 13:23:12',
         'category_id' => 4,
         'description' => 'Sapiente ut cumque vel quae esse dolorem. Nihil eveniet distinctio tenetur similique hic assumenda quisquam. Tempore eveniet blanditiis cumque architecto ex in. Repellat magni est eum ut.',
@@ -513,7 +513,7 @@ return [
         'client_id' => 1,
         'status_task' => 'Выполнено'
     ],
-    [//36
+    [
         'dt_add' => '2021-03-27 08:09:08',
         'category_id' => 4,
         'description' => 'Quia quis vel et non. Ad earum aut natus ea nostrum.',
@@ -529,7 +529,7 @@ return [
         'client_id' => 6,
         'status_task' => 'Выполнено'
     ],
-    [//37
+    [
         'dt_add' => '2021-02-02 15:47:48',
         'category_id' => 3,
         'description' => 'Molestiae id dolores voluptates velit. Vel dolorem rerum velit ut debitis reiciendis. Vitae omnis eum assumenda quibusdam aliquam quia aut.',
@@ -545,7 +545,7 @@ return [
         'client_id' => 6,
         'status_task' => 'Выполнено'
     ],
-    [//38
+    [
         'dt_add' => '2021-02-05 05:22:15',
         'category_id' => 5,
         'description' => 'Consectetur optio velit temporibus ad autem libero quo rem. Ab maiores est in molestiae velit necessitatibus deleniti. Iure consequatur nobis qui deleniti dolores.',
@@ -561,7 +561,7 @@ return [
         'client_id' => 1,
         'status_task' => 'Провалено'
     ],
-    [//39
+    [
         'dt_add' => '2021-02-08 23:21:38',
         'category_id' => 6,
         'description' => 'Libero pariatur et fugiat itaque aperiam. Est aut amet magnam quasi. Eum non facilis in non. Eligendi culpa provident nisi sint. Quia cumque ut consequatur culpa eum at. Aut rerum ut eveniet.',
@@ -577,7 +577,7 @@ return [
         'client_id' => 10,
         'status_task' => 'Провалено'
     ],
-    [//40
+    [
         'dt_add' => '2021-03-25 10:17:26',
         'category_id' => 4,
         'description' => 'Doloremque adipisci ipsum dolorem veritatis vitae. Tempore voluptatem excepturi reprehenderit porro non quia. Sapiente magnam labore omnis. Nostrum odio omnis ullam unde unde quis.',

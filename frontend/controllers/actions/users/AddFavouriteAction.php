@@ -30,8 +30,11 @@ class AddFavouriteAction extends BaseAction
         }
 
         if ($isFavouriteValue) {
-            $favourite = Favourites::findOne($id);
-            $favourite->delete();
+            $this->favourite = Favourites::find()->where(['user_id' => $this->user->id])->andWhere(['favourite_person_id' => $user->id])->all();
+            foreach ($this->favourite as $favourites) {
+                $favourites->delete();
+            }
+
         }
 
         return $this->controller->redirect([
