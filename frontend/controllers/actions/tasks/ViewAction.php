@@ -6,16 +6,24 @@ namespace frontend\controllers\actions\tasks;
 
 use frontend\models\tasks\Tasks;
 use frontend\models\tasks\TaskActions;
+use yii\base\BaseObject;
 use yii\web\NotFoundHttpException;
 use yii\web\View;
+use yii;
+use yii\web\HttpException;
 
 class ViewAction extends BaseAction
 {
     public function run($id, View $view): string
     {
-        $tasks = new Tasks();
-        $task = $tasks->getOneTask($id);
-
+        $id = (int)$id;
+        $task = Tasks::find()->andWhere(['id' => $id])->one();
+        if (!$task) {
+            throw new HttpException(
+                404,
+                'Запрошенная страница задания не найдена'
+            );
+        }
         if ($task->status_task !== 'Новое' && $task->status_task !== 'Выполнено') {
             if ($this->user->id !== $task->client_id && $this->user->id !== $task->doer_id) {
                 $this->controller->redirect('/tasks/index');

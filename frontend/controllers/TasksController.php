@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace frontend\controllers;
+use yii;
 
 class TasksController extends SecuredController
 {

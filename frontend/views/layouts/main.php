@@ -21,7 +21,6 @@ use frontend\models\{
 AppAsset::register($this);
 $this->registerJsFile('/js/lightbulb.js');
 $users = \Yii::$app->user->getIdentity();
-$user = Users::getOneUser($users->id);
 
 AppAsset::register($this);
 ?>
@@ -129,8 +128,8 @@ AppAsset::register($this);
                     'items' => [
                         ['label' => 'Задания', 'url' => ['tasks/index']],
                         ['label' => 'Исполнители', 'url' => ['users/index']],
-                        ['label' => 'Создать задание', 'url' => ['tasks/create'], 'visible' => $user['user_role'] === 'client'],
-                        ['label' => 'Мой профиль', 'url' => ['users/view', 'id' => $user->id]],
+                        ['label' => 'Создать задание', 'url' => ['tasks/create'], 'visible' => $users['user_role'] === 'client'],
+                        ['label' => 'Мой профиль', 'url' => ['users/view', 'id' => $users->id]],
                     ],
                     'options' => [
                         'class' => 'header-nav__list site-list',
@@ -142,7 +141,8 @@ AppAsset::register($this);
             </div>
             <?php if (!Yii::$app->user->isGuest): ?>
                 <div class="header__town">
-                    <?php $cities = Cities::getAll() ?>
+                    <?php $cities = Cities::getAll();
+                    $user = Users::getOneUser($users->id);?>
                     <select class="multiple-select input town-select" size="1" name="town[]">
                         <?php foreach ($cities as $city): ?>
                             <option value="<?= $city['value'] ?>"><?= $city['city'] ?></option>
