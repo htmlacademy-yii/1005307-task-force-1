@@ -30,7 +30,6 @@ class IndexAction extends Action
             $signForm->failed_tasks = 0;
             $user = new Users(['attributes' => $signForm->attributes]);
             $user->password = Yii::$app->security->generatePasswordHash($signForm->password);
-       //     $user->failed_tasks = 0;
             $user->save(false);
             $userOptionSettings = new UserOptionSettings();
             $userOptionSettings->user_id = $user->id;

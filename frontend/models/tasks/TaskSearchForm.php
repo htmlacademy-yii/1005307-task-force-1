@@ -144,6 +144,11 @@ class TaskSearchForm extends Tasks
                 ->andFilterWhere(['<', 'expire', new Expression('NOW()')]);
         }
 
+        if ($status_task == 'Отмененное') {
+            $query->andWhere(['status_task' => 'Отмененное'])
+            ->orWhere(['status_task' => 'Провалено']);
+        }
+
         $user_role == 'client' ?
             $query->andWhere(['client_id' => $user_id])
                 ->joinWith('doer') :
