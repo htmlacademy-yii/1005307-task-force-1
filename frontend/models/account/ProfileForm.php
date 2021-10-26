@@ -197,10 +197,6 @@ class ProfileForm extends Model
     {
         $optionSet = $user->optionSet;
 
-        if ($optionSet === null) {
-            $optionSet = new UserOptionSettings();
-        }
-
         foreach ($optionSet->attributes as $name => $value) {
             if ($name !== 'id') {
                 $optionSet->$name = $name !== 'user_id' ? 0 : $user->id;

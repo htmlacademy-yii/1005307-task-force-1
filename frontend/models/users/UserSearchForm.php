@@ -47,6 +47,8 @@ class UserSearchForm extends Users
             ->with('userCategories')
             ->with('favourites')
             ->with('portfolioPhotos')
+            ->joinWith('optionSet')
+            ->andWhere(['is_hidden_account' => 0])
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
