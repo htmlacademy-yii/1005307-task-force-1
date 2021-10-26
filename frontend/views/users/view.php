@@ -4,6 +4,7 @@ $this->title = 'Исполнитель ' . $user['name'];
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use frontend\models\tasks\Tasks;
 
 $user_account = $this->params['user'];
 
@@ -81,25 +82,36 @@ $user_account = $this->params['user'];
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
-                    <h3 class="content-view__h3">Контакты</h3>
-                    <div class="user__card-link">
-                        <a class="user__card-link--tel link-regular"
-                           href="tel:<?= $user['phone'] ?>"><?= $user['phone'] ?></a>
-                        <?= $formatter->asEmail($user['email'], ['class' => 'user__card-link--email link-regular']) ?>
-                        <?php if ($user['skype']) : ?>
-                            <a class="user__card-link--skype link-regular"
-                               href="skype:<?= $user['skype'] ?>"><?= $user['skype'] ?></a>
-                        <?php endif; ?>
-                    </div>
+                    <?php $optionSettings = $user['optionSet'];
+                    $hiddenContacts = false;
+                    if ($optionSettings['is_hidden_contacts'] == 1 && $user_account->id !== $user->id) {
+                        $hiddenContacts = true;
+                    }
+                    $userTasks = Tasks::find()->where(['client_id' => $user_account->id])->andWhere(['doer_id' => $user->id])->andWhere(['status_task' => 'На исполнении'])->all();
+                    if ($userTasks) {
+                        $hiddenContacts = false;
+                    }
+                    if (!$hiddenContacts):?>
+                        <h3 class="content-view__h3">Контакты</h3>
+                        <div class="user__card-link">
+                            <a class="user__card-link--tel link-regular"
+                               href="tel:<?= $user['phone'] ?>"><?= $user['phone'] ?></a>
+                            <?= $formatter->asEmail($user['email'], ['class' => 'user__card-link--email link-regular']) ?>
+                            <?php if ($user['skype']) : ?>
+                                <a class="user__card-link--skype link-regular"
+                                   href="skype:<?= $user['skype'] ?>"><?= $user['skype'] ?></a>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
-
                 <?php $portfolio = $user['portfolioPhotos'];
                 if ($portfolio): ?>
                     <div class="user__card-photo">
                         <h3 class="content-view__h3">Фото работ</h3>
                         <?php foreach ($portfolio as $portfolio_photo) : ?>
                             <a>
-                                <img src='<?=$portfolio_photo["photo"]?>' alt='Фото' width='85' height='86' onclick = 'openImageWindow(this.src);' />
+                                <img src='<?= $portfolio_photo["photo"] ?>' alt='Фото' width='85' height='86'
+                                     onclick='openImageWindow(this.src);'/>
                             </a>
                         <?php endforeach; ?>
                     </div>

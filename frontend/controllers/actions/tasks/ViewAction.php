@@ -6,7 +6,6 @@ namespace frontend\controllers\actions\tasks;
 
 use frontend\models\tasks\Tasks;
 use frontend\models\tasks\TaskActions;
-use yii\base\BaseObject;
 use yii\web\NotFoundHttpException;
 use yii\web\View;
 use yii;

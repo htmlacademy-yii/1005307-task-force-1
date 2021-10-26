@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\users;
 
 use frontend\models\users\Users;
-use yii\web\NotFoundHttpException;
 use yii\web\View;
 use yii\web\HttpException;
 
