@@ -25,6 +25,7 @@ class RefuseAction extends BaseAction
                 ->where(['doer_id' => $this->user->id])
                 ->andWhere(['status_task' => 'Провалено'])->count();
             $user_doer->save(false);
+            Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 3, 'user_id' => $task->client_id]);
         }
 
         return $this->controller->redirect([

@@ -35,7 +35,7 @@ class RequestAction extends BaseAction
                 $user_client = Users::findOne($opinion->client_id);
                 $opinions = Opinions::find()->where(['doer_id' => $user_doer->id]);
                 $task = Tasks::findOne($opinion->task_id);
-                $opinion->completion == 1 ? $task->status_task = 'Выполнено' : $task->status_task = 'Провалено';
+               // $opinion->completion == 1 ? $task->status_task = 'Выполнено' : $task->status_task = 'Провалено';
                 $task->save();
                 $user_doer->rating = $opinions->select('AVG(rate) as rating');
                 $tasks_doer = Tasks::find()->where(['doer_id' => $user_doer->id]);
@@ -47,6 +47,7 @@ class RequestAction extends BaseAction
                 $user_doer->opinions_count = $opinions->count();
                 $user_doer->save();
                 $user_client->save();
+                Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 5, 'user_id' => $user_doer->id]);
             }
         }
 

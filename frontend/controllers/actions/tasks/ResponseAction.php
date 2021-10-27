@@ -29,7 +29,7 @@ class ResponseAction extends BaseAction
                 $response = new Responses(['attributes' => $responseForm->attributes]);
                 $response->save(false);
                 $task = Tasks::findOne($response->task_id);
-                Yii::$app->runAction('event/add-notification', ['task' => $responseForm->task_id, 'notification_category' => 1, 'user_id' => $task->client_id]);
+                Yii::$app->runAction('event/add-notification', ['task_id' => $responseForm->task_id, 'notification_category' => 1, 'user_id' => $task->client_id]);
             }
         }
 
