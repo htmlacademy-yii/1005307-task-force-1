@@ -10,7 +10,8 @@ class SiteController extends SecuredController
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ]
+            ],
+            'set-cities' => \frontend\controllers\actions\site\SetCitiesAction::class,
         ];
     }
 }

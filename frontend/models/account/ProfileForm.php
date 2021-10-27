@@ -99,7 +99,7 @@ class ProfileForm extends Model
             ['phone', 'match',
                 'pattern' => "/^\d{11}$/",
                 'message' => 'Введите 11-значное число'],
-            [['skype', 'telegram'], 'match',
+            ['skype', 'match',
                 'pattern' => "/^[a-zA-Z0-9]{3,}$/",
                 'message' => 'Значение должно состоять из латинских символов и цифр, от 3-х знаков в длину'],
             [['avatar', 'email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'phone', 'skype', 'telegram', 'specializations', 'optionSet', 'photo'], 'safe'],

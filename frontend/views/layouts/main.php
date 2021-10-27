@@ -11,6 +11,9 @@ use frontend\models\cities\Cities;
 use yii\widgets\Menu;
 use frontend\models\users\Users;
 use frontend\models\notifications\Notifications;
+use frontend\models\cities\SetCitiesForm;
+use yii\web\Session;
+use yii\widgets\ActiveForm;
 
 use frontend\models\{
     responses\ResponseForm,
@@ -285,8 +288,14 @@ AppAsset::register($this);
         image.src = src;
         var width = image.width;
         var height = image.height;
-        window.open(src,"Image","width=" + width + ",height=" + height);
+        window.open(src, "Image", "width=" + width + ",height=" + height);
     }
+</script>
+<script type="text/javascript">
+    var lightbulb = document.getElementsByClassName('header__lightbulb')[0];
+    lightbulb.addEventListener('mouseover', function () {
+        fetch('/index.php?r=events/index');
+    });
 </script>
 <?php $this->endBody() ?>
 </body>
