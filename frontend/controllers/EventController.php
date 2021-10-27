@@ -2,17 +2,10 @@
 
 namespace frontend\controllers;
 
-
-use frontend\models\notifications\Notifications;
-use frontend\models\tasks\Tasks;
-use Yii;
 use yii\web\Controller;
-use yii\web\View;
 
 class EventController extends Controller
 {
-
-
     public function actions(): array
     {
         return [

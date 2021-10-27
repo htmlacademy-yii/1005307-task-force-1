@@ -7,13 +7,23 @@ namespace frontend\controllers\actions\event;
 use frontend\models\notifications\Notifications;
 use frontend\models\tasks\Tasks;
 use Yii;
+use yii\base\Action;
 use yii\web\Controller;
 use yii\web\View;
 
-class IndexAction
+class IndexAction extends Action
 {
-    public function run()
+    public function run(View $view)
     {
-        return json_encode(Notifications::find()->where(['user_id' => Yii::$app->user->id])->asArray()->all(), JSON_UNESCAPED_UNICODE);
+        $user = \Yii::$app->user->getIdentity();
+        $notifications = Notifications::getVisibleNoticesByUser($user);
+        $view->params['newEvents'] = $notifications;
+        if ($view->params['newEvents']) {
+
+            foreach ($view->params['newEvents'] as $event) {
+                $event->visible = 0;
+                $event->save();
+            }
+        }
     }
 }
