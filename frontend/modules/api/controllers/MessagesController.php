@@ -6,6 +6,7 @@ use yii\base\BaseObject;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 use frontend\models\messages\Messages;
+use frontend\models\notifications\Notifications;
 use frontend\models\users\Users;
 use yii\web\ServerErrorHttpException;
 use yii\filters\ContentNegotiator;
@@ -99,6 +100,12 @@ class MessagesController extends ActiveController
         } else {
             throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
         }
+        $notification = new Notifications();
+        $notification->notification_category_id = 2;
+        $notification->task_id = $newMessage->task_id;
+        $notification->visible = 1;
+        $notification->user_id = $newMessage->recipient_id;
+        $notification->save();
 
         return json_encode($newMessage->toArray());
     }
