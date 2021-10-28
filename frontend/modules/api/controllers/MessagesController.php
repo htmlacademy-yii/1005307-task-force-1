@@ -72,6 +72,10 @@ class MessagesController extends ActiveController
         foreach ($messages as $key => $message) {
             $message->is_mine = $userId === $message->writer_id ? 1 : 0;
             $messages[$key] = $message;
+            if ($userId === $message->recipient_id) {
+                $message->unread = 0;
+                $message->save();
+            }
         }
 
         return $messages;
@@ -85,6 +89,7 @@ class MessagesController extends ActiveController
         $newMessage->message = $post->message;
         $newMessage->writer_id = $user_id;
         $newMessage->task_id = $post->task_id;
+        $newMessage->unread = 1;
 
         $user_id === $newMessage->task->doer_id ?
             $newMessage->recipient_id = $newMessage->task->client_id

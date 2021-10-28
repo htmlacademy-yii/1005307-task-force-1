@@ -21,6 +21,7 @@ use yii\db\ActiveRecord;
  * @property int $recipient_id
  * @property int $task_id
  * @property int $is_mine
+ * @property int $unread
  */
 class Messages extends ActiveRecord
 {
@@ -34,9 +35,9 @@ class Messages extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['message', 'task_id'], 'required'],
+            [['message', 'task_id', 'unread'], 'required'],
             [['message'], 'string'],
-            [['published_at', 'message', 'writer_id', 'recipient_id', 'task_id', 'is_mine'], 'safe'],
+            [['published_at', 'message', 'writer_id', 'recipient_id', 'task_id', 'is_mine', 'unread'], 'safe'],
             [['writer_id', 'task_id'], 'integer'],
             [['task_id'],
                 'exist',
@@ -76,6 +77,7 @@ class Messages extends ActiveRecord
             'writer_id',
             'task_id',
             'is_mine',
+            'unread',
         ];
     }
 
@@ -87,6 +89,13 @@ class Messages extends ActiveRecord
     public function getUser(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'writer_id']);
+    }
+
+    public static function getUserMessages($task_id, $user_id): array
+    {
+        return self::find()->where(['task_id' => $task_id])
+            ->andWhere(['recipient_id' => $user_id])
+            ->andWhere(['unread' => 1])->asArray()->all();
     }
 
     public static function find(): MessagesQuery
