@@ -2,7 +2,6 @@
 
 namespace frontend\models\users;
 
-
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -29,7 +28,10 @@ class PortfolioPhoto extends ActiveRecord
             [['photo', 'user_id'], 'required'],
             [['user_id'], 'integer'],
             [['photo'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 

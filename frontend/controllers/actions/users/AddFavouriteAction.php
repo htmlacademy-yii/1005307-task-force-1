@@ -6,12 +6,14 @@ namespace frontend\controllers\actions\users;
 
 use frontend\models\users\Users;
 use frontend\models\users\Favourites;
+use yii\base\BaseObject;
 use yii\web\NotFoundHttpException;
 use yii\base\Action;
 use yii\web\View;
 
 class AddFavouriteAction extends BaseAction
 {
+    public $favourite;
     public function run($isFavouriteValue, $id)
     {
         $user = Users::getOneUser($id);
@@ -21,10 +23,18 @@ class AddFavouriteAction extends BaseAction
         }
 
         if (!$isFavouriteValue) {
-            $favourite = new Favourites;
-            $favourite->favourite_person_id = $user->id;
-            $favourite->user_id = $this->user->id;
-            $favourite->save();
+            $this->favourite = new Favourites;
+            $this->favourite->favourite_person_id = $user->id;
+            $this->favourite->user_id = $this->user->id;
+            $this->favourite->save();
+        }
+
+        if ($isFavouriteValue) {
+            $this->favourite = Favourites::find()->where(['user_id' => $this->user->id])->andWhere(['favourite_person_id' => $user->id])->all();
+            foreach ($this->favourite as $favourites) {
+                $favourites->delete();
+            }
+
         }
 
         return $this->controller->redirect([

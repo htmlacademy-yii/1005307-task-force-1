@@ -6,6 +6,7 @@ use yii\base\BaseObject;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 use frontend\models\messages\Messages;
+use frontend\models\notifications\Notifications;
 use frontend\models\users\Users;
 use yii\web\ServerErrorHttpException;
 use yii\filters\ContentNegotiator;
@@ -71,6 +72,10 @@ class MessagesController extends ActiveController
         foreach ($messages as $key => $message) {
             $message->is_mine = $userId === $message->writer_id ? 1 : 0;
             $messages[$key] = $message;
+            if ($userId === $message->recipient_id) {
+                $message->unread = 0;
+                $message->save();
+            }
         }
 
         return $messages;
@@ -84,6 +89,7 @@ class MessagesController extends ActiveController
         $newMessage->message = $post->message;
         $newMessage->writer_id = $user_id;
         $newMessage->task_id = $post->task_id;
+        $newMessage->unread = 1;
 
         $user_id === $newMessage->task->doer_id ?
             $newMessage->recipient_id = $newMessage->task->client_id
@@ -99,6 +105,12 @@ class MessagesController extends ActiveController
         } else {
             throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
         }
+        $notification = new Notifications();
+        $notification->notification_category_id = 2;
+        $notification->task_id = $newMessage->task_id;
+        $notification->visible = 1;
+        $notification->user_id = $newMessage->recipient_id;
+        $notification->save();
 
         return json_encode($newMessage->toArray());
     }

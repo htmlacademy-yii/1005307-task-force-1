@@ -11,11 +11,11 @@ use yii\helpers\Html;
         <div class="user__search-icon">
             <a href="<?= Url::to(['users/view', 'id' => $model['id']]) ?>">
                 <?= $model['avatar']
-                    ? Html::img(Yii::$app->request->baseUrl . '/img/' . $model['avatar'], ['width' => '65', 'height' => '65'])
+                    ? Html::img(Yii::$app->request->baseUrl . $model['avatar'], ['width' => '65', 'height' => '65'])
                     : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '65', 'height' => '65']) ?> </a>
             <span>
-                <?= $model['finished_task_count'] ?>
-                <?= $formatter->getNounPluralForm($model['finished_task_count'], 'задание', 'задания', 'заданий') ?>
+                <?= $model['done_tasks'] ?>
+                <?= $formatter->getNounPluralForm($model['done_tasks'], 'задание', 'задания', 'заданий') ?>
             </span>
             <span>
                 <?= $model['opinions_count'] ?>
@@ -25,11 +25,11 @@ use yii\helpers\Html;
         <div class="feedback-card__top--name user__search-card">
             <p class="link-name"><a href="<?= Url::to(['users/view', 'id' => $model['id']]) ?>" class="link-regular"><?= $model['name'] ?></a></p>
             <?php if ($model['rating'] > 0) : ?>
-                <?php $starCount = round((float)$model['rating']) ?>
+                <?php $starCount = round($model['rating']) ?>
                 <?php for ($i = 1; $i <= 5; $i++): ?>
                     <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                 <?php endfor; ?>
-                <b><?= floor($model['rating'] * 100) / 100 ?></b>
+                <b><?= round($model['rating'], 2) ?></b>
             <?php endif; ?>
             <p class="user__search-content">
                 <?= $model['about'] ?>

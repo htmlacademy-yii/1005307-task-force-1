@@ -20,7 +20,9 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "yiisoft/yii2-faker": "^2.0",
         "guzzlehttp/guzzle": "^6.5",
-      "ext-json": "*"
+        "maxdancepro/yii2-autocomplete": "*",
+      "ext-json": "*",
+        "hflabs/dadata": "^20.12"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

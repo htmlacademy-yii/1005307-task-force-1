@@ -7,8 +7,13 @@
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
 use yii\helpers\Url;
-use yii\widgets\Menu;
 use frontend\models\cities\Cities;
+use yii\widgets\Menu;
+use frontend\models\users\Users;
+use frontend\models\notifications\Notifications;
+use frontend\models\cities\SetCitiesForm;
+use yii\web\Session;
+use yii\widgets\ActiveForm;
 
 use frontend\models\{
     responses\ResponseForm,
@@ -17,10 +22,12 @@ use frontend\models\{
 };
 
 AppAsset::register($this);
-$user = \Yii::$app->user->getIdentity();
+$this->registerJsFile('/js/lightbulb.js');
+$users = \Yii::$app->user->getIdentity();
 
 AppAsset::register($this);
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= yii::$app->language ?>">
@@ -33,28 +40,7 @@ AppAsset::register($this);
 
     <title><?= Html::encode($this->title) ?></title>
 
-    <?php if ($this->title === 'Публикация нового задания'): ?>
-        <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU&load=SuggestView&onload=onLoad"></script>
-        <script>
-            function onLoad(ymaps) {
-                var suggestView = new ymaps.SuggestView('address',
-                    {boundedBy: getCoordinates()})
-            }
-
-            function getCoordinates() {
-                if (<?= $user['city_id']?> === 1) {
-                    return [[55.474531, 37.054360], [55.246032, 37.798108]];
-                }
-
-                if (<?= $user['city_id']?> === 2) {
-                    return [[59.574531, 30.054360], [59.246032, 30.798108]];
-                }
-            }
-        </script>
-    <?php endif; ?>
-
     <?php if ($this->title === 'Просмотр задания'): ?>
-
         <script src="https://api-maps.yandex.ru/2.1/?apikey=e666f398-c983-4bde-8f14-e3fec900592a&lang=ru_RU"
                 type="text/javascript">
         </script>
@@ -73,7 +59,12 @@ AppAsset::register($this);
             }
         </script>
     <?php endif; ?>
-
+    <script>
+        var lightbulb = document.getElementsByClassName('header__lightbulb')[0];
+        lightbulb.addEventListener('mouseover', function () {
+            fetch('/index.php?r=event/index');
+        });
+    </script>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -140,8 +131,8 @@ AppAsset::register($this);
                     'items' => [
                         ['label' => 'Задания', 'url' => ['tasks/index']],
                         ['label' => 'Исполнители', 'url' => ['users/index']],
-                        ['label' => 'Создать задание', 'url' => ['tasks/create'], 'visible' => $user['user_role'] === 'client'],
-                        ['label' => 'Мой профиль', 'url' => ['users/view', 'id' => $user->id]],
+                        ['label' => 'Создать задание', 'url' => ['tasks/create'], 'visible' => $users['user_role'] === 'client'],
+                        ['label' => 'Мой профиль', 'url' => ['users/view', 'id' => $users->id]],
                     ],
                     'options' => [
                         'class' => 'header-nav__list site-list',
@@ -153,47 +144,51 @@ AppAsset::register($this);
             </div>
             <?php if (!Yii::$app->user->isGuest): ?>
                 <div class="header__town">
-                    <?php $cities = Cities::getAll() ?>
+                    <?php $cities = Cities::getAll();
+                    $user = Users::getOneUser($users->id);?>
                     <select class="multiple-select input town-select" size="1" name="town[]">
                         <?php foreach ($cities as $city): ?>
                             <option value="<?= $city['value'] ?>"><?= $city['city'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="header__lightbulb"></div>
-                <div class="lightbulb__pop-up">
-                    <h3>Новые события</h3>
-                    <p class="lightbulb__new-task lightbulb__new-task--message">
-                        Новое сообщение в чате
-                        <a href="#" class="link-regular">«Помочь с курсовой»</a>
-                    </p>
-                    <p class="lightbulb__new-task lightbulb__new-task--executor">
-                        Выбран исполнитель для
-                        <a href="#" class="link-regular">«Помочь с курсовой»</a>
-                    </p>
-                    <p class="lightbulb__new-task lightbulb__new-task--close">
-                        Завершено задание
-                        <a href="#" class="link-regular">«Помочь с курсовой»</a>
-                    </p>
+                <?php $notifications = new Notifications();
+            $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id) ?>
+                <div style="position: relative">
+                    <div class="header__lightbulb"
+                         <?php if ($user_notifications): ?>style="background-image: url('/img/lightbulb-white.png')" <?php endif ?>></div>
+                    <div class="lightbulb__pop-up" style="left: -100%; top: 58px">
+                        <h3>Новые события</h3>
+                        <?php foreach ($user_notifications as $notice): ?>
+                            <p class="lightbulb__new-task lightbulb__new-task--<?= $notice['notificationsCategory']['type'] ?>">
+                        <span class="label label-primary"
+                              style="display: block; margin-bottom: 2px; padding-top: 3px"><?= Html::encode($notice['notificationsCategory']['name']) ?></span>
+                                <a href="<?= Url::to(['tasks/view', 'id' => $notice['task']['id']]) ?>"
+                                   class="link-regular">«<?= $notice['task']['name'] ?>»</a>
+                            </p>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
                 <div class="header__account">
                     <a class="header__account-photo">
                         <?= $user['avatar']
-                            ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44'])
+                            ? Html::img(Yii::$app->request->baseUrl . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '43', 'height' => '44'])
                         ?>
                     </a>
                     <span class="header__account-name">
-                        <?= $user['name'] ?>
-                    </span>
+               <?= $user['name'] ?>
+             </span>
                 </div>
                 <div class="account__pop-up">
                     <ul class="account__pop-up-list">
                         <li>
-                            <a href="<?= Url::toRoute('my-tasks/index') ?>">Мои задания</a>
+                            <a href="<?= $user['user_role'] == 'client'
+                                ? Url::to(['my-tasks/index', 'status_task' => 'Новое'])
+                                : Url::to(['my-tasks/index', 'status_task' => 'На исполнении']) ?>">Мои задания</a>
                         </li>
                         <li>
-                            <a href="<?= Url::toRoute('settings/index') ?>">Настройки</a>
+                            <a href="<?= Url::toRoute('profile/index') ?>">Настройки</a>
                         </li>
                         <li>
                             <a href="<?= Url::toRoute('sign/logout') ?>">Выход</a>
@@ -268,11 +263,40 @@ AppAsset::register($this);
         <?= $this->render('//modals/_refuse_form', ['model' => new RefuseForm]); ?>
     <?php endif; ?>
 </div>
-
 <div class="overlay"></div>
 <script src="/js/main.js"></script>
 <script src="/js/messenger.js"></script>
+<?php if ($this->title === 'Публикация нового задания'): ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js"></script>
 
+    <script type="text/javascript">
+        $("#address").suggestions({
+            token: "5e9234412c360c19d520220cc87dc076c8e65389",
+            type: "ADDRESS",
+            constraints: {
+                locations: {region: "<?= $user['city']['city'] ?>"},
+            },
+            restrict_value: true
+        })
+    </script>
+<?php endif; ?>
+<script type="text/javascript">
+    function openImageWindow(src) {
+        var image = new Image();
+        image.src = src;
+        var width = image.width;
+        var height = image.height;
+        window.open(src, "Image", "width=" + width + ",height=" + height);
+    }
+</script>
+<script type="text/javascript">
+    var lightbulb = document.getElementsByClassName('header__lightbulb')[0];
+    lightbulb.addEventListener('mouseover', function () {
+        fetch('/index.php?r=events/index');
+    });
+</script>
 <?php $this->endBody() ?>
 </body>
 </html>

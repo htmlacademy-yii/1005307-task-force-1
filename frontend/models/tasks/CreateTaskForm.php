@@ -1,15 +1,21 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
-use frontend\models\categories\Categories;
-
+use frontend\models\{
+    categories\Categories,
+    cities\Cities
+};
 use yii;
 use yii\base\Model;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\{BadResponseException, ServerException};
+use GuzzleHttp\Exception\{
+    BadResponseException,
+    ServerException
+};
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
+use yii\helpers\ArrayHelper;
 
 class CreateTaskForm extends Model
 {
@@ -20,10 +26,23 @@ class CreateTaskForm extends Model
     public $client_id;
     public $category_id;
     public $status_task;
+    public $file_item;
     public $address;
     public $latitude;
     public $longitude;
     public $city_id;
+    private $cities;
+    public $task_id;
+
+    public function getCities(): array
+    {
+        if (!isset($this->cities)) {
+            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
+        }
+
+        return $this->cities;
+    }
+
 
     public function getCategories(): array
     {
@@ -34,33 +53,48 @@ class CreateTaskForm extends Model
     {
         return [
             ['client_id', 'required'],
-            ['name', 'required', 'message' => 'Кратко опишите суть работы'],
+            ['name', 'required',
+                'message' => 'Кратко опишите суть работы'],
             [['name', 'description'], 'trim'],
-            ['name', 'match', 'pattern' => "/(?=(.*[^ ]{10,}))/",
+            ['name', 'string', 'min' => 10,
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 10 не пробельных символов'
             ],
-            ['description', 'required', 'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
+            ['description', 'required',
+                'message' => 'Укажите все пожелания и детали, чтобы исполнителю было проще сориентироваться'],
             ['description', 'string', 'min' => 30],
-            ['description', 'match', 'pattern' => "/(?=(.*[^ ]))/",
+            ['description', 'match',
+                'pattern' => "/(?=(.*[^ ]))/",
                 'message' => 'Длина поля «{attribute}» должна быть не меньше 30 не пробельных символов'
             ],
-            ['budget', 'integer', 'min' => 1,
+            [['file_item'], 'file',
+                'skipOnEmpty' => true],
+            ['budget', 'integer',
+                'min' => 1,
                 'message' => 'Значение должно быть целым положительным числом',
             ],
+            [['category_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Categories::class,
+                'targetAttribute' => ['category_id' => 'id'],
+                'message' => "Выбрана несуществующая категория"],
             ['category_id', 'validateCat'],
             ['expire', 'validateDate'],
-            ['expire', 'date', 'format' => 'yyyy*MM*dd', 'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address'], 'safe']
+            ['expire', 'date',
+                'format' => 'yyyy*MM*dd',
+                'message' => 'Необходимый формат «гггг.мм.дд»'],
+            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address', 'file_item', 'task_id'], 'safe']
         ];
     }
 
-    public function validateCat() {
+    public function validateCat()
+    {
         if ($this->category_id == 0) {
             $this->addError('category_id', 'Выберите категорию');
         }
     }
 
-    public function validateDate() {
+    public function validateDate()
+    {
         $currentDate = date('Y-m-d H:i:s');
 
         if ($currentDate > $this->expire) {
@@ -83,12 +117,14 @@ class CreateTaskForm extends Model
         if ($response->getStatusCode() !== 200) {
             throw new BadResponseException("Ошибка ответа: " . $response->getReasonPhrase(), $request, $response);
         }
+
         $jsonResponseData = $response->getBody()->getContents();
         $responseData = json_decode($jsonResponseData, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new ServerException("Некорректный json-формат", $request, $response);
         }
+
         $error = $responseData['message'] ?? null;
 
         if ($error) {
@@ -98,7 +134,8 @@ class CreateTaskForm extends Model
         return $responseData;
     }
 
-    public function getCoordinates($address) {
+    public function getCoordinates($address)
+    {
         $coordinates = null;
         $responseData = $this->getGeoData($address);
 
@@ -107,6 +144,24 @@ class CreateTaskForm extends Model
         }
 
         return $coordinates;
+    }
+
+    public function upload(): bool
+    {
+        if (!empty($this->file_item)) {
+
+            if (!$this->validate()) {
+                $errors = $this->getErrors();
+            }
+            if ($this->validate()) {
+                foreach ($this->file_item as $file) {
+                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+                }
+            }
+            return true;
+        }
+
+        return false;
     }
 
     public function attributeLabels(): array

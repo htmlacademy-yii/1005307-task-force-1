@@ -6,6 +6,7 @@ namespace frontend\controllers\actions\tasks;
 
 use frontend\models\responses\ResponseForm;
 use frontend\models\responses\Responses;
+use frontend\models\tasks\Tasks;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use Yii;
@@ -27,6 +28,8 @@ class ResponseAction extends BaseAction
             if ($responseForm->validate()) {
                 $response = new Responses(['attributes' => $responseForm->attributes]);
                 $response->save(false);
+                $task = Tasks::findOne($response->task_id);
+                Yii::$app->runAction('event/add-notification', ['task_id' => $responseForm->task_id, 'notification_category' => 1, 'user_id' => $task->client_id]);
             }
         }
 

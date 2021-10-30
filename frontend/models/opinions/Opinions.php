@@ -7,6 +7,7 @@ use frontend\models\{
     tasks\Tasks,
     users\Users
 };
+
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -38,14 +39,23 @@ class Opinions extends ActiveRecord
     {
         return [
             [['dt_add'], 'safe'],
-            [['completion', 'description', 'rate', 'doer_id', 'client_id', 'task_id'], 'required'],
+            [['completion', 'doer_id', 'client_id', 'task_id'], 'required'],
             [['description'], 'string'],
             [['completion'], 'string'],
             [['rate'], 'number'],
             [['doer_id', 'client_id', 'task_id'], 'integer'],
-            [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['doer_id' => 'id']],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
-            [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['client_id' => 'id']],
+            [['doer_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['doer_id' => 'id']],
+            [['task_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Tasks::class,
+                'targetAttribute' => ['task_id' => 'id']],
+            [['client_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['client_id' => 'id']],
         ];
     }
 

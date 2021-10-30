@@ -4,7 +4,6 @@ namespace frontend\models\users;
 
 use frontend\models\categories\Categories;
 
-use yii;
 use yii\data\ActiveDataProvider;
 
 class UserSearchForm extends Users
@@ -44,17 +43,12 @@ class UserSearchForm extends Users
             return $dataProvider;
         }
 
-        $query->joinWith('opinions')
-            ->select([
-                'users.*',
-                'AVG(opinions.rate) as rating',
-                'count(opinions.rate) as finished_task_count',
-                'count(opinions.description) as opinions_count',
-            ])
-            ->where(['user_role' => 'doer'])
+        $query->where(['user_role' => 'doer'])
             ->with('userCategories')
             ->with('favourites')
             ->with('portfolioPhotos')
+            ->joinWith('optionSet')
+            ->andWhere(['is_hidden_account' => 0])
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();

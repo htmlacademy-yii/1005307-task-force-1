@@ -92,24 +92,23 @@ $user = $this->params['user'];
                 <div class="content-view__feedback-wrapper">
                     <?php foreach ($responses as $response):
                         if ($response->doer_id === $user->id || $user->id === $task->client_id):
-                            $doer = $response->doer;
-                            $rating = $formatter->getUserRating($doer->opinions) ?>
+                            $doer = $response->doer; ?>
                             <div class="content-view__feedback-card">
                                 <div class="feedback-card__top">
                                     <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
                                         <?= $doer->avatar
-                                            ? Html::img(Yii::$app->request->baseUrl . '/img/' . $doer->avatar, ['width' => '55', 'height' => '55'])
+                                            ? Html::img(Yii::$app->request->baseUrl . $doer->avatar, ['width' => '55', 'height' => '55'])
                                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
                                     </a>
                                     <div class="feedback-card__top--name">
                                         <p><a href="<?= Url::to(['users/view', 'id' => $doer->id]) ?>"
                                               class="link-regular"><?= $doer->name ?></a></p>
-                                        <?php if ($rating > 0):
-                                            $starCount = round($rating);
+                                        <?php if ($doer->rating > 0):
+                                            $starCount = round($doer['rating']);
                                             for ($i = 1; $i <= 5; $i++):?>
                                                 <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
                                             <?php endfor; ?>
-                                            <b><?= $rating ?></b>
+                                            <b><?= round($doer['rating'], 2) ?></b>
                                         <?php endif; ?>
                                     </div>
                                     <span
@@ -136,56 +135,63 @@ $user = $this->params['user'];
             </div>
         <?php endif; ?>
     </section>
-    <section class="connect-desk">
-        <div class="connect-desk__profile-mini">
-            <div class="profile-mini__wrapper">
-                <?php $isClientNotNewTask = false;
-                if ($task->status_task !== 'Новое' && $task->status_task !== 'Отменено' && $user->id == $task->client_id) {
-                    $isClientNotNewTask = true;
-                } ?>
-                <h3><?= $isClientNotNewTask ? 'Исполнитель' : 'Заказчик' ?></h3>
-                <?php $isClientNotNewTask
-                    ? $user_show = $task->doer
-                    : $user_show = $task->client;
-                $doer = $task->doer;
-                $user_show->user_role == 'doer' ? $taskNumber = $user_show['tasksDoer'] : $taskNumber = $user_show['tasksClient'];
-                ?>
-                <div class="profile-mini__top">
-                    <?= $user_show->avatar
-                        ? Html::img(Yii::$app->request->baseUrl . '/img/' . $user_show->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
-                        : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
-                    <div class="profile-mini__name five-stars__rate">
-                        <p><?= $user_show->name ?></p>
-                        <?php $opinions = $user_show['opinions'];
-                        $rating = $formatter->getUserRating($user_show['opinions']);
-                        $isClient ? $tasks = $user_show['tasksClient'] : $tasks = $user_show['tasksDoer'];
-                        $ratesCount = count($opinions)
-                        ?>
-                        <?php if ($opinions && $isClientNotNewTask): ?>
-                            <div class="profile-mini__name five-stars__rate">
-                                <?php $starCount = round($rating) ?>
-                                <?php for ($i = 1; $i <= 5; $i++): ?>
-                                    <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
-                                <?php endfor; ?>
-                                <b><?= $rating ?></b>
-                            </div>
-                        <?php endif; ?>
+    <?php $isClientNotNewTask = false;
+    if ($task->status_task !== 'Новое' && $task->status_task !== 'Отменено' && $user->id == $task->client_id) {
+        $isClientNotNewTask = true;
+    } ?>
+    <?php $isClientNotNewTask
+        ? $user_show = $task->doer
+        : $user_show = $task->client;
+    $doer = $task->doer;
+    ?>
+    <?php if ($task->status_task == 'Новое' && $user->id == $task->client->id) {
+        $user_show = null;
+    } ?>
+    <?php if($user_show): ?>
+        <section class="connect-desk">
+            <div class="connect-desk__profile-mini">
+                <div class="profile-mini__wrapper">
+                    <h3><?= $isClientNotNewTask ? 'Исполнитель' : 'Заказчик' ?></h3>
+                    <div class="profile-mini__top">
+                        <?= $user_show->avatar
+                            ? Html::img(Yii::$app->request->baseUrl . $user_show->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
+                            : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
+                        <div class="profile-mini__name five-stars__rate">
+                            <p><?= $user_show->name ?></p>
+                            <?php if ($user_show['rating'] !== 0 && $isClientNotNewTask): ?>
+                                <div class="profile-mini__name five-stars__rate">
+                                    <?php $starCount = round($user_show['rating']) ?>
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>
+                                    <?php endfor; ?>
+                                    <b><?= round($user_show['rating'], 2) ?></b>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                     </div>
+                    <p class="info-customer">
+                        <?php if ($isClientNotNewTask): ?>
+                            <span>Выполнено <?= $user_show->done_tasks ?> <?= $formatter->getNounPluralForm($user_show->done_tasks, 'задание', 'задания', 'заданий') ?></span>
+                            <span>Провалено <?= $user_show->failed_tasks ?> <?= $formatter->getNounPluralForm($user_show->failed_tasks, 'задание', 'задания', 'заданий') ?></span>
+                            <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
+                        <?php endif; ?>
+                        <?php if (!$isClientNotNewTask): ?>
+                            <span>Создано <?= $user_show->created_tasks ?> <?= $formatter->getNounPluralForm($user_show->created_tasks, 'задание', 'задания', 'заданий') ?></span>
+                            <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
+                        <?php endif; ?>
+                    </p>
+                    <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">
+                        Смотреть профиль
+                    </a>
                 </div>
-                <p class="info-customer">
-                    <span><?= count($taskNumber) ?> <?= $formatter->getNounPluralForm(count($taskNumber), 'задание', 'задания', 'заданий') ?></span>
-                    <span class="last-"><?= $formatter->getPeriodTime($user_show->dt_add) ?></span>
-                </p>
-                <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">
-                    Смотреть профиль
-                </a>
             </div>
-        </div>
-        <?php if ($task->doer_id && $user->id == $task->doer_id || $user->id == $task->client_id): ?>
-            <div id="chat-container">
-                <!--                    добавьте сюда атрибут task с указанием в нем id текущего задания-->
-                <chat class="connect-desk__chat" task="<?= $task->id ?>"></chat>
-            </div>
-        <?php endif; ?>
-    </section>
+            <?php if ($task->doer_id && $user->id == $task->doer_id || $user->id == $task->client_id):
+                if ($task->status_task !== 'Новое' && $task->status_task !== 'Отмененное'): ?>
+                    <div id="chat-container">
+                        <chat class="connect-desk__chat" task="<?= $task->id ?>"></chat>
+                    </div>
+                <?php endif;
+            endif; ?>
+        </section>
+    <?php endif; ?>
 </div>

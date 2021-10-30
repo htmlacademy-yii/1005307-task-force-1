@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace frontend\models\responses;
 
-use yii;
 use yii\base\Model;
 
 class ResponseForm extends Model
@@ -21,7 +20,8 @@ class ResponseForm extends Model
             [['budget', 'comment'], 'required',
                 'message' => 'Это поле должно быть заполнено',
             ],
-            ['budget', 'integer', 'min' => 1,
+            ['budget', 'integer',
+                'min' => 1,
                 'message' => 'Значение должно быть целым положительным числом',
             ],
             [['comment'], 'string', 'min' => 10],

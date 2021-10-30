@@ -2,8 +2,10 @@
 $this->title = 'Публикация нового задания';
 
 use yii\widgets\ActiveForm;
+use frontend\models\users\Users;
 
 $categories = $createTaskForm->getCategories();
+$user = Users::findOne($user->id);
 
 ?>
 
@@ -14,7 +16,7 @@ $categories = $createTaskForm->getCategories();
             <?php $form = ActiveForm::begin([
                 'id' => 'task-form',
                 'method' => 'post',
-                'enableAjaxValidation' => true,
+                'enableAjaxValidation' => false,
                 'enableClientValidation' => false,
                 'options' => [
                     'class' => 'create__task-form form-create',
@@ -75,7 +77,7 @@ $categories = $createTaskForm->getCategories();
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 11,
-                    'rows' => 7
+                    'rows' => 7,
                 ],
                 'options' => [
                     'tag' => false,
@@ -86,7 +88,7 @@ $categories = $createTaskForm->getCategories();
             <div class="create__file" style="position: relative">
                 <span>Добавить новый файл</span>
                 <label for="file_task" style="position: absolute; width: 100%; height: 100%;">
-                    <?= $form->field($fileUploadForm, 'file_item[]', [
+                    <?= $form->field($createTaskForm, 'file_item[]', [
                         'inputOptions' => [
                             'class' => 'create__file',
                             'style' => 'display: none',
@@ -132,14 +134,14 @@ JS;
                 'class' => 'multiple-select input multiple-select-big',
                 'prompt' => [
                     'text' => 'Выберите категорию',
-                    'options' => ['value' => 'choose']
+                    'options' => ['value' => '0']
                 ]
             ]) ?>
             <?= $form->field($createTaskForm, "address", [
                 'inputOptions' => [
-                    'id' => 'address',
                     'class' => 'input-navigation input-middle input',
-                    'type' => 'search',
+                    'id' => 'address',
+                    'rows' => 1,
                 ],
                 'options' => [
                     'tag' => false,
@@ -147,7 +149,8 @@ JS;
                 'template' =>
                     "{label}\n{input}\n"
                     . "<span>Укажите адрес исполнения, если задание требует присутствия</span>",
-            ]) ?>
+
+            ])->input('text') ?>
             <div class="create__price-time">
                 <div class="create__price-time--wrapper">
                     <?= $form->field($createTaskForm, "budget", [

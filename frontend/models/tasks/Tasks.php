@@ -11,7 +11,6 @@ use frontend\models\{cities\Cities,
     responses\Responses,
     users\Users
 };
-use yii;
 
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -60,10 +59,22 @@ class Tasks extends ActiveRecord
             [['description', 'name', 'client_id'], 'required'],
             [['description'], 'string'],
             [['name', 'address', 'latitude', 'longitude', 'location_comment', 'status_task'], 'string', 'max' => 255],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'id']],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::class, 'targetAttribute' => ['city_id' => 'id']],
-            [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['client_id' => 'id']],
-            [['doer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['doer_id' => 'id']],
+            [['category_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Categories::class,
+                'targetAttribute' => ['category_id' => 'id']],
+            [['city_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Cities::class,
+                'targetAttribute' => ['city_id' => 'id']],
+            [['client_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['client_id' => 'id']],
+            [['doer_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['doer_id' => 'id']],
         ];
     }
 

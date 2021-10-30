@@ -12,6 +12,7 @@ use frontend\models\{
     responses\Responses,
     tasks\Tasks
 };
+
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -31,8 +32,13 @@ use yii\db\ActiveRecord;
  * @property string|null $phone
  * @property string|null $skype
  * @property string|null $telegram
- * @property int|null $city_id
+ * @property int $city_id
+ * @property int|null $failed_tasks
+ * @property int|null $done_tasks
+ * @property int|null $created_tasks
+ * @property int|null $opinions_count
  * @property string $last_activity_time
+ * @property float|null $rating
  *
  * @property Favourites[] $favourites
  * @property Favourites[] $favourites0
@@ -49,6 +55,8 @@ use yii\db\ActiveRecord;
  */
 class Users extends ActiveRecord
 {
+    const SCENARIO_UPDATE = 'update';
+
     public static function tableName(): string
     {
         return 'users';
@@ -58,13 +66,18 @@ class Users extends ActiveRecord
     {
         return [
             [['email', 'name', 'password', 'user_role'], 'required'],
-            [['dt_add', 'bd', 'last_activity_time'], 'safe'],
+            [['dt_add', 'bd', 'last_activity_time', 'rating', 'failed_tasks', 'done_tasks', 'created_tasks', 'opinions_count'], 'safe'],
+            [['name', 'email', 'password', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram'], 'safe',
+                'on' => self::SCENARIO_UPDATE],
             [['about'], 'string'],
-            [['city_id'], 'integer'],
+            [['city_id', 'failed_tasks', 'done_tasks'], 'integer'],
             [['email', 'name', 'password', 'user_role', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['name'], 'unique'],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::class, 'targetAttribute' => ['city_id' => 'id']],
+            [['city_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Cities::class,
+                'targetAttribute' => ['city_id' => 'id']],
         ];
     }
 
@@ -80,12 +93,15 @@ class Users extends ActiveRecord
             'address' => 'Address',
             'bd' => 'Bd',
             'avatar' => 'Avatar',
+            'rating' => 'Rating',
             'about' => 'About',
             'phone' => 'Phone',
             'skype' => 'Skype',
             'telegram' => 'Telegram',
             'city_id' => 'City ID',
             'last_activity_time' => 'Last Activity Time',
+            'failed_tasks' => 'Failed Tasks',
+            'done_tasks' => 'Done Tasks',
         ];
     }
 
@@ -154,6 +170,11 @@ class Users extends ActiveRecord
         return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
+    public function getOptionSet(): ActiveQuery
+    {
+        return $this->hasOne(UserOptionSettings::class, ['user_id' => 'id']);
+    }
+
     public static function find(): UsersQuery
     {
         return new UsersQuery(get_called_class());
@@ -162,5 +183,10 @@ class Users extends ActiveRecord
     final public static function getOneUser($id): Users
     {
         return self::findOne($id);
+    }
+
+    public function findModel(): Users
+    {
+        return self::findOne(\Yii::$app->user->identity->getId());
     }
 }

@@ -3,9 +3,7 @@ declare(strict_types = 1);
 
 namespace frontend\models\users;
 
-use frontend\models\{
-    tasks\Tasks
-};
+use frontend\models\tasks\Tasks;
 
 use yii\db\ActiveQuery;
 
@@ -30,7 +28,7 @@ class UsersQuery extends ActiveQuery
     {
         $subQuery = Tasks::find()
             ->select(['doer_id'])
-            ->andFilterWhere(['=', 'status_task', 'work']);
+            ->andFilterWhere(['=', 'status_task', 'На исполнении']);
 
         return $this->andFilterWhere(['not', ['users.id' => $subQuery]]);
     }
@@ -39,6 +37,7 @@ class UsersQuery extends ActiveQuery
     {
         $subQuery = Favourites::find()
             ->select(['favourite_person_id']);
+
         return $this->where(['users.id' => $subQuery]);
     }
 

@@ -60,7 +60,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'landing/error',
+            'errorAction' => 'site/error',
         ],
         'yandexMapsApi' => [
             'class' => 'mirocow\yandexmaps\Api',

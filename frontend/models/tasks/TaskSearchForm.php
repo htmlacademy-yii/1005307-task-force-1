@@ -5,6 +5,7 @@ namespace frontend\models\tasks;
 
 use frontend\models\categories\Categories;
 use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 
 class TaskSearchForm extends Tasks
 {
@@ -51,7 +52,7 @@ class TaskSearchForm extends Tasks
             ->asArray();
     }
 
-    public function search($params): ActiveDataProvider
+    public function search($params, $user): ActiveDataProvider
     {
         $query = Tasks::find();
 
@@ -62,7 +63,9 @@ class TaskSearchForm extends Tasks
             ],
         ]);
         $this->load($params);
-        $this->getTasks($query);
+        $this->getTasks($query
+            ->andWhere(['city_id' => $user->city_id])
+            ->orWhere(['city_id' => null]));
 
         if (!$this->validate()) {
             return $dataProvider;
@@ -91,7 +94,7 @@ class TaskSearchForm extends Tasks
         return $dataProvider;
     }
 
-    public function searchByCategories($category): ActiveDataProvider
+    public function searchByCategories($category, $user): ActiveDataProvider
     {
         $query = Tasks::find();
 
@@ -102,8 +105,55 @@ class TaskSearchForm extends Tasks
             ],
         ]);
 
-        $this->getTasks($query);
+        $this->getTasks($query
+            ->andWhere(['city_id' => $user->city_id])
+            ->orWhere(['city_id' => null]));
         $query->andWhere(['category_id' => $category]);
+
+        return $dataProvider;
+    }
+
+    public function searchByStatus($params, $user_id, $user_role, $status_task): ActiveDataProvider
+    {
+        $query = Tasks::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+
+        $this->load($params);
+
+        $query->with('category')
+            ->groupBy('tasks.id')
+            ->orderBy(['dt_add' => SORT_DESC])->asArray();
+
+        if ($status_task !== 'Просроченное') {
+            $query->where(['status_task' => $status_task]);
+        }
+
+        if ($status_task == 'На исполнении') {
+            $query->andWhere(['is', 'expire', null])
+                ->orFilterWhere(['>=', 'expire', new Expression('NOW()')]);
+        }
+
+        if ($status_task == 'Просроченное') {
+            $query->andWhere(['status_task' => 'На исполнении'])
+                ->andFilterWhere(['<', 'expire', new Expression('NOW()')]);
+        }
+
+        if ($status_task == 'Отмененное') {
+            $query->andWhere(['status_task' => 'Отмененное'])
+            ->orWhere(['status_task' => 'Провалено']);
+        }
+
+        $user_role == 'client' ?
+            $query->andWhere(['client_id' => $user_id])
+                ->joinWith('doer') :
+            $query->andWhere(['doer_id' => $user_id])
+                ->joinWith('client');
 
         return $dataProvider;
     }

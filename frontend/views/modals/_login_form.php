@@ -7,25 +7,42 @@ use yii\helpers\Html;
 
 <section class="modal enter-form form-modal" id="enter-form">
     <h2>Вход на сайт</h2>
+
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
         'method' => 'post',
         'action' => 'sign/login',
         'fieldConfig' => [
             'template' => "{label}\n{input}\n{error}",
-            'inputOptions' => ['class' => 'enter-form-email input input-middle'],
+            'options' => [
+                'style' => 'margin-bottom: 10px',
+                'tag' => 'p'
+            ],
+            'inputOptions' => [
+                'class' => 'enter-form-email input input-middle',
+                'style' => 'margin-bottom: 0'],
             'errorOptions' => [
                 'tag' => 'span',
-                'style' => 'margin: -30px 0 20px;', 'color: #FF116E;'
+                'style' => 'margin-top: 5px; color: #FF116E;'
             ],
-            'options' => ['tag' => 'p'],
             'labelOptions' => ['class' => 'form-modal-description'],
         ],
-        'enableClientValidation' => true,
         'enableAjaxValidation' => true,
+        'enableClientValidation' => false,
+        'validateOnSubmit' => true,
+        'validateOnChange' => true,
+        'validateOnBlur' => true,
         'validationStateOn' => 'input',
         'errorCssClass' => 'input-danger',
     ]); ?>
+    <?= $form->field($model, 'err', [
+        'options' => [
+            'style' => 'margin-top: 10px;'
+        ],
+        'inputOptions' => [
+            'type' => 'hidden',
+        ]
+    ])->label(false); ?>
     <?= $form->field($model, 'email',
         ['enableAjaxValidation' => true])
         ->textInput([

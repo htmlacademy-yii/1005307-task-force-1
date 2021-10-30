@@ -10,7 +10,6 @@ use frontend\models\{
     users\Users
 };
 
-use Yii;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;

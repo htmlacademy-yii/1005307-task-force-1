@@ -30,7 +30,7 @@ return [
                 'sign/' => 'sign/index',
                 'task/create/' => 'tasks/create/'
             ],
-        ],
+        ]
     ],
     'defaultRoute' => ['landing/index'],
     'params' => [

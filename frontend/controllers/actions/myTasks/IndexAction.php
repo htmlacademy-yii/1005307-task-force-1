@@ -3,12 +3,22 @@
 declare(strict_types=1);
 
 namespace frontend\controllers\actions\myTasks;
-use yii\base\Action;
 
-class IndexAction extends Action
+use frontend\models\tasks\TaskSearchForm;
+use Yii;
+
+class IndexAction extends BaseAction
 {
-    public function run()
+    public function run($status_task): string
     {
-        return $this->controller->render('index');
+        $searchForm = new TaskSearchForm;
+        $dataProvider = $searchForm->searchByStatus(Yii::$app->request->queryParams, $this->user->id, $this->user->user_role, $status_task);
+
+        return $this->controller->render('index', [
+            'dataProvider' => $dataProvider,
+            'searchForm' => $searchForm,
+            'user' => $this->user,
+            'status_task' => $status_task
+        ]);
     }
 }

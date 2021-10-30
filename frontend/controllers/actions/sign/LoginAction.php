@@ -20,6 +20,7 @@ class LoginAction extends Action
 
         if ($request->isAjax && $loginForm->load($request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
+
             return ActiveForm::validate($loginForm);
         }
 
@@ -35,3 +36,4 @@ class LoginAction extends Action
         return $this->controller->redirect(['landing/index']);
     }
 }
+

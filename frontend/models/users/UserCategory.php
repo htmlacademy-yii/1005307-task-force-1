@@ -3,9 +3,8 @@ declare(strict_types = 1);
 
 namespace frontend\models\users;
 
-use frontend\models\{
-    categories\Categories
-};
+use frontend\models\categories\Categories;
+
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -31,8 +30,14 @@ class UserCategory extends ActiveRecord
         return [
             [['user_id', 'category_id'], 'required'],
             [['user_id', 'category_id'], 'integer'],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['category_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Categories::class,
+                'targetAttribute' => ['category_id' => 'id']],
+            [['user_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 

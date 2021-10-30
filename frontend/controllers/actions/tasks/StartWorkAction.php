@@ -7,6 +7,7 @@ use frontend\models\tasks\Tasks;
 
 use frontend\models\responses\Responses;
 use yii\web\Response;
+use Yii;
 
 class StartWorkAction extends BaseAction
 {
@@ -16,6 +17,7 @@ class StartWorkAction extends BaseAction
         $task->status_task = 'На исполнении';
         $task->doer_id = $doerId;
         $task->save(false);
+        Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 4, 'user_id' => $task->doer_id]);
 
         return $this->controller->redirect([
             'tasks/view',

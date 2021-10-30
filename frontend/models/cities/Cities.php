@@ -10,6 +10,7 @@ use frontend\models\{
 
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "cities".
@@ -36,6 +37,15 @@ class Cities extends ActiveRecord
             [['city', 'latitude', 'longitude'], 'required'],
             [['city', 'latitude', 'longitude'], 'string', 'max' => 255],
         ];
+    }
+
+    public function getCities(): array
+    {
+        if (!isset($this->cities)) {
+            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
+        }
+
+        return $this->cities;
     }
 
     public function attributeLabels(): array

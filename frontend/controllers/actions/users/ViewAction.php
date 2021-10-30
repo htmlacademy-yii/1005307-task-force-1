@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\users;
 
 use frontend\models\users\Users;
-use yii\web\NotFoundHttpException;
 use yii\web\View;
+use yii\web\HttpException;
 
 class ViewAction extends BaseAction
 {
     public function run($id, View $view)
     {
-        $user = Users::getOneUser($id);
 
-        if (!$user) {
-            throw new NotFoundHttpException("Страница не найдена");
+        $user = Users::find()->andWhere(['id' => $id])->one();
+        if (!$user || $this->user->id !== $user->id && $user->user_role !== 'doer') {
+            throw new HttpException(
+                404,
+                'Страницы этого исполнителя не найдено'
+            );
         }
         $view->params['user_id'] = $this->user->id;
         $view->params['user'] = $this->user;
