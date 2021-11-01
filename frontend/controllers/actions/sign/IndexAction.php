@@ -3,14 +3,15 @@
 declare(strict_types=1);
 
 namespace frontend\controllers\actions\sign;
+
 use yii\base\Action;
 
 use frontend\models\account\SignForm;
 use frontend\models\users\Users;
 use frontend\models\users\UserOptionSettings;
+
 use yii\widgets\ActiveForm;
 use yii\web\Response;
-
 use Yii;
 
 class IndexAction extends Action

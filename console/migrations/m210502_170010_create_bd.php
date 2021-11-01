@@ -234,6 +234,7 @@ class m210502_170010_create_bd extends Migration
             'name' => $this->string(255)->notNull()->unique(),
             'type' => $this->string(255)->notNull(),
         ]);
+
         $this->createTable('notifications', [
             'id' => $this->primaryKey(),
             'notification_category_id' => $this->integer(11)->notNull(),
@@ -356,15 +357,16 @@ class m210502_170010_create_bd extends Migration
     {
         $this->dropTable('categories');
         $this->dropTable('cities');
+        $this->dropTable('favourites');
+        $this->dropTable('file_task');
         $this->dropTable('messages');
         $this->dropTable('notifications');
+        $this->dropTable('notifications_categories');
         $this->dropTable('opinions');
+        $this->dropTable('portfolio_photo');
         $this->dropTable('responses');
         $this->dropTable('tasks');
-        $this->dropTable('file_task');
         $this->dropTable('users');
-        $this->dropTable('favourites');
-        $this->dropTable('portfolio_photo');
         $this->dropTable('user_categories');
     }
 }

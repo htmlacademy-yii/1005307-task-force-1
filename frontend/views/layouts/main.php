@@ -4,22 +4,17 @@
 
 /* @var $content string */
 
-use yii\helpers\Html;
 use frontend\assets\AppAsset;
-use yii\helpers\Url;
-use frontend\models\cities\Cities;
-use yii\widgets\Menu;
-use frontend\models\users\Users;
-use frontend\models\notifications\Notifications;
-use frontend\models\cities\SetCitiesForm;
-use yii\web\Session;
-use yii\widgets\ActiveForm;
-
-use frontend\models\{
-    responses\ResponseForm,
+use frontend\models\{cities\Cities,
+    notifications\Notifications,
     opinions\RequestForm,
-    tasks\RefuseForm
+    responses\ResponseForm,
+    tasks\RefuseForm,
+    users\Users
 };
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\Menu;
 
 AppAsset::register($this);
 $this->registerJsFile('/js/lightbulb.js');
@@ -145,7 +140,7 @@ AppAsset::register($this);
             <?php if (!Yii::$app->user->isGuest): ?>
                 <div class="header__town">
                     <?php $cities = Cities::getAll();
-                    $user = Users::getOneUser($users->id);?>
+                    $user = Users::getOneUser($users->id); ?>
                     <select class="multiple-select input town-select" size="1" name="town[]">
                         <?php foreach ($cities as $city): ?>
                             <option value="<?= $city['value'] ?>"><?= $city['city'] ?></option>

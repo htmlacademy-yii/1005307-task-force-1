@@ -46,10 +46,11 @@ class IndexAction extends Action
         }
 
         if ($profileForm->load($request->post())) {
-            $profileForm->avatar = UploadedFile::getInstance($profileForm, 'avatar');
-            $profileForm->photo = UploadedFile::getInstances($profileForm, 'photo');
 
             if ($profileForm->validate()) {
+                $profileForm->avatar = UploadedFile::getInstance($profileForm, 'avatar');
+                $profileForm->photo = UploadedFile::getInstances($profileForm, 'photo');
+
                 if ($profileForm->upload()) {
                     PortfolioPhoto::deleteAll(['user_id' => $user->id]);
 

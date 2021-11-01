@@ -30,12 +30,11 @@ class RequestAction extends BaseAction
 
                 $opinion = new Opinions(['attributes' => $completeForm->attributes]);
                 $opinion->save(false);
-
                 $user_doer = Users::findOne($opinion->doer_id);
                 $user_client = Users::findOne($opinion->client_id);
                 $opinions = Opinions::find()->where(['doer_id' => $user_doer->id]);
                 $task = Tasks::findOne($opinion->task_id);
-               // $opinion->completion == 1 ? $task->status_task = 'Выполнено' : $task->status_task = 'Провалено';
+                $opinion->completion == 1 ? $task->status_task = 'Выполнено' : $task->status_task = 'Провалено';
                 $task->save();
                 $user_doer->rating = $opinions->select('AVG(rate) as rating');
                 $tasks_doer = Tasks::find()->where(['doer_id' => $user_doer->id]);
@@ -52,8 +51,7 @@ class RequestAction extends BaseAction
         }
 
         return $this->controller->redirect([
-            'tasks/view',
-            'id' => $completeForm->task_id
+            'tasks/index'
         ]);
     }
 }

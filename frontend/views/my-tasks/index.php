@@ -1,8 +1,8 @@
 <?php
-$this->title = 'Список заданий';
+$this->title = 'Мои задания';
 
-use yii\widgets\ListView;
 use yii\helpers\Url;
+use yii\widgets\ListView;
 
 ?>
 

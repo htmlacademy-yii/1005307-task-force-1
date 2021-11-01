@@ -5,7 +5,6 @@ namespace frontend\models\tasks;
 
 class TaskActions
 {
-    // Задаем список ролей
     public const ROLE_DOER = 'ИСПОЛНИТЕЛЬ';
     public const ROLE_CLIENT = 'ЗАКАЗЧИК';
 

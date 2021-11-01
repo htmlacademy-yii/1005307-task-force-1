@@ -8,8 +8,6 @@ use yii\helpers\Url;
 $cities = $profileForm->getCities();
 $specializations = $profileForm->getExistingSpecializations();
 
-//$categories = $createTaskForm->getCategories();
-
 ?>
 <main class="page-main">
     <div class="main-container page-container">

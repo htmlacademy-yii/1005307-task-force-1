@@ -11,5 +11,4 @@ return [
     'completion' => $faker->numberBetween(0, 1),
     'description' => $faker->text,
     'rate' => $faker->numberBetween(1, 5),
-
 ];

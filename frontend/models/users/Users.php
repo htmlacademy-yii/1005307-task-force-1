@@ -70,7 +70,7 @@ class Users extends ActiveRecord
             [['name', 'email', 'password', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram'], 'safe',
                 'on' => self::SCENARIO_UPDATE],
             [['about'], 'string'],
-            [['city_id', 'failed_tasks', 'done_tasks'], 'integer'],
+            [['city_id', 'failed_tasks', 'done_tasks', 'created_tasks', 'opinions_count'], 'integer'],
             [['email', 'name', 'password', 'user_role', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['name'], 'unique'],
@@ -102,6 +102,8 @@ class Users extends ActiveRecord
             'last_activity_time' => 'Last Activity Time',
             'failed_tasks' => 'Failed Tasks',
             'done_tasks' => 'Done Tasks',
+            'created_tasks' => 'Created Tasks',
+            'opinions_count' => 'Opinions Count'
         ];
     }
 

@@ -30,7 +30,6 @@ return [
     ],
     [
         'dt_add' => '2021-04-19 08:41:20',
-
         'completion' => 0,
         'description' => 'Impedit temporibus est qui reiciendis qui officia laudantium. Quo magnam fuga ad. Eum perferendis non repellendus eos laboriosam aut.',
         'rate' => 3,

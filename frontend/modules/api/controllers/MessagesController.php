@@ -2,7 +2,6 @@
 
 namespace frontend\modules\api\controllers;
 
-use yii\base\BaseObject;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 use frontend\models\messages\Messages;
@@ -13,9 +12,6 @@ use yii\filters\ContentNegotiator;
 use yii\web\Response;
 use Yii;
 
-/**
- * Default controller for the `api` module
- */
 class MessagesController extends ActiveController
 {
     public $modelClass = Messages::class;

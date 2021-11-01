@@ -6,10 +6,7 @@ namespace frontend\controllers\actions\users;
 
 use frontend\models\users\Users;
 use frontend\models\users\Favourites;
-use yii\base\BaseObject;
 use yii\web\NotFoundHttpException;
-use yii\base\Action;
-use yii\web\View;
 
 class AddFavouriteAction extends BaseAction
 {

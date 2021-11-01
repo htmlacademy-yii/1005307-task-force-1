@@ -9,4 +9,5 @@ return [
     'writer_id' => $faker->numberBetween(1, 10),
     'recipient_id' => $faker->numberBetween(1, 10),
     'task_id' => $faker->numberBetween(11, 30),
+    'unread' => $faker->numberBetween(0, 1),
 ];

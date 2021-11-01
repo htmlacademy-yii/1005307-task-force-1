@@ -15,6 +15,7 @@ use Yii;
 class CreateAction extends BaseAction
 {
     public $fileUploadForm;
+
     public function run()
     {
         $createTaskForm = new CreateTaskForm();
@@ -70,6 +71,9 @@ class CreateAction extends BaseAction
             }
         }
 
-        return $this->controller->render('create', ['createTaskForm' => $createTaskForm, 'user' => $this->user]);
+        return $this->controller->render('create', [
+            'createTaskForm' => $createTaskForm,
+            'user' => $this->user]
+        );
     }
 }
