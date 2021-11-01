@@ -28,7 +28,6 @@ class IndexAction extends Action
         }
 
         if ($signForm->load($request->post()) && $signForm->validate()) {
-            $signForm->failed_tasks = 0;
             $user = new Users(['attributes' => $signForm->attributes]);
             $user->password = Yii::$app->security->generatePasswordHash($signForm->password);
             $user->save(false);
@@ -43,6 +42,8 @@ class IndexAction extends Action
             $this->controller->goHome();
         }
 
-        return $this->controller->render('index', ['signForm' => $signForm]);
+        return $this->controller->render('index', [
+            'signForm' => $signForm
+        ]);
     }
 }

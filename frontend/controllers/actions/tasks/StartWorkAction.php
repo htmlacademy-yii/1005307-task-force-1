@@ -18,8 +18,7 @@ class StartWorkAction extends BaseAction
         Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 4, 'user_id' => $task->doer_id]);
 
         return $this->controller->redirect([
-            'tasks/view',
-            'id' => $task->id
+            'tasks/index'
         ]);
     }
 }

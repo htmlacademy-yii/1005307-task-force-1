@@ -146,7 +146,7 @@ class TaskSearchForm extends Tasks
 
         if ($status_task == 'Отмененное') {
             $query->andWhere(['status_task' => 'Отмененное'])
-            ->orWhere(['status_task' => 'Провалено']);
+                ->orWhere(['status_task' => 'Провалено']);
         }
 
         $user_role == 'client' ?

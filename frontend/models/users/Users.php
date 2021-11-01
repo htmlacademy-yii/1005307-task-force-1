@@ -33,10 +33,10 @@ use yii\db\ActiveRecord;
  * @property string|null $skype
  * @property string|null $telegram
  * @property int $city_id
- * @property int|null $failed_tasks
- * @property int|null $done_tasks
- * @property int|null $created_tasks
- * @property int|null $opinions_count
+ * @property int $failed_tasks
+ * @property int $done_tasks
+ * @property int $created_tasks
+ * @property int $opinions_count
  * @property string $last_activity_time
  * @property float|null $rating
  *

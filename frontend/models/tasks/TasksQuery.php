@@ -41,6 +41,6 @@ class TasksQuery extends ActiveQuery
 
     public function nameSearch($name): TasksQuery
     {
-        return $this->andFilterWhere(['like', 'tasks.name', $name]);
+        return $this->orWhere(['like', 'tasks.name', $name]);
     }
 }
