@@ -4,12 +4,7 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\profile;
 
-use frontend\models\{
-    account\ProfileForm,
-    users\PortfolioPhoto,
-    users\Users
-};
-
+use frontend\models\{account\ProfileForm, users\PortfolioPhoto, users\Users};
 use yii;
 use yii\base\Action;
 use yii\web\Response;
@@ -46,10 +41,10 @@ class IndexAction extends Action
         }
 
         if ($profileForm->load($request->post())) {
+            $profileForm->avatar = UploadedFile::getInstance($profileForm, 'avatar');
+            $profileForm->photo = UploadedFile::getInstances($profileForm, 'photo');
 
             if ($profileForm->validate()) {
-                $profileForm->avatar = UploadedFile::getInstance($profileForm, 'avatar');
-                $profileForm->photo = UploadedFile::getInstances($profileForm, 'photo');
 
                 if ($profileForm->upload()) {
                     PortfolioPhoto::deleteAll(['user_id' => $user->id]);
@@ -58,7 +53,7 @@ class IndexAction extends Action
                         $portfolioPhoto = new PortfolioPhoto([
                             'photo' => '/uploads/' . $photo,
                             'user_id' => $user->id]);
-                        $portfolioPhoto->save(false);
+                        $portfolioPhoto->save();
                     }
                 }
 

@@ -71,7 +71,7 @@ class ProfileForm extends Model
     public function rules(): array
     {
         return [
-            [['avatar'], 'image',
+            [['avatar'], 'file',
                 'extensions' => 'jpeg, png, jpg',
                 'message' => 'Загружаемый файл должен быть изображением'],
             ['bd', 'date', 'format' => 'yyyy*MM*dd',
@@ -152,7 +152,7 @@ class ProfileForm extends Model
             }
         }
 
-        $user->save(false, $attributesToBeSaved);
+        $user->save(true, $attributesToBeSaved);
     }
 
     private function saveAvatar(): void
