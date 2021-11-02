@@ -62,6 +62,19 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'vkontakte' => [
+                    'class' => 'yii\authclient\clients\VKontakte',
+                    'clientId' => '7990872',
+                    'clientSecret' => 'SOB0UHXK50eEJLIX91M5',
+                    'returnUrl'  => 'https://yii-taskforce/sign/auth?authclient=vkontakte',
+                    'apiVersion' => '5.130',
+                    'scope' => 'email',
+                ],
+            ],
+        ],
         'yandexMapsApi' => [
             'class' => 'mirocow\yandexmaps\Api',
         ],

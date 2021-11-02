@@ -18,3 +18,9 @@ class IndexAction extends Action
         return $this->controller->render('index', ['dataProvider' => $dataProvider]);
     }
 }
+// сохранение города текущей сессии - для поиска заданий и создания задания
+// Отправка уведомления на email
+// Авторизация через соцсети
+// бережливость
+// Хранение счётчиков в redis
+//

@@ -22,7 +22,8 @@
         "guzzlehttp/guzzle": "^6.5",
         "maxdancepro/yii2-autocomplete": "*",
       "ext-json": "*",
-        "hflabs/dadata": "^20.12"
+        "hflabs/dadata": "^20.12",
+        "yiisoft/yii2-authclient": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

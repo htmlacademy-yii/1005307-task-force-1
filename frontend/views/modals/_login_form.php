@@ -2,6 +2,7 @@
 
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\url;
 
 ?>
 
@@ -54,6 +55,11 @@ use yii\helpers\Html;
         ->passwordInput([
             'id' => 'enter-password'
         ]) ?>
+    <a class="button button-vk"
+       href="<?= Url::toRoute(['sign/auth', 'authclient' => 'vkontakte']) ?>"
+       style="width: 116px; height: 16.5px; display: inline-block; padding-top: 8px; padding-bottom: 22px; padding-left: 10px; padding-right: 10px; text-align: center">
+        Вход через ВК
+    </a>
     <?= Html::submitButton('Войти',
         ['class' => 'button']) ?>
     <?php ActiveForm::end(); ?>

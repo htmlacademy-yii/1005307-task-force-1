@@ -26,6 +26,7 @@ class m210502_170010_create_bd extends Migration
         ]);
         $this->createTable('users', [
             'id' => $this->primaryKey(),
+            'vk_id' => $this->integer(11),
             'email' => $this->string(255)->notNull()->unique(),
             'name' => $this->string(255)->notNull(),
             'password' => $this->string(255)->notNull(),

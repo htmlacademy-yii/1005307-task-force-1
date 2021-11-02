@@ -20,6 +20,7 @@ use yii\db\ActiveRecord;
  * This is the model class for table "users".
  *
  * @property int $id
+ * @property string|null $vk_id
  * @property string $email
  * @property string $name
  * @property string $password
@@ -66,7 +67,7 @@ class Users extends ActiveRecord
     {
         return [
             [['email', 'name', 'password', 'user_role'], 'required'],
-            [['dt_add', 'bd', 'last_activity_time', 'rating', 'failed_tasks', 'done_tasks', 'created_tasks', 'opinions_count'], 'safe'],
+            [['dt_add', 'vk_id', 'bd', 'last_activity_time', 'rating', 'failed_tasks', 'done_tasks', 'created_tasks', 'opinions_count'], 'safe'],
             [['name', 'email', 'password', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram'], 'safe',
                 'on' => self::SCENARIO_UPDATE],
             [['about'], 'string'],
