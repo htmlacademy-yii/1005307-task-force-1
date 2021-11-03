@@ -63,7 +63,7 @@ $user = $this->params['user'];
         $isUserAuthorOfResponse = false;
         foreach ($task->responses as $response) {
             if ($response->doer_id === $user->id) {
-                $isUserAuthorOfResponse = true;
+                $isUserAuthorOfResponse = false;
                 break;
             }
         }

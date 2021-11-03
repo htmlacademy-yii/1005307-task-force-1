@@ -55,6 +55,7 @@ use yii\helpers\Html;
         'inputOptions' => [
             'class' => 'response-form-payment input input-middle input-money',
             'id' => 'response-payment',
+            'value' => '1223'
         ]
     ])->input('number') ?>
     <?= $form->field($model, "comment", [
@@ -63,6 +64,7 @@ use yii\helpers\Html;
             'class' => 'input textarea',
             'id' => 'response-comment',
             'rows' => 4,
+            'value' => 'rfgt ETRYHTr'
         ]
     ])->textArea() ?>
     <?= Html::submitButton('Отправить',

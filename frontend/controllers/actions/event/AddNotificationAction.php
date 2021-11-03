@@ -29,11 +29,12 @@ class AddNotificationAction extends Action
         $task = Tasks::findOne($task_id);
         if($user_set->$settings == 1) {
             Yii::$app->mailer->compose()
-                ->setFrom('login@gmail.com')
+                ->setFrom('keks@phpdemo.ru')
                 ->setTo($email)
                 ->setSubject($subject)
                 ->setHtmlBody('У вас новое уведомление:' . $subject . '<a href="#">' . $task->name . '</a>')
                 ->send();
         }
+        var_dump(stream_socket_client('ssl://smtp.phpdemo.ru:465', $errno, $errstr, 30, 4, stream_context_create(array())));
     }
 }

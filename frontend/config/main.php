@@ -54,16 +54,7 @@ return [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',
-            'useFileTransport' => true,
-           /* 'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.gmail.com',
-                'username' => 'this_admim_mail@gmail.com',
-                'password' => '12345677654321',
-                'port' => '587',
-                'encryption' => 'tls',
-                'streamOptions' => ['ssl' => ['allow_self_signed' => true, 'verify_peer' => false, 'verify_peer_name' => false,],]
-            ],*/
+            'useFileTransport' => false,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

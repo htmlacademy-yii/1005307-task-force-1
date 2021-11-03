@@ -7,6 +7,7 @@ use frontend\models\notifications\Notifications;
 use frontend\models\tasks\Tasks;
 use frontend\models\users\UserOptionSettings;
 use frontend\models\users\Users;
+use frontend\controllers\EventController;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\ContentNegotiator;
@@ -103,6 +104,8 @@ class MessagesController extends ActiveController
         } else {
             throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
         }
+   //     Yii::$app->controllerNamespace = 'frontend\controllers';
+     //   Yii::$app->runAction('event/add-notification', ['task_id' => $newMessage->task_id, 'notification_category' => 5, 'user_id' => $newMessage->recipient_id, 'settings' => 'is_subscribed_messages']);
         $notification = new Notifications();
         $notification->notification_category_id = 2;
         $notification->task_id = $newMessage->task_id;
@@ -112,12 +115,12 @@ class MessagesController extends ActiveController
 
         $user = Users::findOne($notification->user_id);
         $user_set = UserOptionSettings::findOne($notification->user_id);
-        $email = $user->email;
+        $email = 'anyakulikova111@gmail.com';
         $subject = $notification['notificationsCategory']['name'];
         $task = Tasks::findOne($notification->task_id);
         if($user_set->is_subscribed_messages == 1) {
             Yii::$app->mailer->compose()
-                ->setFrom('login@gmail.com')
+                ->setFrom('keks@phpdemo.ru')
                 ->setTo($email)
                 ->setSubject($subject)
                 ->setHtmlBody('У вас новое уведомление:' . $subject . '<a href="#">' . $task->name . '</a>')

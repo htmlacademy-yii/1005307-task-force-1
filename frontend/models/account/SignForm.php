@@ -4,12 +4,6 @@ declare(strict_types=1);
 namespace frontend\models\account;
 
 use frontend\models\{cities\Cities, users\Users};
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Exception\ServerException;
-use GuzzleHttp\Psr7\Request;
-use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
