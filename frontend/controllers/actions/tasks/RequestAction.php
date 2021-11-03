@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
 
-use frontend\models\opinions\RequestForm;
+use frontend\models\notifications\Notifications;
 use frontend\models\opinions\Opinions;
+use frontend\models\opinions\RequestForm;
 use frontend\models\tasks\Tasks;
+use frontend\models\users\UserOptionSettings;
 use frontend\models\users\Users;
-use yii\widgets\ActiveForm;
-use yii\web\Response;
 use Yii;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class RequestAction extends BaseAction
 {
@@ -39,13 +41,13 @@ class RequestAction extends BaseAction
                 $tasks_doer = Tasks::find()->where(['doer_id' => $user_doer->id]);
                 $tasks_client = Tasks::find()->where(['client_id' => $user_client->id]);
                 $opinion->completion == 1 ?
-                $user_doer->done_tasks = $tasks_doer->andWhere(['status_task' => 'Выполнено'])->count() :
-                $user_doer->failed_tasks = $tasks_doer->andWhere(['status_task' => 'Провалено'])->count();
+                    $user_doer->done_tasks = $tasks_doer->andWhere(['status_task' => 'Выполнено'])->count() :
+                    $user_doer->failed_tasks = $tasks_doer->andWhere(['status_task' => 'Провалено'])->count();
                 $user_client->created_tasks = $tasks_client->andWhere(['status_task' => 'Выполнено'])->count();
                 $user_doer->opinions_count = $opinions->count();
                 $user_client->save(false);
                 $user_doer->save();
-                Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 5, 'user_id' => $user_doer->id]);
+                Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 5, 'user_id' => $user_doer->id, 'settings' => 'is_subscribed_reviews']);
             }
         }
 

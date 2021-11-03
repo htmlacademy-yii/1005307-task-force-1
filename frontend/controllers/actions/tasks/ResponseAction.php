@@ -7,9 +7,12 @@ namespace frontend\controllers\actions\tasks;
 use frontend\models\responses\ResponseForm;
 use frontend\models\responses\Responses;
 use frontend\models\tasks\Tasks;
+use frontend\models\users\Users;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use Yii;
+use frontend\models\notifications\Notifications;
+use frontend\models\users\UserOptionSettings;
 
 class ResponseAction extends BaseAction
 {
@@ -24,12 +27,13 @@ class ResponseAction extends BaseAction
             return ActiveForm::validate($responseForm);
         }
 
+
         if ($responseForm->load($request->post())) {
             if ($responseForm->validate()) {
                 $response = new Responses(['attributes' => $responseForm->attributes]);
                 $response->save(false);
                 $task = Tasks::findOne($response->task_id);
-                Yii::$app->runAction('event/add-notification', ['task_id' => $responseForm->task_id, 'notification_category' => 1, 'user_id' => $task->client_id]);
+                Yii::$app->runAction('event/add-notification', ['task_id' => $responseForm->task_id, 'notification_category' => 1, 'user_id' => $task->client_id, 'settings' => 'is_subscribed_actions']);
             }
         }
 

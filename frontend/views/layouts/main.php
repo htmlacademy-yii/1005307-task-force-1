@@ -140,7 +140,9 @@ AppAsset::register($this);
             <?php if (!Yii::$app->user->isGuest): ?>
                 <div class="header__town">
                     <?php $cities = Cities::getAll();
-                    $user = Users::getOneUser($users->id); ?>
+                    $user = Users::getOneUser($users->id);
+                    $session = Yii::$app->session;
+                    $city = $session[''] ?>
                     <select class="multiple-select input town-select" size="1" name="town[]">
                         <?php foreach ($cities as $city): ?>
                             <option value="<?= $city['value'] ?>"><?= $city['city'] ?></option>

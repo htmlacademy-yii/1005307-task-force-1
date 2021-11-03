@@ -15,8 +15,7 @@ class StartWorkAction extends BaseAction
         $task->status_task = 'На исполнении';
         $task->doer_id = $doerId;
         $task->save(false);
-        Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 4, 'user_id' => $task->doer_id]);
-
+        Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 4, 'user_id' => $task->doer_id, 'settings' => 'is_subscribed_actions']);
         return $this->controller->redirect([
             'tasks/index'
         ]);

@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
+use frontend\models\notifications\Notifications;
+use frontend\models\users\UserOptionSettings;
 
 use frontend\models\tasks\Tasks;
 use frontend\models\users\Users;
@@ -25,8 +27,9 @@ class RefuseAction extends BaseAction
             $user_doer->failed_tasks = Tasks::find()
                 ->where(['doer_id' => $this->user->id])
                 ->andWhere(['status_task' => 'Провалено'])->count();
+            $user_client = Users::findOne($task->client_id);
             $user_doer->save(false);
-            Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 3, 'user_id' => $task->client_id]);
+            Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 3, 'user_id' => $task->client_id, 'settings' => 'is_subscribed_actions']);
         }
 
         return $this->controller->redirect([

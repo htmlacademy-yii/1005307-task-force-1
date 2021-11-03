@@ -62,7 +62,7 @@ use yii\helpers\Html;
         'inputOptions' => [
             'class' => 'input textarea',
             'id' => 'response-comment',
-            'rows' => 4
+            'rows' => 4,
         ]
     ])->textArea() ?>
     <?= Html::submitButton('Отправить',

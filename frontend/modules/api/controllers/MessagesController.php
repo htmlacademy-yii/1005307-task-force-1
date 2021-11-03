@@ -2,15 +2,17 @@
 
 namespace frontend\modules\api\controllers;
 
-use yii\data\ActiveDataProvider;
-use yii\rest\ActiveController;
 use frontend\models\messages\Messages;
 use frontend\models\notifications\Notifications;
+use frontend\models\tasks\Tasks;
+use frontend\models\users\UserOptionSettings;
 use frontend\models\users\Users;
-use yii\web\ServerErrorHttpException;
-use yii\filters\ContentNegotiator;
-use yii\web\Response;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\filters\ContentNegotiator;
+use yii\rest\ActiveController;
+use yii\web\Response;
+use yii\web\ServerErrorHttpException;
 
 class MessagesController extends ActiveController
 {
@@ -107,6 +109,20 @@ class MessagesController extends ActiveController
         $notification->visible = 1;
         $notification->user_id = $newMessage->recipient_id;
         $notification->save();
+
+        $user = Users::findOne($notification->user_id);
+        $user_set = UserOptionSettings::findOne($notification->user_id);
+        $email = $user->email;
+        $subject = $notification['notificationsCategory']['name'];
+        $task = Tasks::findOne($notification->task_id);
+        if($user_set->is_subscribed_messages == 1) {
+            Yii::$app->mailer->compose()
+                ->setFrom('login@gmail.com')
+                ->setTo($email)
+                ->setSubject($subject)
+                ->setHtmlBody('У вас новое уведомление:' . $subject . '<a href="#">' . $task->name . '</a>')
+                ->send();
+        }
 
         return json_encode($newMessage->toArray());
     }

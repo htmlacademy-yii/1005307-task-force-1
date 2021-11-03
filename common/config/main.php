@@ -30,7 +30,13 @@ return [
                 'sign/' => 'sign/index',
                 'task/create/' => 'tasks/create/'
             ],
-        ]
+        ],
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => 'localhost',
+            'port' => 6379,
+            'database' => 0,
+        ],
     ],
     'defaultRoute' => ['landing/index'],
     'params' => [

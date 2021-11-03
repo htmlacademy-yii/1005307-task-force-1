@@ -38,7 +38,8 @@ use yii\widgets\ActiveForm;
             <?= $form->field($signForm, "email", [
                 'inputOptions' => [
                     'id' => 16,
-                    'rows' => 1
+                    'rows' => 1,
+                    'value' => 'wre@reyugukjjbhjvbjhjlf.ru'
                 ]
             ])->textArea() ?>
 

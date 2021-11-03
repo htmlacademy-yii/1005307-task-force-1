@@ -49,6 +49,21 @@ return [
         ],
         'session' => [
             'name' => 'advanced-frontend',
+            'class' => 'yii\redis\Session',
+        ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@common/mail',
+            'useFileTransport' => true,
+           /* 'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.gmail.com',
+                'username' => 'this_admim_mail@gmail.com',
+                'password' => '12345677654321',
+                'port' => '587',
+                'encryption' => 'tls',
+                'streamOptions' => ['ssl' => ['allow_self_signed' => true, 'verify_peer' => false, 'verify_peer_name' => false,],]
+            ],*/
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -69,7 +84,7 @@ return [
                     'class' => 'yii\authclient\clients\VKontakte',
                     'clientId' => '7990872',
                     'clientSecret' => 'SOB0UHXK50eEJLIX91M5',
-                    'returnUrl'  => 'https://yii-taskforce/sign/auth?authclient=vkontakte',
+                    'returnUrl' => 'https://yii-taskforce/sign/auth?authclient=vkontakte',
                     'apiVersion' => '5.130',
                     'scope' => 'email',
                 ],
