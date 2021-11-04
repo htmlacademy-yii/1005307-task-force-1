@@ -47,7 +47,13 @@ class RequestAction extends BaseAction
                 $user_doer->opinions_count = $opinions->count();
                 $user_client->save(false);
                 $user_doer->save();
-                Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 5, 'user_id' => $user_doer->id, 'settings' => 'is_subscribed_reviews']);
+                $notification = new Notifications();
+                $notification->addNotification(
+                    $task->id,
+                    5,
+                    $user_doer->id,
+                    'is_subscribed_reviews'
+                );
             }
         }
 

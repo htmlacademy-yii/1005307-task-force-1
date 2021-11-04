@@ -9,6 +9,7 @@ use frontend\models\users\UserOptionSettings;
 use frontend\models\users\Users;
 use frontend\controllers\EventController;
 use Yii;
+use yii\base\BaseObject;
 use yii\data\ActiveDataProvider;
 use yii\filters\ContentNegotiator;
 use yii\rest\ActiveController;
@@ -98,33 +99,18 @@ class MessagesController extends ActiveController
             if ($newMessage->save()) {
                 $response = Yii::$app->getResponse();
                 $response->setStatusCode(201);
+                $notification = new Notifications();
+                $notification->addNotification(
+                    $newMessage->task_id,
+                    2,
+                    $newMessage->recipient_id,
+                    'is_subscribed_messages'
+                );
             } elseif (!$newMessage->hasErrors()) {
                 throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
             }
         } else {
             throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
-        }
-   //     Yii::$app->controllerNamespace = 'frontend\controllers';
-     //   Yii::$app->runAction('event/add-notification', ['task_id' => $newMessage->task_id, 'notification_category' => 5, 'user_id' => $newMessage->recipient_id, 'settings' => 'is_subscribed_messages']);
-        $notification = new Notifications();
-        $notification->notification_category_id = 2;
-        $notification->task_id = $newMessage->task_id;
-        $notification->visible = 1;
-        $notification->user_id = $newMessage->recipient_id;
-        $notification->save();
-
-        $user = Users::findOne($notification->user_id);
-        $user_set = UserOptionSettings::findOne($notification->user_id);
-        $email = 'anyakulikova111@gmail.com';
-        $subject = $notification['notificationsCategory']['name'];
-        $task = Tasks::findOne($notification->task_id);
-        if($user_set->is_subscribed_messages == 1) {
-            Yii::$app->mailer->compose()
-                ->setFrom('keks@phpdemo.ru')
-                ->setTo($email)
-                ->setSubject($subject)
-                ->setHtmlBody('У вас новое уведомление:' . $subject . '<a href="#">' . $task->name . '</a>')
-                ->send();
         }
 
         return json_encode($newMessage->toArray());

@@ -11,6 +11,7 @@ use frontend\models\users\Users;
 use Yii;
 
 use frontend\models\tasks\RefuseForm;
+use yii\base\BaseObject;
 use yii\web\Response;
 
 class RefuseAction extends BaseAction
@@ -29,7 +30,13 @@ class RefuseAction extends BaseAction
                 ->andWhere(['status_task' => 'Провалено'])->count();
             $user_client = Users::findOne($task->client_id);
             $user_doer->save(false);
-            Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 3, 'user_id' => $task->client_id, 'settings' => 'is_subscribed_actions']);
+            $notification = new Notifications();
+            $notification->addNotification(
+                $task->id,
+                3,
+                $user_client->id,
+                'is_subscribed_actions'
+            );
         }
 
         return $this->controller->redirect([
