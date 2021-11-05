@@ -150,20 +150,17 @@ AppAsset::register($this);
                     <?php $form = ActiveForm::begin([
                         'id' => 'city-form',
                         'method' => 'post',
-                        'action' => 'site/set-city',
-                        'enableAjaxValidation' => false,
+                        'action' => '/site/set-city',
+                        'enableAjaxValidation' => true,
                     ]); ?>
                     <?= $form->field($cityForm, "city")
                         ->dropDownList($citiesList, [
                             'class' => 'multiple-select input multiple-select-big',
                             'size' => 1,
                             'id' => 220,
-                            'options' => array(
-                                ['label' => $city->city, 'selected' => true],
-                            ),
+                            'options' =>
+                                [$session['city'] => ['Selected' => true]],
                         ])->label(false) ?>
-                    <?php
-                    var_dump($session->get('city')); ?>
                     <?php ActiveForm::end(); ?>
                 </div>
                 <?php $notifications = new Notifications();

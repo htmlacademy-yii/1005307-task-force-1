@@ -15,6 +15,7 @@ use yii\base\Model;
 class SetCityForm extends Model
 {
     public $city;
+
     public static function tableName(): string
     {
         return 'city';
