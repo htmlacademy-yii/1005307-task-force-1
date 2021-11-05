@@ -26,6 +26,7 @@ use yii\helpers\ArrayHelper;
 
 class Cities extends ActiveRecord
 {
+    private $cities;
     public static function tableName(): string
     {
         return 'cities';

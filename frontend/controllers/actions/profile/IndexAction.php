@@ -58,6 +58,8 @@ class IndexAction extends Action
                 }
 
                 $profileForm->saveProfileData($user);
+                $session = Yii::$app->session;
+                $session->set('city', $user['city_id']);
 
                 return $this->controller->redirect(['users/view', 'id' => $user->id]);
             }

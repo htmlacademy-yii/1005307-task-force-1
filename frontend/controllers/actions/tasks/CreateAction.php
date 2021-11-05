@@ -44,7 +44,8 @@ class CreateAction extends BaseAction
                     $coordinates = $createTaskForm->getCoordinates($task->address);
                     $task->longitude = $coordinates[0] ?? null;
                     $task->latitude = $coordinates[1] ?? null;
-                    $task->city_id = $this->user->city_id;
+                    $session = Yii::$app->session;
+                    $task->city_id = $session->get('city');
                 }
 
                 $task->save();

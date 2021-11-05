@@ -6,6 +6,7 @@ namespace frontend\models\tasks;
 use frontend\models\categories\Categories;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
+use yii;
 
 class TaskSearchForm extends Tasks
 {
@@ -63,8 +64,9 @@ class TaskSearchForm extends Tasks
             ],
         ]);
         $this->load($params);
+        $session = Yii::$app->session;
         $this->getTasks($query
-            ->andWhere(['city_id' => $user->city_id])
+            ->andWhere(['city_id' => $session->get('city')])
             ->orWhere(['city_id' => null]));
 
         if (!$this->validate()) {

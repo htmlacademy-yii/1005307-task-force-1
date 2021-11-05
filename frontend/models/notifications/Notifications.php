@@ -115,17 +115,16 @@ class Notifications extends ActiveRecord
 
     public function addNotification($task_id, $notification_category, $user_id, $settings)
     {
-        $notification = new Notifications();
-        $notification->notification_category_id = $notification_category;
-        $notification->task_id = $task_id;
-        $notification->visible = 1;
-        $notification->user_id = $user_id;
-        $notification->save();
+        $this->notification_category_id = $notification_category;
+        $this->task_id = $task_id;
+        $this->visible = 1;
+        $this->user_id = $user_id;
+        $this->save();
 
         $user = Users::findOne($user_id);
         $user_set = UserOptionSettings::findOne($user->id);
         $email = $user->email;
-        $subject = $notification['notificationsCategory']['name'];
+        $subject = $this['notificationsCategory']['name'];
         $task = Tasks::findOne($task_id);
         if ($user_set->$settings == 1) {
             Yii::$app->mailer->compose()

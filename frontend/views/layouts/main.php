@@ -6,6 +6,7 @@
 
 use frontend\assets\AppAsset;
 use frontend\models\{cities\Cities,
+    cities\SetCityForm,
     notifications\Notifications,
     opinions\RequestForm,
     responses\ResponseForm,
@@ -14,6 +15,7 @@ use frontend\models\{cities\Cities,
 };
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 use yii\widgets\Menu;
 
 AppAsset::register($this);
@@ -139,15 +141,30 @@ AppAsset::register($this);
             </div>
             <?php if (!Yii::$app->user->isGuest): ?>
                 <div class="header__town">
-                    <?php $cities = Cities::getAll();
+                    <?php $cities = new Cities();
+                    $citiesList = $cities->getCities();
                     $user = Users::getOneUser($users->id);
+                    $cityForm = new SetCityForm();
                     $session = Yii::$app->session;
-                    $city = $session[''] ?>
-                    <select class="multiple-select input town-select" size="1" name="town[]">
-                        <?php foreach ($cities as $city): ?>
-                            <option value="<?= $city['value'] ?>"><?= $city['city'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                    $city = Cities::findOne($session['city'])?>
+                    <?php $form = ActiveForm::begin([
+                        'id' => 'city-form',
+                        'method' => 'post',
+                        'action' => 'site/set-city',
+                        'enableAjaxValidation' => false,
+                    ]); ?>
+                    <?= $form->field($cityForm, "city")
+                        ->dropDownList($citiesList, [
+                            'class' => 'multiple-select input multiple-select-big',
+                            'size' => 1,
+                            'id' => 220,
+                            'options' => array(
+                                ['label' => $city->city, 'selected' => true],
+                            ),
+                        ])->label(false) ?>
+                    <?php
+                    var_dump($session->get('city')); ?>
+                    <?php ActiveForm::end(); ?>
                 </div>
                 <?php $notifications = new Notifications();
             $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id) ?>
@@ -269,11 +286,14 @@ AppAsset::register($this);
     <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js"></script>
 
     <script type="text/javascript">
+        <?php $session = Yii::$app->session;
+        $city = Cities::findOne($session->get('city'));
+        ?>
         $("#address").suggestions({
             token: "5e9234412c360c19d520220cc87dc076c8e65389",
             type: "ADDRESS",
             constraints: {
-                locations: {region: "<?= $user['city']['city'] ?>"},
+                locations: {region: "<?= $city['city'] ?>"},
             },
             restrict_value: true
         })
