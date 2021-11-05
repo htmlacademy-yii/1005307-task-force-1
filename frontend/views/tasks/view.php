@@ -12,6 +12,7 @@ $task = $this->params['task'];
 $user = $this->params['user'];
 
 ?>
+
 <div class="main-container page-container">
     <section class="content-view">
         <div class="content-view__card">

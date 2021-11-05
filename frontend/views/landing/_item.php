@@ -3,6 +3,7 @@
 $formatter = \Yii::$app->formatter;
 
 use yii\helpers\Url;
+
 ?>
 
 <div class="landing-task">

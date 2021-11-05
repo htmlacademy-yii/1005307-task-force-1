@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\site;
 
-use yii\base\Action;
 use frontend\models\cities\SetCityForm;
-
 use Yii;
+use yii\base\Action;
 
 class SetCityAction extends Action
 {

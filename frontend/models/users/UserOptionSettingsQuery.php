@@ -1,12 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace frontend\models\users;
 
-/**
- * This is the ActiveQuery class for [[UsersOptionalSettings]].
- *
- * @see UsersOptionalSettings
- */
 class UserOptionSettingsQuery extends \yii\db\ActiveQuery
 {
     public function all($db = null)

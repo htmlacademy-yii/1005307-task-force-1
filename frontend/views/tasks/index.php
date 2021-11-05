@@ -1,8 +1,8 @@
 <?php
 $this->title = 'Список заданий';
 
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 
 $categoriesFilter = $searchForm->getCategoriesFilter();

@@ -2,9 +2,9 @@
 $formatter = Yii::$app->formatter;
 $this->title = 'Исполнитель ' . $user['name'];
 
+use frontend\models\tasks\Tasks;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use frontend\models\tasks\Tasks;
 
 $user_account = $this->params['user'];
 

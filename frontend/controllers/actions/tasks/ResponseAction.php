@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
 
+use frontend\models\notifications\Notifications;
 use frontend\models\responses\ResponseForm;
 use frontend\models\responses\Responses;
 use frontend\models\tasks\Tasks;
-use yii\widgets\ActiveForm;
-use yii\web\Response;
 use Yii;
-use frontend\models\notifications\Notifications;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class ResponseAction extends BaseAction
 {
@@ -25,12 +25,12 @@ class ResponseAction extends BaseAction
             return ActiveForm::validate($responseForm);
         }
 
-
         if ($responseForm->load($request->post())) {
             if ($responseForm->validate()) {
                 $response = new Responses(['attributes' => $responseForm->attributes]);
                 $response->save(false);
                 $task = Tasks::findOne($response->task_id);
+
                 $notification = new Notifications();
                 $notification->addNotification(
                     $task->id,

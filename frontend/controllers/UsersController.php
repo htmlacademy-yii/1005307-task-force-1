@@ -18,6 +18,7 @@ class UsersController extends SecuredController
             $user->save(false, ["last_activity_time"]);
         }
     }
+
     public function actions(): array
     {
         return [

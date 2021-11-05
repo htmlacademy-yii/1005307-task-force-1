@@ -3,14 +3,7 @@ declare(strict_types=1);
 
 namespace frontend\models\account;
 
-use frontend\models\{
-    categories\Categories,
-    cities\Cities,
-    users\UserCategory,
-    users\UserOptionSettings,
-    users\Users
-};
-
+use frontend\models\{categories\Categories, cities\Cities, users\UserCategory, users\Users};
 use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -126,7 +119,7 @@ class ProfileForm extends Model
         $this->password = $password;
     }
 
-    public function saveProfileData(Users $user)
+    public function saveProfileData(Users $user): void
     {
         $this->saveAvatar();
         $this->saveCategories($user);

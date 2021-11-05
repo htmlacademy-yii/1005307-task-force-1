@@ -1,13 +1,9 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\cities;
 
-use frontend\models\{
-    tasks\Tasks,
-    users\Users
-};
-
+use frontend\models\{tasks\Tasks, users\Users};
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -23,10 +19,10 @@ use yii\helpers\ArrayHelper;
  * @property Tasks[] $tasks
  * @property Users[] $users
  */
-
 class Cities extends ActiveRecord
 {
     private $cities;
+
     public static function tableName(): string
     {
         return 'cities';

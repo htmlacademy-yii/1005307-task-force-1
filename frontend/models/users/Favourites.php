@@ -16,7 +16,6 @@ use yii\db\ActiveRecord;
  * @property Users $favouritePerson
  * @property Users $user
  */
-
 class Favourites extends ActiveRecord
 {
 

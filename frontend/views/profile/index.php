@@ -3,7 +3,6 @@ $this->title = 'Редактирование настроек пользоват
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 $cities = $profileForm->getCities();
 $specializations = $profileForm->getExistingSpecializations();

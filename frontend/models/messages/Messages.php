@@ -3,11 +3,7 @@ declare(strict_types=1);
 
 namespace frontend\models\messages;
 
-use frontend\models\{
-    tasks\Tasks,
-    users\Users
-};
-
+use frontend\models\{tasks\Tasks, users\Users};
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -68,7 +64,7 @@ class Messages extends ActiveRecord
         ];
     }
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id',

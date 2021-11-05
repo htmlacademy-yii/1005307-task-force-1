@@ -1,8 +1,8 @@
 <?php
 $this->title = 'Публикация нового задания';
 
-use yii\widgets\ActiveForm;
 use frontend\models\users\Users;
+use yii\widgets\ActiveForm;
 
 $categories = $createTaskForm->getCategories();
 $user = Users::findOne($user->id);

@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
-use frontend\models\tasks\Tasks;
+
 use frontend\models\notifications\Notifications;
+use frontend\models\tasks\Tasks;
 use yii\web\Response;
 
 class StartWorkAction extends BaseAction
@@ -15,6 +16,7 @@ class StartWorkAction extends BaseAction
         $task->status_task = 'На исполнении';
         $task->doer_id = $doerId;
         $task->save(false);
+
         $notification = new Notifications();
         $notification->addNotification(
             $task->id,
@@ -22,6 +24,7 @@ class StartWorkAction extends BaseAction
             $task->doer_id,
             'is_subscribed_actions'
         );
+
         return $this->controller->redirect([
             'tasks/index'
         ]);

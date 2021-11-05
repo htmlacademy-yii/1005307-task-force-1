@@ -3,15 +3,14 @@ declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
-use frontend\models\{cities\Cities,
-    categories\Categories,
+use frontend\models\{categories\Categories,
+    cities\Cities,
     messages\Messages,
     notifications\Notifications,
     opinions\Opinions,
     responses\Responses,
     users\Users
 };
-
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 

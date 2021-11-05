@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace frontend\models\tasks;
 
 use frontend\models\categories\Categories;
+use yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
-use yii;
 
 class TaskSearchForm extends Tasks
 {

@@ -39,7 +39,6 @@ use yii\widgets\ActiveForm;
                 'inputOptions' => [
                     'id' => 16,
                     'rows' => 1,
-                    'value' => 'wre@reyugukjjbhjvbjhjlf.ru'
                 ]
             ])->textArea() ?>
 
@@ -61,7 +60,7 @@ use yii\widgets\ActiveForm;
                 'inputOptions' => [
                     'id' => 19
                 ]
-            ])->passwordInput()?>
+            ])->passwordInput() ?>
             <button class="button button__registration" type="submit">Cоздать аккаунт</button>
 
             <?php ActiveForm::end(); ?>

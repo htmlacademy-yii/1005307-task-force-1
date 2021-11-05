@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
@@ -15,7 +15,6 @@ use yii\db\ActiveRecord;
  *
  * @property Tasks $task
  */
-
 class FileTask extends ActiveRecord
 {
     public static function tableName(): string

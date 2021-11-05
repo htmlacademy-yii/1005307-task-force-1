@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\users;
 
 use frontend\models\users\Users;
-use yii\web\View;
 use yii\web\HttpException;
+use yii\web\View;
 
 class ViewAction extends BaseAction
 {

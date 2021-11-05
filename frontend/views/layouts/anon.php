@@ -2,7 +2,6 @@
 
 use frontend\assets\AppAsset;
 use frontend\models\account\LoginForm;
-
 use yii\helpers\Html;
 use yii\helpers\Url;
 

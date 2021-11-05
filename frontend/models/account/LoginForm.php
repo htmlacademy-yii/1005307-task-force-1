@@ -37,7 +37,7 @@ class LoginForm extends Model
         ];
     }
 
-    public function validatePass($attribute)
+    public function validatePass($attribute): void
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();

@@ -89,44 +89,29 @@ class Notifications extends ActiveRecord
 
     public static function getVisibleNoticesByUser($id): array
     {
-        $user_option = UserOptionSettings::findOne(['user_id' => $id]);
         $query = self::find()
             ->where([
                 'visible' => 1,
                 'user_id' => $id
             ]);
 
-        if ($user_option->is_subscribed_actions == 0) {
-            $query->andWhere(['!=', 'notification_category_id', 1])
-                ->andWhere(['!=', 'notification_category_id', 3])
-                ->andWhere(['!=', 'notification_category_id', 4]);
-        }
-
-        if ($user_option->is_subscribed_messages == 0) {
-            $query->andWhere(['!=', 'notification_category_id', 2]);
-        }
-
-        if ($user_option->is_subscribed_reviews == 0) {
-            $query->andWhere(['!=', 'notification_category_id', 5]);
-        }
-
         return $query->all();
     }
 
     public function addNotification($task_id, $notification_category, $user_id, $settings)
     {
-        $this->notification_category_id = $notification_category;
-        $this->task_id = $task_id;
-        $this->visible = 1;
-        $this->user_id = $user_id;
-        $this->save();
-
         $user = Users::findOne($user_id);
         $user_set = UserOptionSettings::findOne($user->id);
-        $email = $user->email;
-        $subject = $this['notificationsCategory']['name'];
-        $task = Tasks::findOne($task_id);
+
         if ($user_set->$settings == 1) {
+            $this->notification_category_id = $notification_category;
+            $this->task_id = $task_id;
+            $this->visible = 1;
+            $this->user_id = $user_id;
+            $this->save();
+            $email = $user->email;
+            $subject = $this['notificationsCategory']['name'];
+            $task = Tasks::findOne($task_id);
             Yii::$app->mailer->compose()
                 ->setFrom('keks@phpdemo.ru')
                 ->setTo($email)

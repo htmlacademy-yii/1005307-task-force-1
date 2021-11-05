@@ -12,7 +12,12 @@ class IndexAction extends BaseAction
     public function run($status_task): string
     {
         $searchForm = new TaskSearchForm;
-        $dataProvider = $searchForm->searchByStatus(Yii::$app->request->queryParams, $this->user->id, $this->user->user_role, $status_task);
+        $dataProvider = $searchForm->searchByStatus(
+            Yii::$app->request->queryParams,
+            $this->user->id,
+            $this->user->user_role,
+            $status_task
+        );
 
         return $this->controller->render('index', [
             'dataProvider' => $dataProvider,

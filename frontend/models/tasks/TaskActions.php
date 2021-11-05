@@ -33,7 +33,7 @@ class TaskActions
 
     public function getActionsUser($currentStatus)
     {
-            $role = $this->idUser === $this->idClient ? self::ROLE_CLIENT : self::ROLE_DOER;
-            return $this->nextAction($currentStatus, $role);
+        $role = $this->idUser === $this->idClient ? self::ROLE_CLIENT : self::ROLE_DOER;
+        return $this->nextAction($currentStatus, $role);
     }
 }

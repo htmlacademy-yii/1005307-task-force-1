@@ -6,9 +6,8 @@ namespace frontend\controllers\actions\sign;
 
 use frontend\models\account\LoginForm;
 use frontend\models\users\Users;
-use yii\base\Action;
-
 use Yii;
+use yii\base\Action;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -30,6 +29,7 @@ class LoginAction extends Action
                 $user = $loginForm->getUser();
                 Yii::$app->user->login($user);
                 $users = Users::findOne($user->id);
+
                 $session = Yii::$app->session;
                 $session->set('city', $users['city_id']);
 

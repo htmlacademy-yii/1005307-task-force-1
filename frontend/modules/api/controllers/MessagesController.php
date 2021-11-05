@@ -4,12 +4,8 @@ namespace frontend\modules\api\controllers;
 
 use frontend\models\messages\Messages;
 use frontend\models\notifications\Notifications;
-use frontend\models\tasks\Tasks;
-use frontend\models\users\UserOptionSettings;
 use frontend\models\users\Users;
-use frontend\controllers\EventController;
 use Yii;
-use yii\base\BaseObject;
 use yii\data\ActiveDataProvider;
 use yii\filters\ContentNegotiator;
 use yii\rest\ActiveController;

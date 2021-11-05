@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\sign;
 
 use frontend\models\cities\Cities;
-use yii\base\Action;
-
 use frontend\models\users\Users;
 use yii;
+use yii\base\Action;
 
 class OnAuthSuccessAction extends Action
 {

@@ -1,9 +1,5 @@
 <?php
 
-/* @var $this \yii\web\View */
-
-/* @var $content string */
-
 use frontend\assets\AppAsset;
 use frontend\models\{cities\Cities,
     cities\SetCityForm,
@@ -145,8 +141,7 @@ AppAsset::register($this);
                     $citiesList = $cities->getCities();
                     $user = Users::getOneUser($users->id);
                     $cityForm = new SetCityForm();
-                    $session = Yii::$app->session;
-                    $city = Cities::findOne($session['city'])?>
+                    $session = Yii::$app->session; ?>
                     <?php $form = ActiveForm::begin([
                         'id' => 'city-form',
                         'method' => 'post',

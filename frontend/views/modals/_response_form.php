@@ -1,6 +1,8 @@
 <?php
-use yii\widgets\ActiveForm;
+
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
 ?>
 
 <section class="modal response-form form-modal" id="response-form">

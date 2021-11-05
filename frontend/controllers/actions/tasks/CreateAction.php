@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
 
-use frontend\models\tasks\Tasks;
 use frontend\models\tasks\CreateTaskForm;
 use frontend\models\tasks\FileTask;
-use yii\widgets\ActiveForm;
+use frontend\models\tasks\Tasks;
+use Yii;
 use yii\web\Response;
 use yii\web\UploadedFile;
-use Yii;
+use yii\widgets\ActiveForm;
 
 class CreateAction extends BaseAction
 {
-    public $fileUploadForm;
-
     public function run()
     {
         $createTaskForm = new CreateTaskForm();
@@ -73,8 +71,9 @@ class CreateAction extends BaseAction
         }
 
         return $this->controller->render('create', [
-            'createTaskForm' => $createTaskForm,
-            'user' => $this->user]
+                'createTaskForm' => $createTaskForm,
+                'user' => $this->user
+            ]
         );
     }
 }

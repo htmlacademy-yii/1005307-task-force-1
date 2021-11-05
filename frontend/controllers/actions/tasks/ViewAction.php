@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
 
-use frontend\models\tasks\Tasks;
 use frontend\models\tasks\TaskActions;
-use yii\web\View;
+use frontend\models\tasks\Tasks;
 use yii\web\HttpException;
+use yii\web\View;
 
 class ViewAction extends BaseAction
 {
@@ -22,11 +22,13 @@ class ViewAction extends BaseAction
                 'Запрошенная страница задания не найдена'
             );
         }
+
         if ($task->status_task !== 'Новое' && $task->status_task !== 'Выполнено') {
             if ($this->user->id !== $task->client_id && $this->user->id !== $task->doer_id) {
                 $this->controller->redirect('/tasks/index');
             }
         }
+
         $taskActions = new TaskActions($task->client_id, $this->user->id, $task->doer_id);
 
         $view->params['task_id'] = $id;

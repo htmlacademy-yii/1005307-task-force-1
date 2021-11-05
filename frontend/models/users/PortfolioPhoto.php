@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace frontend\models\users;
 
@@ -14,7 +15,6 @@ use yii\db\ActiveRecord;
  *
  * @property Users $user
  */
-
 class PortfolioPhoto extends ActiveRecord
 {
     public static function tableName(): string

@@ -3,18 +3,12 @@ declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
-use frontend\models\{
-    categories\Categories,
-    cities\Cities
-};
+use frontend\models\{categories\Categories, cities\Cities};
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\{BadResponseException, ServerException};
+use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use yii;
 use yii\base\Model;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\{
-    BadResponseException,
-    ServerException
-};
-use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use yii\helpers\ArrayHelper;
 
 class CreateTaskForm extends Model
@@ -86,14 +80,14 @@ class CreateTaskForm extends Model
         ];
     }
 
-    public function validateCat()
+    public function validateCat(): void
     {
         if ($this->category_id == 0) {
             $this->addError('category_id', 'Выберите категорию');
         }
     }
 
-    public function validateDate()
+    public function validateDate(): void
     {
         $currentDate = date('Y-m-d H:i:s');
 

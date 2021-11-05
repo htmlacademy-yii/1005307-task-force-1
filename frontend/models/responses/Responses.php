@@ -1,12 +1,9 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\responses;
 
-use frontend\models\{
-    tasks\Tasks,
-    users\Users
-};
+use frontend\models\{tasks\Tasks, users\Users};
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -24,7 +21,6 @@ use yii\db\ActiveRecord;
  * @property Users $doer
  * @property Tasks $task
  */
-
 class Responses extends ActiveRecord
 {
 

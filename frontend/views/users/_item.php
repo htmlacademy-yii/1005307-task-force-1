@@ -2,10 +2,11 @@
 
 $formatter = \Yii::$app->formatter;
 
-use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 ?>
+
 <div class="content-view__feedback-card user__search-wrapper">
     <div class="feedback-card__top">
         <div class="user__search-icon">
@@ -23,7 +24,8 @@ use yii\helpers\Html;
             </span>
         </div>
         <div class="feedback-card__top--name user__search-card">
-            <p class="link-name"><a href="<?= Url::to(['users/view', 'id' => $model['id']]) ?>" class="link-regular"><?= $model['name'] ?></a></p>
+            <p class="link-name"><a href="<?= Url::to(['users/view', 'id' => $model['id']]) ?>"
+                                    class="link-regular"><?= $model['name'] ?></a></p>
             <?php if ($model['rating'] > 0) : ?>
                 <?php $starCount = round($model['rating']) ?>
                 <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -40,7 +42,8 @@ use yii\helpers\Html;
     </div>
     <div class="link-specialization user__search-link--bottom">
         <?php foreach ($model['userCategories'] as $category): ?>
-            <a href="<?= Url::to(['tasks/filter', 'category_id' => $category['id']]) ?>" class="link-regular"><?= $category['profession'] ?></a>
+            <a href="<?= Url::to(['tasks/filter', 'category_id' => $category['id']]) ?>"
+               class="link-regular"><?= $category['profession'] ?></a>
         <?php endforeach; ?>
     </div>
 </div>
