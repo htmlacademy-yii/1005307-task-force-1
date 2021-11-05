@@ -39,7 +39,6 @@ use yii\widgets\ActiveForm;
                 'inputOptions' => [
                     'id' => 16,
                     'rows' => 1,
-                    'value' => 'wre@reyugukjjbhjvbjhjlf.ru'
                 ]
             ])->textArea() ?>
 
