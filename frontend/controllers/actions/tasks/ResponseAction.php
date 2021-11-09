@@ -13,8 +13,9 @@ use frontend\models\users\Users;
 use Yii;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
+use yii\base\Action;
 
-class ResponseAction extends BaseAction
+class ResponseAction extends Action
 {
     public function run()
     {
@@ -37,7 +38,7 @@ class ResponseAction extends BaseAction
                 $notification->notification_category_id = 1;
                 $notification->task_id = $task->id;
                 $notification->visible = 1;
-                $notification->user_id = $this->user->id;
+                $notification->user_id = $this->controller->user->id;
                 $notification->save();
 
                 $notification->addNotification(

@@ -7,8 +7,9 @@ namespace frontend\controllers\actions\users;
 use frontend\models\users\Favourites;
 use frontend\models\users\Users;
 use yii\web\NotFoundHttpException;
+use yii\base\Action;
 
-class AddFavouriteAction extends BaseAction
+class AddFavouriteAction extends Action
 {
     public $favourite;
 
@@ -23,13 +24,13 @@ class AddFavouriteAction extends BaseAction
         if (!$isFavouriteValue) {
             $this->favourite = new Favourites;
             $this->favourite->favourite_person_id = $user->id;
-            $this->favourite->user_id = $this->user->id;
+            $this->favourite->user_id = $this->controller->user->id;
             $this->favourite->save();
         }
 
         if ($isFavouriteValue) {
             $this->favourite = Favourites::find()
-                ->where(['user_id' => $this->user->id])
+                ->where(['user_id' => $this->controller->user->id])
                 ->andWhere(['favourite_person_id' => $user->id])
                 ->all();
 

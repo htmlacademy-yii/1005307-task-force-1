@@ -36,6 +36,7 @@ return [
                 '/' => 'landing/index',
                 'tasks/' => 'tasks/index',
                 'users/' => 'users/index',
+                'profile/' => 'profile/index',
                 'tasks/<page:\d+>' => 'tasks/index',
                 'users/<page:\d+>' => 'users/index',
                 'task/view/<id>' => 'tasks/view/',

@@ -12,7 +12,7 @@ class IndexAction extends Action
 {
     public function run(View $view)
     {
-        $user = \Yii::$app->user->getIdentity();
+        $user = $this->controller->user;
         $notifications = Notifications::getVisibleNoticesByUser($user);
         $view->params['newEvents'] = $notifications;
 

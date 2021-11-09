@@ -7,8 +7,9 @@ namespace frontend\controllers\actions\tasks;
 use frontend\models\notifications\Notifications;
 use frontend\models\tasks\Tasks;
 use yii\web\Response;
+use yii\base\Action;
 
-class StartWorkAction extends BaseAction
+class StartWorkAction extends Action
 {
     public function run(int $doerId, int $taskId): Response
     {

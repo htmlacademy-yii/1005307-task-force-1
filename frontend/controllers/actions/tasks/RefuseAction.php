@@ -10,8 +10,9 @@ use frontend\models\tasks\Tasks;
 use frontend\models\users\Users;
 use Yii;
 use yii\web\Response;
+use yii\base\Action;
 
-class RefuseAction extends BaseAction
+class RefuseAction extends Action
 {
     public function run(): Response
     {
@@ -22,9 +23,9 @@ class RefuseAction extends BaseAction
             $task->status_task = 'Провалено';
             $task->save(false);
 
-            $user_doer = Users::findOne($this->user->id);
+            $user_doer = Users::findOne($this->controller->user->id);
             $user_doer->failed_tasks = Tasks::find()
-                ->where(['doer_id' => $this->user->id])
+                ->where(['doer_id' => $this->controller->user->id])
                 ->andWhere(['status_task' => 'Провалено'])->count();
             $user_client = Users::findOne($task->client_id);
             $user_doer->save(false);

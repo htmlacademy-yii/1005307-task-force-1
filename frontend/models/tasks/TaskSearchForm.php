@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
-use frontend\models\categories\Categories;
 use yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
@@ -53,6 +52,7 @@ class TaskSearchForm extends Tasks
     public function search($params): ActiveDataProvider
     {
         $query = Tasks::find();
+        $session = Yii::$app->session;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -61,7 +61,6 @@ class TaskSearchForm extends Tasks
             ],
         ]);
         $this->load($params);
-        $session = Yii::$app->session;
 
         $this->getTasks($query
             ->andWhere(['city_id' => $session->get('city')])
@@ -94,9 +93,10 @@ class TaskSearchForm extends Tasks
         return $dataProvider;
     }
 
-    public function searchByCategories($category, $user): ActiveDataProvider
+    public function searchByCategories($category): ActiveDataProvider
     {
         $query = Tasks::find();
+        $session = Yii::$app->session;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -106,7 +106,7 @@ class TaskSearchForm extends Tasks
         ]);
 
         $this->getTasks($query
-            ->andWhere(['city_id' => $user->city_id])
+            ->andWhere(['city_id' => $session->get('city')])
             ->orWhere(['city_id' => null]));
         $query->andWhere(['category_id' => $category]);
 

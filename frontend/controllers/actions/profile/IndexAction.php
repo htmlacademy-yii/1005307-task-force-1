@@ -15,19 +15,11 @@ class IndexAction extends Action
 {
     public $user;
 
-    public function init()
-    {
-        parent::init();
-        if (!empty(\Yii::$app->user)) {
-            $this->user = \Yii::$app->user->getIdentity();
-        }
-    }
-
     public function run()
     {
         $profileForm = new ProfileForm();
         $request = \Yii::$app->request;
-        $user = Users::findOne($this->user->id);
+        $user = Users::findOne($this->controller->user->id);
 
         if (!$profileForm->load($request->post())) {
             $profileForm->loadCurrentUserData($user);
@@ -47,26 +39,26 @@ class IndexAction extends Action
             if ($profileForm->validate()) {
 
                 if ($profileForm->upload()) {
-                    PortfolioPhoto::deleteAll(['user_id' => $user->id]);
+                    PortfolioPhoto::deleteAll(['user_id' => $this->controller->user->id]);
 
                     foreach ($profileForm->photo as $photo) {
                         $portfolioPhoto = new PortfolioPhoto([
                             'photo' => '/uploads/' . $photo,
-                            'user_id' => $user->id]);
+                            'user_id' => $this->controller->user->id]);
                         $portfolioPhoto->save();
                     }
                 }
 
                 $profileForm->saveProfileData($user);
                 $session = Yii::$app->session;
-                $session->set('city', $user['city_id']);
+                $session->set('city', $this->user->city_id);
 
-                return $this->controller->redirect(['users/view', 'id' => $user->id]);
+                return $this->controller->redirect(['users/view', 'id' => $this->controller->user->id]);
             }
         }
 
         return $this->controller->render(
-            '/profile/index',
+            'index',
             [
                 'user' => $user,
                 'profileForm' => $profileForm,

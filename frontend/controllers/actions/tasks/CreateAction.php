@@ -11,8 +11,9 @@ use Yii;
 use yii\web\Response;
 use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
+use yii\base\Action;
 
-class CreateAction extends BaseAction
+class CreateAction extends Action
 {
     public function run()
     {
@@ -20,7 +21,7 @@ class CreateAction extends BaseAction
         $request = Yii::$app->request;
         $session = Yii::$app->session;
 
-        if ($this->user->user_role == 'doer') {
+        if ($this->controller->user->user_role == 'doer') {
             return $this->controller->redirect(['tasks/index']);
         }
 
@@ -72,7 +73,7 @@ class CreateAction extends BaseAction
 
         return $this->controller->render('create', [
                 'createTaskForm' => $createTaskForm,
-                'user' => $this->user
+                'user' => $this->controller->user
             ]
         );
     }

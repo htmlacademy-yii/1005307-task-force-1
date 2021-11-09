@@ -12,8 +12,9 @@ use frontend\models\users\Users;
 use Yii;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
+use yii\base\Action;
 
-class RequestAction extends BaseAction
+class RequestAction extends Action
 {
     public function run()
     {
