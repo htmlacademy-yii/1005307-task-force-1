@@ -60,18 +60,8 @@ class Responses extends ActiveRecord
         ];
     }
 
-    public function getTask(): ActiveQuery
-    {
-        return $this->hasOne(Tasks::class, ['id' => 'task_id']);
-    }
-
     public function getDoer(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
-    }
-
-    public static function find(): ResponsesQuery
-    {
-        return new ResponsesQuery(get_called_class());
     }
 }

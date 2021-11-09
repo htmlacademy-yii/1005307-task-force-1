@@ -5,7 +5,8 @@ use frontend\models\users\Users;
 use frontend\models\cities\Cities;
 use yii\widgets\ActiveForm;
 
-$categories = $createTaskForm->getCategories();
+$categories = new \frontend\models\categories\Categories();
+$categories = $categories->getCategoriesFilters();
 $user = Users::findOne($user->id);
 
 ?>
@@ -218,10 +219,7 @@ JS;
 
     <script type="text/javascript">
         <?php $session = Yii::$app->session;
-        $city = Cities::findOne($session->get('city'));
-        $keyCache = 'dlg:byuserid:' . $user_id;
-        $unionQuery = Yii::$app->redis->get($keyCache);
-        if ($unionQuery === false):?>
+        $city = Cities::findOne($session->get('city'));?>
         $("#address").suggestions({
             token: "5e9234412c360c19d520220cc87dc076c8e65389",
             type: "ADDRESS",
@@ -230,6 +228,5 @@ JS;
             },
             restrict_value: true
         })
-        <?php endif;?>
     </script>
 <?php endif; ?>

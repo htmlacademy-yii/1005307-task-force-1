@@ -25,23 +25,7 @@ class CreateTaskForm extends Model
     public $latitude;
     public $longitude;
     public $city_id;
-    private $cities;
     public $task_id;
-
-    public function getCities(): array
-    {
-        if (!isset($this->cities)) {
-            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
-        }
-
-        return $this->cities;
-    }
-
-
-    public function getCategories(): array
-    {
-        return Categories::getCategoriesFilters();
-    }
 
     public function rules(): array
     {

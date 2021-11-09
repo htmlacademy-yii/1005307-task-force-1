@@ -73,18 +73,8 @@ class Opinions extends ActiveRecord
         return $this->hasOne(Users::class, ['id' => 'client_id']);
     }
 
-    public function getDoer(): ActiveQuery
-    {
-        return $this->hasOne(Users::class, ['id' => 'doer_id']);
-    }
-
     public function getTask(): ActiveQuery
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
-    }
-
-    public static function find(): OpinionsQuery
-    {
-        return new OpinionsQuery(get_called_class());
     }
 }

@@ -1,9 +1,11 @@
 <?php
-$this->title = 'Регистрация аккаунта';
-$cities = $signForm->getCities();
 
+use frontend\models\cities\Cities;
 use yii\widgets\ActiveForm;
 
+$this->title = 'Регистрация аккаунта';
+$cities = new Cities();
+$cities = $cities->getCities();
 ?>
 
 <div class="main-container page-container">

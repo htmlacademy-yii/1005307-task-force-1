@@ -50,19 +50,4 @@ class Favourites extends ActiveRecord
             'favourite_person_id' => 'Favourite Person ID',
         ];
     }
-
-    public function getFavouritePerson(): ActiveQuery
-    {
-        return $this->hasOne(Users::class, ['id' => 'favourite_person_id']);
-    }
-
-    public function getUser(): ActiveQuery
-    {
-        return $this->hasOne(Users::class, ['id' => 'user_id']);
-    }
-
-    public static function find(): FavouritesQuery
-    {
-        return new FavouritesQuery(get_called_class());
-    }
 }

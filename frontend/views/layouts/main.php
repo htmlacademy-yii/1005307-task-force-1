@@ -20,13 +20,15 @@ $users = \Yii::$app->user->getIdentity();
 
 AppAsset::register($this);
 
-$cities = new Cities();
-$citiesList = $cities->getCities();
-$user = Users::getOneUser($users->id);
-$cityForm = new SetCityForm();
-$session = Yii::$app->session;
-$notifications = new Notifications();
-$user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id);
+if($users) {
+    $cities = new Cities();
+    $citiesList = $cities->getCities();
+    $user = Users::getOneUser($users->id);
+    $cityForm = new SetCityForm();
+    $session = Yii::$app->session;
+    $notifications = new Notifications();
+    $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id);
+}
 
 ?>
 
@@ -231,10 +233,10 @@ $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->i
                         <a href="<?= Url::to(['users/']) ?>">Исполнители</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Регистрация</a>
+                        <a href="<?= Url::to(['sign/']) ?>">Регистрация</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Создать задание</a>
+                        <a href="<?= Url::to(['tasks/create']) ?>">Создать задание</a>
                     </li>
                     <li class="links__item">
                         <a href="">Справка</a>

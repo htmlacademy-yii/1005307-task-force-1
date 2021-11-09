@@ -103,21 +103,6 @@ class Tasks extends ActiveRecord
         return $this->hasMany(FileTask::class, ['task_id' => 'id']);
     }
 
-    public function getMessages(): ActiveQuery
-    {
-        return $this->hasMany(Messages::class, ['task_id' => 'id']);
-    }
-
-    public function getNotifications(): ActiveQuery
-    {
-        return $this->hasMany(Notifications::class, ['task_id' => 'id']);
-    }
-
-    public function getOpinions(): ActiveQuery
-    {
-        return $this->hasMany(Opinions::class, ['task_id' => 'id']);
-    }
-
     public function getResponses(): ActiveQuery
     {
         return $this->hasMany(Responses::class, ['task_id' => 'id']);

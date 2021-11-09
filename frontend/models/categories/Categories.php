@@ -48,32 +48,9 @@ class Categories extends ActiveRecord
         ];
     }
 
-    public function getTasks(): ActiveQuery
-    {
-        return $this->hasMany(Tasks::class, ['category_id' => 'id']);
-    }
-
-    public function getUserCategory(): ActiveQuery
-    {
-        return $this->hasMany(UserCategory::class, ['category_id' => 'id']);
-    }
-
-    /**
-     * @throws InvalidConfigException
-     */
-    public function getUsers(): ActiveQuery
-    {
-        return $this->hasMany(Users::class, ['id' => 'user_id'])->viaTable('user_category', ['categories_id' => 'id']);
-    }
-
     public static function getCategoriesFilters(): array
     {
         return ArrayHelper::map(Categories::getAll(), 'id', 'name');
-    }
-
-    public static function find(): CategoriesQuery
-    {
-        return new CategoriesQuery(get_called_class());
     }
 
     final public static function getAll(): array

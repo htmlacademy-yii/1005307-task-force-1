@@ -2,12 +2,13 @@
 $this->title = 'Список исполнителей';
 $formatter = \Yii::$app->formatter;
 
+use frontend\models\categories\Categories;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 
-$categoriesFilter = $searchForm->getCategoriesFilter();
 $additionalFilter = $searchForm->attributeLabels();
+$categoriesFilter = Categories::getCategoriesFilters();
 ?>
 
 <div class="main-container page-container">

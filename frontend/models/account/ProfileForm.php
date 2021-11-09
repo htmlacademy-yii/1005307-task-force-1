@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace frontend\models\account;
 
-use frontend\models\{categories\Categories, cities\Cities, users\UserCategory, users\Users};
+use frontend\models\{categories\Categories, users\UserCategory, users\Users};
 use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -25,7 +25,6 @@ class ProfileForm extends Model
     public $specializations;
     public $optionSet;
     public $photo;
-    private $cities;
     private $existingSpecializations;
 
     public function getExistingSpecializations(): array
@@ -35,15 +34,6 @@ class ProfileForm extends Model
         }
 
         return $this->existingSpecializations;
-    }
-
-    public function getCities(): array
-    {
-        if (!isset($this->cities)) {
-            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
-        }
-
-        return $this->cities;
     }
 
     public function attributeLabels(): array

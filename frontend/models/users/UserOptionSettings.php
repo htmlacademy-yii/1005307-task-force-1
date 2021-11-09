@@ -46,14 +46,4 @@ class UserOptionSettings extends \yii\db\ActiveRecord
             'is_subscribed_reviews' => 'Is Subscribed Reviews',
         ];
     }
-
-    public function getUser(): \yii\db\ActiveQuery
-    {
-        return $this->hasOne(Users::class, ['id' => 'user_id']);
-    }
-
-    public static function find(): UserOptionSettingsQuery
-    {
-        return new UserOptionSettingsQuery(get_called_class());
-    }
 }

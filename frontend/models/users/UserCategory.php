@@ -48,19 +48,4 @@ class UserCategory extends ActiveRecord
             'category_id' => 'Category ID',
         ];
     }
-
-    public function getCategory(): ActiveQuery
-    {
-        return $this->hasOne(Categories::class, ['id' => 'category_id']);
-    }
-
-    public function getUser(): ActiveQuery
-    {
-        return $this->hasOne(Users::class, ['id' => 'user_id']);
-    }
-
-    public static function find(): UserCategoryQuery
-    {
-        return new UserCategoryQuery(get_called_class());
-    }
 }

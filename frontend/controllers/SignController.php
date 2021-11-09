@@ -26,7 +26,7 @@ class SignController extends Controller
                     ],
                 ],
                 'denyCallback' => function ($rule, $action) {
-                    if ($action->actionMethod === 'actionLogout') {
+                    if ($action->actionMethod === 'logout') {
                         return $this->redirect(['landing/index']);
                     } else {
                         return $this->goHome();

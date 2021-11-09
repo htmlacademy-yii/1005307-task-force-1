@@ -57,7 +57,6 @@ use yii\widgets\ActiveForm;
         'inputOptions' => [
             'class' => 'response-form-payment input input-middle input-money',
             'id' => 'response-payment',
-            'value' => '89754'
         ]
     ])->input('number') ?>
     <?= $form->field($model, "comment", [
@@ -66,7 +65,6 @@ use yii\widgets\ActiveForm;
             'class' => 'input textarea',
             'id' => 'response-comment',
             'rows' => 4,
-            'value' => 'ugyftydrtse poiuytrtse'
         ]
     ])->textArea() ?>
     <?= Html::submitButton('Отправить',

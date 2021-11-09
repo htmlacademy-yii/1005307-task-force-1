@@ -23,11 +23,6 @@ class TaskSearchForm extends Tasks
         ];
     }
 
-    public function getCategoriesFilter(): array
-    {
-        return Categories::getCategoriesFilters();
-    }
-
     public function getPeriodFilter(): array
     {
         return [
@@ -46,6 +41,8 @@ class TaskSearchForm extends Tasks
                 'count(responses.comment) as responses_count'
             ])
             ->andwhere(['status_task' => 'Новое'])
+            ->andWhere(['is', 'expire', null])
+            ->orFilterWhere(['>=', 'expire', new Expression('NOW()')])
             ->with('category')
             ->with('city')
             ->groupBy('tasks.id')
@@ -53,7 +50,7 @@ class TaskSearchForm extends Tasks
             ->asArray();
     }
 
-    public function search($params, $user): ActiveDataProvider
+    public function search($params): ActiveDataProvider
     {
         $query = Tasks::find();
 
@@ -65,6 +62,7 @@ class TaskSearchForm extends Tasks
         ]);
         $this->load($params);
         $session = Yii::$app->session;
+
         $this->getTasks($query
             ->andWhere(['city_id' => $session->get('city')])
             ->orWhere(['city_id' => null]));

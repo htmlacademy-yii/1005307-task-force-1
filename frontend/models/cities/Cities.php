@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace frontend\models\cities;
 
 use frontend\models\{tasks\Tasks, users\Users};
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -53,21 +52,6 @@ class Cities extends ActiveRecord
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
         ];
-    }
-
-    public function getTasks(): ActiveQuery
-    {
-        return $this->hasMany(Tasks::class, ['city_id' => 'id']);
-    }
-
-    public function getUsers(): ActiveQuery
-    {
-        return $this->hasMany(Users::class, ['city_id' => 'id']);
-    }
-
-    public static function find(): CitiesQuery
-    {
-        return new CitiesQuery(get_called_class());
     }
 
     final public static function getAll(): array

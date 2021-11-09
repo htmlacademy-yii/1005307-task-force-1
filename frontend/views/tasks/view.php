@@ -15,7 +15,7 @@ $responses = $task->responses;
 $isUserAuthorOfResponse = false;
 foreach ($task->responses as $response) {
     if ($response->doer_id === $user->id) {
-        $isUserAuthorOfResponse = false;
+        $isUserAuthorOfResponse = true;
         break;
     }
 }

@@ -5,7 +5,6 @@ namespace frontend\models\account;
 
 use frontend\models\{cities\Cities, users\Users};
 use yii\base\Model;
-use yii\helpers\ArrayHelper;
 
 class SignForm extends Model
 {
@@ -14,16 +13,6 @@ class SignForm extends Model
     public $password;
     public $city_id;
     public $user_role;
-    private $cities;
-
-    public function getCities(): array
-    {
-        if (!isset($this->cities)) {
-            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
-        }
-
-        return $this->cities;
-    }
 
     public function rules(): array
     {

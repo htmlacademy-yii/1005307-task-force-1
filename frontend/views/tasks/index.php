@@ -1,11 +1,12 @@
 <?php
 $this->title = 'Список заданий';
 
+use frontend\models\categories\Categories;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 
-$categoriesFilter = $searchForm->getCategoriesFilter();
+$categoriesFilter = Categories::getCategoriesFilters();
 $periodFilter = $searchForm->getPeriodFilter();
 
 ?>

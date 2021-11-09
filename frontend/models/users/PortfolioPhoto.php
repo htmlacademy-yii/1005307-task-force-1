@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace frontend\models\users;
 
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -42,15 +41,5 @@ class PortfolioPhoto extends ActiveRecord
             'photo' => 'Photo',
             'user_id' => 'User ID',
         ];
-    }
-
-    public function getUser(): ActiveQuery
-    {
-        return $this->hasOne(Users::class, ['id' => 'user_id']);
-    }
-
-    public static function find(): PortfolioPhotoQuery
-    {
-        return new PortfolioPhotoQuery(get_called_class());
     }
 }

@@ -67,24 +67,9 @@ class Notifications extends ActiveRecord
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
-    public function getUser(): ActiveQuery
-    {
-        return $this->hasOne(Users::class, ['id' => 'user_id']);
-    }
-
     public function getNotificationsCategory(): ActiveQuery
     {
         return $this->hasOne(NotificationsCategories::class, ['id' => 'notification_category_id']);
-    }
-
-    public function getUserOptionSet(): ActiveQuery
-    {
-        return $this->hasOne(UserOptionSettings::class, ['user_id' => 'user_id']);
-    }
-
-    public static function find(): NotificationsQuery
-    {
-        return new NotificationsQuery(get_called_class());
     }
 
     public static function getVisibleNoticesByUser($id): array

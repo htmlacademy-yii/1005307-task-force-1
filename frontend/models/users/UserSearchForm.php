@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace frontend\models\users;
 
-use frontend\models\categories\Categories;
 use yii\data\ActiveDataProvider;
 
 class UserSearchForm extends Users
@@ -20,11 +19,6 @@ class UserSearchForm extends Users
         return [
             [['searchedCategories', 'searchName', 'isFreeNow', 'isOnlineNow', 'hasOpinions', 'isFavourite'], 'safe'],
         ];
-    }
-
-    public function getCategoriesFilter(): array
-    {
-        return Categories::getCategoriesFilters();
     }
 
     public function search($params): ActiveDataProvider

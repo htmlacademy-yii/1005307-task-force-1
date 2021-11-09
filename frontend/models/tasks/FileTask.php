@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -42,15 +41,5 @@ class FileTask extends ActiveRecord
             'file_item' => 'File Item',
             'task_id' => 'Task ID',
         ];
-    }
-
-    public function getTask(): ActiveQuery
-    {
-        return $this->hasOne(Tasks::class, ['id' => 'task_id']);
-    }
-
-    public static function find(): FileTaskQuery
-    {
-        return new FileTaskQuery(get_called_class());
     }
 }

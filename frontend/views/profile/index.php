@@ -1,11 +1,14 @@
 <?php
 $this->title = 'Редактирование настроек пользователя';
 
+use frontend\models\categories\Categories;
+use frontend\models\cities\Cities;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
-$cities = $profileForm->getCities();
-$specializations = $profileForm->getExistingSpecializations();
+$cities = new Cities();
+$cities = $cities->getCities();
+$specializations = Categories::getCategoriesFilters();
 
 ?>
 <main class="page-main">
