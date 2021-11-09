@@ -15,7 +15,6 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'method' => 'post',
         'action' => '/tasks/refuse']) ?>
-
     <?= $form->field($model, 'task_id', [
         'inputOptions' => [
             'value' => $this->params['task_id'],

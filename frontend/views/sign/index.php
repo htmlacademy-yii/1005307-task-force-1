@@ -28,7 +28,6 @@ use yii\widgets\ActiveForm;
                     ],
                     'labelOptions' => ['class' => null],
                 ]]) ?>
-
             <?= $form->field($signForm, 'user_role', [
                 'inputOptions' => [
                     'value' => 'client',
@@ -41,21 +40,18 @@ use yii\widgets\ActiveForm;
                     'rows' => 1,
                 ]
             ])->textArea() ?>
-
             <?= $form->field($signForm, "name", [
                 'inputOptions' => [
                     'id' => 17,
                     'rows' => 1
                 ]
             ])->textArea() ?>
-
             <?= $form->field($signForm, "city_id")->dropDownList($cities, [
                 'class' => 'multiple-select input town-select registration-town',
                 'size' => 1,
                 'id' => 18,
                 'style' => 'width: 360px; margin-top: 12px; margin-bottom: 0px;'
             ]); ?>
-
             <?= $form->field($signForm, "password", [
                 'inputOptions' => [
                     'id' => 19

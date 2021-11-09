@@ -98,26 +98,23 @@ class Notifications extends ActiveRecord
         return $query->all();
     }
 
-    public function addNotification($task_id, $notification_category, $user_id, $settings)
+    public function addNotification($task_id, $notification_category, $user_id, $settings): bool
     {
         $user = Users::findOne($user_id);
         $user_set = UserOptionSettings::findOne($user->id);
 
-        if ($user_set->$settings == 1) {
-            $this->notification_category_id = $notification_category;
-            $this->task_id = $task_id;
-            $this->visible = 1;
-            $this->user_id = $user_id;
-            $this->save();
-            $email = $user->email;
+   //     if ($user_set->$settings == 1) {
+            $email = 'anyakulikova111@gmail.com';
             $subject = $this['notificationsCategory']['name'];
             $task = Tasks::findOne($task_id);
             Yii::$app->mailer->compose()
-                ->setFrom('keks@phpdemo.ru')
                 ->setTo($email)
+                ->setFrom('keks@phpdemo.ru')
                 ->setSubject($subject)
-                ->setHtmlBody('У вас новое уведомление:' . $subject . '<a href="#">' . $task->name . '</a>')
+                ->setHtmlBody($user->name . 'У вас новое уведомление:' . $subject . '<a href="#">' . $task->name . '</a>')
                 ->send();
+
+            return true;
         }
-    }
+   // }
 }

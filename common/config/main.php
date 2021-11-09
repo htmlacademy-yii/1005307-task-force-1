@@ -31,6 +31,10 @@ return [
                 'task/create/' => 'tasks/create/'
             ],
         ],
+        'cache' => [
+            'class' => 'yii\redis\Cache',
+        //    'cachePath' => '@common/runtime/cache'
+        ],
         'redis' => [
             'class' => 'yii\redis\Connection',
             'hostname' => 'localhost',

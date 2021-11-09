@@ -19,6 +19,15 @@ $this->registerJsFile('/js/lightbulb.js');
 $users = \Yii::$app->user->getIdentity();
 
 AppAsset::register($this);
+
+$cities = new Cities();
+$citiesList = $cities->getCities();
+$user = Users::getOneUser($users->id);
+$cityForm = new SetCityForm();
+$session = Yii::$app->session;
+$notifications = new Notifications();
+$user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id);
+
 ?>
 
 <?php $this->beginPage() ?>
@@ -137,11 +146,6 @@ AppAsset::register($this);
             </div>
             <?php if (!Yii::$app->user->isGuest): ?>
                 <div class="header__town">
-                    <?php $cities = new Cities();
-                    $citiesList = $cities->getCities();
-                    $user = Users::getOneUser($users->id);
-                    $cityForm = new SetCityForm();
-                    $session = Yii::$app->session; ?>
                     <?php $form = ActiveForm::begin([
                         'id' => 'city-form',
                         'method' => 'post',
@@ -158,8 +162,6 @@ AppAsset::register($this);
                         ])->label(false) ?>
                     <?php ActiveForm::end(); ?>
                 </div>
-                <?php $notifications = new Notifications();
-            $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id) ?>
                 <div style="position: relative">
                     <div class="header__lightbulb"
                          <?php if ($user_notifications): ?>style="background-image: url('/img/lightbulb-white.png')" <?php endif ?>></div>
@@ -170,7 +172,7 @@ AppAsset::register($this);
                         <span class="label label-primary"
                               style="display: block; margin-bottom: 2px; padding-top: 3px"><?= Html::encode($notice['notificationsCategory']['name']) ?></span>
                                 <a href="<?= Url::to(['tasks/view', 'id' => $notice['task']['id']]) ?>"
-                                   class="link-regular">«<?= $notice['task']['name'] ?>»</a>
+                                   class="link-regular">«<?= strip_tags($notice['task']['name']) ?>»</a>
                             </p>
                         <?php endforeach; ?>
                     </div>
@@ -178,12 +180,12 @@ AppAsset::register($this);
                 <div class="header__account">
                     <a class="header__account-photo">
                         <?= $user['avatar']
-                            ? Html::img(Yii::$app->request->baseUrl . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44'])
+                            ? Html::img(Yii::$app->request->baseUrl . strip_tags($user['avatar']), ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '43', 'height' => '44'])
                         ?>
                     </a>
                     <span class="header__account-name">
-               <?= $user['name'] ?>
+               <?= strip_tags($user['name']) ?>
              </span>
                 </div>
                 <div class="account__pop-up">
@@ -194,7 +196,7 @@ AppAsset::register($this);
                                 : Url::to(['my-tasks/index', 'status_task' => 'На исполнении']) ?>">Мои задания</a>
                         </li>
                         <li>
-                            <a href="<?= Url::toRoute('profile/index') ?>">Настройки</a>
+                            <a href="<?= Url::toRoute('profile/') ?>">Настройки</a>
                         </li>
                         <li>
                             <a href="<?= Url::toRoute('sign/logout') ?>">Выход</a>
@@ -220,13 +222,13 @@ AppAsset::register($this);
             <div class="page-footer__links">
                 <ul class="links__list">
                     <li class="links__item">
-                        <a href="">Задания</a>
+                        <a href="<?=Url::to(['tasks/'])?>">Задания</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Мой профиль</a>
+                        <a href="<?= Url::to(['users/view', 'id' => $user['id']]) ?>">Мой профиль</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Исполнители</a>
+                        <a href="<?= Url::to(['users/']) ?>">Исполнители</a>
                     </li>
                     <li class="links__item">
                         <a href="">Регистрация</a>
@@ -272,25 +274,7 @@ AppAsset::register($this);
 <div class="overlay"></div>
 <script src="/js/main.js"></script>
 <script src="/js/messenger.js"></script>
-<?php if ($this->title === 'Публикация нового задания'): ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js"></script>
 
-    <script type="text/javascript">
-        <?php $session = Yii::$app->session;
-        $city = Cities::findOne($session->get('city'));
-        ?>
-        $("#address").suggestions({
-            token: "5e9234412c360c19d520220cc87dc076c8e65389",
-            type: "ADDRESS",
-            constraints: {
-                locations: {region: "<?= $city['city'] ?>"},
-            },
-            restrict_value: true
-        })
-    </script>
-<?php endif; ?>
 <script type="text/javascript">
     function openImageWindow(src) {
         var image = new Image();

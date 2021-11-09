@@ -11,6 +11,25 @@ use frontend\models\messages\Messages;
 $task = $this->params['task'];
 $user = $this->params['user'];
 
+$responses = $task->responses;
+$isUserAuthorOfResponse = false;
+foreach ($task->responses as $response) {
+    if ($response->doer_id === $user->id) {
+        $isUserAuthorOfResponse = false;
+        break;
+    }
+}
+$possibleActions = $taskActions->getActionsUser($task['status_task']);
+
+$isClientNotNewTask = false;
+if ($task->status_task !== 'Новое' && $task->status_task !== 'Отменено' && $user->id == $task->client_id) {
+    $isClientNotNewTask = true;
+} ?>
+<?php $isClientNotNewTask
+    ? $user_show = $task->doer
+    : $user_show = $task->client;
+$doer = $task->doer;
+
 ?>
 
 <div class="main-container page-container">
@@ -19,7 +38,7 @@ $user = $this->params['user'];
             <div class="content-view__card-wrapper">
                 <div class="content-view__header">
                     <div class="content-view__headline">
-                        <h1><?= $task->name ?></h1>
+                        <h1><?= strip_tags($task->name) ?></h1>
                         <span>Размещено в категории
                            <a href="<?= Url::to(['tasks/filter', 'category_id' => $task['category_id']]) ?>"
                               class="link-regular"><?= $task->category->name ?></a>
@@ -28,20 +47,20 @@ $user = $this->params['user'];
                         </span>
                     </div>
                     <b class="new-task__price new-task__price--<?= $task->category->icon ?> content-view-price">
-                        <?= $task->budget ?>
+                        <?= strip_tags($task->budget) ?>
                         <b> ₽</b></b>
                     <div class="new-task__icon new-task__icon--<?= $task->category->icon ?> content-view-icon"></div>
                 </div>
                 <div class="content-view__description">
                     <h3 class="content-view__h3">Общее описание</h3>
-                    <p><?= $task->description ?></p>
+                    <p><?= htmlspecialchars($task->description) ?></p>
                 </div>
                 <?php $files = $task->fileTasks;
                 if ($files): ?>
                     <div class="content-view__attach">
                         <h3 class="content-view__h3">Вложения</h3>
                         <?php foreach ($files as $file): ?>
-                            <a href="#"><?= $file->file_item ?></a>
+                            <a href="#"><?= strip_tags($file->file_item) ?></a>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
@@ -52,24 +71,15 @@ $user = $this->params['user'];
                             <div id="map" style="width: 361px; height: 292px" class="content-view__map"></div>
                             <div class="content-view__address">
                                 <span class="address__town"><?= $task->city->city ?></span><br>
-                                <span><?= $task->address ?></span>
-                                <p><?= $task->location_comment ?></p>
+                                <span><?= strip_tags($task->address) ?></span>
+                                <p><?= strip_tags($task->location_comment) ?></p>
                             </div>
                         </div>
                     </div>
                 <?php endif; ?>
             </div>
         </div>
-        <?php $responses = $task->responses;
-        $isUserAuthorOfResponse = false;
-        foreach ($task->responses as $response) {
-            if ($response->doer_id === $user->id) {
-                $isUserAuthorOfResponse = true;
-                break;
-            }
-        }
-        $possibleActions = $taskActions->getActionsUser($task['status_task']);
-        if ($possibleActions):
+        <?php if ($possibleActions):
             if ($user->user_role == 'doer' || $user->id == $task->client_id) :
                 if ($isUserAuthorOfResponse !== true || $task->status_task !== 'Новое'):?>
                     <div class="content-view__action-buttons">
@@ -98,12 +108,12 @@ $user = $this->params['user'];
                                 <div class="feedback-card__top">
                                     <a href="<?= Url::to(['users/view', 'id' => $doer['id']]) ?>">
                                         <?= $doer->avatar
-                                            ? Html::img(Yii::$app->request->baseUrl . $doer->avatar, ['width' => '55', 'height' => '55'])
+                                            ? Html::img(Yii::$app->request->baseUrl . strip_tags($doer->avatar), ['width' => '55', 'height' => '55'])
                                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
                                     </a>
                                     <div class="feedback-card__top--name">
                                         <p><a href="<?= Url::to(['users/view', 'id' => $doer->id]) ?>"
-                                              class="link-regular"><?= $doer->name ?></a></p>
+                                              class="link-regular"><?= strip_tags($doer->name) ?></a></p>
                                         <?php if ($doer->rating > 0):
                                             $starCount = round($doer['rating']);
                                             for ($i = 1; $i <= 5; $i++):?>
@@ -116,8 +126,8 @@ $user = $this->params['user'];
                                         class="new-task__time"><?= $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) ?></span>
                                 </div>
                                 <div class="feedback-card__content">
-                                    <p><?= $response->comment ?></p>
-                                    <span><?= $response->budget ?> ₽</span>
+                                    <p><?= htmlspecialchars($response->comment) ?></p>
+                                    <span><?= strip_tags($response->budget) ?> ₽</span>
                                 </div>
                                 <?php if ($user->id == $task->client_id):
                                     if ($response->is_refused == 0 && $task->status_task == 'Новое'): ?>
@@ -136,14 +146,7 @@ $user = $this->params['user'];
             </div>
         <?php endif; ?>
     </section>
-    <?php $isClientNotNewTask = false;
-    if ($task->status_task !== 'Новое' && $task->status_task !== 'Отменено' && $user->id == $task->client_id) {
-        $isClientNotNewTask = true;
-    } ?>
-    <?php $isClientNotNewTask
-        ? $user_show = $task->doer
-        : $user_show = $task->client;
-    $doer = $task->doer;
+    <?php
     ?>
     <?php if ($task->status_task == 'Новое' && $user->id == $task->client->id) {
         $user_show = null;
@@ -155,10 +158,10 @@ $user = $this->params['user'];
                     <h3><?= $isClientNotNewTask ? 'Исполнитель' : 'Заказчик' ?></h3>
                     <div class="profile-mini__top">
                         <?= $user_show->avatar
-                            ? Html::img(Yii::$app->request->baseUrl . $user_show->avatar, ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
+                            ? Html::img(Yii::$app->request->baseUrl . strip_tags($user_show->avatar), ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
                         <div class="profile-mini__name five-stars__rate">
-                            <p><?= $user_show->name ?></p>
+                            <p><?= strip_tags($user_show->name) ?></p>
                             <?php if ($user_show['rating'] !== 0 && $isClientNotNewTask): ?>
                                 <div class="profile-mini__name five-stars__rate">
                                     <?php $starCount = round($user_show['rating']) ?>

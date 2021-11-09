@@ -1,6 +1,6 @@
 <?php
 
-$formatter = \Yii::$app->formatter;
+$formatter = Yii::$app->formatter;
 
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -12,7 +12,7 @@ use yii\helpers\Url;
         <div class="user__search-icon">
             <a href="<?= Url::to(['users/view', 'id' => $model['id']]) ?>">
                 <?= $model['avatar']
-                    ? Html::img(Yii::$app->request->baseUrl . $model['avatar'], ['width' => '65', 'height' => '65'])
+                    ? Html::img(Yii::$app->request->baseUrl . strip_tags($model['avatar']), ['width' => '65', 'height' => '65'])
                     : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '65', 'height' => '65']) ?> </a>
             <span>
                 <?= $model['done_tasks'] ?>
@@ -25,7 +25,7 @@ use yii\helpers\Url;
         </div>
         <div class="feedback-card__top--name user__search-card">
             <p class="link-name"><a href="<?= Url::to(['users/view', 'id' => $model['id']]) ?>"
-                                    class="link-regular"><?= $model['name'] ?></a></p>
+                                    class="link-regular"><?= strip_tags($model['name']) ?></a></p>
             <?php if ($model['rating'] > 0) : ?>
                 <?php $starCount = round($model['rating']) ?>
                 <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -34,7 +34,7 @@ use yii\helpers\Url;
                 <b><?= round($model['rating'], 2) ?></b>
             <?php endif; ?>
             <p class="user__search-content">
-                <?= $model['about'] ?>
+                <?= htmlspecialchars($model['about']) ?>
             </p>
         </div>
         <span

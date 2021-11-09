@@ -47,7 +47,7 @@ $specializations = $profileForm->getExistingSpecializations();
                 <div class="account__redaction-section-wrapper">
                     <div class="account__redaction-avatar">
                         <?= $user['avatar']
-                            ? Html::img(Yii::$app->request->baseUrl . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '156', 'height' => '156'])
+                            ? Html::img(Yii::$app->request->baseUrl . strip_tags($user['avatar']), ['alt' => 'Аватар пользователя', 'width' => '156', 'height' => '156'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '156', 'height' => '156']) ?>
                         <?= $form->field($profileForm, 'avatar', [
                             'inputOptions' => [
@@ -73,7 +73,7 @@ $specializations = $profileForm->getExistingSpecializations();
                             <?= $form->field($profileForm, 'name', [
                                 'inputOptions' => [
                                     'class' => 'input textarea',
-                                    'placeholder' => $user['name'],
+                                    'placeholder' => strip_tags($user['name']),
                                     'id' => '200',
                                     'type' => 'text',
                                     'style' => 'margin-top: 0',
@@ -88,6 +88,7 @@ $specializations = $profileForm->getExistingSpecializations();
                                     'id' => '201',
                                     'type' => 'text',
                                     'style' => 'margin-top: 0',
+                                    'placeholder' => strip_tags($user['email']),
                                 ]
                             ]) ?>
                         </div>
@@ -162,7 +163,7 @@ $specializations = $profileForm->getExistingSpecializations();
                 <div class="account__redaction-section-wrapper account__redaction">
                     <span class="dropzone">
                         <?php foreach ($user->portfolioPhotos as $photo): ?>
-                            <a><?= Html::img(Yii::$app->request->baseUrl . $photo->photo, ['width' => '65', 'height' => '65']) ?> </a>
+                            <a><?= Html::img(Yii::$app->request->baseUrl . strip_tags($photo->photo), ['width' => '65', 'height' => '65']) ?> </a>
                         <?php endforeach; ?>
                         <?= $form->field($profileForm, 'photo[]', [
                             'inputOptions' => [
