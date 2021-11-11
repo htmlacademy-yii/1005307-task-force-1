@@ -10,9 +10,9 @@ use frontend\models\opinions\RequestForm;
 use frontend\models\tasks\Tasks;
 use frontend\models\users\Users;
 use Yii;
+use yii\base\Action;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
-use yii\base\Action;
 
 class RequestAction extends Action
 {
@@ -33,7 +33,7 @@ class RequestAction extends Action
                 $opinion->save(false);
 
                 $user_doer = Users::findOne($opinion->doer_id);
-                $user_client = Users::findOne($opinion->client_id);
+                $user_client = $this->controller->user;
                 $opinions = Opinions::find()->where(['doer_id' => $user_doer->id]);
                 $task = Tasks::findOne($opinion->task_id);
                 $opinion->completion == 1 ?

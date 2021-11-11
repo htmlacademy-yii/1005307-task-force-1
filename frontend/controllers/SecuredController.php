@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\users\Users;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 
@@ -28,7 +29,8 @@ abstract class SecuredController extends Controller
     {
         parent::init();
         if (!empty(\Yii::$app->user)) {
-            $this->user = \Yii::$app->user->getIdentity();
+            $user = \Yii::$app->user->getIdentity();
+            $this->user = Users::findOne($user->id);
         }
     }
 }

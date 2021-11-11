@@ -6,8 +6,9 @@ namespace frontend\controllers\actions\tasks;
 
 use frontend\models\tasks\Tasks;
 use yii\web\Response;
+use yii\base\Action;
 
-class CancelAction extends BaseAction
+class CancelAction extends Action
 {
     public function run(int $taskId): Response
     {

@@ -9,7 +9,6 @@ use frontend\models\responses\ResponseForm;
 use frontend\models\responses\Responses;
 use frontend\models\tasks\Tasks;
 use frontend\models\users\UserOptionSettings;
-use frontend\models\users\Users;
 use Yii;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -44,10 +43,9 @@ class ResponseAction extends Action
                 $notification->addNotification(
                     $task->id,
                     1,
-                    $this->user,
+                    $this->controller->user,
                     'is_subscribed_actions'
                 );
-          //      var_dump();
             }
         }
 

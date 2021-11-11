@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\profile;
 
-use frontend\models\{account\ProfileForm, users\PortfolioPhoto, users\Users};
+use frontend\models\{account\ProfileForm, users\PortfolioPhoto};
 use yii;
 use yii\base\Action;
 use yii\web\Response;
@@ -13,16 +13,14 @@ use yii\widgets\ActiveForm;
 
 class IndexAction extends Action
 {
-    public $user;
 
     public function run()
     {
         $profileForm = new ProfileForm();
         $request = \Yii::$app->request;
-        $user = Users::findOne($this->controller->user->id);
 
         if (!$profileForm->load($request->post())) {
-            $profileForm->loadCurrentUserData($user);
+            $profileForm->loadCurrentUserData($this->controller->user);
         }
 
         if ($request->isAjax && $profileForm->load($request->post())) {
@@ -49,9 +47,9 @@ class IndexAction extends Action
                     }
                 }
 
-                $profileForm->saveProfileData($user);
+                $profileForm->saveProfileData($this->controller->user);
                 $session = Yii::$app->session;
-                $session->set('city', $this->user->city_id);
+                $session->set('city', $this->controller->user->city_id);
 
                 return $this->controller->redirect(['users/view', 'id' => $this->controller->user->id]);
             }
@@ -60,7 +58,7 @@ class IndexAction extends Action
         return $this->controller->render(
             'index',
             [
-                'user' => $user,
+                'user' => $this->controller->user,
                 'profileForm' => $profileForm,
             ]
         );

@@ -6,8 +6,9 @@ namespace frontend\controllers\actions\tasks;
 
 use frontend\models\responses\Responses;
 use yii\web\Response;
+use yii\base\Action;
 
-class RefuseResponseAction extends BaseAction
+class RefuseResponseAction extends Action
 {
     public function run(int $responseId): Response
     {
