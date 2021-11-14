@@ -151,7 +151,7 @@ class Tasks extends ActiveRecord
         return self::findOne($id);
     }
 
-    public function nextAction($currentStatus, $role): array
+    public function nextAction($currentStatus, $role)
     {
         switch ($currentStatus) {
             case 'Новое':

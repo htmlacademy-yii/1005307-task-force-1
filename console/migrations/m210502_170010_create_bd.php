@@ -1,7 +1,7 @@
 <?php
 
-use yii\db\Migration;
 use yii\db\Expression;
+use yii\db\Migration;
 
 class m210502_170010_create_bd extends Migration
 {
@@ -11,28 +11,28 @@ class m210502_170010_create_bd extends Migration
     public function safeUp()
     {
         $this->createTable('categories', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'name' => $this->string(255)->notNull()->unique(),
             'icon' => $this->string(255)->notNull()->unique(),
-            'profession' => $this->string(255)->unique()
+            'profession' => $this->string(255)->unique(),
         ]);
 
         $this->createTable('cities', [
-            'id' => $this->primaryKey(),
-            'city' => $this->string(255)->notNull(),
-            'value' => $this->string(255)->notNull(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
+            'city' => $this->string(255)->notNull()->unique(),
+            'value' => $this->string(255)->notNull()->unique(),
             'latitude' => $this->string(255)->notNull(),
             'longitude' => $this->string(255)->notNull()
         ]);
+
         $this->createTable('users', [
-            'id' => $this->primaryKey(),
-            'vk_id' => $this->integer(11),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
+            'vk_id' => $this->integer(11)->unique(),
             'email' => $this->string(255)->notNull()->unique(),
             'name' => $this->string(255)->notNull(),
             'password' => $this->string(255)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()'))->notNull(),
             'user_role' => $this->string(255)->notNull(),
-            'address' => $this->string(255),
             'bd' => $this->date(),
             'avatar' => $this->string(255),
             'about' => $this->text(),
@@ -58,7 +58,7 @@ class m210502_170010_create_bd extends Migration
         );
 
         $this->createTable('user_category', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'user_id' => $this->integer(11)->notNull(),
             'category_id' => $this->integer(11)->notNull()
         ]);
@@ -82,7 +82,7 @@ class m210502_170010_create_bd extends Migration
         );
 
         $this->createTable('user_option_set', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'user_id' => $this->integer(11)->notNull(),
             'is_subscribed_messages' => $this->integer(1)->notNull(),
             'is_subscribed_actions' => $this->integer(1)->notNull(),
@@ -101,7 +101,7 @@ class m210502_170010_create_bd extends Migration
         );
 
         $this->createTable('tasks', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'category_id' => $this->integer(11),
             'description' => $this->text()->notNull(),
@@ -155,7 +155,7 @@ class m210502_170010_create_bd extends Migration
         );
 
         $this->createTable('favourites', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'user_id' => $this->integer(11)->notNull(),
             'favourite_person_id' => $this->integer(11)->notNull()
@@ -180,7 +180,7 @@ class m210502_170010_create_bd extends Migration
         );
 
         $this->createTable('file_task', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'file_item' => $this->string(255)->notNull(),
             'task_id' => $this->integer(11)->notNull()
         ]);
@@ -195,7 +195,7 @@ class m210502_170010_create_bd extends Migration
         );
 
         $this->createTable('messages', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'message' => $this->text()->notNull(),
             'published_at' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'writer_id' => $this->integer(11)->notNull(),
@@ -230,14 +230,15 @@ class m210502_170010_create_bd extends Migration
             'id',
             'CASCADE'
         );
+
         $this->createTable('notifications_categories', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'name' => $this->string(255)->notNull()->unique(),
             'type' => $this->string(255)->notNull(),
         ]);
 
         $this->createTable('notifications', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'notification_category_id' => $this->integer(11)->notNull(),
             'visible' => $this->integer(1)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
@@ -274,9 +275,9 @@ class m210502_170010_create_bd extends Migration
         );
 
         $this->createTable('opinions', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'completion'  => $this->integer(1)->notNull(),
+            'completion' => $this->integer(1)->notNull(),
             'description' => $this->text(),
             'rate' => $this->integer(1),
             'client_id' => $this->integer(11)->notNull(),
@@ -312,7 +313,7 @@ class m210502_170010_create_bd extends Migration
         );
 
         $this->createTable('portfolio_photo', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'photo' => $this->string(255)->notNull(),
             'user_id' => $this->integer(11)->notNull()
         ]);
@@ -327,9 +328,9 @@ class m210502_170010_create_bd extends Migration
         );
 
         $this->createTable('responses', [
-            'id' => $this->primaryKey(),
+            'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'budget' => $this->integer(5),
+            'budget' => $this->integer(5)->notNull(),
             'comment' => $this->text()->notNull(),
             'doer_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull(),
