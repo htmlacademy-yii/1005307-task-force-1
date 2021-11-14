@@ -84,7 +84,7 @@ class Notifications extends ActiveRecord
         return $query->all();
     }
 
-    public function addNotification(): bool
+    public function addNotification(): void
     {
         $user = Users::findOne($this->user_id);
         $task = Tasks::findOne($this->task_id);
@@ -98,9 +98,6 @@ class Notifications extends ActiveRecord
                 ->setSubject($subject)
                 ->setHtmlBody($user->name . 'У вас новое уведомление:' . $subject . '<a href="#">' . $task->name . '</a>')
                 ->send();
-
-            return true;
         }
-        return false;
     }
 }

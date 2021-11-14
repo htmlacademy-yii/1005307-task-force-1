@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace frontend\models\categories;
 
-use frontend\models\{tasks\Tasks, users\UserCategory, users\Users};
-use yii\base\InvalidConfigException;
-use yii\db\ActiveQuery;
+use frontend\models\{tasks\Tasks, users\UserCategory};
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 

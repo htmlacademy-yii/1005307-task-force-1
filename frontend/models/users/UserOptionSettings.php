@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace frontend\models\users;
 
+use yii\db\ActiveRecord;
+
 /**
  * This is the model class for table "users_optional_settings".
  *
@@ -15,7 +17,7 @@ namespace frontend\models\users;
  *
  * @property Users $users
  */
-class UserOptionSettings extends \yii\db\ActiveRecord
+class UserOptionSettings extends ActiveRecord
 {
     public static function tableName(): string
     {

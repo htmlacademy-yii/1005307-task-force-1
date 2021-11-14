@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace frontend\models\account;
 
-use frontend\models\{categories\Categories, users\UserCategory, users\Users, users\PortfolioPhoto};
+use frontend\models\{categories\Categories, users\UserCategory, users\Users};
 use Yii;
 use yii\base\Model;
 
@@ -110,7 +110,17 @@ class ProfileForm extends Model
         $this->checkRole($user);
         $this->saveOptionSet($user);
         $this->saveCommonData($user);
-        $this->upload($user);
+    }
+
+    public function upload(): bool
+    {
+        if (!empty($this->photo && $this->validate($this->photo))) {
+            foreach ($this->photo as $file) {
+                $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+            }
+            return true;
+        }
+        return false;
     }
 
     private function saveCommonData(Users $user): void
@@ -188,21 +198,5 @@ class ProfileForm extends Model
         }
 
         $optionSet->save(false);
-    }
-
-    public function upload($user): bool
-    {
-        if (!empty($this->photo && $this->validate($this->photo))) {
-            PortfolioPhoto::deleteAll(['user_id' => $user->id]);
-            foreach ($this->photo as $file) {
-                $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
-                $portfolioPhoto = new PortfolioPhoto([
-                    'photo' => '/uploads/' . $file,
-                    'user_id' => $user->id]);
-                $portfolioPhoto->save();
-            }
-            return true;
-        }
-        return false;
     }
 }

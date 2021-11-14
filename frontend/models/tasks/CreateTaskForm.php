@@ -76,7 +76,33 @@ class CreateTaskForm extends Model
         ];
     }
 
-    public function getGeoData(string $address): ?array
+    public function getAddress(): void
+    {
+        if ($this->address ?? null) {
+            $coordinates = $this->getCoordinates($this->address);
+            $this->longitude = $coordinates[0] ?? null;
+            $this->latitude = $coordinates[1] ?? null;
+            $session = Yii::$app->session;
+            $this->city_id = $session->get('city');
+        }
+    }
+
+    public function upload(): bool
+    {
+        if (!empty($this->file_item)) {
+            $this->file_item = UploadedFile::getInstances($this, 'file_item');
+            if ($this->validate()) {
+                foreach ($this->file_item as $file) {
+                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    private function getGeoData(string $address): ?array
     {
         $client = new Client(['base_uri' => 'https://geocode-maps.yandex.ru/']);
         $request = new GuzzleRequest('GET', '1.x');
@@ -108,7 +134,7 @@ class CreateTaskForm extends Model
         return $responseData;
     }
 
-    public function getCoordinates($address)
+    private function getCoordinates($address): array
     {
         $coordinates = null;
         $responseData = $this->getGeoData($address);
@@ -118,31 +144,5 @@ class CreateTaskForm extends Model
         }
 
         return $coordinates;
-    }
-
-    public function getAddress(): void
-    {
-        if ($this->address ?? null) {
-            $coordinates = $this->getCoordinates($this->address);
-            $this->longitude = $coordinates[0] ?? null;
-            $this->latitude = $coordinates[1] ?? null;
-            $session = Yii::$app->session;
-            $this->city_id = $session->get('city');
-        }
-    }
-
-    public function upload(): bool
-    {
-        if (!empty($this->file_item)) {
-            $this->file_item = UploadedFile::getInstances($this, 'file_item');
-            if ($this->validate()) {
-                foreach ($this->file_item as $file) {
-                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
-                }
-            }
-            return true;
-        }
-
-        return false;
     }
 }
