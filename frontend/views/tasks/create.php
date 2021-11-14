@@ -1,13 +1,12 @@
 <?php
 $this->title = 'Публикация нового задания';
 
-use frontend\models\users\Users;
 use frontend\models\cities\Cities;
+use frontend\models\categories\Categories;
 use yii\widgets\ActiveForm;
 
-$categories = new \frontend\models\categories\Categories();
+$categories = new Categories();
 $categories = $categories->getCategoriesFilters();
-$user = Users::findOne($user->id);
 
 ?>
 

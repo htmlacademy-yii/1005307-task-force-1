@@ -22,9 +22,10 @@ class AddFavouriteAction extends Action
         }
 
         if (!$isFavouriteValue) {
-            $this->favourite = new Favourites;
-            $this->favourite->favourite_person_id = $user->id;
-            $this->favourite->user_id = $this->controller->user->id;
+            $this->favourite = new Favourites([
+                'favourite_person_id' => $user->id,
+                'user_id' => $this->controller->user->id
+            ]);
             $this->favourite->save();
         }
 

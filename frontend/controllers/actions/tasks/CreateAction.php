@@ -8,10 +8,9 @@ use frontend\models\tasks\CreateTaskForm;
 use frontend\models\tasks\FileTask;
 use frontend\models\tasks\Tasks;
 use Yii;
-use yii\web\Response;
-use yii\web\UploadedFile;
-use yii\widgets\ActiveForm;
 use yii\base\Action;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class CreateAction extends Action
 {
@@ -37,25 +36,18 @@ class CreateAction extends Action
                     'validate',
                     true
                 );
+
+                $createTaskForm->getAddress();
                 $task = new Tasks(['attributes' => $createTaskForm->attributes]);
-
-                if ($task->address ?? null) {
-                    $coordinates = $createTaskForm->getCoordinates($task->address);
-                    $task->longitude = $coordinates[0] ?? null;
-                    $task->latitude = $coordinates[1] ?? null;
-                    $session = Yii::$app->session;
-                    $task->city_id = $session->get('city');
-                }
-
                 $task->save();
-                $createTaskForm->file_item = UploadedFile::getInstances($createTaskForm, 'file_item');
-                $createTaskForm->upload();
 
-                foreach ($createTaskForm->file_item as $fileItem) {
-                    $fileTask = new FileTask([
-                        'file_item' => $fileItem,
-                        'task_id' => $task->id]);
-                    $fileTask->save(false);
+                if ($createTaskForm->upload()) {
+                    foreach ($createTaskForm->file_item as $file) {
+                        $fileTask = new FileTask([
+                            'file_item' => $file,
+                            'task_id' => $task->id]);
+                        $fileTask->save(false);
+                    }
                 }
 
                 return $this->controller->redirect(['tasks/view', 'id' => $task->id]);

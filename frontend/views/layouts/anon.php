@@ -25,7 +25,7 @@ AppAsset::register($this);
     <header class=" page-header--index">
         <div class="main-container page-header__container page-header__container--index">
             <div class="page-header__logo--index">
-                <a href="<?= Url::to(['landing/index']) ?>">
+                <a href="<?= Url::to(['landing/']) ?>">
                     <svg class="logo-image--index" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1634 646.35">
                         <title>taskforce_logo2-01</title>
                         <g>
@@ -138,7 +138,6 @@ AppAsset::register($this);
     <?= $this->render('//modals/_login_form', ['model' => new LoginForm]); ?>
 </div>
 <div class="overlay"></div>
-<script src="js/main.js"></script>
 <?php $this->endBody() ?>
 </body>
 </html>

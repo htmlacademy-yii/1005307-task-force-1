@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace frontend\models\account;
 
-use frontend\models\{categories\Categories, users\UserCategory, users\Users};
+use frontend\models\{categories\Categories, users\UserCategory, users\Users, users\PortfolioPhoto};
 use Yii;
 use yii\base\Model;
-use yii\helpers\ArrayHelper;
 
 class ProfileForm extends Model
 {
@@ -25,15 +24,10 @@ class ProfileForm extends Model
     public $specializations;
     public $optionSet;
     public $photo;
-    private $existingSpecializations;
 
     public function getExistingSpecializations(): array
     {
-        if (!isset($this->existingSpecializations)) {
-            $this->existingSpecializations = ArrayHelper::map(Categories::getAll(), 'id', 'name');
-        }
-
-        return $this->existingSpecializations;
+        return Categories::getCategoriesFilters();
     }
 
     public function attributeLabels(): array
@@ -116,6 +110,7 @@ class ProfileForm extends Model
         $this->checkRole($user);
         $this->saveOptionSet($user);
         $this->saveCommonData($user);
+        $this->upload($user);
     }
 
     private function saveCommonData(Users $user): void
@@ -195,11 +190,16 @@ class ProfileForm extends Model
         $optionSet->save(false);
     }
 
-    public function upload(): bool
+    public function upload($user): bool
     {
-        if (!empty($this->photo)) {
+        if (!empty($this->photo && $this->validate($this->photo))) {
+            PortfolioPhoto::deleteAll(['user_id' => $user->id]);
             foreach ($this->photo as $file) {
                 $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+                $portfolioPhoto = new PortfolioPhoto([
+                    'photo' => '/uploads/' . $file,
+                    'user_id' => $user->id]);
+                $portfolioPhoto->save();
             }
             return true;
         }

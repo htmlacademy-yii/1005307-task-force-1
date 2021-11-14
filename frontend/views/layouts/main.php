@@ -20,14 +20,14 @@ $users = \Yii::$app->user->getIdentity();
 
 AppAsset::register($this);
 
-if($users) {
+if ($users) {
+    $session = Yii::$app->session;
     $cities = new Cities();
     $citiesList = $cities->getCities();
     $user = Users::getOneUser($users->id);
     $cityForm = new SetCityForm();
-    $session = Yii::$app->session;
     $notifications = new Notifications();
-    $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id);
+    $user_notifications = $notifications->getVisibleNoticesByUser($users->id);
 }
 
 ?>
@@ -171,10 +171,14 @@ if($users) {
                         <h3>Новые события</h3>
                         <?php foreach ($user_notifications as $notice): ?>
                             <p class="lightbulb__new-task lightbulb__new-task--<?= $notice['notificationsCategory']['type'] ?>">
-                        <span class="label label-primary"
-                              style="display: block; margin-bottom: 2px; padding-top: 3px"><?= Html::encode($notice['notificationsCategory']['name']) ?></span>
+                                <span class="label label-primary"
+                                      style="display: block; margin-bottom: 2px; padding-top: 3px">
+                                    <?= Html::encode($notice['notificationsCategory']['name']) ?>
+                                </span>
                                 <a href="<?= Url::to(['tasks/view', 'id' => $notice['task']['id']]) ?>"
-                                   class="link-regular">«<?= strip_tags($notice['task']['name']) ?>»</a>
+                                   class="link-regular">
+                                    «<?= strip_tags($notice['task']['name']) ?>»
+                                </a>
                             </p>
                         <?php endforeach; ?>
                     </div>
@@ -187,15 +191,15 @@ if($users) {
                         ?>
                     </a>
                     <span class="header__account-name">
-               <?= strip_tags($user['name']) ?>
-             </span>
+                        <?= strip_tags($user['name']) ?>
+                    </span>
                 </div>
                 <div class="account__pop-up">
                     <ul class="account__pop-up-list">
                         <li>
                             <a href="<?= $user['user_role'] == 'client'
-                                ? Url::to(['my-tasks/index', 'status_task' => 'Новое'])
-                                : Url::to(['my-tasks/index', 'status_task' => 'На исполнении']) ?>">Мои задания</a>
+                                ? Url::to(['my-tasks/', 'status_task' => 'Новое'])
+                                : Url::to(['my-tasks/', 'status_task' => 'На исполнении']) ?>">Мои задания</a>
                         </li>
                         <li>
                             <a href="<?= Url::toRoute('profile/') ?>">Настройки</a>
@@ -224,7 +228,7 @@ if($users) {
             <div class="page-footer__links">
                 <ul class="links__list">
                     <li class="links__item">
-                        <a href="<?=Url::to(['tasks/'])?>">Задания</a>
+                        <a href="<?= Url::to(['tasks/']) ?>">Задания</a>
                     </li>
                     <li class="links__item">
                         <a href="<?= Url::to(['users/view', 'id' => $user['id']]) ?>">Мой профиль</a>

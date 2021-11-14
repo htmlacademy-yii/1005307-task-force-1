@@ -12,9 +12,7 @@ class FilterCategoriesAction extends Action
     public function run($category_id): string
     {
         $searchForm = new TaskSearchForm;
-        $dataProvider = $searchForm->searchByCategories(
-            $category_id
-        );
+        $dataProvider = $searchForm->searchByCategories($category_id);
 
         return $this->controller->render('index', [
             'dataProvider' => $dataProvider,

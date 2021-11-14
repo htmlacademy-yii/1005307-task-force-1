@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
 
-use frontend\models\tasks\TaskActions;
 use frontend\models\tasks\Tasks;
 use yii\web\HttpException;
 use yii\web\View;
@@ -30,8 +29,6 @@ class ViewAction extends Action
             }
         }
 
-        $taskActions = new TaskActions($task->client_id, $this->controller->user->id, $task->doer_id);
-
         $view->params['task_id'] = $id;
         $view->params['task'] = $task;
         $view->params['user_id'] = $this->controller->user->id;
@@ -42,7 +39,6 @@ class ViewAction extends Action
         $view->params['latitude'] = $task->latitude;
 
         return $this->controller->render('view', [
-            'taskActions' => $taskActions,
             'task' => $task,
             'user' => $this->controller->user
         ]);

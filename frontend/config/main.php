@@ -34,15 +34,14 @@ return [
             'enableStrictParsing' => false,
             'rules' => [
                 '/' => 'landing/index',
+                'sign/' => 'sign/index',
                 'tasks/' => 'tasks/index',
                 'users/' => 'users/index',
                 'profile/' => 'profile/index',
-                'tasks/<page:\d+>' => 'tasks/index',
-                'users/<page:\d+>' => 'users/index',
+                'my-tasks/' => 'my-tasks/index',
                 'task/view/<id>' => 'tasks/view/',
                 'user/view/<id>' => 'users/view/',
                 'task/create/' => 'tasks/create/',
-                'sign/' => 'sign/index',
                 ['class' => 'yii\rest\UrlRule',
                     'controller' => 'api/messages',
                     'pluralize' => false]

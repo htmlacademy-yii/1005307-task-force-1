@@ -22,19 +22,20 @@ class RefuseAction extends Action
             $task = Tasks::findOne($refuseForm->task_id);
             $task->status_task = 'Провалено';
             $task->save(false);
-            $this->controller->user->failed_tasks = Tasks::find()
-                ->where(['doer_id' => $this->controller->user->id])
-                ->andWhere(['status_task' => 'Провалено'])->count();
-            $user_client = Users::findOne($task->client_id);
+
+            $tasks = new Tasks();
+            $this->controller->user->failed_tasks = $tasks->countUsersTasks($task->status_task, $this->controller->user);
             $this->controller->user->save(false);
 
-            $notification = new Notifications();
-            $notification->addNotification(
-                $task->id,
-                3,
-                $user_client->id,
-                'is_subscribed_actions'
-            );
+            $notification = new Notifications([
+                'notification_category_id' => 3,
+                'task_id' => $task->id,
+                'visible' => 1,
+                'user_id' => $task->client_id,
+                'setting' => 'is_subscribed_actions'
+            ]);
+            $notification->save(false);
+            $notification->addNotification();
         }
 
         return $this->controller->redirect([

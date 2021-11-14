@@ -5,21 +5,32 @@ $formatter = \Yii::$app->formatter;
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
-use frontend\models\messages\Messages;
+use frontend\models\tasks\Tasks;
 
 $task = $this->params['task'];
 $user = $this->params['user'];
 
+$files = $task->fileTasks;
 $responses = $task->responses;
 $isUserAuthorOfResponse = false;
+
+$taskActions = new Tasks();
+$possibleActions = $taskActions->nextAction($task['status_task'], $user['user_role']);
+
 foreach ($task->responses as $response) {
     if ($response->doer_id === $user->id) {
         $isUserAuthorOfResponse = true;
+        if ($task->status_task === 'Новое') {
+            $possibleActions = null;
+        }
+
         break;
     }
 }
-$possibleActions = $taskActions->getActionsUser($task['status_task']);
+
+if ($user->id == $task->client_id && $task->status_task == 'Новое') {
+    $possibleActions = null;
+}
 
 $isClientNotNewTask = false;
 if ($task->status_task !== 'Новое' && $task->status_task !== 'Отменено' && $user->id == $task->client_id) {
@@ -29,6 +40,9 @@ if ($task->status_task !== 'Новое' && $task->status_task !== 'Отмене�
     ? $user_show = $task->doer
     : $user_show = $task->client;
 $doer = $task->doer;
+if ($task->status_task == 'Новое' && $user->id == $task->client->id) {
+    $user_show = null;
+}
 
 ?>
 
@@ -55,8 +69,7 @@ $doer = $task->doer;
                     <h3 class="content-view__h3">Общее описание</h3>
                     <p><?= htmlspecialchars($task->description) ?></p>
                 </div>
-                <?php $files = $task->fileTasks;
-                if ($files): ?>
+                <?php if ($files): ?>
                     <div class="content-view__attach">
                         <h3 class="content-view__h3">Вложения</h3>
                         <?php foreach ($files as $file): ?>
@@ -64,7 +77,7 @@ $doer = $task->doer;
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-                <?php if ($task['address']): ?>
+                <?php if ($task->address): ?>
                     <div class="content-view__location">
                         <h3 class="content-view__h3">Расположение</h3>
                         <div class="content-view__location-wrapper">
@@ -80,16 +93,14 @@ $doer = $task->doer;
             </div>
         </div>
         <?php if ($possibleActions):
-            if ($user->user_role == 'doer' || $user->id == $task->client_id) :
-                if ($isUserAuthorOfResponse !== true || $task->status_task !== 'Новое'):?>
-                    <div class="content-view__action-buttons">
-                        <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
-                                type="button" data-for="<?= $possibleActions['data'] ?>-form">
-                            <?= $possibleActions['name'] ?>
-                        </button>
-                    </div>
-                <?php endif;
-            endif;
+            if ($user->user_role == 'doer' || $user->id == $task->client_id) :?>
+                <div class="content-view__action-buttons">
+                    <button class=" button button__big-color <?= $possibleActions['title'] ?>-button open-modal"
+                            type="button" data-for="<?= $possibleActions['data'] ?>-form">
+                        <?= $possibleActions['name'] ?>
+                    </button>
+                </div>
+            <?php endif;
         endif; ?>
         <?php if ($task->status_task == 'Новое' && $task->client_id == $user->id): ?>
             <div class="content-view__action-buttons">
@@ -146,12 +157,7 @@ $doer = $task->doer;
             </div>
         <?php endif; ?>
     </section>
-    <?php
-    ?>
-    <?php if ($task->status_task == 'Новое' && $user->id == $task->client->id) {
-        $user_show = null;
-    } ?>
-    <?php if($user_show): ?>
+    <?php if ($user_show): ?>
         <section class="connect-desk">
             <div class="connect-desk__profile-mini">
                 <div class="profile-mini__wrapper">

@@ -6,8 +6,8 @@ namespace frontend\controllers\actions\tasks;
 
 use frontend\models\notifications\Notifications;
 use frontend\models\tasks\Tasks;
-use yii\web\Response;
 use yii\base\Action;
+use yii\web\Response;
 
 class StartWorkAction extends Action
 {
@@ -18,13 +18,15 @@ class StartWorkAction extends Action
         $task->doer_id = $doerId;
         $task->save(false);
 
-        $notification = new Notifications();
-        $notification->addNotification(
-            $task->id,
-            4,
-            $task->doer_id,
-            'is_subscribed_actions'
-        );
+        $notification = new Notifications([
+            'notification_category_id' => 4,
+            'task_id' => $task->id,
+            'visible' => 1,
+            'user_id' => $task->doer_id,
+            'setting' => 'is_subscribed_actions'
+        ]);
+        $notification->save(false);
+        $notification->addNotification();
 
         return $this->controller->redirect([
             'tasks/index'

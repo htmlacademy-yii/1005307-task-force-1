@@ -16,6 +16,7 @@ use yii\db\ActiveRecord;
  * @property int $task_id
  * @property string $notification_category_id
  * @property int $visible
+ * @property int $setting
  * @property string $dt_add
  *
  * @property Tasks $task
@@ -32,8 +33,8 @@ class Notifications extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['visible', 'notification_category_id', 'user_id', 'task_id'], 'required'],
-            [['visible', 'notification_category_id', 'user_id', 'task_id'], 'integer'],
+            [['visible', 'notification_category_id', 'user_id', 'task_id', 'setting'], 'required'],
+            [['visible', 'notification_category_id', 'user_id', 'task_id', 'setting'], 'integer'],
             [['dt_add'], 'safe'],
             [['task_id'], 'exist',
                 'skipOnError' => true,
@@ -83,17 +84,16 @@ class Notifications extends ActiveRecord
         return $query->all();
     }
 
-    public function addNotification($task_id, $notification_category, $user_id, $settings): bool
+    public function addNotification(): bool
     {
-        $user = Users::findOne($user_id);
-        $user_set = UserOptionSettings::findOne($user->id);
+        $user = Users::findOne($this->user_id);
+        $task = Tasks::findOne($this->task_id);
+        $user_set = UserOptionSettings::findOne($this->user_id);
 
-   //     if ($user_set->$settings == 1) {
-            $email = 'anyakulikova111@gmail.com';
+        if ($user_set[$this->setting] == 1) {
             $subject = $this['notificationsCategory']['name'];
-            $task = Tasks::findOne($task_id);
             Yii::$app->mailer->compose()
-                ->setTo($email)
+                ->setTo($user->email)
                 ->setFrom('keks@phpdemo.ru')
                 ->setSubject($subject)
                 ->setHtmlBody($user->name . 'У вас новое уведомление:' . $subject . '<a href="#">' . $task->name . '</a>')
@@ -101,5 +101,6 @@ class Notifications extends ActiveRecord
 
             return true;
         }
-   // }
+        return false;
+    }
 }

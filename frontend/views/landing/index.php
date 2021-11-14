@@ -1,5 +1,4 @@
 <?php
-$formatter = \Yii::$app->formatter;
 $this->title = 'Главная страница';
 
 use yii\widgets\ListView;

@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
-use frontend\models\{categories\Categories, cities\Cities};
+use frontend\models\{categories\Categories};
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\{BadResponseException, ServerException};
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use yii;
 use yii\base\Model;
-use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 class CreateTaskForm extends Model
 {
@@ -54,30 +54,26 @@ class CreateTaskForm extends Model
                 'skipOnError' => true,
                 'targetClass' => Categories::class,
                 'targetAttribute' => ['category_id' => 'id'],
-                'message' => "Выбрана несуществующая категория"],
-            ['category_id', 'validateCat'],
-            ['expire', 'validateDate'],
-            ['expire', 'date',
-                'format' => 'yyyy*MM*dd',
-                'message' => 'Необходимый формат «гггг.мм.дд»'],
+                'message' => "Выбрана несуществующая категория"
+            ],
+            ['expire', 'date', 'when' => function($model){
+                 return strtotime($model->expire) < time();
+            }, 'message' => 'Срок исполнения должен быть больще текущей даты'],
             [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address', 'file_item', 'task_id'], 'safe']
         ];
     }
 
-    public function validateCat(): void
+    public function attributeLabels(): array
     {
-        if ($this->category_id == 0) {
-            $this->addError('category_id', 'Выберите категорию');
-        }
-    }
-
-    public function validateDate(): void
-    {
-        $currentDate = date('Y-m-d H:i:s');
-
-        if ($currentDate > $this->expire) {
-            $this->addError('expire', '"Срок исполнения", не может быть раньше текущей даты');
-        }
+        return [
+            'client_id' => 'Заказчик',
+            'name' => 'Мне нужно',
+            'description' => 'Подробности задания',
+            'budget' => 'Бюджет',
+            'expire' => 'Срок исполнения',
+            'category_id' => 'Категория',
+            'address' => 'Локация',
+        ];
     }
 
     public function getGeoData(string $address): ?array
@@ -124,13 +120,21 @@ class CreateTaskForm extends Model
         return $coordinates;
     }
 
+    public function getAddress(): void
+    {
+        if ($this->address ?? null) {
+            $coordinates = $this->getCoordinates($this->address);
+            $this->longitude = $coordinates[0] ?? null;
+            $this->latitude = $coordinates[1] ?? null;
+            $session = Yii::$app->session;
+            $this->city_id = $session->get('city');
+        }
+    }
+
     public function upload(): bool
     {
         if (!empty($this->file_item)) {
-
-            if (!$this->validate()) {
-                $errors = $this->getErrors();
-            }
+            $this->file_item = UploadedFile::getInstances($this, 'file_item');
             if ($this->validate()) {
                 foreach ($this->file_item as $file) {
                     $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
@@ -140,18 +144,5 @@ class CreateTaskForm extends Model
         }
 
         return false;
-    }
-
-    public function attributeLabels(): array
-    {
-        return [
-            'client_id' => 'Заказчик',
-            'name' => 'Мне нужно',
-            'description' => 'Подробности задания',
-            'budget' => 'Бюджет',
-            'expire' => 'Срок исполнения',
-            'category_id' => 'Категория',
-            'address' => 'Локация',
-        ];
     }
 }

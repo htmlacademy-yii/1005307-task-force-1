@@ -25,10 +25,10 @@ $cities = $cities->getCities();
                         'class' => 'input textarea',
                         'style' => 'width: 100%; margin-top: 12px; margin-bottom: 0px;',
                     ],
-                    'errorOptions' => ['tag' => 'span',
+                    'errorOptions' => [
+                        'tag' => 'span',
                         'style' => 'color: red'
                     ],
-                    'labelOptions' => ['class' => null],
                 ]]) ?>
             <?= $form->field($signForm, 'user_role', [
                 'inputOptions' => [
@@ -48,12 +48,13 @@ $cities = $cities->getCities();
                     'rows' => 1
                 ]
             ])->textArea() ?>
-            <?= $form->field($signForm, "city_id")->dropDownList($cities, [
-                'class' => 'multiple-select input town-select registration-town',
-                'size' => 1,
-                'id' => 18,
-                'style' => 'width: 360px; margin-top: 12px; margin-bottom: 0px;'
-            ]); ?>
+            <?= $form->field($signForm, "city_id")
+                ->dropDownList($cities, [
+                    'class' => 'multiple-select input town-select registration-town',
+                    'size' => 1,
+                    'id' => 18,
+                    'style' => 'width: 360px; margin-top: 12px; margin-bottom: 0px;'
+                ]); ?>
             <?= $form->field($signForm, "password", [
                 'inputOptions' => [
                     'id' => 19

@@ -95,13 +95,15 @@ class MessagesController extends ActiveController
             if ($newMessage->save()) {
                 $response = Yii::$app->getResponse();
                 $response->setStatusCode(201);
-                $notification = new Notifications();
-                $notification->addNotification(
-                    $newMessage->task_id,
-                    2,
-                    $newMessage->recipient_id,
-                    'is_subscribed_messages'
-                );
+                $notification = new Notifications([
+                    'notification_category_id' => 5,
+                    'task_id' => $newMessage->task_id,
+                    'visible' => 1,
+                    'user_id' => $newMessage->recipient_id,
+                    'setting' => 'is_subscribed_messages'
+                ]);
+                $notification->save(false);
+                $notification->addNotification();
             } elseif (!$newMessage->hasErrors()) {
                 throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
             }

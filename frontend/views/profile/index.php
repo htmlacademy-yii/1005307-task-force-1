@@ -88,10 +88,10 @@ $specializations = Categories::getCategoriesFilters();
                             <?= $form->field($profileForm, 'email', [
                                 'inputOptions' => [
                                     'class' => 'input textarea',
+                                    'placeholder' => strip_tags($user['email']),
                                     'id' => '201',
                                     'type' => 'text',
                                     'style' => 'margin-top: 0',
-                                    'placeholder' => strip_tags($user['email']),
                                 ]
                             ]) ?>
                         </div>
@@ -123,6 +123,7 @@ $specializations = Categories::getCategoriesFilters();
                                     'placeholder' => 'Place your text',
                                     'id' => '201',
                                     'type' => 'text',
+                                    'value' => htmlspecialchars($user['about'])
                                 ]
                             ])->textArea() ?>
                         </div>

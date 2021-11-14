@@ -242,7 +242,8 @@ class m210502_170010_create_bd extends Migration
             'visible' => $this->integer(1)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'user_id' => $this->integer(11)->notNull(),
-            'task_id' => $this->integer(11)->notNull()
+            'task_id' => $this->integer(11)->notNull(),
+            'setting' => $this->string(255)->notNull()
         ]);
 
         $this->addForeignKey(

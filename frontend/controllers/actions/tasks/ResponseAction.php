@@ -8,11 +8,10 @@ use frontend\models\notifications\Notifications;
 use frontend\models\responses\ResponseForm;
 use frontend\models\responses\Responses;
 use frontend\models\tasks\Tasks;
-use frontend\models\users\UserOptionSettings;
 use Yii;
+use yii\base\Action;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
-use yii\base\Action;
 
 class ResponseAction extends Action
 {
@@ -33,19 +32,15 @@ class ResponseAction extends Action
                 $response->save(false);
                 $task = Tasks::findOne($response->task_id);
 
-                $notification = new Notifications();
-                $notification->notification_category_id = 1;
-                $notification->task_id = $task->id;
-                $notification->visible = 1;
-                $notification->user_id = $this->controller->user->id;
-                $notification->save();
-
-                $notification->addNotification(
-                    $task->id,
-                    1,
-                    $this->controller->user,
-                    'is_subscribed_actions'
-                );
+                $notification = new Notifications([
+                    'notification_category_id' => 1,
+                    'task_id' => $task->id,
+                    'visible' => 1,
+                    'user_id' => $task->client_id,
+                    'setting' => 'is_subscribed_actions'
+                ]);
+                $notification->save(false);
+                $notification->addNotification();
             }
         }
 

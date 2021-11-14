@@ -150,4 +150,31 @@ class Tasks extends ActiveRecord
     {
         return self::findOne($id);
     }
+
+    public function nextAction($currentStatus, $role)
+    {
+        switch ($currentStatus) {
+            case 'Новое':
+                return $role == 'doer' ? ['title' => 'response', 'name' => 'Откликнуться', 'data' => 'response'] : '';
+            case 'На исполнении':
+                return $role == 'doer' ? ['title' => 'refusal', 'name' => 'Отказаться', 'data' => 'refuse'] : ['title' => 'request', 'name' => 'Завершить', 'data' => 'complete'];
+        }
+
+        return [];
+    }
+
+    public function countUsersTasks($status, $user): string
+    {
+        switch ($user->user_role) {
+            case 'doer':
+                return Tasks::find()
+                    ->where(['doer_id' => $user->id])
+                    ->andWhere(['status_task' => $status])->count();
+            case 'client':
+                return Tasks::find()
+                    ->where(['client_id' => $user->id])
+                    ->andWhere(['status_task' => $status])->count();
+        }
+        return '';
+    }
 }
