@@ -116,7 +116,7 @@ class m210502_170010_create_bd extends Migration
             'doer_id' => $this->integer(11),
             'client_id' => $this->integer(11)->notNull(),
             'status_task' => $this->string(255)->notNull(),
-            'responses_count' => $this->integer(11)->defaultValue(0)->notNull(),
+            'responses_count' => $this->integer(1)->defaultValue(0)->notNull(),
             'online' => $this->integer(11)->notNull(),
         ]);
 

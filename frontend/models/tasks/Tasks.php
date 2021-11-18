@@ -55,8 +55,8 @@ class Tasks extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['dt_add', 'expire', 'online'], 'safe'],
-            [['category_id', 'budget', 'city_id', 'doer_id', 'client_id', 'online'], 'integer'],
+            [['dt_add', 'expire', 'online', 'responses_count'], 'safe'],
+            [['category_id', 'budget', 'city_id', 'doer_id', 'client_id', 'online', 'responses_count'], 'integer'],
             [['description', 'name', 'client_id', 'responses_count', 'online'], 'required'],
             [['description'], 'string'],
             [['name', 'address', 'latitude', 'longitude', 'location_comment', 'status_task'], 'string', 'max' => 255],
