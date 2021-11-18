@@ -25,13 +25,6 @@ class SignController extends Controller
                         'roles' => ['@'],
                     ],
                 ],
-                'denyCallback' => function ($rule, $action) {
-                    if ($action->actionMethod === 'logout') {
-                        return $this->redirect(['landing/index']);
-                    } else {
-                        return $this->goHome();
-                    }
-                }
             ],
         ];
     }

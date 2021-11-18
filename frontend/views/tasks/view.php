@@ -110,7 +110,7 @@ if ($task->status_task == 'Новое' && $user->id == $task->client->id) {
         <?php endif; ?>
         <?php if ($response and $user->id === $task->client_id || $isUserAuthorOfResponse && $task->status_task !== 'Провалено'): ?>
             <div class="content-view__feedback">
-                <h2>Отклики <span>(<?= count($responses) ?>)</span></h2>
+                <h2>Отклики <span>(<?= $task['responses_count'] ?>)</span></h2>
                 <div class="content-view__feedback-wrapper">
                     <?php foreach ($responses as $response):
                         if ($response->doer_id === $user->id || $user->id === $task->client_id):

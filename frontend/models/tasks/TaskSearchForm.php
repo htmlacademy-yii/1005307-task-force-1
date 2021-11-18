@@ -6,6 +6,7 @@ namespace frontend\models\tasks;
 use yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
+use yii\db\Query;
 
 class TaskSearchForm extends Tasks
 {
@@ -31,28 +32,20 @@ class TaskSearchForm extends Tasks
         ];
     }
 
-    private function getTasks($query): void
+    public function getLastTasks(): array
     {
-        $query->joinWith('responses')
-            ->joinWith('city')
-            ->select([
-                'tasks.*',
-                'count(responses.comment) as responses_count'
-            ])
-            ->andwhere(['status_task' => 'Новое'])
-            ->andWhere(['is', 'expire', null])
-            ->orFilterWhere(['>=', 'expire', new Expression('NOW()')])
-            ->with('category')
-            ->with('city')
-            ->groupBy('tasks.id')
-            ->orderBy(['dt_add' => SORT_DESC])
-            ->asArray();
+        $query = Tasks::find();
+        $this->getTasks($query);
+        $query->limit(4);
+        return $query->all();
     }
 
     public function search($params): ActiveDataProvider
     {
-        $query = Tasks::find();
-        $session = Yii::$app->session;
+        $query = (new Query());
+        $this->getTasksByCity($query);
+        $this->getTasks($query);
+        $this->load($params);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -60,34 +53,39 @@ class TaskSearchForm extends Tasks
                 'pageSize' => 5,
             ],
         ]);
-        $this->load($params);
-
-        $this->getTasks($query
-            ->andWhere(['city_id' => $session->get('city')])
-            ->orWhere(['city_id' => null]));
 
         if (!$this->validate()) {
             return $dataProvider;
         }
 
         if ($this->searchedCategories) {
-            $query->categoriesFilter($this->searchedCategories);
+            $query->andWhere(['category_id' => $this->searchedCategories]);
         }
 
         if ($this->noResponses) {
-            $query->withoutRepliesFilter();
+            $query->andFilterHaving(['=', 'responses_count', '0']);
         }
 
         if ($this->online) {
-            $query->onlineFilter();
+            $query->andWhere(['online' => 1]);
         }
 
         if ($this->periodFilter) {
-            $query->periodFilter($this->periodFilter);
+            if ($this->periodFilter === 'day') {
+                $query->andWhere('tasks.dt_add BETWEEN CURDATE() AND (CURDATE() + 1)');
+            }
+
+            if ($this->periodFilter === 'week') {
+                $query->andWhere('tasks.dt_add >= DATE_SUB(NOW(), INTERVAL 7 DAY)');
+            }
+
+            if ($this->periodFilter === 'month') {
+                $query->andWhere('tasks.dt_add >= DATE_SUB(NOW(), INTERVAL 30 DAY)');
+            }
         }
 
         if ($this->searchName) {
-            $query->nameSearch($this->searchName);
+            $query->andWhere(['like', 'tasks.name', $this->searchName]);
         }
 
         return $dataProvider;
@@ -95,9 +93,9 @@ class TaskSearchForm extends Tasks
 
     public function searchByCategories($category): ActiveDataProvider
     {
-        $query = Tasks::find();
-        $session = Yii::$app->session;
-
+        $query = (new Query());
+        $this->getTasksByCity($query);
+        $this->getTasks($query);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -105,9 +103,6 @@ class TaskSearchForm extends Tasks
             ],
         ]);
 
-        $this->getTasks($query
-            ->andWhere(['city_id' => $session->get('city')])
-            ->orWhere(['city_id' => null]));
         $query->andWhere(['category_id' => $category]);
 
         return $dataProvider;
@@ -156,5 +151,28 @@ class TaskSearchForm extends Tasks
                 ->joinWith('client');
 
         return $dataProvider;
+    }
+
+    private function getTasks($query): void
+    {
+        $query->andFilterWhere(['status_task' => 'Новое'])
+            ->select(
+                'tasks.*,
+                categories.id as cat_id,
+                categories.name as cat_name,
+                categories.icon as cat_icon'
+            )
+            ->from('tasks')
+            ->leftJoin('categories', 'tasks.category_id = categories.id')
+            ->groupBy('tasks.id')
+            ->orderBy(['dt_add' => SORT_DESC]);
+    }
+
+    private function getTasksByCity($query): void
+    {
+        $session = Yii::$app->session;
+        $query
+            ->andWhere(['city_id' => $session->get('city')])
+            ->orFilterWhere(['online' => 1]);
     }
 }

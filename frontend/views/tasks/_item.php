@@ -11,11 +11,11 @@ use yii\helpers\Url;
         <a href="<?= Url::to(['tasks/view/', 'id' => $model['id']]) ?>" class="link-regular">
             <h2><?= strip_tags($model['name']) ?></h2>
         </a>
-        <a href="<?= Url::to(['tasks/filter', 'category_id' => $model['category_id']]) ?>" class="link-regular">
-            <?= $model['category']['name'] ?>
+        <a href="<?= Url::to(['tasks/filter', 'category_id' => $model['cat_id']]) ?>" class="link-regular">
+            <?= $model['cat_name'] ?>
         </a>
     </div>
-    <div class="new-task__icon new-task__icon--<?= $model['category']['icon'] ?>"></div>
+    <div class="new-task__icon new-task__icon--<?= $model['cat_icon'] ?>"></div>
     <p class="new-task_description">
         <?= htmlspecialchars($model['description']) ?>
     </p>

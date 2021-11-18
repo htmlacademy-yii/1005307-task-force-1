@@ -5,27 +5,31 @@ return [
         'dt_add' => '2021-01-08 22:48:34',
         'category_id' => 1,
         'description' => 'Eos sint labore optio unde sunt commodi. Vel non distinctio quam rerum et nobis. Dignissimos voluptatibus voluptatum aut ad.',
-        'expire' => '2021-09-01 00:00:00',
+        'expire' => '2022-09-01 00:00:00',
         'name' => 'Dr. Kevon Bayer',
         'budget' => 1430,
         'client_id' => 2,
         'status_task' => 'Новое',
+        'online' => 1,
+        'responses_count' => 2
     ],
     [
         'dt_add' => '2021-01-09 15:24:26',
         'category_id' => 1,
         'description' => 'Hic itaque similique esse neque dolorum mollitia aut. Iusto commodi recusandae doloribus. Quia placeat nulla commodi omnis sed.',
-        'expire' => '2021-09-09 01:55:21',
+        'expire' => '2022-09-09 01:55:21',
         'name' => 'Prof. Jovani Haag IV',
         'budget' => 1500,
         'client_id' => 2,
         'status_task' => 'Новое',
+        'online' => 1,
+        'responses_count' => 2
     ],
     [
         'dt_add' => '2021-03-25 07:59:37',
         'category_id' => 2,
         'description' => 'Odio est et nihil quo. Cumque tempore debitis ea voluptas debitis unde. Reiciendis est qui iste culpa fugiat minus iusto rem.',
-        'expire' => '2021-08-10 08:07:27',
+        'expire' => '2022-08-10 08:07:27',
         'name' => 'Emmett Reichert',
         'address' => '52638 Douglas Port',
         'budget' => 3086,
@@ -35,12 +39,13 @@ return [
         'city_id' => 1,
         'client_id' => 5,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-02-10 22:58:33',
         'category_id' => 8,
         'description' => 'Eligendi corporis eos molestiae commodi libero quidem et et. Deleniti dicta voluptate ex a aut omnis eos. Assumenda qui aut adipisci mollitia ea. Dolorem enim ad et est qui eos.',
-        'expire' => '2021-08-10 20:39:48',
         'name' => 'Daryl Windler',
         'address' => '881 Kennith Wells',
         'budget' => 9952,
@@ -50,12 +55,13 @@ return [
         'city_id' => 2,
         'client_id' => 10,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 2
     ],
     [
         'dt_add' => '2021-02-14 14:34:51',
         'category_id' => 2,
         'description' => 'Necessitatibus officiis eligendi eum ut praesentium ut minima. Quos impedit nemo dolor quia. Fuga nostrum sed est.',
-        'expire' => '2021-08-10 08:08:26',
         'name' => 'Bessie Veum',
         'address' => '4864 Nolan Route Apt. 850',
         'budget' => 7014,
@@ -65,12 +71,13 @@ return [
         'city_id' => 2,
         'client_id' => 5,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 0
     ],
     [
         'dt_add' => '2021-04-29 18:59:33',
         'category_id' => 3,
         'description' => 'Incidunt velit laboriosam amet velit nihil enim quia placeat. Vero autem sed ab consequatur perferendis id. Dolores ex molestiae architecto eveniet pariatur. Autem illum atque molestiae vel at.',
-        'expire' => '2021-08-10 02:31:19',
         'name' => 'Krystina Kirlin',
         'address' => '1394 Lind Plain',
         'budget' => 401,
@@ -80,6 +87,8 @@ return [
         'city_id' => 1,
         'client_id' => 8,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 3
     ],
     [
         'dt_add' => '2021-01-04 08:11:31',
@@ -95,12 +104,14 @@ return [
         'city_id' => 2,
         'client_id' => 3,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 0
     ],
     [
         'dt_add' => '2021-03-31 09:41:50',
         'category_id' => 8,
         'description' => 'Quis deserunt fugit aut dolor. Aperiam harum voluptate sed odio ut non possimus. Voluptas enim doloribus magnam nulla et velit molestias.',
-        'expire' => '2021-08-10 07:56:35',
+        'expire' => '2022-08-10 07:56:35',
         'name' => 'Lucinda Schmitt III',
         'address' => '8888 O\'Conner Branch',
         'budget' => 5875,
@@ -110,12 +121,14 @@ return [
         'city_id' => 1,
         'client_id' => 1,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-05-04 17:52:38',
         'category_id' => 2,
         'description' => 'Sunt quae expedita nulla adipisci iure veniam. In nesciunt cupiditate pariatur quia perferendis sed. Alias facere quia cum.',
-        'expire' => '2021-09-20 19:16:09',
+        'expire' => '2022-09-20 19:16:09',
         'name' => 'Kieran Walsh',
         'address' => '850 Laverne Rue Apt. 933',
         'budget' => 3116,
@@ -125,12 +138,14 @@ return [
         'city_id' => 2,
         'client_id' => 10,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-01-30 16:29:06',
         'category_id' => 6,
         'description' => 'Eveniet eaque et soluta provident. Optio est perspiciatis voluptatem nobis. Qui dolores sit sapiente est est mollitia dolor. Qui in qui est eligendi quisquam a perspiciatis.',
-        'expire' => '2021-09-20 16:24:19',
+        'expire' => '2022-09-20 16:24:19',
         'name' => 'Enrique Kshlerin',
         'address' => '844 Athena Forge',
         'budget' => 695,
@@ -140,12 +155,14 @@ return [
         'city_id' => 1,
         'client_id' => 3,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-19 04:03:49',
         'category_id' => 6,
         'description' => 'Recusandae possimus nihil unde modi. Ipsa impedit eum saepe optio minus velit. Repellendus nisi voluptas sint omnis aut iusto.',
-        'expire' => '2021-09-10 06:30:17',
+        'expire' => '2022-09-10 06:30:17',
         'name' => 'Prof. Joaquin Runolfsdottir I',
         'address' => '542 Block Union',
         'budget' => 1903,
@@ -155,13 +172,15 @@ return [
         'city_id' => 2,
         'doer_id' => 7,
         'client_id' => 9,
-        'status_task' => 'На исполнении'
+        'status_task' => 'На исполнении',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-02-16 00:30:45',
         'category_id' => 8,
         'description' => 'Libero accusantium iusto dignissimos ullam voluptatibus excepturi est. Quia beatae eaque ducimus. Ea quas quia quis in asperiores. Dolor praesentium aut ut quis et dignissimos blanditiis ipsa.',
-        'expire' => '2021-05-01 04:29:08',
+        'expire' => '2022-05-01 04:29:08',
         'name' => 'Eva Gerlach',
         'address' => '178 Grady Brooks Suite 489',
         'budget' => 1023,
@@ -171,12 +190,13 @@ return [
         'city_id' => 2,
         'client_id' => 8,
         'status_task' => 'Отмененное',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-22 08:45:49',
         'category_id' => 2,
         'description' => 'Quis nisi corrupti molestias voluptatem sed reprehenderit. Molestiae iste rem praesentium quibusdam. Perferendis voluptatem eligendi numquam dolores.',
-        'expire' => '2021-05-01 01:52:58',
         'name' => 'Kelsi Lockman',
         'address' => '1432 Ritchie Prairie Apt. 614',
         'budget' => 8680,
@@ -186,12 +206,13 @@ return [
         'city_id' => 10,
         'client_id' => 1,
         'status_task' => 'Отмененное',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-04-20 19:51:11',
         'category_id' => 7,
         'description' => 'Sed et fugiat et officiis. Dignissimos autem consequuntur quibusdam ut soluta.',
-        'expire' => '2021-09-20 16:40:19',
         'name' => 'Mr. Omari Hilpert V',
         'address' => '66985 Wisozk Locks Apt. 663',
         'budget' => 7787,
@@ -201,12 +222,14 @@ return [
         'city_id' => 2,
         'client_id' => 6,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-04-14 13:44:54',
         'category_id' => 6,
         'description' => 'Adipisci consectetur provident ab rem cupiditate quae quibusdam nihil. Consequatur non non rerum ut tempore ut explicabo. Omnis culpa sint cupiditate iure.',
-        'expire' => '2021-09-10 03:52:14',
+        'expire' => '2022-09-10 03:52:14',
         'name' => 'Mr. Sigrid Parisian',
         'address' => '7662 Hansen Burg Apt. 863',
         'budget' => 6813,
@@ -216,12 +239,14 @@ return [
         'city_id' => 2,
         'client_id' => 1,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-16 01:13:32',
         'category_id' => 5,
         'description' => 'Labore fuga dolore aut et. Porro ad cum quia dolores. Molestiae inventore numquam provident consequatur alias.',
-        'expire' => '2021-08-10 15:05:32',
+        'expire' => '2022-08-10 15:05:32',
         'name' => 'Antonina Lemke',
         'address' => '1687 Hyatt Vista Apt. 174',
         'budget' => 9459,
@@ -231,12 +256,14 @@ return [
         'city_id' => 2,
         'client_id' => 9,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-16 11:13:51',
         'category_id' => 2,
         'description' => 'Molestiae enim sit dolorem quo et qui adipisci. Ducimus numquam fuga dolor hic. Sit beatae a consectetur consequatur deserunt et alias. A est unde rerum et et.',
-        'expire' => '2021-09-10 16:23:11',
+        'expire' => '2022-09-10 16:23:11',
         'name' => 'Magnolia Boyer',
         'address' => '498 Padberg Valleys',
         'budget' => 9103,
@@ -246,13 +273,15 @@ return [
         'city_id' => 2,
         'doer_id' => 2,
         'client_id' => 5,
-        'status_task' => 'На исполнении'
+        'status_task' => 'На исполнении',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-24 18:00:54',
         'category_id' => 4,
         'description' => 'Quod saepe libero accusantium fugiat natus. Recusandae magnam debitis necessitatibus harum laborum. Est facere dolorum possimus aliquam.',
-        'expire' => '2021-09-10 08:21:26',
+        'expire' => '2022-09-10 08:21:26',
         'name' => 'Maddison Littel',
         'address' => '3418 Welch Walk',
         'budget' => 9846,
@@ -262,12 +291,14 @@ return [
         'city_id' => 1,
         'client_id' => 2,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-31 21:06:33',
         'category_id' => 2,
         'description' => 'Autem aut incidunt eum praesentium autem. Sed vitae et eaque repellendus eveniet similique. Enim hic voluptate eos tempora voluptate pariatur.',
-        'expire' => '2021-09-10 01:45:26',
+        'expire' => '2022-09-10 01:45:26',
         'name' => 'Jamel Hamill',
         'address' => '2550 Conroy Hollow',
         'budget' => 9880,
@@ -277,22 +308,26 @@ return [
         'city_id' => 2,
         'client_id' => 4,
         'status_task' => 'Новое',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-05-01 16:25:06',
         'category_id' => 1,
         'description' => 'Quo ut eius atque hic. Modi deserunt hic at ducimus voluptas eius voluptate. Inventore iste blanditiis id facilis.',
-        'expire' => '2021-09-02 13:54:17',
+        'expire' => '2022-09-02 13:54:17',
         'name' => 'Litzy Grimes',
         'budget' => 2906,
         'client_id' => 2,
         'status_task' => 'Новое',
+        'online' => 1,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-04-09 12:40:32',
         'category_id' => 2,
         'description' => 'Est aut quos voluptas consequuntur. Nemo rem velit cum et aut aut qui.',
-        'expire' => '2021-05-05 02:09:42',
+        'expire' => '2022-05-05 02:09:42',
         'name' => 'Sydni McClure',
         'address' => '7614 Helene Isle',
         'budget' => 9820,
@@ -302,46 +337,54 @@ return [
         'city_id' => 2,
         'doer_id' => 1,
         'client_id' => 8,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-25 02:57:55',
         'category_id' => 1,
         'description' => 'Ullam consequatur nihil maxime consequuntur qui commodi tempora. Reprehenderit aliquam quaerat sunt explicabo molestias ut placeat ea. Nihil harum cum ratione ut quo.',
-        'expire' => '2021-04-27 03:47:08',
+        'expire' => '2022-04-27 03:47:08',
         'name' => 'Prof. Jerod Hintz V',
         'budget' => 2350,
         'client_id' => 9,
         'doer_id' => 1,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 1,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-04-27 22:41:46',
         'category_id' => 1,
         'description' => 'Aut modi exercitationem ut quo et adipisci eum deserunt. Quia omnis cumque officiis nulla. Atque est aperiam et iure inventore qui accusamus quis. Qui dolor dolorem sunt dolores quasi doloribus.',
-        'expire' => '2021-05-06 16:03:16',
+        'expire' => '2022-05-06 16:03:16',
         'name' => 'Elena Blanda II',
         'budget' => 1045,
         'doer_id' => 3,
         'client_id' => 7,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 1,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-02-13 01:23:33',
         'category_id' => 1,
         'description' => 'Odit architecto error fuga ut veritatis. Quia sint et sit ut. Fuga culpa dolor enim nesciunt.',
-        'expire' => '2021-02-28 08:23:32',
+        'expire' => '2022-02-28 08:23:32',
         'name' => 'Therese Fisher Jr.',
         'budget' => 6212,
         'doer_id' => 4,
         'client_id' => 10,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 1,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-01-04 20:06:37',
         'category_id' => 8,
         'description' => 'Autem deleniti quasi blanditiis doloremque. Mollitia labore porro sunt suscipit.',
-        'expire' => '2021-02-13 20:15:36',
+        'expire' => '2022-02-13 20:15:36',
         'name' => 'Concepcion Zulauf',
         'address' => '87652 Destiny Circle Suite 286',
         'budget' => 3501,
@@ -351,13 +394,15 @@ return [
         'city_id' => 2,
         'doer_id' => 5,
         'client_id' => 1,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-02-01 01:33:59',
         'category_id' => 3,
         'description' => 'Dolorum et sit amet at. Autem tempora sed numquam nemo mollitia facere totam enim. Occaecati et ut at est amet sit molestiae.',
-        'expire' => '2021-02-03 01:23:07',
+        'expire' => '2022-02-03 01:23:07',
         'name' => 'Devante Borer',
         'address' => '9423 Heidenreich Ports Apt. 841',
         'budget' => 607,
@@ -367,13 +412,15 @@ return [
         'city_id' => 1,
         'doer_id' => 5,
         'client_id' => 4,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-02-20 13:44:19',
         'category_id' => 4,
         'description' => 'Earum quos eaque alias voluptatem tenetur deserunt magnam. Sit laudantium sequi et cumque. Architecto nihil minima aut suscipit. Unde assumenda ea sapiente et.',
-        'expire' => '2021-03-10 07:38:39',
+        'expire' => '2022-03-10 07:38:39',
         'name' => 'Prof. D\'angelo Stehr PhD',
         'address' => '1706 Roberts Path',
         'budget' => 8555,
@@ -383,13 +430,15 @@ return [
         'city_id' => 1,
         'doer_id' => 7,
         'client_id' => 8,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-01-22 21:28:22',
         'category_id' => 5,
         'description' => 'Sed impedit cum aut quo repellat cumque est. Fuga voluptate quis dolorem corrupti quidem pariatur eum dicta. Quis qui qui maiores labore modi alias. Et nulla nisi ut sit omnis beatae.',
-        'expire' => '2021-02-09 23:58:01',
+        'expire' => '2022-02-09 23:58:01',
         'name' => 'Mrs. Emmie Lockman',
         'address' => '77866 Stark Lakes',
         'budget' => 7462,
@@ -399,13 +448,15 @@ return [
         'city_id' => 1,
         'doer_id' => 8,
         'client_id' => 3,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-01-26 10:38:01',
         'category_id' => 5,
         'description' => 'Dolorem numquam veniam fuga sint sint. In officiis voluptas velit nulla saepe qui ipsum. Et et sit quia sit aut.',
-        'expire' => '2021-02-15 17:02:51',
+        'expire' => '2022-02-15 17:02:51',
         'name' => 'Mr. Conner Will MD',
         'address' => '9866 Florine Plains Suite 645',
         'budget' => 847,
@@ -415,13 +466,15 @@ return [
         'city_id' => 1,
         'doer_id' => 9,
         'client_id' => 8,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-02-09 01:50:14',
         'category_id' => 7,
         'description' => 'Consequatur et facere ipsa aliquid repudiandae minus quo occaecati. Dolor minima vel quasi molestiae nemo sint nam quas. Suscipit quasi ut molestias ut voluptas aperiam.',
-        'expire' => '2021-03-01 03:42:02',
+        'expire' => '2022-03-01 03:42:02',
         'name' => 'Tania Medhurst',
         'address' => '832 Petra Route',
         'budget' => 3340,
@@ -431,13 +484,15 @@ return [
         'city_id' => 1,
         'doer_id' => 10,
         'client_id' => 7,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-29 02:58:17',
         'category_id' => 4,
         'description' => 'Non dolorum nisi aut beatae veniam. Necessitatibus minus ratione recusandae quam. Voluptates necessitatibus dolore qui et. Dicta beatae non fugiat nostrum nobis.',
-        'expire' => '2021-04-02 02:20:21',
+        'expire' => '2022-04-02 02:20:21',
         'name' => 'Josefina D\'Amore',
         'address' => '958 Caden Islands',
         'budget' => 6343,
@@ -447,13 +502,15 @@ return [
         'city_id' => 2,
         'doer_id' => 10,
         'client_id' => 1,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-14 22:03:40',
         'category_id' => 2,
         'description' => 'Ad ea sit quod ratione aut vero. Dolorem voluptatem dignissimos nisi iure excepturi qui. Quos ratione exercitationem magnam veniam. Iure voluptatem accusantium at sequi dolorem autem.',
-        'expire' => '2021-04-02 08:08:26',
+        'expire' => '2022-04-02 08:08:26',
         'name' => 'Mabelle Grant III',
         'address' => '46960 Karlie Heights',
         'budget' => 5029,
@@ -463,13 +520,15 @@ return [
         'city_id' => 1,
         'doer_id' => 12,
         'client_id' => 8,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-01-29 23:44:37',
         'category_id' => 8,
         'description' => 'Cum voluptatem id quas adipisci sit. Ut eos vero ipsam. Aut ut minus ut est necessitatibus.',
-        'expire' => '2021-02-06 00:26:09',
+        'expire' => '2022-02-06 00:26:09',
         'name' => 'Lonny Cummings',
         'address' => '82076 Paucek Springs Apt. 373',
         'budget' => 7564,
@@ -479,13 +538,15 @@ return [
         'city_id' => 2,
         'doer_id' => 13,
         'client_id' => 1,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-27 06:02:06',
         'category_id' => 3,
         'description' => 'Eos sunt quia omnis consequatur. Qui ut ut ratione incidunt non. Provident voluptatibus quia non.',
-        'expire' => '2021-02-07 10:08:09',
+        'expire' => '2022-02-07 10:08:09',
         'name' => 'Graciela Mayer',
         'address' => '60326 Price Island',
         'budget' => 7744,
@@ -495,13 +556,15 @@ return [
         'city_id' => 2,
         'doer_id' => 14,
         'client_id' => 5,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-01-01 13:23:12',
         'category_id' => 4,
         'description' => 'Sapiente ut cumque vel quae esse dolorem. Nihil eveniet distinctio tenetur similique hic assumenda quisquam. Tempore eveniet blanditiis cumque architecto ex in. Repellat magni est eum ut.',
-        'expire' => '2021-02-19 21:01:28',
+        'expire' => '2022-02-19 21:01:28',
         'name' => 'Nigel Gusikowski',
         'address' => '6057 Birdie Garden',
         'budget' => 3820,
@@ -511,13 +574,15 @@ return [
         'city_id' => 2,
         'doer_id' => 15,
         'client_id' => 1,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-27 08:09:08',
         'category_id' => 4,
         'description' => 'Quia quis vel et non. Ad earum aut natus ea nostrum.',
-        'expire' => '2021-04-20 03:19:40',
+        'expire' => '2022-04-20 03:19:40',
         'name' => 'Thalia Shanahan',
         'address' => '4457 Oberbrunner Way',
         'budget' => 1434,
@@ -527,13 +592,15 @@ return [
         'city_id' => 2,
         'doer_id' => 16,
         'client_id' => 6,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-02-02 15:47:48',
         'category_id' => 3,
         'description' => 'Molestiae id dolores voluptates velit. Vel dolorem rerum velit ut debitis reiciendis. Vitae omnis eum assumenda quibusdam aliquam quia aut.',
-        'expire' => '2021-03-07 01:43:15',
+        'expire' => '2022-03-07 01:43:15',
         'name' => 'Mr. Claude Mohr',
         'address' => '88100 Jones Burg Suite 987',
         'budget' => 3240,
@@ -543,13 +610,15 @@ return [
         'city_id' => 2,
         'doer_id' => 17,
         'client_id' => 6,
-        'status_task' => 'Выполнено'
+        'status_task' => 'Выполнено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-02-05 05:22:15',
         'category_id' => 5,
         'description' => 'Consectetur optio velit temporibus ad autem libero quo rem. Ab maiores est in molestiae velit necessitatibus deleniti. Iure consequatur nobis qui deleniti dolores.',
-        'expire' => '2021-03-26 08:50:37',
+        'expire' => '2022-03-26 08:50:37',
         'name' => 'Eveline Dare',
         'address' => '719 Spinka Fords Suite 658',
         'budget' => 9160,
@@ -559,13 +628,15 @@ return [
         'city_id' => 1,
         'doer_id' => 18,
         'client_id' => 1,
-        'status_task' => 'Провалено'
+        'status_task' => 'Провалено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-02-08 23:21:38',
         'category_id' => 6,
         'description' => 'Libero pariatur et fugiat itaque aperiam. Est aut amet magnam quasi. Eum non facilis in non. Eligendi culpa provident nisi sint. Quia cumque ut consequatur culpa eum at. Aut rerum ut eveniet.',
-        'expire' => '2021-03-04 12:24:15',
+        'expire' => '2022-03-04 12:24:15',
         'name' => 'Dr. Karley Willms III',
         'address' => '5148 Matteo Orchard',
         'budget' => 3222,
@@ -575,13 +646,15 @@ return [
         'city_id' => 2,
         'doer_id' => 19,
         'client_id' => 10,
-        'status_task' => 'Провалено'
+        'status_task' => 'Провалено',
+        'online' => 0,
+        'responses_count' => 1
     ],
     [
         'dt_add' => '2021-03-25 10:17:26',
         'category_id' => 4,
         'description' => 'Doloremque adipisci ipsum dolorem veritatis vitae. Tempore voluptatem excepturi reprehenderit porro non quia. Sapiente magnam labore omnis. Nostrum odio omnis ullam unde unde quis.',
-        'expire' => '2021-04-09 00:40:28',
+        'expire' => '2022-04-09 00:40:28',
         'name' => 'Prof. Rashawn Kub MD',
         'address' => '839 Selena Parks Apt. 271',
         'budget' => 5183,
@@ -591,6 +664,8 @@ return [
         'city_id' => 2,
         'doer_id' => 20,
         'client_id' => 6,
-        'status_task' => 'Провалено'
+        'status_task' => 'Провалено',
+        'online' => 0,
+        'responses_count' => 1
     ],
 ];

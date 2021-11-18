@@ -9,7 +9,6 @@ return [
     'name' => $faker->name,
     'password' => $faker->password,
     'dt_add' => $faker->dateTimeThisYear($max = 'now')->format('Y-m-d H:i:s'),
-    'address' => $faker->streetAddress,
     'bd' => $faker->dateTimeBetween($startDate = '-40 years', $endDate = '-10 years', $timezone = null)->format('Y-m-d'),
     'avatar' => 'man-glasses.jpg',
     'about' => $faker->text,

@@ -32,6 +32,8 @@ use yii\db\ActiveRecord;
  * @property string|null $longitude
  * @property string|null $location_comment
  * @property string $status_task
+ * @property int $responses_count
+ * @property int $online
  *
  * @property FileTask[] $fileTasks
  * @property Messages[] $messages
@@ -53,9 +55,9 @@ class Tasks extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['dt_add', 'expire'], 'safe'],
-            [['category_id', 'budget', 'city_id', 'doer_id', 'client_id'], 'integer'],
-            [['description', 'name', 'client_id'], 'required'],
+            [['dt_add', 'expire', 'online'], 'safe'],
+            [['category_id', 'budget', 'city_id', 'doer_id', 'client_id', 'online'], 'integer'],
+            [['description', 'name', 'client_id', 'responses_count', 'online'], 'required'],
             [['description'], 'string'],
             [['name', 'address', 'latitude', 'longitude', 'location_comment', 'status_task'], 'string', 'max' => 255],
             [['category_id'], 'exist',
@@ -95,6 +97,8 @@ class Tasks extends ActiveRecord
             'doer_id' => 'Doer ID',
             'client_id' => 'Client ID',
             'status_task' => 'Status Task',
+            'responses_count' => 'Responses Count',
+            'online' => 'Online'
         ];
     }
 
@@ -131,19 +135,6 @@ class Tasks extends ActiveRecord
     public static function find(): TasksQuery
     {
         return new TasksQuery(get_called_class());
-    }
-
-    final public static function getLastTasks(): array
-    {
-        $query = self::find()
-            ->andwhere(['status_task' => 'Новое'])
-            ->with('category')
-            ->with('city')
-            ->limit(4)
-            ->groupBy('tasks.id')
-            ->orderBy(['dt_add' => SORT_DESC])
-            ->all();
-        return $query;
     }
 
     final public static function getOneTask($id): Tasks

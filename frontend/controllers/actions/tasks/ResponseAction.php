@@ -31,6 +31,9 @@ class ResponseAction extends Action
                 $response = new Responses(['attributes' => $responseForm->attributes]);
                 $response->save(false);
                 $task = Tasks::findOne($response->task_id);
+                $task->responses_count = Responses::find()
+                    ->where(['task_id' => $response->task_id])->count();
+                $task->save();
 
                 $notification = new Notifications([
                     'notification_category_id' => 1,

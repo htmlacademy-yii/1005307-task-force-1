@@ -41,9 +41,9 @@ use yii\helpers\Url;
             class="new-task__time">Был на сайте <?= $formatter->asRelativeTime($model['last_activity_time'], strftime("%F %T")) ?></span>
     </div>
     <div class="link-specialization user__search-link--bottom">
-        <?php foreach ($model['userCategories'] as $category): ?>
+      <?php foreach ($model['userCategories'] as $category): ?>
             <a href="<?= Url::to(['tasks/filter', 'category_id' => $category['id']]) ?>"
                class="link-regular"><?= $category['profession'] ?></a>
-        <?php endforeach; ?>
+         <?php endforeach; ?>
     </div>
 </div>
