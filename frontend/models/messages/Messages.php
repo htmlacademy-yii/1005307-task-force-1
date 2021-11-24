@@ -11,13 +11,13 @@ use yii\db\ActiveRecord;
  * This is the model class for table "messages".
  *
  * @property int $id
+ * @property int $is_mine
  * @property string $message
  * @property string $published_at
- * @property int $writer_id
  * @property int $recipient_id
  * @property int $task_id
- * @property int $is_mine
  * @property int $unread
+ * @property int $writer_id
  */
 class Messages extends ActiveRecord
 {
@@ -59,8 +59,8 @@ class Messages extends ActiveRecord
             'id' => 'ID',
             'message' => 'Message',
             'published_at' => 'Published At',
-            'writer_id' => 'User ID',
             'task_id' => 'Task ID',
+            'writer_id' => 'User ID',
         ];
     }
 
@@ -68,12 +68,12 @@ class Messages extends ActiveRecord
     {
         return [
             'id',
+            'is_mine',
             'message',
             'published_at',
-            'writer_id',
             'task_id',
-            'is_mine',
             'unread',
+            'writer_id',
         ];
     }
 

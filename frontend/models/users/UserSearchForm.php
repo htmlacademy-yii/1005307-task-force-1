@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace frontend\models\users;
 
@@ -53,34 +52,27 @@ class UserSearchForm extends Users
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
 
-        if (!$this->searchName) {
-            if ($this->searchedCategories) {
-                $query->categoriesFilter($this->searchedCategories);
-            }
+        if ($this->searchedCategories) {
+            $query->categoriesFilter($this->searchedCategories);
+        }
 
-            if ($this->isFreeNow) {
-                $query->isFreeNowFilter();
-            }
+        if ($this->isFreeNow) {
+            $query->isFreeNowFilter();
+        }
 
-            if ($this->isOnlineNow) {
-                $query->isOnlineNowFilter();
-            }
+        if ($this->isOnlineNow) {
+            $query->isOnlineNowFilter();
+        }
 
-            if ($this->hasOpinions) {
-                $query->withOpinionsFilter(0);
-            }
+        if ($this->hasOpinions) {
+            $query->withOpinionsFilter(0);
+        }
 
-            if ($this->isFavourite) {
-                $query->isFavouriteFilter();
-            }
+        if ($this->isFavourite) {
+            $query->isFavouriteFilter();
         }
 
         if ($this->searchName) {
-            $this->searchedCategories = [];
-            $this->isFreeNow = null;
-            $this->isOnlineNow = null;
-            $this->hasOpinions = null;
-            $this->isFavourite = null;
             $query->nameSearch($this->searchName);
         }
 

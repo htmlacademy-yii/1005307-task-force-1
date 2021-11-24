@@ -2,7 +2,6 @@
 
 namespace frontend\models\users;
 
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -10,8 +9,8 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property string $dt_add
- * @property int $user_id
  * @property int $favourite_person_id
+ * @property int $user_id
  *
  * @property Users $favouritePerson
  * @property Users $user
@@ -46,8 +45,8 @@ class Favourites extends ActiveRecord
         return [
             'id' => 'ID',
             'dt_add' => 'Dt Add',
-            'user_id' => 'User ID',
             'favourite_person_id' => 'Favourite Person ID',
+            'user_id' => 'User ID',
         ];
     }
 }

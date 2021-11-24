@@ -9,41 +9,21 @@ use yii\base\Model;
 
 class ProfileForm extends Model
 {
-    public $name;
+    public $about;
+    public $avatar;
+    public $birthday;
+    public $city_id;
     public $email;
+    public $name;
+    public $optionSet;
     public $password;
     public $password_repeat;
-    public $user;
-    public $bd;
-    public $avatar;
-    public $about;
     public $phone;
-    public $skype;
-    public $telegram;
-    public $city_id;
-    public $specializations;
-    public $optionSet;
     public $photo;
-
-    public function getExistingSpecializations(): array
-    {
-        return Categories::getCategoriesFilters();
-    }
-
-    public function attributeLabels(): array
-    {
-        return [
-            'avatar' => 'Сменить аватар',
-            'name' => 'Ваше имя',
-            'email' => 'email',
-            'password' => 'Новый пароль',
-            'password_repeat' => 'Повтор пароля',
-            'city_id' => 'Город',
-            'bd' => 'День рождения',
-            'about' => 'Информация о себе',
-            'photo' => 'Выбрать фотографии',
-        ];
-    }
+    public $skype;
+    public $specializations;
+    public $telegram;
+    public $user;
 
     public function rules(): array
     {
@@ -51,7 +31,7 @@ class ProfileForm extends Model
             [['avatar'], 'file',
                 'extensions' => 'jpeg, png, jpg',
                 'message' => 'Загружаемый файл должен быть изображением'],
-            ['bd', 'date', 'format' => 'yyyy*MM*dd',
+            ['birthday', 'date', 'format' => 'yyyy*MM*dd',
                 'message' => 'Необходимый формат «гггг.мм.дд»'],
             [['email'], 'required',
                 'message' => "Это поле необходимо заполнить"],
@@ -79,8 +59,28 @@ class ProfileForm extends Model
             ['skype', 'match',
                 'pattern' => "/^[a-zA-Z0-9]{3,}$/",
                 'message' => 'Значение должно состоять из латинских символов и цифр, от 3-х знаков в длину'],
-            [['avatar', 'email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'phone', 'skype', 'telegram', 'specializations', 'optionSet', 'photo'], 'safe'],
+            [['avatar', 'email', 'password', 'password_repeat', 'about', 'city_id', 'birthday', 'phone', 'skype', 'telegram', 'specializations', 'optionSet', 'photo'], 'safe'],
         ];
+    }
+
+    public function attributeLabels(): array
+    {
+        return [
+            'about' => 'Информация о себе',
+            'avatar' => 'Сменить аватар',
+            'birthday' => 'День рождения',
+            'city_id' => 'Город',
+            'email' => 'email',
+            'name' => 'Ваше имя',
+            'password' => 'Новый пароль',
+            'password_repeat' => 'Повтор пароля',
+            'photo' => 'Выбрать фотографии',
+        ];
+    }
+
+    public function getExistingSpecializations(): array
+    {
+        return Categories::getCategoriesFilters();
     }
 
     public function loadCurrentUserData(Users $user): void
@@ -107,9 +107,9 @@ class ProfileForm extends Model
     {
         $this->saveAvatar();
         $this->saveCategories($user);
+        $this->saveCommonData($user);
         $this->checkRole($user);
         $this->saveOptionSet($user);
-        $this->saveCommonData($user);
     }
 
     public function upload(): bool
@@ -121,26 +121,6 @@ class ProfileForm extends Model
             return true;
         }
         return false;
-    }
-
-    private function saveCommonData(Users $user): void
-    {
-        $user->setScenario(Users::SCENARIO_UPDATE);
-        $user->setAttributes($this->attributes);
-        $attributesToBeSaved = [];
-
-        if (isset($this->password)) {
-            $user->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
-            $user->save(false, ['password']);
-        }
-
-        foreach ($user->attributes as $name => $value) {
-            if (!empty($value)) {
-                $attributesToBeSaved[] = $name;
-            }
-        }
-
-        $user->save(true, $attributesToBeSaved);
     }
 
     private function saveAvatar(): void
@@ -171,14 +151,24 @@ class ProfileForm extends Model
         }
     }
 
-    private function checkRole(Users $user): void
+    private function saveCommonData(Users $user): void
     {
-        if ($user->userCategories === []) {
-            $user->user_role = 'client';
-        } else {
-            $user->user_role = 'doer';
+        $user->setScenario(Users::SCENARIO_UPDATE);
+        $user->setAttributes($this->attributes);
+        $attributesToBeSaved = [];
+
+        if (isset($this->password)) {
+            $user->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+            $user->save(false, ['password']);
         }
-        $user->save(false, ['user_role']);
+
+        foreach ($user->attributes as $name => $value) {
+            if (!empty($value)) {
+                $attributesToBeSaved[] = $name;
+            }
+        }
+
+        $user->save(true, $attributesToBeSaved);
     }
 
     private function saveOptionSet(Users $user): void
@@ -198,5 +188,15 @@ class ProfileForm extends Model
         }
 
         $optionSet->save(false);
+    }
+
+    private function checkRole(Users $user): void
+    {
+        if ($user->userCategories === []) {
+            $user->user_role = 'client';
+        } else {
+            $user->user_role = 'doer';
+        }
+        $user->save(false, ['user_role']);
     }
 }

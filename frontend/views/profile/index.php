@@ -107,7 +107,7 @@ $specializations = Categories::getCategoriesFilters();
                                 ]) ?>
                         </div>
                         <div class="account__input account__input--date">
-                            <?= $form->field($profileForm, 'bd', [
+                            <?= $form->field($profileForm, 'birthday', [
                                 'inputOptions' => [
                                     'class' => 'input-middle input input-date',
                                     'id' => '203',

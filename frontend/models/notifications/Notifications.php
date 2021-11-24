@@ -12,16 +12,16 @@ use yii\db\ActiveRecord;
  * This is the model class for table "notifications".
  *
  * @property int $id
- * @property int $user_id
- * @property int $task_id
- * @property string $notification_category_id
- * @property int $visible
- * @property int $setting
  * @property string $dt_add
+ * @property string $notification_category_id
+ * @property int $setting
+ * @property int $task_id
+ * @property int $user_id
+ * @property int $visible
  *
+ * @property NotificationsCategories $notificationsCategory
  * @property Tasks $task
  * @property Users $user
- * @property NotificationsCategories $notificationsCategory
  */
 class Notifications extends ActiveRecord
 {
@@ -55,17 +55,13 @@ class Notifications extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'is_view' => 'Is View',
             'dt_add' => 'Dt Add',
-            'type' => 'Type',
-            'user_id' => 'User ID',
+            'notification_category_id' => 'Notification Category Id',
+            'setting' => 'Setting',
             'task_id' => 'Task ID',
+            'user_id' => 'User ID',
+            'visible' => 'Visible',
         ];
-    }
-
-    public function getTask(): ActiveQuery
-    {
-        return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
     public function getNotificationsCategory(): ActiveQuery
@@ -73,15 +69,9 @@ class Notifications extends ActiveRecord
         return $this->hasOne(NotificationsCategories::class, ['id' => 'notification_category_id']);
     }
 
-    public static function getVisibleNoticesByUser($id): array
+    public function getTask(): ActiveQuery
     {
-        $query = self::find()
-            ->where([
-                'visible' => 1,
-                'user_id' => $id
-            ]);
-
-        return $query->all();
+        return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
     public function addNotification(): void
@@ -99,5 +89,16 @@ class Notifications extends ActiveRecord
                 ->setHtmlBody($user->name . 'У вас новое уведомление:' . $subject . '<a href="#">' . $task->name . '</a>')
                 ->send();
         }
+    }
+
+    public static function getVisibleNoticesByUser($id): array
+    {
+        $query = self::find()
+            ->where([
+                'visible' => 1,
+                'user_id' => $id
+            ]);
+
+        return $query->all();
     }
 }

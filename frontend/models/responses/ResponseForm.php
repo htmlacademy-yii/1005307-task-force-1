@@ -7,11 +7,11 @@ use yii\base\Model;
 
 class ResponseForm extends Model
 {
-    public $doer_id;
-    public $task_id;
     public $budget;
     public $comment;
+    public $doer_id;
     public $is_refused;
+    public $task_id;
 
     public function rules(): array
     {
@@ -33,11 +33,11 @@ class ResponseForm extends Model
     public function attributeLabels(): array
     {
         return [
-            'doer_id' => 'Исполнитель',
-            'task_id' => 'Задание',
-            'is_refused' => 'Отклонено',
             'budget' => 'Ваша цена',
             'comment' => 'Комментарий',
+            'doer_id' => 'Исполнитель',
+            'is_refused' => 'Отклонено',
+            'task_id' => 'Задание',
         ];
     }
 }

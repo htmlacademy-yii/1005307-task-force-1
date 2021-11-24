@@ -8,10 +8,10 @@ use yii\base\Model;
 
 class SignForm extends Model
 {
-    public $name;
-    public $email;
-    public $password;
     public $city_id;
+    public $email;
+    public $name;
+    public $password;
     public $user_role;
 
     public function rules(): array

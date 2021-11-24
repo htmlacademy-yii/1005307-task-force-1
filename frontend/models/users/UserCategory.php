@@ -11,8 +11,8 @@ use yii\db\ActiveRecord;
  * This is the model class for table "user_category".
  *
  * @property int $id
- * @property int $user_id
  * @property int $category_id
+ * @property int $user_id
  *
  * @property Categories $category
  * @property Users $user

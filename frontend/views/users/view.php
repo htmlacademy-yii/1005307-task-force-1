@@ -45,8 +45,8 @@ $portfolio = $user['portfolioPhotos'];
                 <div class="content-view__headline">
                     <h1><?= strip_tags($user['name']) ?></h1>
                     <p>Россия, <?= $user['city']['city'] ?>,
-                        <?= $user['bd'] ? $formatter->getAge($user['bd']) : "" ?>
-                        <?= $user['bd'] ? $formatter->getNounPluralForm($formatter->getAge($user['bd']), 'год', 'года', 'лет') : "" ?>
+                        <?= $user['birthday'] ? $formatter->getAge($user['birthday']) : "" ?>
+                        <?= $user['birthday'] ? $formatter->getNounPluralForm($formatter->getAge($user['birthday']), 'год', 'года', 'лет') : "" ?>
                     </p>
                     <?php if ($user['rating'] > 0): ?>
                         <div class="profile-mini__name five-stars__rate">

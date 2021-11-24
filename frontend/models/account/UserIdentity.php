@@ -8,8 +8,8 @@ use yii\web\IdentityInterface;
 
 class UserIdentity extends ActiveRecord implements IdentityInterface
 {
+    public $email;
     private $_id;
-    private $email;
 
     public static function tableName(): string
     {

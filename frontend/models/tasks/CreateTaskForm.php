@@ -13,19 +13,18 @@ use yii\web\UploadedFile;
 
 class CreateTaskForm extends Model
 {
-    public $name;
-    public $description;
-    public $budget;
-    public $expire;
-    public $client_id;
-    public $category_id;
-    public $status_task;
-    public $file_item;
     public $address;
+    public $budget;
+    public $category_id;
+    public $city_id;
+    public $client_id;
+    public $description;
+    public $expire;
+    public $file_item;
     public $latitude;
     public $longitude;
-    public $city_id;
-    public $task_id;
+    public $name;
+    public $status_task;
 
     public function rules(): array
     {
@@ -59,7 +58,7 @@ class CreateTaskForm extends Model
             ['expire', 'date', 'when' => function($model){
                  return strtotime($model->expire) < time();
             }, 'message' => 'Срок исполнения должен быть больще текущей даты'],
-            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address', 'file_item', 'task_id'], 'safe']
+            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address', 'file_item'], 'safe']
         ];
     }
 

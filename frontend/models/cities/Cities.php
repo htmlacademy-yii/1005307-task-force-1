@@ -27,6 +27,16 @@ class Cities extends ActiveRecord
         return 'cities';
     }
 
+    public function attributeLabels(): array
+    {
+        return [
+            'id' => 'ID',
+            'city' => 'City',
+            'latitude' => 'Latitude',
+            'longitude' => 'Longitude',
+        ];
+    }
+
     public function rules(): array
     {
         return [
@@ -42,16 +52,6 @@ class Cities extends ActiveRecord
         }
 
         return $this->cities;
-    }
-
-    public function attributeLabels(): array
-    {
-        return [
-            'id' => 'ID',
-            'city' => 'City',
-            'latitude' => 'Latitude',
-            'longitude' => 'Longitude',
-        ];
     }
 
     final public static function getAll(): array

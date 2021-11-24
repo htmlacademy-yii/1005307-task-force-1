@@ -11,8 +11,8 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "categories".
  *
  * @property int $id
- * @property string $name
  * @property string $icon
+ * @property string $name
  * @property string|null $profession
  *
  * @property Tasks[] $tasks
@@ -30,9 +30,7 @@ class Categories extends ActiveRecord
         return [
             [['name', 'icon'], 'required'],
             [['name', 'icon', 'profession'], 'string', 'max' => 255],
-            [['name'], 'unique'],
-            [['icon'], 'unique'],
-            [['profession'], 'unique'],
+            [['name', 'icon', 'profession'], 'unique'],
         ];
     }
 

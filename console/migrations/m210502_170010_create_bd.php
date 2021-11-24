@@ -12,40 +12,41 @@ class m210502_170010_create_bd extends Migration
     {
         $this->createTable('categories', [
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
-            'name' => $this->string(255)->notNull()->unique(),
             'icon' => $this->string(255)->notNull()->unique(),
+            'name' => $this->string(255)->notNull()->unique(),
             'profession' => $this->string(255)->unique(),
         ]);
 
         $this->createTable('cities', [
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'city' => $this->string(255)->notNull()->unique(),
-            'value' => $this->string(255)->notNull()->unique(),
             'latitude' => $this->string(255)->notNull(),
-            'longitude' => $this->string(255)->notNull()
+            'longitude' => $this->string(255)->notNull(),
+            'value' => $this->string(255)->notNull()->unique(),
         ]);
 
         $this->createTable('users', [
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
-            'vk_id' => $this->integer(11)->unique(),
-            'email' => $this->string(255)->notNull()->unique(),
-            'name' => $this->string(255)->notNull(),
-            'password' => $this->string(255)->notNull(),
-            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()'))->notNull(),
-            'user_role' => $this->string(255)->notNull(),
-            'bd' => $this->date(),
-            'avatar' => $this->string(255),
             'about' => $this->text(),
+            'avatar' => $this->string(255),
+            'birthday' => $this->date(),
+            'city_id' => $this->integer(11)->notNull(),
+            'created_tasks' => $this->integer(11)->defaultValue(0)->notNull(),
+            'done_tasks' => $this->integer(11)->defaultValue(0)->notNull(),
+            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()'))->notNull(),
+            'email' => $this->string(255)->notNull()->unique(),
+            'failed_tasks' => $this->integer(11)->defaultValue(0)->notNull(),
+            'last_activity_time' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
+            'name' => $this->string(255)->notNull(),
+            'opinions_count' => $this->integer(11)->defaultValue(0)->notNull(),
+            'password' => $this->string(255)->notNull(),
             'phone' => $this->string(255),
+            'rating' => $this->float(3.2),
             'skype' => $this->string(255),
             'telegram' => $this->string(255),
-            'city_id' => $this->integer(11)->notNull(),
-            'failed_tasks' => $this->integer(11)->defaultValue(0)->notNull(),
-            'done_tasks' => $this->integer(11)->defaultValue(0)->notNull(),
-            'created_tasks' => $this->integer(11)->defaultValue(0)->notNull(),
-            'opinions_count' => $this->integer(11)->defaultValue(0)->notNull(),
-            'rating' => $this->float(3.2),
-            'last_activity_time' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
+            'user_role' => $this->string(255)->notNull(),
+            'vk_id' => $this->integer(11)->unique(),
+
         ]);
 
         $this->addForeignKey(
@@ -59,8 +60,8 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('user_category', [
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
+            'category_id' => $this->integer(11)->notNull(),
             'user_id' => $this->integer(11)->notNull(),
-            'category_id' => $this->integer(11)->notNull()
         ]);
 
         $this->addForeignKey(
@@ -83,13 +84,13 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('user_option_set', [
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
-            'user_id' => $this->integer(11)->notNull(),
-            'is_subscribed_messages' => $this->integer(1)->notNull(),
-            'is_subscribed_actions' => $this->integer(1)->notNull(),
-            'is_subscribed_reviews' => $this->integer(1)->notNull(),
+            'is_hidden_account' => $this->integer(1)->notNull(),
             'is_hidden_contacts' => $this->integer(1)->notNull(),
-            'is_hidden_account' => $this->integer(1)->notNull()
-        ]);
+            'is_subscribed_actions' => $this->integer(1)->notNull(),
+            'is_subscribed_messages' => $this->integer(1)->notNull(),
+            'is_subscribed_reviews' => $this->integer(1)->notNull(),
+            'user_id' => $this->integer(11)->notNull(),
+            ]);
 
         $this->addForeignKey(
             'user_opt_id',
@@ -102,22 +103,22 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('tasks', [
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
-            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'category_id' => $this->integer(11),
-            'description' => $this->text()->notNull(),
-            'expire' => $this->date(),
-            'name' => $this->string(255)->notNull(),
             'address' => $this->string(255),
             'budget' => $this->integer(5),
+            'category_id' => $this->integer(11),
+            'city_id' => $this->integer(11),
+            'client_id' => $this->integer(11)->notNull(),
+            'description' => $this->text()->notNull(),
+            'doer_id' => $this->integer(11),
+            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
+            'expire' => $this->date(),
             'latitude' => $this->string(255),
             'longitude' => $this->string(255),
-            'location_comment' => $this->string(255),
-            'city_id' => $this->integer(11),
-            'doer_id' => $this->integer(11),
-            'client_id' => $this->integer(11)->notNull(),
-            'status_task' => $this->string(255)->notNull(),
-            'responses_count' => $this->integer(1)->defaultValue(0)->notNull(),
+            'name' => $this->string(255)->notNull(),
             'online' => $this->integer(11)->notNull(),
+            'responses_count' => $this->integer(1)->defaultValue(0)->notNull(),
+            'status_task' => $this->string(255)->notNull(),
+
         ]);
 
         $this->addForeignKey(
@@ -159,8 +160,8 @@ class m210502_170010_create_bd extends Migration
         $this->createTable('favourites', [
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
+            'favourite_person_id' => $this->integer(11)->notNull(),
             'user_id' => $this->integer(11)->notNull(),
-            'favourite_person_id' => $this->integer(11)->notNull()
         ]);
 
         $this->addForeignKey(
@@ -200,10 +201,10 @@ class m210502_170010_create_bd extends Migration
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'message' => $this->text()->notNull(),
             'published_at' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'writer_id' => $this->integer(11)->notNull(),
             'recipient_id' => $this->integer(11)->notNull(),
             'task_id' => $this->integer(11)->notNull(),
-            'unread' => $this->integer(1)->notNull()
+            'unread' => $this->integer(1)->notNull(),
+            'writer_id' => $this->integer(11)->notNull(),
         ]);
 
         $this->addForeignKey(
@@ -241,12 +242,12 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('notifications', [
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
-            'notification_category_id' => $this->integer(11)->notNull(),
-            'visible' => $this->integer(1)->notNull(),
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
-            'user_id' => $this->integer(11)->notNull(),
+            'notification_category_id' => $this->integer(11)->notNull(),
+            'setting' => $this->string(255)->notNull(),
             'task_id' => $this->integer(11)->notNull(),
-            'setting' => $this->string(255)->notNull()
+            'user_id' => $this->integer(11)->notNull(),
+            'visible' => $this->integer(1)->notNull()
         ]);
 
         $this->addForeignKey(
@@ -278,12 +279,12 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('opinions', [
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
-            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
+            'client_id' => $this->integer(11)->notNull(),
             'completion' => $this->integer(1)->notNull(),
             'description' => $this->text(),
-            'rate' => $this->integer(1),
-            'client_id' => $this->integer(11)->notNull(),
             'doer_id' => $this->integer(11)->notNull(),
+            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
+            'rate' => $this->integer(1),
             'task_id' => $this->integer(11)->notNull()
         ]);
 
@@ -331,12 +332,12 @@ class m210502_170010_create_bd extends Migration
 
         $this->createTable('responses', [
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
-            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'budget' => $this->integer(5)->notNull(),
             'comment' => $this->text()->notNull(),
             'doer_id' => $this->integer(11)->notNull(),
+            'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
+            'is_refused' => $this->integer(1)->notNull(),
             'task_id' => $this->integer(11)->notNull(),
-            'is_refused' => $this->integer(1)->notNull()
         ]);
 
         $this->addForeignKey(

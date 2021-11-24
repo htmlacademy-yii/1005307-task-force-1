@@ -11,12 +11,12 @@ use yii\db\ActiveRecord;
  * This is the model class for table "replies".
  *
  * @property int $id
- * @property string $dt_add
  * @property int $budget
  * @property string $comment
  * @property int $doer_id
- * @property int $task_id
+ * @property string $dt_add
  * @property bool $is_refused
+ * @property int $task_id
  *
  * @property Users $doer
  * @property Tasks $task
@@ -52,10 +52,10 @@ class Responses extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'dt_add' => 'Dt Add',
             'budget' => 'Budget',
             'comment' => 'Comment',
             'doer_id' => 'Doer ID',
+            'dt_add' => 'Dt Add',
             'task_id' => 'Task ID',
         ];
     }

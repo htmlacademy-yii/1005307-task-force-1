@@ -37,6 +37,7 @@ class TaskSearchForm extends Tasks
         $query = Tasks::find();
         $this->getTasks($query);
         $query->limit(4);
+
         return $query->all();
     }
 
@@ -155,7 +156,7 @@ class TaskSearchForm extends Tasks
 
     private function getTasks($query): void
     {
-        $query->andFilterWhere(['status_task' => 'Новое'])
+        $query->andWhere(['status_task' => 'Новое'])
             ->select(
                 'tasks.*,
                 categories.id as cat_id,

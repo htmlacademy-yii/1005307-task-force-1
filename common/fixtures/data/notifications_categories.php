@@ -2,23 +2,23 @@
 
 return [
     [
-        'type' => 'executor',
         'name' => 'Новый отклик к заданию',
+        'type' => 'executor',
     ],
     [
-        'type' => 'message',
         'name' => 'Новое сообщение в чате',
+        'type' => 'message',
     ],
     [
-        'type' => 'executor',
         'name' => 'Отказ от задания исполнителем',
-    ],
-    [
         'type' => 'executor',
-        'name' => 'Выбран исполнитель для',
     ],
     [
-        'type' => 'close',
+        'name' => 'Выбран исполнитель для',
+        'type' => 'executor',
+    ],
+    [
         'name' => 'Завершено задание',
+        'type' => 'close',
     ],
 ];

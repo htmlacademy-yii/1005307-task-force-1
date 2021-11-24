@@ -7,12 +7,12 @@ use yii\base\Model;
 
 class RequestForm extends Model
 {
-    public $doer_id;
     public $client_id;
-    public $task_id;
-    public $description;
     public $completion;
+    public $description;
+    public $doer_id;
     public $rate;
+    public $task_id;
 
     public function rules(): array
     {
@@ -27,11 +27,11 @@ class RequestForm extends Model
     public function attributeLabels(): array
     {
         return [
-            'doer_id' => 'Исполнитель',
             'client_id' => 'Заказчик',
-            'task_id' => 'Задание',
             'description' => 'Комментарий',
-            'rate' => 'Оценка'
+            'doer_id' => 'Исполнитель',
+            'rate' => 'Оценка',
+            'task_id' => 'Задание',
         ];
     }
 }

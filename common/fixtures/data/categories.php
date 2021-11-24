@@ -2,43 +2,43 @@
 
 return [
     [
-        'name' => 'Перевод',
         'icon' => 'translation',
+        'name' => 'Перевод',
         'profession' => 'Переводчик',
     ],
     [
-        'name' => 'Уборка',
         'icon' => 'clean',
+        'name' => 'Уборка',
         'profession' => 'Уборка',
     ],
     [
-        'name' => 'Перевозка',
         'icon' => 'cargo',
+        'name' => 'Перевозка',
         'profession' => 'Курьер',
     ],
     [
-        'name' => 'Компьютерная помощь',
         'icon' => 'neo',
+        'name' => 'Компьютерная помощь',
         'profession' => 'Оператор ПК',
     ],
     [
-        'name' => 'Ремонт квартирный',
         'icon' => 'flat',
+        'name' => 'Ремонт квартирный',
         'profession' => 'Ремонт квартиры',
     ],
     [
-        'name' => 'Ремонт техники',
         'icon' => 'repair',
+        'name' => 'Ремонт техники',
         'profession' => 'Ремонт техники',
     ],
     [
-        'name' => 'Красота',
         'icon' => 'beauty',
+        'name' => 'Красота',
         'profession' => 'Красота',
     ],
     [
-        'name' => 'Фото',
         'icon' => 'photo',
+        'name' => 'Фото',
         'profession' => 'Фотограф',
     ],
 ];

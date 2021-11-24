@@ -25,7 +25,7 @@ use yii\db\ActiveRecord;
  * @property string $dt_add
  * @property string $user_role
  * @property string|null $address
- * @property string|null $bd
+ * @property string|null $birthday
  * @property string|null $avatar
  * @property string|null $about
  * @property string|null $phone

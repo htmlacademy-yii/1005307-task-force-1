@@ -18,30 +18,29 @@ use yii\db\ActiveRecord;
  * This is the model class for table "tasks".
  *
  * @property int $id
- * @property string $dt_add
- * @property int|null $category_id
- * @property int|null $city_id
- * @property int|null $doer_id
- * @property int $client_id
- * @property string $name
- * @property string $description
- * @property string|null $expire
  * @property string|null $address
  * @property int|null $budget
+ * @property int|null $category_id
+ * @property int|null $city_id
+ * @property int $client_id
+ * @property string $description
+ * @property int|null $doer_id
+ * @property string $dt_add
+ * @property string|null $expire
  * @property string|null $latitude
  * @property string|null $longitude
- * @property string|null $location_comment
- * @property string $status_task
- * @property int $responses_count
+ * @property string $name
  * @property int $online
+ * @property int $responses_count
+ * @property string $status_task
  *
+ * @property Categories $category
+ * @property Cities $city
  * @property FileTask[] $fileTasks
  * @property Messages[] $messages
  * @property Notifications[] $notifications
  * @property Opinions[] $opinions
  * @property Responses[] $Responses
- * @property Categories $category
- * @property Cities $city
  * @property Users $client
  * @property Users $doer
  */
@@ -59,7 +58,7 @@ class Tasks extends ActiveRecord
             [['category_id', 'budget', 'city_id', 'doer_id', 'client_id', 'online', 'responses_count'], 'integer'],
             [['description', 'name', 'client_id', 'responses_count', 'online'], 'required'],
             [['description'], 'string'],
-            [['name', 'address', 'latitude', 'longitude', 'location_comment', 'status_task'], 'string', 'max' => 255],
+            [['name', 'address', 'latitude', 'longitude', 'status_task'], 'string', 'max' => 255],
             [['category_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Categories::class,
@@ -83,23 +82,27 @@ class Tasks extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'dt_add' => 'Dt Add',
-            'category_id' => 'Category ID',
-            'description' => 'Description',
-            'expire' => 'Expire',
-            'name' => 'Name',
             'address' => 'Address',
             'budget' => 'Budget',
+            'category_id' => 'Category ID',
+            'city_id' => 'City ID',
+            'client_id' => 'Client ID',
+            'description' => 'Description',
+            'doer_id' => 'Doer ID',
+            'dt_add' => 'Dt Add',
+            'expire' => 'Expire',
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
-            'location_comment' => 'Location Comment',
-            'city_id' => 'City ID',
-            'doer_id' => 'Doer ID',
-            'client_id' => 'Client ID',
-            'status_task' => 'Status Task',
+            'name' => 'Name',
             'responses_count' => 'Responses Count',
-            'online' => 'Online'
+            'status_task' => 'Status Task',
+            'online' => 'Online',
         ];
+    }
+
+    public function getCategory(): ActiveQuery
+    {
+        return $this->hasOne(Categories::class, ['id' => 'category_id']);
     }
 
     public function getFileTasks(): ActiveQuery
@@ -110,11 +113,6 @@ class Tasks extends ActiveRecord
     public function getResponses(): ActiveQuery
     {
         return $this->hasMany(Responses::class, ['task_id' => 'id']);
-    }
-
-    public function getCategory(): ActiveQuery
-    {
-        return $this->hasOne(Categories::class, ['id' => 'category_id']);
     }
 
     public function getCity(): ActiveQuery
@@ -142,18 +140,6 @@ class Tasks extends ActiveRecord
         return self::findOne($id);
     }
 
-    public function nextAction($currentStatus, $role)
-    {
-        switch ($currentStatus) {
-            case 'Новое':
-                return $role == 'doer' ? ['title' => 'response', 'name' => 'Откликнуться', 'data' => 'response'] : '';
-            case 'На исполнении':
-                return $role == 'doer' ? ['title' => 'refusal', 'name' => 'Отказаться', 'data' => 'refuse'] : ['title' => 'request', 'name' => 'Завершить', 'data' => 'complete'];
-        }
-
-        return [];
-    }
-
     public function countUsersTasks($status, $user): string
     {
         switch ($user->user_role) {
@@ -167,5 +153,17 @@ class Tasks extends ActiveRecord
                     ->andWhere(['status_task' => $status])->count();
         }
         return '';
+    }
+
+    public function nextAction($currentStatus, $role)
+    {
+        switch ($currentStatus) {
+            case 'Новое':
+                return $role == 'doer' ? ['title' => 'response', 'name' => 'Откликнуться', 'data' => 'response'] : '';
+            case 'На исполнении':
+                return $role == 'doer' ? ['title' => 'refusal', 'name' => 'Отказаться', 'data' => 'refuse'] : ['title' => 'request', 'name' => 'Завершить', 'data' => 'complete'];
+        }
+
+        return [];
     }
 }
