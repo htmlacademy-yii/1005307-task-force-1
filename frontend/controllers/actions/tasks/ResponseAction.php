@@ -32,19 +32,24 @@ class ResponseAction extends Action
                 $response->save(false);
 
                 $task = Tasks::findOne($response->task_id);
-                $task->responses_count = Responses::find()
-                    ->where(['task_id' => $response->task_id])->count();
-                $task->save();
+                if (isset($task->responses_count)) {
+                    $task->responses_count = Responses::find()
+                        ->where(['task_id' => $response->task_id])->count();
+                    $task->save();
+                }
 
-                $notification = new Notifications([
-                    'notification_category_id' => 1,
-                    'task_id' => $task->id,
-                    'visible' => 1,
-                    'user_id' => $task->client_id,
-                    'setting' => 'is_subscribed_actions'
-                ]);
-                $notification->save(false);
-                $notification->addNotification();
+                if (isset($task->client_id)) {
+                    $notification = new Notifications([
+                        'notification_category_id' => 1,
+                        'task_id' => $task->id,
+                        'visible' => 1,
+                        'user_id' => $task->client_id,
+                        'setting' => 'is_subscribed_actions'
+                    ]);
+
+                    $notification->save(false);
+                    $notification->addNotification();
+                }
             }
         }
 

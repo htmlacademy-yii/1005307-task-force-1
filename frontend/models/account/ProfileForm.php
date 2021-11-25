@@ -61,7 +61,7 @@ class ProfileForm extends Model
             ['skype', 'match',
                 'pattern' => "/^[a-zA-Z0-9]{3,}$/",
                 'message' => 'Значение должно состоять из латинских символов и цифр, от 3-х знаков в длину'],
-            [['about', 'avatar', 'birthday', 'city_id',  'email', 'optionSet', 'password', 'password_repeat', 'phone', 'photo', 'skype', 'specializations', 'telegram'], 'safe'],
+            [['about', 'avatar', 'birthday', 'city_id', 'email', 'optionSet', 'password', 'password_repeat', 'phone', 'photo', 'skype', 'specializations', 'telegram'], 'safe'],
         ];
     }
 
@@ -79,6 +79,7 @@ class ProfileForm extends Model
             'photo' => 'Выбрать фотографии',
         ];
     }
+
     public function getExistingSpecializations(): array
     {
         return Categories::getCategories();
@@ -89,8 +90,10 @@ class ProfileForm extends Model
         $this->attributes = $user->attributes;
         $password = $this->password;
 
-        foreach ($user->userCategories as $specialization) {
-            $this->specializations[] = $specialization->id;
+        if (isset($user->userCategories)) {
+            foreach ($user->userCategories as $specialization) {
+                $this->specializations[] = $specialization->id;
+            }
         }
 
         $optionSet = $user->optionSet;
@@ -187,14 +190,18 @@ class ProfileForm extends Model
         $optionSet = $user->optionSet;
 
         foreach ($optionSet->attributes as $name => $value) {
-            if ($name !== 'id') {
-                $optionSet->$name = $name !== 'user_id' ? 0 : $user->id;
+            if (isset($optionSet->$name)) {
+                if ($name !== 'id') {
+                    $optionSet->$name = $name !== 'user_id' ? 0 : $user->id;
+                }
             }
         }
 
         foreach ($this->optionSet ?? [] as $name) {
-            if ($name !== 'id') {
-                $optionSet->$name = 1;
+            if (isset($optionSet->$name)) {
+                if ($name !== 'id') {
+                    $optionSet->$name = 1;
+                }
             }
         }
 

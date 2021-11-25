@@ -13,8 +13,10 @@ class CancelAction extends Action
     public function run(int $taskId): Response
     {
         $task = Tasks::findOne($taskId);
-        $task->status_task = 'Отмененное';
-        $task->save(false);
+        if(isset($task->status_task)) {
+            $task->status_task = 'Отмененное';
+            $task->save(false);
+        }
 
         return $this->controller->redirect([
             'tasks/view',

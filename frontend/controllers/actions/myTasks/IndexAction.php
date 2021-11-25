@@ -13,12 +13,15 @@ class IndexAction extends Action
     public function run($status_task): string
     {
         $searchForm = new TaskSearchForm;
-        $dataProvider = $searchForm->searchByStatus(
-            Yii::$app->request->queryParams,
-            $status_task,
-            $this->controller->user->id,
-            $this->controller->user->user_role
-        );
+
+        if(isset($this->controller->user->user_role)) {
+            $dataProvider = $searchForm->searchByStatus(
+                Yii::$app->request->queryParams,
+                $status_task,
+                $this->controller->user->id,
+                $this->controller->user->user_role
+            );
+        }
 
         return $this->controller->render('index', [
             'dataProvider' => $dataProvider,

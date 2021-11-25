@@ -31,7 +31,10 @@ class LoginAction extends Action
                 $users = Users::findOne($user->id);
 
                 $session = Yii::$app->session;
-                $session->set('city', $users['city_id']);
+
+                if(isset($user->city_id)) {
+                    $session->set('city', $users['city_id']);
+                }
 
                 return $this->controller->redirect(['tasks/']);
             }

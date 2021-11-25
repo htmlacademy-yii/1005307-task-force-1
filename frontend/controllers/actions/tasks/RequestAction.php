@@ -11,6 +11,7 @@ use frontend\models\tasks\Tasks;
 use frontend\models\users\Users;
 use Yii;
 use yii\base\Action;
+use yii\base\BaseObject;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -36,19 +37,24 @@ class RequestAction extends Action
                 $user_client = $this->controller->user;
                 $opinions = Opinions::find()->where(['doer_id' => $user_doer->id]);
                 $task = Tasks::findOne($opinion->task_id);
-                $opinion->completion == 1 ?
-                    $task->status_task = 'Выполнено' :
-                    $task->status_task = 'Провалено';
-                $task->save();
 
-                $user_doer->rating = $opinions->select('AVG(rate) as rating');
-                $tasks = new Tasks();
-                $user_doer->done_tasks = $tasks->countUsersTasks($task->status_task, $user_doer);
-                $user_doer->failed_tasks = $tasks->countUsersTasks($task->status_task, $user_doer);
-                $user_client->created_tasks = $tasks->countUsersTasks($task->status_task, $user_client);
-                $user_doer->opinions_count = $opinions->count();
-                $user_client->save(false);
-                $user_doer->save(false);
+                if (isset($opinion->completion) && isset($task->status_task)) {
+                    $opinion->completion == 1 ?
+                        $task->status_task = 'Выполнено' :
+                        $task->status_task = 'Провалено';
+                    $task->save();
+                }
+
+                if (isset($user_doer->rating) && isset($user_doer->done_tasks) && isset($user_doer->failed_tasks) && isset($user_doer->created_tasks) && isset($user_doer->opinions_count)) {
+                    $user_doer->rating = $opinions->select('AVG(rate) as rating');
+                    $tasks = new Tasks();
+                    $user_doer->done_tasks = $tasks->countUsersTasks($task->status_task, $user_doer);
+                    $user_doer->failed_tasks = $tasks->countUsersTasks($task->status_task, $user_doer);
+                    $user_client->created_tasks = $tasks->countUsersTasks($task->status_task, $user_client);
+                    $user_doer->opinions_count = $opinions->count();
+                    $user_client->save(false);
+                    $user_doer->save(false);
+                }
 
                 $notification = new Notifications([
                     'notification_category_id' => 5,

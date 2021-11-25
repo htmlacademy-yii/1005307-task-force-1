@@ -97,7 +97,6 @@ class TaskSearchForm extends Tasks
         $query = (new Query());
         $this->getTasksByCity($query);
         $this->getTasks($query);
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -110,7 +109,7 @@ class TaskSearchForm extends Tasks
         return $dataProvider;
     }
 
-    public function searchByStatus($params, $status_task, $user_id, $user_role): ActiveDataProvider
+    public function searchByStatus($params, $user_id, $user_role, $status_task): ActiveDataProvider
     {
         $query = Tasks::find();
 
