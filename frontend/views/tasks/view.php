@@ -85,7 +85,6 @@ if ($task->status_task == 'Новое' && $user->id == $task->client->id) {
                             <div class="content-view__address">
                                 <span class="address__town"><?= $task->city->city ?></span><br>
                                 <span><?= strip_tags($task->address) ?></span>
-                                <p><?= strip_tags($task->location_comment) ?></p>
                             </div>
                         </div>
                     </div>

@@ -18,27 +18,28 @@ use yii\db\ActiveRecord;
  * This is the model class for table "users".
  *
  * @property int $id
- * @property string|null $vk_id
- * @property string $email
- * @property string $name
- * @property string $password
- * @property string $dt_add
- * @property string $user_role
- * @property string|null $address
- * @property string|null $birthday
- * @property string|null $avatar
  * @property string|null $about
+ * @property string|null $address
+ * @property string|null $avatar
+ * @property string|null $birthday
+ * @property int $city_id
+ * @property int $created_tasks
+ * @property int $done_tasks
+ * @property string $dt_add
+ * @property string $email
+ * @property int $failed_tasks
+ * @property string $last_activity_time
+ * @property string $name
+ * @property int $opinions_count
+ * @property string $password
  * @property string|null $phone
+ * @property float|null $rating
  * @property string|null $skype
  * @property string|null $telegram
- * @property int $city_id
- * @property int $failed_tasks
- * @property int $done_tasks
- * @property int $created_tasks
- * @property int $opinions_count
- * @property string $last_activity_time
- * @property float|null $rating
+ * @property string $user_role
+ * @property string|null $vk_id
  *
+ * @property Cities $city
  * @property Favourites[] $favourites
  * @property Favourites[] $favourites0
  * @property Messages[] $messages
@@ -50,7 +51,6 @@ use yii\db\ActiveRecord;
  * @property Tasks[] $tasks
  * @property Tasks[] $tasks0
  * @property UserCategory[] $userCategories
- * @property Cities $city
  */
 class Users extends ActiveRecord
 {
@@ -84,26 +84,31 @@ class Users extends ActiveRecord
     {
         return [
             'id' => 'ID',
+            'about' => 'About',
+            'address' => 'Address',
+            'avatar' => 'Avatar',
+            'bd' => 'Bd',
+            'city_id' => 'City ID',
+            'created_tasks' => 'Created Tasks',
+            'done_tasks' => 'Done Tasks',
+            'dt_add' => 'Dt Add',
             'email' => 'Email',
+            'failed_tasks' => 'Failed Tasks',
+            'last_activity_time' => 'Last Activity Time',
             'name' => 'Name',
             'password' => 'Password',
-            'dt_add' => 'Dt Add',
-            'user_role' => 'User Role',
-            'address' => 'Address',
-            'bd' => 'Bd',
-            'avatar' => 'Avatar',
-            'rating' => 'Rating',
-            'about' => 'About',
+            'opinions_count' => 'Opinions Count',
             'phone' => 'Phone',
+            'rating' => 'Rating',
             'skype' => 'Skype',
             'telegram' => 'Telegram',
-            'city_id' => 'City ID',
-            'last_activity_time' => 'Last Activity Time',
-            'failed_tasks' => 'Failed Tasks',
-            'done_tasks' => 'Done Tasks',
-            'created_tasks' => 'Created Tasks',
-            'opinions_count' => 'Opinions Count'
+            'user_role' => 'User Role',
         ];
+    }
+
+    public function getCity(): ActiveQuery
+    {
+        return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
     public function getFavourites(): ActiveQuery
@@ -116,6 +121,11 @@ class Users extends ActiveRecord
         return $this->hasMany(Opinions::class, ['doer_id' => 'id']);
     }
 
+    public function getOptionSet(): ActiveQuery
+    {
+        return $this->hasOne(UserOptionSettings::class, ['user_id' => 'id']);
+    }
+
     public function getPortfolioPhotos(): ActiveQuery
     {
         return $this->hasMany(PortfolioPhoto::class, ['user_id' => 'id']);
@@ -124,16 +134,6 @@ class Users extends ActiveRecord
     public function getUserCategories(): ActiveQuery
     {
         return $this->hasMany(Categories::class, ['id' => 'category_id'])->viaTable('user_category', ['user_id' => 'id']);
-    }
-
-    public function getCity(): ActiveQuery
-    {
-        return $this->hasOne(Cities::class, ['id' => 'city_id']);
-    }
-
-    public function getOptionSet(): ActiveQuery
-    {
-        return $this->hasOne(UserOptionSettings::class, ['user_id' => 'id']);
     }
 
     public static function find(): UsersQuery

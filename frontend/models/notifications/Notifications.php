@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property string $dt_add
  * @property string $notification_category_id
  * @property int $setting
+ * @property int $subject
  * @property int $task_id
  * @property int $user_id
  * @property int $visible
@@ -81,11 +82,11 @@ class Notifications extends ActiveRecord
         $user_set = UserOptionSettings::findOne($this->user_id);
 
         if ($user_set[$this->setting] == 1) {
-            $subject = $this['notificationsCategory']['name'];
+            $this->subject = $this['notificationsCategory']['name'];
             Yii::$app->mailer->compose()
                 ->setTo($user->email)
                 ->setFrom('keks@phpdemo.ru')
-                ->setSubject($subject)
+                ->setSubject($this->subject)
                 ->setHtmlBody($user->name . 'У вас новое уведомление:' . $subject . '<a href="#">' . $task->name . '</a>')
                 ->send();
         }

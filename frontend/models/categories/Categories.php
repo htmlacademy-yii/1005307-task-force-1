@@ -44,7 +44,7 @@ class Categories extends ActiveRecord
         ];
     }
 
-    public static function getCategoriesFilters(): array
+    public static function getCategories(): array
     {
         return ArrayHelper::map(Categories::getAll(), 'id', 'name');
     }

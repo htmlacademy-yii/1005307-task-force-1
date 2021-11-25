@@ -24,6 +24,8 @@ class ProfileForm extends Model
     public $specializations;
     public $telegram;
     public $user;
+    private $userCategory;
+    private $specializationToBeDeleted;
 
     public function rules(): array
     {
@@ -59,7 +61,7 @@ class ProfileForm extends Model
             ['skype', 'match',
                 'pattern' => "/^[a-zA-Z0-9]{3,}$/",
                 'message' => 'Значение должно состоять из латинских символов и цифр, от 3-х знаков в длину'],
-            [['avatar', 'email', 'password', 'password_repeat', 'about', 'city_id', 'birthday', 'phone', 'skype', 'telegram', 'specializations', 'optionSet', 'photo'], 'safe'],
+            [['about', 'avatar', 'birthday', 'city_id',  'email', 'optionSet', 'password', 'password_repeat', 'phone', 'photo', 'skype', 'specializations', 'telegram'], 'safe'],
         ];
     }
 
@@ -77,10 +79,9 @@ class ProfileForm extends Model
             'photo' => 'Выбрать фотографии',
         ];
     }
-
     public function getExistingSpecializations(): array
     {
-        return Categories::getCategoriesFilters();
+        return Categories::getCategories();
     }
 
     public function loadCurrentUserData(Users $user): void
@@ -135,17 +136,17 @@ class ProfileForm extends Model
     {
         foreach ($this->specializations ?? [] as $id) {
             if (!UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id])) {
-                $userCategory = new UserCategory(['category_id' => $id, 'user_id' => $user->id]);
-                $userCategory->save();
+                $this->userCategory = new UserCategory(['category_id' => $id, 'user_id' => $user->id]);
+                $this->userCategory->save();
             }
         }
 
         foreach ($this->getExistingSpecializations() as $id => $name) {
             if (!in_array($id, $this->specializations ?? [])) {
-                $specializationToBeDeleted = UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id]);
+                $this->specializationToBeDeleted = UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id]);
 
-                if ($specializationToBeDeleted !== null) {
-                    $specializationToBeDeleted->delete();
+                if ($this->specializationToBeDeleted !== null) {
+                    $this->specializationToBeDeleted->delete();
                 }
             }
         }
@@ -171,6 +172,16 @@ class ProfileForm extends Model
         $user->save(true, $attributesToBeSaved);
     }
 
+    private function checkRole(Users $user): void
+    {
+        if ($user->userCategories === []) {
+            $user->user_role = 'client';
+        } else {
+            $user->user_role = 'doer';
+        }
+        $user->save(false, ['user_role']);
+    }
+
     private function saveOptionSet(Users $user): void
     {
         $optionSet = $user->optionSet;
@@ -188,15 +199,5 @@ class ProfileForm extends Model
         }
 
         $optionSet->save(false);
-    }
-
-    private function checkRole(Users $user): void
-    {
-        if ($user->userCategories === []) {
-            $user->user_role = 'client';
-        } else {
-            $user->user_role = 'doer';
-        }
-        $user->save(false, ['user_role']);
     }
 }

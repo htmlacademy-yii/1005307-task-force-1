@@ -6,7 +6,7 @@ use frontend\models\categories\Categories;
 use yii\widgets\ActiveForm;
 
 $categories = new Categories();
-$categories = $categories->getCategoriesFilters();
+$categories = $categories->getCategories();
 
 ?>
 

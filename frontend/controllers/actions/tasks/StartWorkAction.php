@@ -20,10 +20,10 @@ class StartWorkAction extends Action
 
         $notification = new Notifications([
             'notification_category_id' => 4,
+            'setting' => 'is_subscribed_actions',
             'task_id' => $task->id,
-            'visible' => 1,
             'user_id' => $task->doer_id,
-            'setting' => 'is_subscribed_actions'
+            'visible' => 1
         ]);
         $notification->save(false);
         $notification->addNotification();

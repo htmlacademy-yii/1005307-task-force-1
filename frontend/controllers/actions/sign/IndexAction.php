@@ -32,12 +32,12 @@ class IndexAction extends Action
             $user->save(false);
 
             $userOptionSettings = new UserOptionSettings([
-                'user_id' => $user->id,
-                'is_subscribed_messages' => 1,
-                'is_subscribed_actions' => 1,
-                'is_subscribed_reviews' => 1,
                 'is_hidden_account' => 0,
-                'is_hidden_contacts' => 0
+                'is_hidden_contacts' => 0,
+                'is_subscribed_actions' => 1,
+                'is_subscribed_messages' => 1,
+                'is_subscribed_reviews' => 1,
+                'user_id' => $user->id,
             ]);
 
             $userOptionSettings->save();

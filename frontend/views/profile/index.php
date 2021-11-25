@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $cities = new Cities();
 $cities = $cities->getCities();
-$specializations = Categories::getCategoriesFilters();
+$specializations = Categories::getCategories();
 
 ?>
 <main class="page-main">

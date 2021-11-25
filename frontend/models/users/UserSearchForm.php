@@ -2,28 +2,22 @@
 
 namespace frontend\models\users;
 
-use frontend\models\categories\Categories;
 use yii\data\ActiveDataProvider;
 
 class UserSearchForm extends Users
 {
-    public $searchedCategories = [];
-    public $searchName;
-    public $isFreeNow;
-    public $isOnlineNow;
     public $hasOpinions;
     public $isFavourite;
+    public $isFreeNow;
+    public $isOnlineNow;
+    public $searchedCategories = [];
+    public $searchName;
 
     public function rules(): array
     {
         return [
-            [['searchedCategories', 'searchName', 'isFreeNow', 'isOnlineNow', 'hasOpinions', 'isFavourite'], 'safe'],
+            [['hasOpinions', 'isFavourite', 'isFreeNow', 'isOnlineNow', 'searchedCategories', 'searchName'], 'safe'],
         ];
-    }
-
-    public function getCategoriesFilter(): array
-    {
-        return Categories::getCategoriesFilters();
     }
 
     public function search($params): ActiveDataProvider
@@ -73,6 +67,11 @@ class UserSearchForm extends Users
         }
 
         if ($this->searchName) {
+            $this->hasOpinions = null;
+            $this->isFavourite = null;
+            $this->isFreeNow = null;
+            $this->isOnlineNow = null;
+            $this->searchedCategories = [];
             $query->nameSearch($this->searchName);
         }
 

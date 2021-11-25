@@ -152,6 +152,7 @@ class Tasks extends ActiveRecord
                     ->where(['client_id' => $user->id])
                     ->andWhere(['status_task' => $status])->count();
         }
+
         return '';
     }
 

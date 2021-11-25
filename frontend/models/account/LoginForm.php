@@ -17,7 +17,7 @@ class LoginForm extends Model
         return [
             [['email', 'password'], 'required',
                 'message' => "Поле «{attribute}» не может быть пустым"],
-            [['password'], 'validatePass'],
+            [['password'], 'validatePassword'],
             [['err', 'email', 'password'], function () {
                 if (!empty($this->errors)) {
                     if ($this->email) {
@@ -37,11 +37,11 @@ class LoginForm extends Model
         ];
     }
 
-    public function validatePass($attribute): void
+    public function validatePassword($attribute): void
     {
-        if (!$this->hasErrors()) {
-            $user = $this->getUser();
+        $user = $this->getUser();
 
+        if (!$this->hasErrors()) {
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Неправильный email или пароль');
             }

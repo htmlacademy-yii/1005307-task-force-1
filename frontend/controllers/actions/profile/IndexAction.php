@@ -14,7 +14,6 @@ use yii\widgets\ActiveForm;
 
 class IndexAction extends Action
 {
-
     public function run()
     {
         $profileForm = new ProfileForm();
@@ -42,7 +41,7 @@ class IndexAction extends Action
                     PortfolioPhoto::deleteAll(['user_id' => $this->controller->user->id]);
                     foreach ($profileForm->photo as $file) {
                         $portfolioPhoto = new PortfolioPhoto([
-                            'photo' => '/uploads/' .  $file,
+                            'photo' => '/uploads/' . $file,
                             'user_id' => $this->controller->user->id]);
                         $portfolioPhoto->save(false);
                     }

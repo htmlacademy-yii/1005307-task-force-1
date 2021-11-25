@@ -6,7 +6,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 
-$categoriesFilter = Categories::getCategoriesFilters();
+$categoriesFilter = Categories::getCategories();
 $periodFilter = $searchForm->getPeriodFilter();
 
 ?>

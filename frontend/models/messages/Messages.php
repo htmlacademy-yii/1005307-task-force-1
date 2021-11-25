@@ -87,15 +87,15 @@ class Messages extends ActiveRecord
         return $this->hasOne(Users::class, ['id' => 'writer_id']);
     }
 
+    public static function find(): MessagesQuery
+    {
+        return new MessagesQuery(get_called_class());
+    }
+
     public static function getUserMessages($task_id, $user_id): array
     {
         return self::find()->where(['task_id' => $task_id])
             ->andWhere(['recipient_id' => $user_id])
             ->andWhere(['unread' => 1])->asArray()->all();
-    }
-
-    public static function find(): MessagesQuery
-    {
-        return new MessagesQuery(get_called_class());
     }
 }

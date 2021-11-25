@@ -8,12 +8,12 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "users_optional_settings".
  *
- * @property int $user_id
  * @property int $is_subscribed_actions
  * @property int $is_subscribed_messages
  * @property int $is_subscribed_reviews
  * @property int $is_hidden_contacts
  * @property int $is_hidden_account
+ * @property int $user_id
  *
  * @property Users $users
  */
@@ -27,8 +27,8 @@ class UserOptionSettings extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['user_id', 'is_hidden_contacts', 'is_hidden_account', 'is_subscribed_messages', 'is_subscribed_actions', 'is_subscribed_reviews'], 'required'],
-            [['user_id', 'is_hidden_contacts', 'is_hidden_account', 'is_subscribed_messages', 'is_subscribed_actions', 'is_subscribed_reviews'], 'integer'],
+            [['user_id', 'is_hidden_contacts', 'is_hidden_account', 'is_subscribed_actions', 'is_subscribed_messages', 'is_subscribed_reviews'], 'required'],
+            [['user_id', 'is_hidden_contacts', 'is_hidden_account', 'is_subscribed_actions', 'is_subscribed_messages', 'is_subscribed_reviews'], 'integer'],
             [['user_id'], 'unique'],
             [['user_id'], 'exist',
                 'skipOnError' => true,

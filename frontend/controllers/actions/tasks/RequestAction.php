@@ -7,7 +7,6 @@ namespace frontend\controllers\actions\tasks;
 use frontend\models\notifications\Notifications;
 use frontend\models\opinions\Opinions;
 use frontend\models\opinions\RequestForm;
-use frontend\models\tasks\TaskActions;
 use frontend\models\tasks\Tasks;
 use frontend\models\users\Users;
 use Yii;
@@ -49,14 +48,14 @@ class RequestAction extends Action
                 $user_client->created_tasks = $tasks->countUsersTasks($task->status_task, $user_client);
                 $user_doer->opinions_count = $opinions->count();
                 $user_client->save(false);
-                $user_doer->save();
+                $user_doer->save(false);
 
                 $notification = new Notifications([
                     'notification_category_id' => 5,
+                    'setting' => 'is_subscribed_reviews',
                     'task_id' => $task->id,
-                    'visible' => 1,
                     'user_id' => $user_doer->id,
-                    'setting' => 'is_subscribed_reviews'
+                    'visible' => 1,
                 ]);
                 $notification->save(false);
                 $notification->addNotification();

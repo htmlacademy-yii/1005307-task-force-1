@@ -30,6 +30,7 @@ class ResponseAction extends Action
             if ($responseForm->validate()) {
                 $response = new Responses(['attributes' => $responseForm->attributes]);
                 $response->save(false);
+
                 $task = Tasks::findOne($response->task_id);
                 $task->responses_count = Responses::find()
                     ->where(['task_id' => $response->task_id])->count();

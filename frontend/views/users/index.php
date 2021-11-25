@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 
 $additionalFilter = $searchForm->attributeLabels();
-$categoriesFilter = Categories::getCategoriesFilters();
+$categoriesFilter = Categories::getCategories();
 ?>
 
 <div class="main-container page-container">

@@ -25,6 +25,7 @@ class CreateTaskForm extends Model
     public $longitude;
     public $name;
     public $status_task;
+    private $coordinates;
 
     public function rules(): array
     {
@@ -55,8 +56,8 @@ class CreateTaskForm extends Model
                 'targetAttribute' => ['category_id' => 'id'],
                 'message' => "Выбрана несуществующая категория"
             ],
-            ['expire', 'date', 'when' => function($model){
-                 return strtotime($model->expire) < time();
+            ['expire', 'date', 'when' => function ($model) {
+                return strtotime($model->expire) < time();
             }, 'message' => 'Срок исполнения должен быть больще текущей даты'],
             [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address', 'file_item'], 'safe']
         ];
@@ -65,23 +66,23 @@ class CreateTaskForm extends Model
     public function attributeLabels(): array
     {
         return [
-            'client_id' => 'Заказчик',
-            'name' => 'Мне нужно',
-            'description' => 'Подробности задания',
-            'budget' => 'Бюджет',
-            'expire' => 'Срок исполнения',
-            'category_id' => 'Категория',
             'address' => 'Локация',
+            'budget' => 'Бюджет',
+            'category_id' => 'Категория',
+            'client_id' => 'Заказчик',
+            'description' => 'Подробности задания',
+            'expire' => 'Срок исполнения',
+            'name' => 'Мне нужно',
         ];
     }
 
     public function getAddress(): void
     {
+        $session = Yii::$app->session;
         if ($this->address ?? null) {
-            $coordinates = $this->getCoordinates($this->address);
-            $this->longitude = $coordinates[0] ?? null;
-            $this->latitude = $coordinates[1] ?? null;
-            $session = Yii::$app->session;
+            $this->coordinates = $this->getCoordinates($this->address);
+            $this->longitude = $this->coordinates[0] ?? null;
+            $this->latitude = $this->coordinates[1] ?? null;
             $this->city_id = $session->get('city');
         }
     }
@@ -135,13 +136,13 @@ class CreateTaskForm extends Model
 
     private function getCoordinates($address): array
     {
-        $coordinates = null;
+        $this->coordinates = null;
         $responseData = $this->getGeoData($address);
 
         if ($responseData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'] ?? null) {
-            $coordinates = explode(' ', $responseData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']);
+            $this->coordinates = explode(' ', $responseData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']);
         }
 
-        return $coordinates;
+        return $this->coordinates;
     }
 }

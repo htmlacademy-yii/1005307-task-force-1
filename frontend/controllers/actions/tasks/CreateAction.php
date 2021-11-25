@@ -39,7 +39,7 @@ class CreateAction extends Action
 
                 $createTaskForm->getAddress();
                 $task = new Tasks(['attributes' => $createTaskForm->attributes]);
-                $task->save();
+                $task->save(false);
 
                 if ($createTaskForm->upload()) {
                     foreach ($createTaskForm->file_item as $file) {

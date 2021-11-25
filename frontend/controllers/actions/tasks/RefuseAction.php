@@ -7,10 +7,9 @@ namespace frontend\controllers\actions\tasks;
 use frontend\models\notifications\Notifications;
 use frontend\models\tasks\RefuseForm;
 use frontend\models\tasks\Tasks;
-use frontend\models\users\Users;
 use Yii;
-use yii\web\Response;
 use yii\base\Action;
+use yii\web\Response;
 
 class RefuseAction extends Action
 {
@@ -29,10 +28,10 @@ class RefuseAction extends Action
 
             $notification = new Notifications([
                 'notification_category_id' => 3,
+                'setting' => 'is_subscribed_actions',
                 'task_id' => $task->id,
-                'visible' => 1,
                 'user_id' => $task->client_id,
-                'setting' => 'is_subscribed_actions'
+                'visible' => 1
             ]);
             $notification->save(false);
             $notification->addNotification();

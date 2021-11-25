@@ -8,16 +8,16 @@ class TasksController extends SecuredController
     public function actions(): array
     {
         return [
-            'index' => \frontend\controllers\actions\tasks\IndexAction::class,
-            'view' => \frontend\controllers\actions\tasks\ViewAction::class,
-            'refuse' => \frontend\controllers\actions\tasks\RefuseAction::class,
-            'create' => \frontend\controllers\actions\tasks\CreateAction::class,
-            'response' => \frontend\controllers\actions\tasks\ResponseAction::class,
-            'refuse-response' => \frontend\controllers\actions\tasks\RefuseResponseAction::class,
-            'start-work' => \frontend\controllers\actions\tasks\StartWorkAction::class,
             'cancel' => \frontend\controllers\actions\tasks\CancelAction::class,
-            'request' => \frontend\controllers\actions\tasks\RequestAction::class,
+            'create' => \frontend\controllers\actions\tasks\CreateAction::class,
             'filter' => \frontend\controllers\actions\tasks\FilterCategoriesAction::class,
+            'index' => \frontend\controllers\actions\tasks\IndexAction::class,
+            'refuse' => \frontend\controllers\actions\tasks\RefuseAction::class,
+            'refuse-response' => \frontend\controllers\actions\tasks\RefuseResponseAction::class,
+            'request' => \frontend\controllers\actions\tasks\RequestAction::class,
+            'response' => \frontend\controllers\actions\tasks\ResponseAction::class,
+            'start-work' => \frontend\controllers\actions\tasks\StartWorkAction::class,
+            'view' => \frontend\controllers\actions\tasks\ViewAction::class,
         ];
     }
 }
