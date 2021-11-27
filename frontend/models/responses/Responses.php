@@ -60,8 +60,18 @@ class Responses extends ActiveRecord
         ];
     }
 
+    public static function find(): ResponsesQuery
+    {
+        return new ResponsesQuery(get_called_class());
+    }
+
     public function getDoer(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
+    }
+
+    public function getUserResponse($id, $task_id): array
+    {
+        return self::find()->where(['doer_id' => $id])->andWhere(['task_id' => $task_id])->all();
     }
 }

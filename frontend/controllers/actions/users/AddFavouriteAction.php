@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\users;
 
 use frontend\models\users\Favourites;
-use frontend\models\users\Users;
-use yii\web\NotFoundHttpException;
 use yii\base\Action;
 
 class AddFavouriteAction extends Action
@@ -28,8 +26,8 @@ class AddFavouriteAction extends Action
                 ->where(['user_id' => $this->controller->user->id])
                 ->andWhere(['favourite_person_id' => $id])
                 ->one();
-                $this->favourite->delete();
-          }
+            $this->favourite->delete();
+        }
 
         return $this->controller->redirect([
             'users/view',

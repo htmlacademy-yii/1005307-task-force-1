@@ -15,7 +15,6 @@ use yii\db\ActiveRecord;
  * @property string $dt_add
  * @property string $notification_category_id
  * @property int $setting
- * @property int $subject
  * @property int $task_id
  * @property int $user_id
  * @property int $visible
@@ -26,6 +25,8 @@ use yii\db\ActiveRecord;
  */
 class Notifications extends ActiveRecord
 {
+    public $subject;
+
     public static function tableName(): string
     {
         return 'notifications';
@@ -34,8 +35,8 @@ class Notifications extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['visible', 'notification_category_id', 'user_id', 'task_id', 'setting'], 'required'],
-            [['visible', 'notification_category_id', 'user_id', 'task_id', 'setting'], 'integer'],
+            [['notification_category_id', 'setting', 'task_id', 'user_id', 'visible'], 'required'],
+            [['notification_category_id', 'setting', 'task_id', 'user_id', 'visible'], 'integer'],
             [['dt_add'], 'safe'],
             [['task_id'], 'exist',
                 'skipOnError' => true,

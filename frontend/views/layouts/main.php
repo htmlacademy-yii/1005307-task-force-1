@@ -76,7 +76,7 @@ if ($users) {
     <header class="page-header">
         <div class="main-container page-header__container">
             <div class="page-header__logo">
-                <a href="<?= Url::to(['tasks/']) ?>">
+                <a href="<?= Url::to(['landing/']) ?>">
                     <svg class="page-header__logo-image" id="Layer_2" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 1634 646.35">
                         <title>taskforce_logo2-01</title>
@@ -129,24 +129,24 @@ if ($users) {
                     </svg>
                 </a>
             </div>
-            <div class="header__nav">
-                <?=
-                Menu::widget([
-                    'items' => [
-                        ['label' => 'Задания', 'url' => ['tasks/index']],
-                        ['label' => 'Исполнители', 'url' => ['users/index']],
-                        ['label' => 'Создать задание', 'url' => ['tasks/create'], 'visible' => $users['user_role'] === 'client'],
-                        ['label' => 'Мой профиль', 'url' => ['users/view', 'id' => $users->id]],
-                    ],
-                    'options' => [
-                        'class' => 'header-nav__list site-list',
-                    ],
-                    'activeCssClass' => 'site-list__item--active',
-                    'itemOptions' => ['class' => 'site-list__item'],
-                ]);
-                ?>
-            </div>
             <?php if (!Yii::$app->user->isGuest): ?>
+                <div class="header__nav">
+                    <?=
+                    Menu::widget([
+                        'items' => [
+                            ['label' => 'Задания', 'url' => ['tasks/index']],
+                            ['label' => 'Исполнители', 'url' => ['users/index']],
+                            ['label' => 'Создать задание', 'url' => ['tasks/create'], 'visible' => $users['user_role'] === 'client'],
+                            ['label' => 'Мой профиль', 'url' => ['users/view', 'id' => $users->id]],
+                        ],
+                        'options' => [
+                            'class' => 'header-nav__list site-list',
+                        ],
+                        'activeCssClass' => 'site-list__item--active',
+                        'itemOptions' => ['class' => 'site-list__item'],
+                    ]);
+                    ?>
+                </div>
                 <div class="header__town">
                     <?php $form = ActiveForm::begin([
                         'id' => 'city-form',
@@ -231,7 +231,9 @@ if ($users) {
                         <a href="<?= Url::to(['tasks/']) ?>">Задания</a>
                     </li>
                     <li class="links__item">
-                        <a href="<?= Url::to(['users/view', 'id' => $user['id']]) ?>">Мой профиль</a>
+                        <a href="<?= $users ?
+                            Url::to(['users/view', 'id' => $user['id']]) :
+                            Url::to(['sign/']) ?>">Мой профиль</a>
                     </li>
                     <li class="links__item">
                         <a href="<?= Url::to(['users/']) ?>">Исполнители</a>

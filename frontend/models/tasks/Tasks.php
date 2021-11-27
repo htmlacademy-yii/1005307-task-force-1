@@ -55,10 +55,9 @@ class Tasks extends ActiveRecord
     {
         return [
             [['dt_add', 'expire', 'online', 'responses_count'], 'safe'],
-            [['category_id', 'budget', 'city_id', 'doer_id', 'client_id', 'online', 'responses_count'], 'integer'],
             [['description', 'name', 'client_id', 'responses_count', 'online'], 'required'],
-            [['description'], 'string'],
-            [['name', 'address', 'latitude', 'longitude', 'status_task'], 'string', 'max' => 255],
+            [['budget', 'category_id', 'city_id','client_id', 'doer_id', 'online', 'responses_count'], 'integer'],
+            [['address', 'description', 'latitude', 'longitude', 'name',  'status_task'], 'string', 'max' => 255],
             [['category_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Categories::class,
@@ -140,9 +139,9 @@ class Tasks extends ActiveRecord
         return self::findOne($id);
     }
 
-    public function countUsersTasks($status, $user): string
+    public function countUsersTasks($status, $user_role, $user): string
     {
-        switch ($user->user_role) {
+        switch ($user_role) {
             case 'doer':
                 return Tasks::find()
                     ->where(['doer_id' => $user->id])

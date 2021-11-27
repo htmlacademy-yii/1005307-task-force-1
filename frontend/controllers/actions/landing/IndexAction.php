@@ -13,7 +13,7 @@ class IndexAction extends Action
     public function run()
     {
         $taskForm = new TaskSearchForm;
-        $data = $taskForm->getLastTasks();
+        $data = $taskForm->getLastTasks(\Yii::$app->request->queryParams);
         $dataProvider = new ArrayDataProvider(['allModels' => $data]);
 
         return $this->controller->render('index', [

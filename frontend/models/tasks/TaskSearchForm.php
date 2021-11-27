@@ -15,6 +15,8 @@ class TaskSearchForm extends Tasks
     public $online;
     public $periodFilter;
     public $searchName;
+    public $dataProvider;
+    private $query;
 
     public function rules(): array
     {
@@ -32,131 +34,113 @@ class TaskSearchForm extends Tasks
         ];
     }
 
-    public function getLastTasks(): array
+    public function getLastTasks($params): array
     {
-        $query = Tasks::find();
-        $this->getTasks($query);
-        $query->limit(4);
+        $this->query = Tasks::find();
+        $this->getTasks($params);
+        $this->query->limit(4);
 
-        return $query->all();
+        return $this->query->all();
     }
 
     public function searchByFilters($params): ActiveDataProvider
     {
-        $query = (new Query());
-        $this->getTasksByCity($query);
-        $this->getTasks($query);
-        $this->load($params);
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 5,
-            ],
-        ]);
+        $this->query = (new Query());
+        $this->getTasksByCity();
+        $this->getTasks($params);
+        $this->getDataProvider();
 
         if (!$this->validate()) {
-            return $dataProvider;
+            return $this->dataProvider;
         }
 
         if ($this->searchedCategories) {
-            $query->andWhere(['category_id' => $this->searchedCategories]);
+            $this->query->andWhere(['category_id' => $this->searchedCategories]);
         }
 
         if ($this->noResponses) {
-            $query->andFilterHaving(['=', 'responses_count', '0']);
+            $this->query->andFilterHaving(['=', 'responses_count', '0']);
         }
 
         if ($this->online) {
-            $query->andWhere(['online' => 1]);
+            $this->query->andWhere(['online' => 1]);
         }
 
         if ($this->periodFilter) {
             if ($this->periodFilter === 'day') {
-                $query->andWhere('tasks.dt_add BETWEEN CURDATE() AND (CURDATE() + 1)');
+                $this->query->andWhere('tasks.dt_add BETWEEN CURDATE() AND (CURDATE() + 1)');
             }
 
             if ($this->periodFilter === 'week') {
-                $query->andWhere('tasks.dt_add >= DATE_SUB(NOW(), INTERVAL 7 DAY)');
+                $this->query->andWhere('tasks.dt_add >= DATE_SUB(NOW(), INTERVAL 7 DAY)');
             }
 
             if ($this->periodFilter === 'month') {
-                $query->andWhere('tasks.dt_add >= DATE_SUB(NOW(), INTERVAL 30 DAY)');
+                $this->query->andWhere('tasks.dt_add >= DATE_SUB(NOW(), INTERVAL 30 DAY)');
             }
         }
 
         if ($this->searchName) {
-            $query->andWhere(['like', 'tasks.name', $this->searchName]);
+            $this->query->andWhere(['like', 'tasks.name', $this->searchName]);
         }
 
-        return $dataProvider;
+        return $this->dataProvider;
     }
 
-    public function searchByCategories($category): ActiveDataProvider
+    public function searchByCategories($params, $category): ActiveDataProvider
     {
-        $query = (new Query());
-        $this->getTasksByCity($query);
-        $this->getTasks($query);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 5,
-            ],
-        ]);
+        $this->query = (new Query());
+        $this->getTasksByCity();
+        $this->getTasks($params);
+        $this->getDataProvider();
 
-        $query->andWhere(['category_id' => $category]);
+        $this->query->andWhere(['category_id' => $category]);
 
-        return $dataProvider;
+        return $this->dataProvider;
     }
 
     public function searchByStatus($params, $user_id, $user_role, $status_task): ActiveDataProvider
     {
-        $query = Tasks::find();
+        $this->query = Tasks::find();
+        $this->getDataProvider();
+        $this->getTasks($params);
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 5,
-            ],
-        ]);
-
-        $this->load($params);
-
-        $query->with('category')
+        $this->query->with('category')
             ->groupBy('tasks.id')
             ->orderBy(['dt_add' => SORT_DESC])->asArray();
 
-        if ($status_task !== 'Просроченное') {
-            $query->where(['status_task' => $status_task]);
-        }
-
         if ($status_task == 'На исполнении') {
-            $query->andWhere(['is', 'expire', null])
-                ->orFilterWhere(['>=', 'expire', new Expression('NOW()')]);
+            $this->query->andWhere(['is', 'expire', null])
+                ->orWhere(['>=', 'expire', new Expression('NOW()')]);
         }
 
         if ($status_task == 'Просроченное') {
-            $query->andWhere(['status_task' => 'На исполнении'])
+            $this->query->andWhere(['status_task' => 'На исполнении'])
                 ->andFilterWhere(['<', 'expire', new Expression('NOW()')]);
         }
 
+        if ($status_task !== 'Просроченное') {
+            $this->query->where(['status_task' => $status_task]);
+        }
+
         if ($status_task == 'Отмененное') {
-            $query->andWhere(['status_task' => 'Отмененное'])
+            $this->query->andWhere(['status_task' => 'Отмененное'])
                 ->orWhere(['status_task' => 'Провалено']);
         }
 
         $user_role == 'client' ?
-            $query->andWhere(['client_id' => $user_id])
+            $this->query->andWhere(['client_id' => $user_id])
                 ->joinWith('doer') :
-            $query->andWhere(['doer_id' => $user_id])
+            $this->query->andWhere(['doer_id' => $user_id])
                 ->joinWith('client');
 
-        return $dataProvider;
+        return $this->dataProvider;
     }
 
-    private function getTasks($query): void
+    private function getTasks($params): void
     {
-        $query->andWhere(['status_task' => 'Новое'])
+        $this->load($params);
+        $this->query->andWhere(['status_task' => 'Новое'])
             ->select(
                 'tasks.*,
                 categories.id as cat_id,
@@ -169,11 +153,21 @@ class TaskSearchForm extends Tasks
             ->orderBy(['dt_add' => SORT_DESC]);
     }
 
-    private function getTasksByCity($query): void
+    private function getTasksByCity(): void
     {
         $session = Yii::$app->session;
-        $query
+        $this->query
             ->andWhere(['city_id' => $session->get('city')])
             ->orFilterWhere(['online' => 1]);
+    }
+
+    private function getDataProvider(): void
+    {
+        $this->dataProvider = new ActiveDataProvider([
+            'query' => $this->query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
     }
 }

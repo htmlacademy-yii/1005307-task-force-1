@@ -13,9 +13,7 @@ class IndexAction extends Action
     public function run(): string
     {
         $searchForm = new TaskSearchForm;
-        $dataProvider = $searchForm->searchByFilters(
-            Yii::$app->request->queryParams
-        );
+        $dataProvider = $searchForm->searchByFilters(Yii::$app->request->queryParams);
 
         return $this->controller->render('index', [
             'dataProvider' => $dataProvider,

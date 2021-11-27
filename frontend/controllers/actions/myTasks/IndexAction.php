@@ -14,12 +14,12 @@ class IndexAction extends Action
     {
         $searchForm = new TaskSearchForm;
 
-        if(isset($this->controller->user->user_role)) {
+        if (isset($this->controller->user->user_role)) {
             $dataProvider = $searchForm->searchByStatus(
                 Yii::$app->request->queryParams,
-                $status_task,
                 $this->controller->user->id,
-                $this->controller->user->user_role
+                $this->controller->user->user_role,
+                $status_task
             );
         }
 

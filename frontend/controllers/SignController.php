@@ -25,7 +25,7 @@ class SignController extends Controller
                         'roles' => ['@'],
                     ],
                 ],
-            ],
+            ]
         ];
     }
 

@@ -109,7 +109,7 @@ AppAsset::register($this);
                         <a href="<?=Url::to(['tasks/'])?>">Задания</a>
                     </li>
                     <li class="links__item">
-                        <a href="<?= Url::to(['users/view', 'id' => $user['id']]) ?>">Мой профиль</a>
+                        <a href="<?= Url::to(['sign/'])?>">Мой профиль</a>
                     </li>
                     <li class="links__item">
                         <a href="<?= Url::to(['users/']) ?>">Исполнители</a>

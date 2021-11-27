@@ -9,7 +9,6 @@ use frontend\models\tasks\RefuseForm;
 use frontend\models\tasks\Tasks;
 use Yii;
 use yii\base\Action;
-use yii\base\BaseObject;
 use yii\web\Response;
 
 class RefuseAction extends Action
@@ -20,13 +19,13 @@ class RefuseAction extends Action
 
         if ($refuseForm->load(Yii::$app->request->post())) {
             $task = Tasks::findOne($refuseForm->task_id);
-            if(isset($task->status_task)) {
+            if (isset($task->status_task)) {
                 $task->status_task = 'Провалено';
                 $task->save(false);
             }
 
             $tasks = new Tasks();
-            if(isset($this->controller->user->failed_tasks)) {
+            if (isset($this->controller->user->failed_tasks)) {
                 $this->controller->user->failed_tasks = $tasks->countUsersTasks($task->status_task, $this->controller->user);
                 $this->controller->user->save(false);
             }

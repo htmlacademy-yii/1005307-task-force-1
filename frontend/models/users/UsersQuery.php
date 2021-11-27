@@ -49,7 +49,7 @@ class UsersQuery extends ActiveQuery
         ]);
     }
 
-    public function nameSearch($name): UsersQuery
+    public function nameSearch($name): self
     {
         return $this->andFilterWhere(['like', 'users.name', $name]);
     }

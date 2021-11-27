@@ -60,7 +60,7 @@ return [
                 'username' => 'keks@phpdemo.ru',
                 'password' => 'htmlacademy',
                 'port' => 25,
-                'encryption' => null,
+                'encryption' => 'ssl'
             ]
         ],
         'log' => [

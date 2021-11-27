@@ -23,10 +23,9 @@ class ViewAction extends Action
             );
         }
 
-        if (isset($task->doer_id) && isset($task->client_id) && isset($task->longitude) && isset($task->latitude)) {
             if ($task->status_task !== 'Новое' && $task->status_task !== 'Выполнено') {
                 if ($this->controller->user->id !== $task->client_id && $this->controller->user->id !== $task->doer_id) {
-                    $this->controller->redirect('/tasks/index');
+                    $this->controller->redirect('/tasks/');
                 }
             }
 
@@ -38,8 +37,6 @@ class ViewAction extends Action
             $view->params['client_id'] = $task->client_id;
             $view->params['longitude'] = $task->longitude;
             $view->params['latitude'] = $task->latitude;
-
-        }
 
         return $this->controller->render('view', [
             'task' => $task,

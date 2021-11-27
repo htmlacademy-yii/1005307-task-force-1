@@ -26,7 +26,7 @@ class ResponseForm extends Model
             ],
             [['comment'], 'string', 'min' => 10],
             ['comment', 'trim'],
-            [['doer_id', 'task_id', 'budget', 'comment', 'is_refused'], 'safe']
+            [['budget', 'comment', 'doer_id', 'is_refused', 'task_id'], 'safe']
         ];
     }
 

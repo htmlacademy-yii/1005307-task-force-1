@@ -64,15 +64,15 @@ class Users extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['email', 'name', 'password', 'user_role'], 'required'],
-            [['dt_add', 'vk_id', 'bd', 'last_activity_time', 'rating', 'failed_tasks', 'done_tasks', 'created_tasks', 'opinions_count'], 'safe'],
-            [['name', 'email', 'password', 'about', 'city_id', 'bd', 'avatar', 'phone', 'skype', 'telegram'], 'safe',
+            [['about', 'avatar', 'email', 'name', 'password', 'phone', 'skype', 'telegram', 'user_role'], 'string', 'max' => 255],
+            [['rating'], 'number'],
+            [['birthday', 'dt_add', 'last_activity_time'], 'date'],
+            [['city_id','created_tasks', 'done_tasks', 'failed_tasks', 'opinions_count', 'vk_id'], 'integer'],
+            [['city_id', 'email', 'name', 'password', 'user_role'], 'required'],
+            [['created_tasks', 'done_tasks', 'dt_add', 'failed_tasks', 'last_activity_time', 'opinions_count', 'rating', 'vk_id'], 'safe'],
+            [['about', 'avatar', 'birthday', 'city_id', 'email', 'name', 'password', 'phone', 'skype', 'telegram'], 'safe',
                 'on' => self::SCENARIO_UPDATE],
-            [['about'], 'string'],
-            [['city_id', 'failed_tasks', 'done_tasks', 'created_tasks', 'opinions_count'], 'integer'],
-            [['email', 'name', 'password', 'user_role', 'address', 'avatar', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
-            [['name'], 'unique'],
             [['city_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Cities::class,
