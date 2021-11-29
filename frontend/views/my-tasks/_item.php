@@ -10,7 +10,7 @@ $user = \Yii::$app->user->getIdentity();
 
 $isClient = false;
 
-if ($user['user_role'] == 'client') {
+if ($user['user_role'] === 'client') {
     $isClient = true;
 }
 $isClient ? $user_show = $model['doer'] : $user_show = $model['client'];
@@ -31,16 +31,18 @@ $message = $messages->getUserMessages($model['id'], $user['id']);
     <p class="new-task_description">
         <?= isset($model['description']) ? htmlspecialchars($model['description']) : '' ?>
     </p>
-    <?php if ($user_show): ?>
+    <?php if (isset($user_show)): ?>
         <div class="feedback-card__top ">
-            <a href="<?= Url::to(['users/view/', 'id' => $user_show['id']]) ?>">
+            <a href="<?= isset($user_show['id']) ? Url::to(['users/view/', 'id' => $user_show['id']]) : '' ?>">
                 <?= isset($user_show['avatar'])
                     ? Html::img(Yii::$app->request->baseUrl . strip_tags($user_show['avatar']), ['width' => '55', 'height' => '55'])
                     : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '55', 'height' => '55']) ?>
             </a>
             <div class="feedback-card__top--name my-list__bottom">
-                <p class="link-name"><a href="<?= isset($user_show['id']) ? Url::to(['users/view/', 'id' => $user_show['id']]) : '' ?>"
-                                        class="link-regular"><?= isset($user_show['name']) ? strip_tags($user_show['name']) : '' ?></a></p>
+                <p class="link-name"><a
+                        href="<?= isset($user_show['id']) ? Url::to(['users/view/', 'id' => $user_show['id']]) : '' ?>"
+                        class="link-regular"><?= isset($user_show['name']) ? strip_tags($user_show['name']) : '' ?></a>
+                </p>
                 <?php ?>
                 <a href="<?= isset($model['id']) ? Url::to(['tasks/view/', 'id' => $model['id']]) : '' ?>"
                    class="my-list__bottom-chat <?= !empty($message)
@@ -48,7 +50,7 @@ $message = $messages->getUserMessages($model['id'], $user['id']);
                     <b><?= !empty($message)
                             ? count($message) : '' ?></b>
                 </a>
-                <?php if (isset($user_show['rating']) ? $user_show['rating'] > 0 : ''): ?>
+                <?php if (isset($user_show['rating']) ? $user_show['rating'] !== 0 : ''): ?>
                     <?php $starCount = round($user_show['rating']) ?>
                     <?php for ($i = 1; $i <= 5; $i++): ?>
                         <span class="<?= $starCount < $i ? 'star-disabled' : '' ?>"></span>

@@ -33,11 +33,10 @@ class Opinions extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['dt_add'], 'safe'],
-            [['completion', 'doer_id', 'client_id', 'task_id'], 'required'],
-            [['description', 'completion'], 'string'],
-            [['rate'], 'number'],
-            [['doer_id', 'client_id', 'task_id'], 'integer'],
+            [['description', 'dt_add'], 'string'],
+            [['client_id', 'completion', 'doer_id', 'rate', 'task_id'], 'integer'],
+            [['client_id', 'completion', 'doer_id', 'task_id', 'dt_add'], 'required'],
+            [['client_id', 'completion', 'description', 'doer_id', 'dt_add', 'rate', 'task_id'], 'safe'],
             [['doer_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Users::class,

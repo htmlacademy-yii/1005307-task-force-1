@@ -29,13 +29,13 @@ $possibleActionsWithResponses = false;
 
 $taskActions = new Tasks();
 
-if ($user->id == $task->client_id) {
+if ($user->id === $task->client_id) {
     $isClient = true;
     $responses = $task->responses;
     $chat = true;
     $possibleActions = $taskActions->nextAction($task['status_task'], 'client');
 
-    if ($task->status_task == 'Новое') {
+    if ($task->status_task === 'Новое') {
         $user_show = null;
         $possibleActionsWithResponses = true;
         $possibleActions = $taskActions->nextAction($task['status_task'], 'client');
@@ -53,7 +53,7 @@ if (!$user_response && !$isClient) {
     $responses = null;
     $possibleActions = $taskActions->nextAction($task['status_task'], 'doer');
 
-    if ($user->user_role == 'client') {
+    if ($user->user_role === 'client') {
         $possibleActions = null;
     }
 }
@@ -63,7 +63,7 @@ if ($user_response && !$isClient) {
     $responses = $user_response;
     $user_show = $task->client;
 
-    if ($task->status_task == 'Новое') {
+    if ($task->status_task === 'Новое') {
         $possibleActions = null;
     }
 }
@@ -133,7 +133,7 @@ if ($user_show->rating > 0) {
                 </button>
             </div>
         <?php endif; ?>
-        <?php if ($isClient && $task->status_task == 'Новое'): ?>
+        <?php if ($isClient && $task->status_task === 'Новое'): ?>
             <div class="content-view__action-buttons">
                 <a class=" button button__big-color cancel-button open-modal"
                    href="<?= Url::to(['tasks/cancel', 'taskId' => $task->id]) ?>">Отменить</a>
@@ -170,7 +170,7 @@ if ($user_show->rating > 0) {
                                 <p><?= isset($response->comment) ? htmlspecialchars($response->comment) : '' ?></p>
                                 <span><?= isset($response->budget) ? strip_tags($response->budget) : '' ?> ₽</span>
                             </div>
-                            <?php if ($possibleActionsWithResponses && $response->is_refused == 0): ?>
+                            <?php if ($possibleActionsWithResponses && $response->is_refused === 0): ?>
                                 <div class="feedback-card__actions">
                                     <a class="button__small-color request-button button" type="button"
                                        href="<?= Url::to(['tasks/start-work', 'taskId' => $task->id, 'doerId' => $response->doer_id]) ?>">Подтвердить</a>

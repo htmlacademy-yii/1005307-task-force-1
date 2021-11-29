@@ -9,7 +9,7 @@ $this->title = 'Исполнитель ' . $user['name'];
 
 $user_account = $this->params['user'];
 $isClient = false;
-if ($user['user_role'] == 'client') {
+if ($user['user_role'] === 'client') {
     $isClient = true;
 }
 
@@ -26,7 +26,7 @@ foreach ($favourites as $favourite) {
 
 $optionSettings = $user['optionSet'];
 $hiddenContacts = false;
-if ($optionSettings['is_hidden_contacts'] == 1 && $user_account->id !== $user->id) {
+if ($optionSettings['is_hidden_contacts'] === 1 && $user_account->id !== $user->id) {
     $hiddenContacts = true;
 }
 $userTasks = Tasks::find()->where(['client_id' => $user_account->id])->andWhere(['doer_id' => $user->id])->andWhere(['status_task' => 'На исполнении'])->all();
@@ -68,7 +68,7 @@ $opinions = $user['opinions'];
                             <b class="done-review">Получил <?= $user->opinions_count ?> <?= $formatter->getNounPluralForm($user->opinions_count, 'отзыв', 'отзыва', 'отзывов') ?></b>
                         <?php endif;
                     endif; ?>
-                    <?php if ($isClient == true):
+                    <?php if ($isClient === true):
                         if ($user->created_tasks !== 0):?>
                             <b class="done-task"><?= 'Создал' ?> <?= $user->created_tasks ?> <?= $formatter->getNounPluralForm($user->created_tasks, 'заказ', 'заказа', 'заказов') ?></b>
                         <?php endif;

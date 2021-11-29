@@ -167,7 +167,7 @@ $specializations = Categories::getCategories();
                 <div class="account__redaction-section-wrapper account__redaction">
                     <span class="dropzone">
                         <?php foreach ($user->portfolioPhotos as $photo): ?>
-                            <a><?= Html::img(Yii::$app->request->baseUrl . strip_tags($photo->photo), ['width' => '65', 'height' => '65']) ?> </a>
+                            <a><?= isset($photo->photo) ? Html::img(Yii::$app->request->baseUrl . strip_tags($photo->photo), ['width' => '65', 'height' => '65']) : ''?> </a>
                         <?php endforeach; ?>
                         <?= $form->field($profileForm, 'photo[]', [
                             'inputOptions' => [
@@ -251,14 +251,14 @@ JS;
                             'tag' => false,
                             'unselect' => null,
                             'item' => function ($index, $label, $name, $checked, $value) {
-                                return ($index == 0 ? '<div class="search-task__categories account_checkbox--bottom">' : '')
+                                return ($index === 0 ? '<div class="search-task__categories account_checkbox--bottom">' : '')
                                     . '<input id="' . $value . '" name="' . $name . '" value="' . $value . '" '
                                     . 'type="checkbox" class="visually-hidden checkbox__input" '
                                     . ($checked ? 'checked ' : '') . '>'
                                     . '<label for="' . $value . '">' . $label . '</label>'
-                                    . ($index == 2 ? '</div><div class="search-task__categories account_checkbox '
+                                    . ($index === 2 ? '</div><div class="search-task__categories account_checkbox '
                                         . 'account_checkbox--secrecy">' : '')
-                                    . ($index == 4 ? '</div>' : '');
+                                    . ($index === 4 ? '</div>' : '');
                             }
                         ]); ?>
                 </div>

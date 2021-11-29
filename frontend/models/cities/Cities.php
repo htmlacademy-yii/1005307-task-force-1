@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
  * @property string $city
  * @property string $latitude
  * @property string $longitude
+ * @property string $value
  *
  * @property Tasks[] $tasks
  * @property Users[] $users
@@ -34,22 +35,22 @@ class Cities extends ActiveRecord
             'city' => 'City',
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
+            'value' => 'Value',
         ];
     }
 
     public function rules(): array
     {
         return [
-            [['city', 'latitude', 'longitude'], 'required'],
-            [['city', 'latitude', 'longitude'], 'string', 'max' => 255],
+            [['city', 'latitude', 'longitude', 'value'], 'required'],
+            [['city', 'latitude', 'longitude', 'value'], 'string', 'max' => 255],
+            [['city', 'latitude', 'longitude', 'value'], 'safe']
         ];
     }
 
     public function getCities(): array
     {
-        if (!isset($this->cities)) {
-            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
-        }
+        $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
 
         return $this->cities;
     }

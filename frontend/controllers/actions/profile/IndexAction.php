@@ -48,9 +48,7 @@ class IndexAction extends Action
                 }
                 $session = Yii::$app->session;
 
-                if (isset($this->controller->user->city_id)) {
-                    $session->set('city', $this->controller->user->city_id);
-                }
+                $session->set('city', $this->controller->user->city_id);
 
                 return $this->controller->redirect(['users/view', 'id' => $this->controller->user->id]);
             }

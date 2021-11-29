@@ -170,14 +170,14 @@ if ($users) {
                     <div class="lightbulb__pop-up" style="left: -100%; top: 58px">
                         <h3>Новые события</h3>
                         <?php foreach ($user_notifications as $notice): ?>
-                            <p class="lightbulb__new-task lightbulb__new-task--<?= $notice['notificationsCategory']['type'] ?>">
+                            <p class="lightbulb__new-task lightbulb__new-task--<?= isset($notice->notificationsCategory->type) ? $notice->notificationsCategory->type : '' ?>">
                                 <span class="label label-primary"
                                       style="display: block; margin-bottom: 2px; padding-top: 3px">
-                                    <?= Html::encode($notice['notificationsCategory']['name']) ?>
+                                    <?= isset($notice->notificationsCategory->name) ? Html::encode($notice->notificationsCategory->name) : '' ?>
                                 </span>
-                                <a href="<?= Url::to(['tasks/view', 'id' => $notice['task']['id']]) ?>"
+                                <a href="<?= isset($notice->task->id) ? Url::to(['tasks/view', 'id' => $notice->task->id]) : '' ?>"
                                    class="link-regular">
-                                    «<?= strip_tags($notice['task']['name']) ?>»
+                                    «<?= isset($notice->task->name) ? strip_tags($notice->task->name) : '' ?>»
                                 </a>
                             </p>
                         <?php endforeach; ?>
@@ -185,22 +185,24 @@ if ($users) {
                 </div>
                 <div class="header__account">
                     <a class="header__account-photo">
-                        <?= $user['avatar']
-                            ? Html::img(Yii::$app->request->baseUrl . strip_tags($user['avatar']), ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44'])
+                        <?= isset($user->avatar)
+                            ? Html::img(Yii::$app->request->baseUrl . strip_tags($user->avatar), ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '43', 'height' => '44'])
                         ?>
                     </a>
                     <span class="header__account-name">
-                        <?= strip_tags($user['name']) ?>
+                        <?= isset($user->name) ? strip_tags($user['name']) : '' ?>
                     </span>
                 </div>
                 <div class="account__pop-up">
                     <ul class="account__pop-up-list">
-                        <li>
-                            <a href="<?= $user['user_role'] == 'client'
-                                ? Url::to(['my-tasks/', 'status_task' => 'Новое'])
-                                : Url::to(['my-tasks/', 'status_task' => 'На исполнении']) ?>">Мои задания</a>
-                        </li>
+                        <?php if (isset($user->user_role)): ?>
+                            <li>
+                                <a href="<?= $user->user_role === 'client'
+                                    ? Url::to(['my-tasks/', 'status_task' => 'Новое'])
+                                    : Url::to(['my-tasks/', 'status_task' => 'На исполнении']) ?>">Мои задания</a>
+                            </li>
+                        <?php endif; ?>
                         <li>
                             <a href="<?= Url::toRoute('profile/') ?>">Настройки</a>
                         </li>

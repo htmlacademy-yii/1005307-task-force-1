@@ -22,8 +22,9 @@ class NotificationsCategories extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'type'], 'required'],
             [['name', 'type'], 'string', 'max' => 255],
+            [['name', 'type'], 'required'],
+            [['name', 'type'], 'safe'],
         ];
     }
 

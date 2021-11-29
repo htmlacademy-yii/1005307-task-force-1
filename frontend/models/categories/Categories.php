@@ -28,9 +28,10 @@ class Categories extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'icon'], 'required'],
-            [['name', 'icon', 'profession'], 'string', 'max' => 255],
-            [['name', 'icon', 'profession'], 'unique'],
+            [['icon', 'name', 'profession'], 'string', 'max' => 255],
+            [['icon', 'name'], 'required'],
+            [['icon', 'name', 'profession'], 'unique'],
+            [['icon', 'name', 'profession'], 'safe'],
         ];
     }
 
@@ -38,8 +39,8 @@ class Categories extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
             'icon' => 'Icon',
+            'name' => 'Name',
             'profession' => 'Profession',
         ];
     }

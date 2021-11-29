@@ -19,7 +19,6 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property string|null $about
- * @property string|null $address
  * @property string|null $avatar
  * @property string|null $birthday
  * @property int $city_id
@@ -37,7 +36,7 @@ use yii\db\ActiveRecord;
  * @property string|null $skype
  * @property string|null $telegram
  * @property string $user_role
- * @property string|null $vk_id
+ * @property int|null $vk_id
  *
  * @property Cities $city
  * @property Favourites[] $favourites
@@ -64,15 +63,14 @@ class Users extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['about', 'avatar', 'email', 'name', 'password', 'phone', 'skype', 'telegram', 'user_role'], 'string', 'max' => 255],
+            [['about', 'avatar', 'birthday', 'dt_add', 'email', 'last_activity_time', 'name', 'password', 'phone', 'skype', 'telegram', 'user_role'], 'string', 'max' => 255],
+            [['city_id', 'created_tasks', 'done_tasks', 'failed_tasks', 'opinions_count', 'vk_id'], 'integer'],
             [['rating'], 'number'],
-            [['birthday', 'dt_add', 'last_activity_time'], 'date'],
-            [['city_id','created_tasks', 'done_tasks', 'failed_tasks', 'opinions_count', 'vk_id'], 'integer'],
-            [['city_id', 'email', 'name', 'password', 'user_role'], 'required'],
+            [['city_id', 'created_tasks', 'done_tasks', 'email', 'failed_tasks', 'name', 'opinions_count', 'password', 'user_role'], 'required'],
+            [['email'], 'unique'],
             [['created_tasks', 'done_tasks', 'dt_add', 'failed_tasks', 'last_activity_time', 'opinions_count', 'rating', 'vk_id'], 'safe'],
             [['about', 'avatar', 'birthday', 'city_id', 'email', 'name', 'password', 'phone', 'skype', 'telegram'], 'safe',
                 'on' => self::SCENARIO_UPDATE],
-            [['email'], 'unique'],
             [['city_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Cities::class,
@@ -85,7 +83,6 @@ class Users extends ActiveRecord
         return [
             'id' => 'ID',
             'about' => 'About',
-            'address' => 'Address',
             'avatar' => 'Avatar',
             'bd' => 'Bd',
             'city_id' => 'City ID',
@@ -96,13 +93,14 @@ class Users extends ActiveRecord
             'failed_tasks' => 'Failed Tasks',
             'last_activity_time' => 'Last Activity Time',
             'name' => 'Name',
-            'password' => 'Password',
             'opinions_count' => 'Opinions Count',
+            'password' => 'Password',
             'phone' => 'Phone',
             'rating' => 'Rating',
             'skype' => 'Skype',
             'telegram' => 'Telegram',
             'user_role' => 'User Role',
+            'vk_id' => 'Vk Id',
         ];
     }
 

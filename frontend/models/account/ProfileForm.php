@@ -30,14 +30,14 @@ class ProfileForm extends Model
     public function rules(): array
     {
         return [
-            [['avatar'], 'file',
+            ['avatar', 'file',
                 'extensions' => 'jpeg, png, jpg',
                 'message' => 'Загружаемый файл должен быть изображением'],
             ['birthday', 'date', 'format' => 'yyyy*MM*dd',
                 'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['email'], 'required',
+            ['email', 'required',
                 'message' => "Это поле необходимо заполнить"],
-            [['email'], 'email',
+            ['email', 'email',
                 'message' => "Введите корректный email"],
             ['email', 'unique',
                 'targetAttribute' => 'email',
@@ -198,10 +198,8 @@ class ProfileForm extends Model
         }
 
         foreach ($this->optionSet ?? [] as $name) {
-            if (isset($optionSet->$name)) {
-                if ($name !== 'id') {
-                    $optionSet->$name = 1;
-                }
+            if ($name !== 'id') {
+                $optionSet->$name = 1;
             }
         }
 

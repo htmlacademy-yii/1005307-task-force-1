@@ -54,10 +54,10 @@ class Tasks extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['dt_add', 'expire', 'online', 'responses_count', 'status_task'], 'safe'],
-            [['description', 'name', 'client_id', 'responses_count', 'online'], 'required'],
-            [['budget', 'category_id', 'city_id','client_id', 'doer_id', 'online', 'responses_count'], 'integer'],
-            [['address', 'description', 'latitude', 'longitude', 'name',  'status_task'], 'string', 'max' => 255],
+            [['budget', 'category_id', 'client_id', 'city_id', 'doer_id', 'online', 'responses_count'], 'integer'],
+            [['address', 'description', 'dt_add', 'expire', 'latitude', 'longitude', 'name', 'status_task'], 'string', 'max' => 255],
+            [['category_id', 'client_id', 'description', 'dt_add', 'name', 'online', 'responses_count', 'status_task'], 'required'],
+            [['address', 'budget', 'category_id', 'city_id', 'client_id', 'description', 'doer_id', 'dt_add', 'expire', 'latitude', 'longitude', 'name', 'online', 'responses_count', 'status_task'], 'safe'],
             [['category_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Categories::class,
@@ -93,25 +93,15 @@ class Tasks extends ActiveRecord
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
             'name' => 'Name',
+            'online' => 'Online',
             'responses_count' => 'Responses Count',
             'status_task' => 'Status Task',
-            'online' => 'Online',
         ];
     }
 
     public function getCategory(): ActiveQuery
     {
         return $this->hasOne(Categories::class, ['id' => 'category_id']);
-    }
-
-    public function getFileTasks(): ActiveQuery
-    {
-        return $this->hasMany(FileTask::class, ['task_id' => 'id']);
-    }
-
-    public function getResponses(): ActiveQuery
-    {
-        return $this->hasMany(Responses::class, ['task_id' => 'id']);
     }
 
     public function getCity(): ActiveQuery
@@ -127,6 +117,16 @@ class Tasks extends ActiveRecord
     public function getDoer(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
+    }
+
+    public function getFileTasks(): ActiveQuery
+    {
+        return $this->hasMany(FileTask::class, ['task_id' => 'id']);
+    }
+
+    public function getResponses(): ActiveQuery
+    {
+        return $this->hasMany(Responses::class, ['task_id' => 'id']);
     }
 
     public static function find(): TasksQuery

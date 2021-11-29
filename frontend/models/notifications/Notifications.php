@@ -35,9 +35,14 @@ class Notifications extends ActiveRecord
     public function rules(): array
     {
         return [
+            [['notification_category_id', 'task_id', 'user_id', 'visible'], 'integer'],
             [['notification_category_id', 'setting', 'task_id', 'user_id', 'visible'], 'required'],
-            [['notification_category_id', 'setting', 'task_id', 'user_id', 'visible'], 'integer'],
+            ['setting', 'string'],
             [['dt_add'], 'safe'],
+            [['notification_category_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => NotificationsCategories::class,
+                'targetAttribute' => ['notification_category_id' => 'id']],
             [['task_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Tasks::class,
@@ -46,10 +51,6 @@ class Notifications extends ActiveRecord
                 'skipOnError' => true,
                 'targetClass' => Users::class,
                 'targetAttribute' => ['user_id' => 'id']],
-            [['notification_category_id'], 'exist',
-                'skipOnError' => true,
-                'targetClass' => NotificationsCategories::class,
-                'targetAttribute' => ['notification_category_id' => 'id']],
         ];
     }
 
@@ -82,16 +83,14 @@ class Notifications extends ActiveRecord
         $task = Tasks::findOne($this->task_id);
         $user_set = UserOptionSettings::findOne($this->user_id);
 
-        if ($user_set[$this->setting] == 1) {
-            if (isset($user->name) && isset($user->email) && isset($task->name)) {
-                $this->subject = $this['notificationsCategory']['name'];
-                Yii::$app->mailer->compose()
-                    ->setTo('anyakulikova111@gmail.com')
-                    ->setFrom('keks@phpdemo.ru')
-                    ->setSubject($this->subject)
-                    ->setHtmlBody($user->name . 'У вас новое уведомление:' . $this->subject . '<a href="#">' . $task->name . '</a>')
-                    ->send();
-            }
+        if ($user_set[$this->setting] === 1) {
+            $this->subject = $this['notificationsCategory']['name'];
+            Yii::$app->mailer->compose()
+                ->setTo('anyakulikova111@gmail.com')
+                ->setFrom('keks@phpdemo.ru')
+                ->setSubject($this->subject)
+                ->setHtmlBody($user->name . 'У вас новое уведомление:' . $this->subject . '<a href="#">' . $task->name . '</a>')
+                ->send();
         }
     }
 

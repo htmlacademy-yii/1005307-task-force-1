@@ -24,9 +24,10 @@ class FileTask extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['file_item', 'task_id'], 'required'],
             [['task_id'], 'integer'],
             [['file_item'], 'string', 'max' => 255],
+            [['file_item', 'task_id'], 'required'],
+            [['file_item', 'task_id'], 'safe'],
             [['task_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Tasks::class,

@@ -32,11 +32,11 @@ class Responses extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['dt_add'], 'safe'],
+            [['doer_id', 'task_id', 'is_refused'], 'integer'],
             [['budget'], 'number'],
-            [['comment'], 'string'],
-            [['budget', 'comment', 'doer_id', 'task_id', 'is_refused'], 'required'],
-            [['doer_id', 'task_id'], 'integer'],
+            [['comment', 'dt_add'], 'string'],
+            [['budget', 'comment', 'doer_id', 'dt_add', 'is_refused', 'task_id'], 'required'],
+            [['budget', 'comment', 'doer_id', 'dt_add', 'is_refused', 'task_id'], 'safe'],
             [['doer_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Users::class,

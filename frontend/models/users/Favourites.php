@@ -26,14 +26,15 @@ class Favourites extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['dt_add'], 'safe'],
-            [['user_id', 'favourite_person_id'], 'required'],
-            [['user_id', 'favourite_person_id'], 'integer'],
-            [['favourite_person_id'], 'exist',
+            [['favourite_person_id', 'user_id'], 'integer'],
+            [['dt_add'], 'string'],
+            [['dt_add', 'favourite_person_id', 'user_id'], 'required'],
+            [['dt_add', 'favourite_person_id', 'user_id'], 'safe'],
+            ['favourite_person_id', 'exist',
                 'skipOnError' => true,
                 'targetClass' => Users::class,
                 'targetAttribute' => ['favourite_person_id' => 'id']],
-            [['user_id'], 'exist',
+            ['user_id', 'exist',
                 'skipOnError' => true,
                 'targetClass' => Users::class,
                 'targetAttribute' => ['user_id' => 'id']],

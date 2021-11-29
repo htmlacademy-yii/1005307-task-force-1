@@ -31,10 +31,15 @@ class Messages extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['message', 'task_id', 'unread'], 'required'],
-            [['message'], 'string'],
-            [['published_at', 'message', 'writer_id', 'recipient_id', 'task_id', 'is_mine', 'unread'], 'safe'],
-            [['writer_id', 'task_id'], 'integer'],
+            [['message', 'published_at'], 'string'],
+            [['recipient_id', 'task_id', 'unread', 'writer_id'], 'integer'],
+            [['message', 'published_at', 'recipient_id', 'task_id', 'unread', 'writer_id'], 'required'],
+            [['is_mine', 'message', 'published_at', 'recipient_id', 'task_id', 'unread', 'writer_id'], 'safe'],
+            [['recipient_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['recipient_id' => 'id']],
             [['task_id'],
                 'exist',
                 'skipOnError' => true,
@@ -45,11 +50,6 @@ class Messages extends ActiveRecord
                 'skipOnError' => true,
                 'targetClass' => Users::class,
                 'targetAttribute' => ['writer_id' => 'id']],
-            [['recipient_id'],
-                'exist',
-                'skipOnError' => true,
-                'targetClass' => Users::class,
-                'targetAttribute' => ['recipient_id' => 'id']],
         ];
     }
 

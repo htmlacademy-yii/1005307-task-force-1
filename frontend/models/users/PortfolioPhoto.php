@@ -24,9 +24,10 @@ class PortfolioPhoto extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['photo', 'user_id'], 'required'],
             [['user_id'], 'integer'],
             [['photo'], 'string', 'max' => 255],
+            [['photo', 'user_id'], 'required'],
+            [['photo', 'user_id'], 'safe'],
             [['user_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Users::class,
