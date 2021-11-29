@@ -161,7 +161,7 @@ class ProfileForm extends Model
         $user->setAttributes($this->attributes);
         $attributesToBeSaved = [];
 
-        if (isset($this->password)) {
+        if ($this->password) {
             $user->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
             $user->save(false, ['password']);
         }
@@ -172,7 +172,7 @@ class ProfileForm extends Model
             }
         }
 
-        $user->save(true, $attributesToBeSaved);
+        $user->save(false, $attributesToBeSaved);
     }
 
     private function checkRole(Users $user): void

@@ -86,7 +86,7 @@ class Notifications extends ActiveRecord
             if (isset($user->name) && isset($user->email) && isset($task->name)) {
                 $this->subject = $this['notificationsCategory']['name'];
                 Yii::$app->mailer->compose()
-                    ->setTo($user->email)
+                    ->setTo('anyakulikova111@gmail.com')
                     ->setFrom('keks@phpdemo.ru')
                     ->setSubject($this->subject)
                     ->setHtmlBody($user->name . 'У вас новое уведомление:' . $this->subject . '<a href="#">' . $task->name . '</a>')
