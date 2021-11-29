@@ -18,10 +18,8 @@ class IndexAction extends Action
 
         if ($view->params['newEvents']) {
             foreach ($view->params['newEvents'] as $event) {
-                if (isset($event->visible)) {
-                    $event->visible = 0;
-                    $event->save(false);
-                }
+                $event->visible = 0;
+                $event->save(false);
             }
         }
     }

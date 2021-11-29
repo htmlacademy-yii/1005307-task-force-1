@@ -49,7 +49,7 @@ $specializations = Categories::getCategories();
                 <h3 class="div-line">Настройки аккаунта</h3>
                 <div class="account__redaction-section-wrapper">
                     <div class="account__redaction-avatar">
-                        <?= $user['avatar']
+                        <?= isset($user['avatar'])
                             ? Html::img(Yii::$app->request->baseUrl . strip_tags($user['avatar']), ['alt' => 'Аватар пользователя', 'width' => '156', 'height' => '156'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '156', 'height' => '156']) ?>
                         <?= $form->field($profileForm, 'avatar', [

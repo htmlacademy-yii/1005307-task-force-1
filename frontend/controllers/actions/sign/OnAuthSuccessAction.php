@@ -32,7 +32,7 @@ class OnAuthSuccessAction extends Action
                 if ($user) {
                     $user->vk_id = $attributes['id'];
 
-                    if ($user->avatar === null && isset($attributes['photo'])) {
+                    if ($user->avatar === null && $attributes['photo']) {
                         $user->avatar = $attributes['photo'];
                     }
 

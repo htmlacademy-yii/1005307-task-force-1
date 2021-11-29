@@ -14,10 +14,8 @@ class RefuseResponseAction extends Action
     {
         $response = Responses::findOne($responseId);
 
-        if (isset($response->is_refused)) {
-            $response->is_refused = 1;
-            $response->save(false);
-        }
+        $response->is_refused = 1;
+        $response->save(false);
 
         return $this->controller->redirect([
             'tasks/view',
