@@ -68,7 +68,7 @@ class TaskSearchForm extends Tasks
 
         if ($this->periodFilter) {
             if ($this->periodFilter === 'day') {
-                $this->query->andWhere('tasks.dt_add BETWEEN CURDATE() AND (CURDATE() + 1)');
+                $this->query->andWhere('tasks.dt_add >= DATE_SUB(NOW(), INTERVAL 1 DAY)');
             }
 
             if ($this->periodFilter === 'week') {
