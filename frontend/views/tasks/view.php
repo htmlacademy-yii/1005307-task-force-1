@@ -74,7 +74,7 @@ if ($task->status_task !== 'Новое' && !$isClient) {
     $possibleActions = $taskActions->nextAction($task['status_task'], 'doer');
 }
 
-if ($user_show->rating > 0) {
+if ($user_show->rating > 0 && $user_show->id !== $task->client_id) {
     $show_rating = true;
 }
 
