@@ -51,6 +51,7 @@ class ProfileForm extends Model
                 'message' => 'Должен совпадать с паролем из поля «НОВЫЙ ПАРОЛЬ»'],
             ['password', 'compare',
                 'message' => 'Должен совпадать с паролем из поля «ПОВТОР ПАРОЛЯ»'],
+            [['about', 'email', 'phone', 'photo', 'skype', 'telegram'], 'trim'],
             [['photo'], 'file',
                 'extensions' => "jpeg, png, jpg",
                 'maxFiles' => 6,
@@ -90,10 +91,8 @@ class ProfileForm extends Model
         $this->attributes = $user->attributes;
         $password = $this->password;
 
-        if (isset($user->userCategories)) {
-            foreach ($user->userCategories as $specialization) {
-                $this->specializations[] = $specialization->id;
-            }
+        foreach ($user->userCategories as $specialization) {
+            $this->specializations[] = $specialization->id;
         }
 
         $optionSet = $user->optionSet;
@@ -190,10 +189,8 @@ class ProfileForm extends Model
         $optionSet = $user->optionSet;
 
         foreach ($optionSet->attributes as $name => $value) {
-            if (isset($optionSet->$name)) {
-                if ($name !== 'id') {
-                    $optionSet->$name = $name !== 'user_id' ? 0 : $user->id;
-                }
+            if ($name !== 'id') {
+                $optionSet->$name = $name !== 'user_id' ? 0 : $user->id;
             }
         }
 

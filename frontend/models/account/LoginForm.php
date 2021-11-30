@@ -25,6 +25,7 @@ class LoginForm extends Model
                     }
                 }
             }],
+            [['email'], 'trim'],
             [['email', 'password'], 'safe'],
         ];
     }

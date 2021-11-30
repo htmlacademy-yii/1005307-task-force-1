@@ -1,6 +1,7 @@
 <?php
 
 use frontend\models\tasks\Tasks;
+use frontend\models\users\Users;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -9,6 +10,8 @@ $this->title = 'Исполнитель ' . $user['name'];
 
 $user_account = $this->params['user'];
 $isClient = false;
+
+$users = new Users();
 if ($user['user_role'] === 'client') {
     $isClient = true;
 }
@@ -18,19 +21,21 @@ $categories = $user['userCategories'];
 $favourites = $user['favourites'];
 $isFavourite = false;
 foreach ($favourites as $favourite) {
-    if ($favourite['user_id'] === $user_account['id']) {
+    if ($favourite['user_id'] == $user_account['id']) {
         $isFavourite = true;
         break;
     }
 }
 
 $optionSettings = $user['optionSet'];
-$hiddenContacts = false;
-if ($optionSettings['is_hidden_contacts'] === 1 && $user_account->id !== $user->id) {
-    $hiddenContacts = true;
+$hiddenContacts = true;
+$activeTask = $users->getClientOfActiveTask($user->id, $user_account->id);
+
+if ($optionSettings['is_hidden_contacts'] == 0 || $activeTask) {
+    $hiddenContacts = false;
 }
-$userTasks = Tasks::find()->where(['client_id' => $user_account->id])->andWhere(['doer_id' => $user->id])->andWhere(['status_task' => 'На исполнении'])->all();
-if ($userTasks) {
+
+if ($user_account->id == $user->id) {
     $hiddenContacts = false;
 }
 
@@ -48,10 +53,10 @@ $opinions = $user['opinions'];
                     ? Html::img(Yii::$app->request->baseUrl . strip_tags($user->avatar), ['alt' => 'Аватар пользователя', 'width' => '120', 'height' => '120'])
                     : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '120', 'height' => '120']) ?>
                 <div class="content-view__headline">
-                    <h1><?= strip_tags($user->name) ?></h1>
-                    <p>Россия, <?= $user['city']['city'] ?>,
-                        <?= $user->birthday ? $formatter->getAge($user->birthday) : "" ?>
-                        <?= $user->birthday ? $formatter->getNounPluralForm($formatter->getAge($user->birthday), 'год', 'года', 'лет') : "" ?>
+                    <h1><?= isset($user->name) ? strip_tags($user->name) : '' ?></h1>
+                    <p>Россия, <?= isset($user['city']['city']) ? $user['city']['city'] : '' ?>,
+                        <?= isset($user->birthday) ? $formatter->getAge($user->birthday) : "" ?>
+                        <?= isset($user->birthday) ? $formatter->getNounPluralForm($formatter->getAge($user->birthday), 'год', 'года', 'лет') : "" ?>
                     </p>
                     <?php if ($user->rating > 0): ?>
                         <div class="profile-mini__name five-stars__rate">
@@ -63,13 +68,13 @@ $opinions = $user['opinions'];
                         </div>
                     <?php endif; ?>
                     <?php if ($isClient !== true):
-                        if ($user->done_tasks !== 0):?>
+                        if (isset($user->done_tasks) && $user->done_tasks !== 0):?>
                             <b class="done-task"><?= 'Выполнил' ?> <?= $user->done_tasks ?> <?= $formatter->getNounPluralForm($user->done_tasks, 'заказ', 'заказа', 'заказов') ?></b>
                             <b class="done-review">Получил <?= $user->opinions_count ?> <?= $formatter->getNounPluralForm($user->opinions_count, 'отзыв', 'отзыва', 'отзывов') ?></b>
                         <?php endif;
                     endif; ?>
                     <?php if ($isClient === true):
-                        if ($user->created_tasks !== 0):?>
+                        if (isset($user->created_tasks) && $user->created_tasks !== 0):?>
                             <b class="done-task"><?= 'Создал' ?> <?= $user->created_tasks ?> <?= $formatter->getNounPluralForm($user->created_tasks, 'заказ', 'заказа', 'заказов') ?></b>
                         <?php endif;
                     endif; ?>
@@ -77,7 +82,7 @@ $opinions = $user['opinions'];
                 </div>
                 <div
                     class="content-view__headline user__card-bookmark <?= $isFavourite ? 'user__card-bookmark--current' : '' ?>">
-                    <span>Был на сайте <?= $formatter->asRelativeTime($user->last_activity_time, strftime("%F %T")) ?></span>
+                    <span>Был на сайте <?= isset($user->last_activity_time) ? $formatter->asRelativeTime($user->last_activity_time, strftime("%F %T")) : '' ?></span>
                     <?php if ($user->id != $user_account->id) : ?>
                         <a href="<?= Url::to(['users/add-favourite', 'isFavouriteValue' => $isFavourite, 'id' => $user->id]) ?>"><b></b></a>
                     <?php endif; ?>

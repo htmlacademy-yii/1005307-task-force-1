@@ -111,7 +111,7 @@ if ($user_show->rating > 0) {
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-                <?php if (isset($task->address)): ?>
+                <?php if ($task->address): ?>
                     <div class="content-view__location">
                         <h3 class="content-view__h3">Расположение</h3>
                         <div class="content-view__location-wrapper">

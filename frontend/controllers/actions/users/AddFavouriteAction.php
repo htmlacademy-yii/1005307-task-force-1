@@ -11,14 +11,14 @@ class AddFavouriteAction extends Action
 {
     public $favourite;
 
-    public function run($isFavouriteValue, $id)
+    public function run($isFavouriteValue, $id): \yii\web\Response
     {
         if (!$isFavouriteValue) {
             $this->favourite = new Favourites([
                 'favourite_person_id' => $id,
                 'user_id' => $this->controller->user->id
             ]);
-            $this->favourite->save();
+            $this->favourite->save(false);
         }
 
         if ($isFavouriteValue) {

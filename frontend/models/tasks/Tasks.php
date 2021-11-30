@@ -155,11 +155,11 @@ class Tasks extends ActiveRecord
         return '';
     }
 
-    public function nextAction($currentStatus, $role)
+    public function nextAction($currentStatus, $role): array
     {
         switch ($currentStatus) {
             case 'Новое':
-                return $role == 'doer' ? ['title' => 'response', 'name' => 'Откликнуться', 'data' => 'response'] : '';
+                return $role == 'doer' ? ['title' => 'response', 'name' => 'Откликнуться', 'data' => 'response'] : [];
             case 'На исполнении':
                 return $role == 'doer' ? ['title' => 'refusal', 'name' => 'Отказаться', 'data' => 'refuse'] : ['title' => 'request', 'name' => 'Завершить', 'data' => 'complete'];
         }

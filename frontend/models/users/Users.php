@@ -148,4 +148,11 @@ class Users extends ActiveRecord
     {
         return self::findOne(\Yii::$app->user->identity->getId());
     }
+
+    public function getClientOfActiveTask($user_id, $account_user_id): array
+    {
+        return Tasks::find()->where(['status_task' => 'На исполнении'])
+            ->andWhere(['client_id' => $account_user_id])
+            ->andWhere(['doer_id' => $user_id])->asArray()->all();
+    }
 }
