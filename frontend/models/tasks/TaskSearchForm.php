@@ -93,6 +93,7 @@ class TaskSearchForm extends Tasks
         $this->getTasksByCity();
         $this->getTasks($params);
         $this->getDataProvider();
+        $this->searchedCategories = [$category];
 
         $this->query->andWhere(['category_id' => $category]);
 
