@@ -145,10 +145,12 @@ class TaskSearchForm extends Tasks
                 'tasks.*,
                 categories.id as cat_id,
                 categories.name as cat_name,
-                categories.icon as cat_icon'
+                categories.icon as cat_icon,
+                cities.city as city'
             )
             ->from('tasks')
             ->leftJoin('categories', 'tasks.category_id = categories.id')
+            ->leftJoin('cities', 'tasks.city_id = cities.id')
             ->groupBy('tasks.id')
             ->orderBy(['dt_add' => SORT_DESC]);
     }

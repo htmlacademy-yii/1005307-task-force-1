@@ -49,7 +49,6 @@ return [
         ],
         'session' => [
             'name' => 'advanced-frontend',
-            'class' => 'yii\redis\Session',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -59,8 +58,8 @@ return [
                 'host' => 'phpdemo.ru',
                 'username' => 'keks@phpdemo.ru',
                 'password' => 'htmlacademy',
-                'port' => 25,
-                'encryption' => 'ssl'
+                'port' => 465,
+                'encryption' => 'ssl',
             ]
         ],
         'log' => [

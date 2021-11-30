@@ -24,6 +24,6 @@ use yii\helpers\Url;
         <b class="new-task__price new-task__price--<?= isset($model['cat_icon']) ? strip_tags($model['cat_icon']) : '' ?>">
             <?= isset($model['budget']) ? strip_tags($model['budget']) . '<b> ₽</b>' : '' ?>
         </b>
-    <p class="new-task__place"><?= isset($model['address']) ? strip_tags($model['address']) : 'Удаленная работа' ?> </p>
+    <p class="new-task__place"><?= isset($model['address']) ? strip_tags($model['city']) . ' ' . strip_tags($model['address']) : 'Удаленная работа' ?> </p>
     <span class="new-task__time"><?= isset($model['dt_add']) ? $formatter->asRelativeTime($model['dt_add'], strftime("%F %T")) : '' ?></span>
 </div>
