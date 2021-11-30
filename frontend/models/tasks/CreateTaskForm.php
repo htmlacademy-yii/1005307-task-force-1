@@ -24,6 +24,7 @@ class CreateTaskForm extends Model
     public $latitude;
     public $longitude;
     public $name;
+    public $online;
     public $status_task;
     private $coordinates;
 
@@ -59,7 +60,7 @@ class CreateTaskForm extends Model
             ['expire', 'date', 'when' => function ($model) {
                 return strtotime($model->expire) < time();
             }, 'message' => 'Срок исполнения должен быть больще текущей даты'],
-            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address', 'file_item'], 'safe']
+            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'online', 'status_task', 'address', 'file_item'], 'safe']
         ];
     }
 
@@ -79,11 +80,13 @@ class CreateTaskForm extends Model
     public function getAddress(): void
     {
         $session = Yii::$app->session;
+        $this->online = 1;
         if ($this->address ?? null) {
             $this->coordinates = $this->getCoordinates($this->address);
             $this->longitude = $this->coordinates[0] ?? null;
             $this->latitude = $this->coordinates[1] ?? null;
             $this->city_id = $session->get('city');
+            $this->online = 0;
         }
     }
 
