@@ -69,6 +69,7 @@ $categories = $categories->getCategories();
                     'class' => 'input textarea',
                     'id' => 10,
                     'rows' => 1,
+                    'value' => 'dcrfgthyujthn'
                 ],
                 'options' => [
                     'tag' => false,
@@ -79,6 +80,7 @@ $categories = $categories->getCategories();
                     'class' => 'input textarea',
                     'id' => 11,
                     'rows' => 7,
+                    'value' => 'ddfrgthyujnhbgvgggggggggggggggggggggggggggggggggggggggggg'
                 ],
                 'options' => [
                     'tag' => false,
@@ -135,7 +137,7 @@ JS;
                 'class' => 'multiple-select input multiple-select-big',
                 'prompt' => [
                     'text' => 'Выберите категорию',
-                    'options' => ['value' => '0']
+                    'options' => ['value' => '1']
                 ]
             ]) ?>
             <?= $form->field($createTaskForm, "address", [
@@ -225,7 +227,7 @@ JS;
             constraints: {
                 locations: {region: "<?= $city['city'] ?>"},
             },
-            restrict_value: true
+            restrict_value: false
         })
     </script>
 <?php endif; ?>

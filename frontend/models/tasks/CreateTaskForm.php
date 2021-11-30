@@ -86,6 +86,8 @@ class CreateTaskForm extends Model
             $this->longitude = $this->coordinates[0] ?? null;
             $this->latitude = $this->coordinates[1] ?? null;
             $this->city_id = $session->get('city');
+            $this->address = explode (' ', $this->address, 3);
+            $this->address = $this->address[2];
             $this->online = 0;
         }
     }
