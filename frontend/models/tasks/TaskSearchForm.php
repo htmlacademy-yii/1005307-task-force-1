@@ -109,18 +109,18 @@ class TaskSearchForm extends Tasks
             ->groupBy('tasks.id')
             ->orderBy(['dt_add' => SORT_DESC])->asArray();
 
+        if ($status_task !== 'Просроченное') {
+            $this->query->where(['status_task' => $status_task]);
+        }
+
         if ($status_task == 'На исполнении') {
-            $this->query->andWhere(['is', 'expire', null])
-                ->orWhere(['>=', 'expire', new Expression('NOW()')]);
+            $this->query->andFilterWhere(['is', 'expire', null])
+                ->andFilterWhere(['>=', 'expire', new Expression('NOW()')]);
         }
 
         if ($status_task == 'Просроченное') {
-            $this->query->andWhere(['status_task' => 'На исполнении'])
+            $this->query->where(['status_task' => 'На исполнении'])
                 ->andFilterWhere(['<', 'expire', new Expression('NOW()')]);
-        }
-
-        if ($status_task !== 'Просроченное') {
-            $this->query->where(['status_task' => $status_task]);
         }
 
         if ($status_task == 'Отмененное') {
