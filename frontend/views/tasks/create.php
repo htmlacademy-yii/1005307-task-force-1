@@ -68,8 +68,7 @@ $categories = $categories->getCategories();
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 10,
-                    'rows' => 1,
-                    'value' => 'dcrfgthyujthn'
+                    'rows' => 1
                 ],
                 'options' => [
                     'tag' => false,
@@ -79,8 +78,7 @@ $categories = $categories->getCategories();
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 11,
-                    'rows' => 7,
-                    'value' => 'ddfrgthyujnhbgvgggggggggggggggggggggggggggggggggggggggggg'
+                    'rows' => 7
                 ],
                 'options' => [
                     'tag' => false,
