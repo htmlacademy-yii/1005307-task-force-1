@@ -3,7 +3,11 @@ declare(strict_types=1);
 
 namespace frontend\models\messages;
 
-use frontend\models\{tasks\Tasks, users\Users};
+use frontend\models\{
+    tasks\Tasks,
+    users\Users
+};
+
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -31,15 +35,10 @@ class Messages extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['message', 'published_at'], 'string'],
-            [['recipient_id', 'task_id', 'unread', 'writer_id'], 'integer'],
-            [['message', 'published_at', 'recipient_id', 'task_id', 'unread', 'writer_id'], 'required'],
+            [['message', 'task_id', 'unread'], 'required'],
+            [['message'], 'string'],
             [['is_mine', 'message', 'published_at', 'recipient_id', 'task_id', 'unread', 'writer_id'], 'safe'],
-            [['recipient_id'],
-                'exist',
-                'skipOnError' => true,
-                'targetClass' => Users::class,
-                'targetAttribute' => ['recipient_id' => 'id']],
+            [['writer_id', 'task_id'], 'integer'],
             [['task_id'],
                 'exist',
                 'skipOnError' => true,
@@ -50,6 +49,11 @@ class Messages extends ActiveRecord
                 'skipOnError' => true,
                 'targetClass' => Users::class,
                 'targetAttribute' => ['writer_id' => 'id']],
+            [['recipient_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::class,
+                'targetAttribute' => ['recipient_id' => 'id']],
         ];
     }
 
@@ -59,21 +63,21 @@ class Messages extends ActiveRecord
             'id' => 'ID',
             'message' => 'Message',
             'published_at' => 'Published At',
-            'task_id' => 'Task ID',
             'writer_id' => 'User ID',
+            'task_id' => 'Task ID',
         ];
     }
 
-    public function fields(): array
+    public function fields()
     {
         return [
             'id',
-            'is_mine',
             'message',
             'published_at',
-            'task_id',
-            'unread',
             'writer_id',
+            'task_id',
+            'is_mine',
+            'unread',
         ];
     }
 
@@ -87,15 +91,15 @@ class Messages extends ActiveRecord
         return $this->hasOne(Users::class, ['id' => 'writer_id']);
     }
 
-    public static function find(): MessagesQuery
-    {
-        return new MessagesQuery(get_called_class());
-    }
-
     public static function getUserMessages($task_id, $user_id): array
     {
         return self::find()->where(['task_id' => $task_id])
             ->andWhere(['recipient_id' => $user_id])
             ->andWhere(['unread' => 1])->asArray()->all();
+    }
+
+    public static function find(): MessagesQuery
+    {
+        return new MessagesQuery(get_called_class());
     }
 }

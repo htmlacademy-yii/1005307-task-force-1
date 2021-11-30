@@ -23,7 +23,7 @@ class RefuseAction extends Action
                 $task->save(false);
 
             $tasks = new Tasks();
-            $this->controller->user->failed_tasks = $tasks->countUsersTasks($task->status_task, $this->controller->user);
+            $this->controller->user->failed_tasks = $tasks->countUsersTasks($task->status_task, 'doer', $this->controller->user);
             $this->controller->user->save(false);
 
             $notification = new Notifications([
