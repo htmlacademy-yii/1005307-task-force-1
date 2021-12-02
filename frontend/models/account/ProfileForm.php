@@ -62,7 +62,7 @@ class ProfileForm extends Model
             ['skype', 'match',
                 'pattern' => "/^[a-zA-Z0-9]{3,}$/",
                 'message' => 'Значение должно состоять из латинских символов и цифр, от 3-х знаков в длину'],
-            [['about', 'avatar', 'birthday', 'city_id', 'email', 'optionSet', 'password', 'password_repeat', 'phone', 'photo', 'skype', 'specializations', 'telegram'], 'safe'],
+            [['about', 'avatar', 'birthday', 'city_id', 'email', 'name', 'optionSet', 'password', 'password_repeat', 'phone', 'photo', 'skype', 'specializations', 'telegram'], 'safe'],
         ];
     }
 

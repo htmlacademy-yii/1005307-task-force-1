@@ -8,7 +8,6 @@ use frontend\models\notifications\Notifications;
 use frontend\models\tasks\Tasks;
 use frontend\models\users\UserOptionSettings;
 use yii\base\Action;
-use yii\base\BaseObject;
 use yii\web\Response;
 
 class StartWorkAction extends Action
