@@ -2,16 +2,16 @@
 
 namespace frontend\modules\api\controllers;
 
-use yii\base\BaseObject;
-use yii\data\ActiveDataProvider;
-use yii\rest\ActiveController;
 use frontend\models\messages\Messages;
 use frontend\models\notifications\Notifications;
+use frontend\models\users\UserOptionSettings;
 use frontend\models\users\Users;
-use yii\web\ServerErrorHttpException;
-use yii\filters\ContentNegotiator;
-use yii\web\Response;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\filters\ContentNegotiator;
+use yii\rest\ActiveController;
+use yii\web\Response;
+use yii\web\ServerErrorHttpException;
 
 /**
  * Default controller for the `api` module
@@ -99,15 +99,18 @@ class MessagesController extends ActiveController
             if ($newMessage->save()) {
                 $response = Yii::$app->getResponse();
                 $response->setStatusCode(201);
-                $notification = new Notifications([
-                    'notification_category_id' => 5,
-                    'task_id' => $newMessage->task_id,
-                    'visible' => 1,
-                    'user_id' => $newMessage->recipient_id,
-                    'setting' => 'is_subscribed_messages'
-                ]);
-                $notification->save(false);
-                $notification->addNotification();
+                $user_set = UserOptionSettings::findOne($newMessage->recipient_id);
+
+                if ($user_set['is_subscribed_messages'] == 1) {
+                    $notification = new Notifications([
+                        'notification_category_id' => 2,
+                        'task_id' => $newMessage->task_id,
+                        'visible' => 1,
+                        'user_id' => $newMessage->recipient_id
+                    ]);
+                    $notification->save(false);
+                    $notification->addNotification();
+                }
             } elseif (!$newMessage->hasErrors()) {
                 throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
             }

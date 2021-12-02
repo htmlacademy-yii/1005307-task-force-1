@@ -15,7 +15,7 @@ use yii\db\ActiveRecord;
  * @property string $comment
  * @property int $doer_id
  * @property string $dt_add
- * @property bool $is_refused
+ * @property int $is_refused
  * @property int $task_id
  *
  * @property Users $doer
@@ -32,8 +32,7 @@ class Responses extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['doer_id', 'task_id', 'is_refused'], 'integer'],
-            [['budget'], 'number'],
+            [['doer_id', 'task_id', 'is_refused', 'budget'], 'integer'],
             [['comment', 'dt_add'], 'string'],
             [['budget', 'comment', 'doer_id', 'dt_add', 'is_refused', 'task_id'], 'required'],
             [['budget', 'comment', 'doer_id', 'dt_add', 'is_refused', 'task_id'], 'safe'],

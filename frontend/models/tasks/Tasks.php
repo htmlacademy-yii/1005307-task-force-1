@@ -20,7 +20,7 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string|null $address
  * @property int|null $budget
- * @property int|null $category_id
+ * @property int $category_id
  * @property int|null $city_id
  * @property int $client_id
  * @property string $description

@@ -8,6 +8,7 @@ use frontend\models\notifications\Notifications;
 use frontend\models\responses\ResponseForm;
 use frontend\models\responses\Responses;
 use frontend\models\tasks\Tasks;
+use frontend\models\users\UserOptionSettings;
 use Yii;
 use yii\base\Action;
 use yii\web\Response;
@@ -34,18 +35,20 @@ class ResponseAction extends Action
                 $task = Tasks::findOne($response->task_id);
                 $task->responses_count = Responses::find()
                     ->where(['task_id' => $response->task_id])->count();
-      //          $task->save();
+                $task->save();
+                $user_set = UserOptionSettings::findOne($task->client_id);
 
-                $notification = new Notifications([
-                    'notification_category_id' => 1,
-                    'task_id' => $task->id,
-                    'visible' => 1,
-                    'user_id' => $task->client_id,
-                    'setting' => 'is_subscribed_actions'
-                ]);
+                if ($user_set['is_subscribed_actions'] == 1) {
+                    $notification = new Notifications([
+                        'notification_category_id' => 1,
+                        'task_id' => $task->id,
+                        'user_id' => $task->client_id,
+                        'visible' => 1
+                    ]);
 
-                $notification->save(false);
-                $notification->addNotification();
+                    $notification->save(false);
+                    $notification->addNotification();
+                }
             }
         }
 

@@ -60,7 +60,7 @@ class CreateTaskForm extends Model
             ['expire', 'date', 'when' => function ($model) {
                 return strtotime($model->expire) < time();
             }, 'message' => 'Срок исполнения должен быть больще текущей даты'],
-            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'online', 'status_task', 'address', 'file_item'], 'safe']
+            [['address', 'budget', 'category_id', 'client_id', 'description', 'expire', 'file_item', 'name', 'online', 'status_task'], 'safe']
         ];
     }
 

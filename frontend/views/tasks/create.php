@@ -1,8 +1,8 @@
 <?php
 $this->title = 'Публикация нового задания';
 
-use frontend\models\cities\Cities;
 use frontend\models\categories\Categories;
+use frontend\models\cities\Cities;
 use yii\widgets\ActiveForm;
 
 $categories = new Categories();
@@ -135,7 +135,7 @@ JS;
                 'class' => 'multiple-select input multiple-select-big',
                 'prompt' => [
                     'text' => 'Выберите категорию',
-                    'options' => ['value' => '1']
+                    'options' => ['value' => '0']
                 ]
             ]) ?>
             <?= $form->field($createTaskForm, "address", [
@@ -211,21 +211,19 @@ JS;
         <button form="task-form" class="button" type="submit">Опубликовать</button>
     </section>
 </div>
-<?php if ($this->title === 'Публикация нового задания'): ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js"></script>
 
-    <script type="text/javascript">
-        <?php $session = Yii::$app->session;
-        $city = Cities::findOne($session->get('city'));?>
-        $("#address").suggestions({
-            token: "5e9234412c360c19d520220cc87dc076c8e65389",
-            type: "ADDRESS",
-            constraints: {
-                locations: {region: "<?= $city['city'] ?>"},
-            },
-            restrict_value: false
-        })
-    </script>
-<?php endif; ?>
+<script type="text/javascript">
+    <?php $session = Yii::$app->session;
+    $city = Cities::findOne($session->get('city'));?>
+    $("#address").suggestions({
+        token: "5e9234412c360c19d520220cc87dc076c8e65389",
+        type: "ADDRESS",
+        constraints: {
+            locations: {region: "<?= $city['city'] ?>"},
+        },
+        restrict_value: false
+    })
+</script>

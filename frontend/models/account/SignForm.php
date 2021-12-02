@@ -17,7 +17,8 @@ class SignForm extends Model
     public function rules(): array
     {
         return [
-            [['city_id', 'name', 'email', 'password', 'user_role'], 'required',
+            [['user_role'], 'required'],
+            [['city_id', 'email', 'name', 'password'], 'required',
                 'message' => "Поле «{attribute}» не может быть пустым"],
             [['email', 'name'], 'trim'],
             [['city_id'], 'integer',
@@ -25,18 +26,18 @@ class SignForm extends Model
             [['password'], 'string',
                 'min' => 8,
                 'message' => "Длина пароля от 8 символов"],
-            [['city_id'], 'exist',
-                'skipOnError' => true,
-                'targetClass' => Cities::class,
-                'targetAttribute' => ['city_id' => 'id'],
-                'message' => "Выбран несуществующий город"],
             [['email'], 'email',
                 'message' => 'Введите валидный адрес электронной почты'],
             [['email'], 'unique',
                 'targetAttribute' => 'email',
                 'targetClass' => Users::class,
                 'message' => "Пользователь с еmail «{value}» уже зарегистрирован"],
-            [['city_id', 'name', 'email', 'password', 'user_role'], 'safe']
+            [['city_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Cities::class,
+                'targetAttribute' => ['city_id' => 'id'],
+                'message' => "Выбран несуществующий город"],
+            [['city_id', 'email', 'name', 'password', 'user_role'], 'safe']
         ];
     }
 

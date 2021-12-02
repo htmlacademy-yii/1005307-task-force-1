@@ -20,11 +20,8 @@ class ResponseForm extends Model
             [['budget', 'comment'], 'required',
                 'message' => 'Это поле должно быть заполнено',
             ],
-            ['budget', 'integer',
-                'min' => 1,
-                'message' => 'Значение должно быть целым положительным числом',
-            ],
-            [['comment'], 'string', 'min' => 10],
+            ['budget', 'integer', 'min' => 1],
+            ['comment', 'string'],
             ['comment', 'trim'],
             [['budget', 'comment', 'doer_id', 'is_refused', 'task_id'], 'safe']
         ];

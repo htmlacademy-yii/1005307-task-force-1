@@ -105,7 +105,7 @@ class m210502_170010_create_bd extends Migration
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'address' => $this->string(255),
             'budget' => $this->integer(5),
-            'category_id' => $this->integer(11),
+            'category_id' => $this->integer(11)->notNull(),
             'city_id' => $this->integer(11),
             'client_id' => $this->integer(11)->notNull(),
             'description' => $this->text()->notNull(),
@@ -244,7 +244,6 @@ class m210502_170010_create_bd extends Migration
             'id' => $this->primaryKey(11)->notNull() .' AUTO_INCREMENT',
             'dt_add' => $this->timestamp()->notNull()->defaultValue(new Expression('NOW()')),
             'notification_category_id' => $this->integer(11)->notNull(),
-            'setting' => $this->string(255)->notNull(),
             'task_id' => $this->integer(11)->notNull(),
             'user_id' => $this->integer(11)->notNull(),
             'visible' => $this->integer(1)->notNull()

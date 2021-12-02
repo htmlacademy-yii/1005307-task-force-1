@@ -52,8 +52,7 @@ $cities = $cities->getCities();
                 ->dropDownList($cities, [
                     'class' => 'multiple-select input town-select registration-town',
                     'size' => 1,
-                    'id' => 18,
-                    'style' => 'width: 360px; margin-top: 12px; margin-bottom: 0px;'
+                    'id' => 18
                 ]); ?>
             <?= $form->field($signForm, "password", [
                 'inputOptions' => [

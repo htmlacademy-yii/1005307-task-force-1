@@ -8,9 +8,11 @@ use frontend\models\notifications\Notifications;
 use frontend\models\opinions\Opinions;
 use frontend\models\opinions\RequestForm;
 use frontend\models\tasks\Tasks;
+use frontend\models\users\UserOptionSettings;
 use frontend\models\users\Users;
 use Yii;
 use yii\base\Action;
+use yii\base\BaseObject;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -50,16 +52,19 @@ class RequestAction extends Action
                 $user_doer->opinions_count = $opinions->count();
                 $user_doer->save(false);
                 $user_client->save(false);
+                $user_set = UserOptionSettings::findOne($task->doer_id);
 
-                $notification = new Notifications([
-                    'notification_category_id' => 5,
-                    'setting' => 'is_subscribed_reviews',
-                    'task_id' => $task->id,
-                    'user_id' => $user_doer->id,
-                    'visible' => 1,
-                ]);
-                $notification->save(false);
-                $notification->addNotification();
+                if ($user_set['is_subscribed_reviews'] == 1) {
+                    $notification = new Notifications([
+                        'notification_category_id' => 5,
+                        'task_id' => $task->id,
+                        'user_id' => $user_doer->id,
+                        'visible' => 1
+                    ]);
+
+                    $notification->save(false);
+                    $notification->addNotification();
+                }
             }
         }
 
