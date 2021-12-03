@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
-use frontend\models\{categories\Categories};
+use frontend\models\categories\Categories;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\{BadResponseException, ServerException};
 use GuzzleHttp\Psr7\Request as GuzzleRequest;

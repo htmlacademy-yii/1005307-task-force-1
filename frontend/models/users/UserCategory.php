@@ -27,9 +27,9 @@ class UserCategory extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['user_id', 'category_id'], 'integer'],
-            [['user_id', 'category_id'], 'required'],
-            [['user_id', 'category_id'], 'safe'],
+            [['category_id', 'user_id'], 'integer'],
+            [['category_id', 'user_id'], 'required'],
+            [['category_id', 'user_id'], 'safe'],
             [['category_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Categories::class,

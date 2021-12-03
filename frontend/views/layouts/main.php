@@ -63,12 +63,6 @@ if ($users) {
             }
         </script>
     <?php endif; ?>
-    <script>
-        var lightbulb = document.getElementsByClassName('header__lightbulb')[0];
-        lightbulb.addEventListener('mouseover', function () {
-            fetch('/index.php?r=event/index');
-        });
-    </script>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -282,24 +276,6 @@ if ($users) {
     <?php endif; ?>
 </div>
 <div class="overlay"></div>
-<script src="/js/main.js"></script>
-<script src="/js/messenger.js"></script>
-
-<script type="text/javascript">
-    function openImageWindow(src) {
-        var image = new Image();
-        image.src = src;
-        var width = image.width;
-        var height = image.height;
-        window.open(src, "Image", "width=" + width + ",height=" + height);
-    }
-</script>
-<script type="text/javascript">
-    var lightbulb = document.getElementsByClassName('header__lightbulb')[0];
-    lightbulb.addEventListener('mouseover', function () {
-        fetch('/index.php?r=event/index');
-    });
-</script>
 <?php $this->endBody() ?>
 </body>
 </html>

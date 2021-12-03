@@ -15,7 +15,7 @@ class SignController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'login', 'auth'],
+                        'actions' => ['index', 'login'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -32,14 +32,9 @@ class SignController extends Controller
     public function actions(): array
     {
         return [
-            'auth' => [
-                'class' => 'yii\authclient\AuthAction',
-                'successCallback' => [$this, 'onAuthSuccess'],
-            ],
             'index' => \frontend\controllers\actions\sign\IndexAction::class,
             'login' => \frontend\controllers\actions\sign\LoginAction::class,
             'logout' => \frontend\controllers\actions\sign\LogoutAction::class,
-            'on-auth-success' => \frontend\controllers\actions\sign\OnAuthSuccessAction::class,
         ];
     }
 }

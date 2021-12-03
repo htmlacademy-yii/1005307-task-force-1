@@ -20,7 +20,7 @@ class LoginForm extends Model
             [['password'], 'validatePassword'],
             [['err', 'email', 'password'], function () {
                 if (!empty($this->errors)) {
-                    if (isset($this->email) && $this->email) {
+                    if ($this->email) {
                         $this->addError('err', 'Введите верный логин/пароль');
                     }
                 }
@@ -40,10 +40,10 @@ class LoginForm extends Model
 
     public function validatePassword($attribute): void
     {
-        $user = $this->getUser();
+        $this->user = $this->getUser();
 
         if (!$this->hasErrors()) {
-            if (!$user || !$user->validatePassword($this->password)) {
+            if (!$this->user || !$this->user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Неправильный email или пароль');
             }
         }

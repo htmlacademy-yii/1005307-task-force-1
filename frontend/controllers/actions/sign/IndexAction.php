@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\sign;
 
-use frontend\models\{users\UserOptionSettings, users\Users};
+use frontend\models\users\{UserOptionSettings, Users};
 use frontend\models\account\SignForm;
 use Yii;
 use yii\base\Action;

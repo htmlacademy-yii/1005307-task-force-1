@@ -14,6 +14,7 @@ class ProfileForm extends Model
     public $birthday;
     public $city_id;
     public $email;
+    public $existingSpecializations;
     public $name;
     public $optionSet;
     public $password;
@@ -22,10 +23,10 @@ class ProfileForm extends Model
     public $photo;
     public $skype;
     public $specializations;
+    public $specializationToBeDeleted;
     public $telegram;
     public $user;
-    private $userCategory;
-    private $specializationToBeDeleted;
+    public $userCategory;
 
     public function rules(): array
     {
@@ -81,11 +82,6 @@ class ProfileForm extends Model
         ];
     }
 
-    public function getExistingSpecializations(): array
-    {
-        return Categories::getCategories();
-    }
-
     public function loadCurrentUserData(Users $user): void
     {
         $this->attributes = $user->attributes;
@@ -136,6 +132,7 @@ class ProfileForm extends Model
 
     private function saveCategories(Users $user): void
     {
+        $this->existingSpecializations = Categories::getCategories();
         foreach ($this->specializations ?? [] as $id) {
             if (!UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id])) {
                 $this->userCategory = new UserCategory(['category_id' => $id, 'user_id' => $user->id]);
@@ -143,7 +140,7 @@ class ProfileForm extends Model
             }
         }
 
-        foreach ($this->getExistingSpecializations() as $id => $name) {
+        foreach ($this->existingSpecializations as $id => $name) {
             if (!in_array($id, $this->specializations ?? [])) {
                 $this->specializationToBeDeleted = UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id]);
 

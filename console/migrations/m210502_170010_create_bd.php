@@ -45,7 +45,6 @@ class m210502_170010_create_bd extends Migration
             'skype' => $this->string(255),
             'telegram' => $this->string(255),
             'user_role' => $this->string(255)->notNull(),
-            'vk_id' => $this->integer(11)->unique(),
 
         ]);
 

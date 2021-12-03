@@ -10,12 +10,12 @@ use yii\db\Query;
 
 class TaskSearchForm extends Tasks
 {
-    public $searchedCategories = [];
+    public $dataProvider;
     public $noResponses;
     public $online;
     public $periodFilter;
+    public $searchedCategories = [];
     public $searchName;
-    public $dataProvider;
     private $query;
 
     public function rules(): array
