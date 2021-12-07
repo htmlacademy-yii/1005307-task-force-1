@@ -19,6 +19,13 @@ use yii\db\ActiveRecord;
  */
 class UserOptionSettings extends ActiveRecord
 {
+    private $is_hidden_account;
+    private $is_hidden_contacts;
+    private $is_subscribed_actions;
+    private $is_subscribed_messages;
+    private $is_subscribed_reviews;
+    private $user_id;
+
     public static function tableName(): string
     {
         return 'user_option_set';

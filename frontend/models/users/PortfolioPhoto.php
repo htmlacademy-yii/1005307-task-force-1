@@ -16,6 +16,9 @@ use yii\db\ActiveRecord;
  */
 class PortfolioPhoto extends ActiveRecord
 {
+    private $photo;
+    private $user_id;
+
     public static function tableName(): string
     {
         return 'portfolio_photo';

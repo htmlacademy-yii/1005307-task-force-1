@@ -16,6 +16,8 @@ use yii\db\ActiveRecord;
  */
 class FileTask extends ActiveRecord
 {
+    private $file_item;
+    private $task_id;
     public static function tableName(): string
     {
         return 'file_task';

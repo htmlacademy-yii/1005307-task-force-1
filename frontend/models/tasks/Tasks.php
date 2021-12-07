@@ -46,6 +46,8 @@ use yii\db\ActiveRecord;
  */
 class Tasks extends ActiveRecord
 {
+    private $status_task;
+
     public static function tableName(): string
     {
         return 'tasks';
@@ -165,5 +167,13 @@ class Tasks extends ActiveRecord
         }
 
         return [];
+    }
+
+    public function propertyExists(): bool
+    {
+        if (property_exists($this, 'status_task')) {
+            return true;
+        }
+        return false;
     }
 }

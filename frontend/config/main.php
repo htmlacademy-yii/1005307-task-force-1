@@ -52,14 +52,14 @@ return [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => true,
+            'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'phpdemo.ru',
-                'username' => 'keks@phpdemo.ru',
-                'password' => 'htmlacademy',
-                'port' => 465,
-                'encryption' => 'ssl',
+                'host' => 'smtp.mailtrap.io',
+                'username' => '75f3c8c888f4c0',
+                'password' => 'd3bf00f9a2376d',
+                'port' => '2525',
+                'encryption' => 'tls',
             ]
         ],
         'log' => [

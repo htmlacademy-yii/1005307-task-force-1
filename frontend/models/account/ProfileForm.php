@@ -124,36 +124,42 @@ class ProfileForm extends Model
 
     private function saveAvatar(): void
     {
-        if (!empty($this->avatar)) {
-            $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
-            $this->avatar = '/uploads/' . $this->avatar;
+        if (property_exists(new Users, 'avatar')) {
+            if (!empty($this->avatar)) {
+                $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
+                $this->avatar = '/uploads/' . $this->avatar;
+            }
         }
     }
 
     private function saveCategories(Users $user): void
     {
-        $this->existingSpecializations = Categories::getCategories();
-        foreach ($this->specializations ?? [] as $id) {
-            if (!UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id])) {
-                $this->userCategory = new UserCategory(['category_id' => $id, 'user_id' => $user->id]);
-                $this->userCategory->save();
+        if (property_exists(new UserCategory(), 'user_id') && property_exists(new UserCategory(), 'category_id')) {
+            $this->existingSpecializations = Categories::getCategories();
+            foreach ($this->specializations ?? [] as $id) {
+                if (!UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id])) {
+                    $this->userCategory = new UserCategory(['category_id' => $id, 'user_id' => $user->id]);
+                    $this->userCategory->save();
+                }
             }
-        }
 
-        foreach ($this->existingSpecializations as $id => $name) {
-            if (!in_array($id, $this->specializations ?? [])) {
-                $this->specializationToBeDeleted = UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id]);
+            foreach ($this->existingSpecializations as $id => $name) {
+                if (!in_array($id, $this->specializations ?? [])) {
+                    $this->specializationToBeDeleted = UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id]);
 
-                if ($this->specializationToBeDeleted !== null) {
-                    $this->specializationToBeDeleted->delete();
+                    if ($this->specializationToBeDeleted !== null) {
+                        $this->specializationToBeDeleted->delete();
+                    }
                 }
             }
         }
+
     }
 
     private function saveCommonData(Users $user): void
     {
         $user->setScenario(Users::SCENARIO_UPDATE);
+
         $user->setAttributes($this->attributes);
         $attributesToBeSaved = [];
 
@@ -173,12 +179,14 @@ class ProfileForm extends Model
 
     private function checkRole(Users $user): void
     {
-        if ($user->userCategories === []) {
-            $user->user_role = 'client';
-        } else {
-            $user->user_role = 'doer';
+        if (property_exists(new Users(), 'user_role')) {
+            if ($user->userCategories === []) {
+                $user->user_role = 'client';
+            } else {
+                $user->user_role = 'doer';
+            }
+            $user->save(false, ['user_role']);
         }
-        $user->save(false, ['user_role']);
     }
 
     private function saveOptionSet(Users $user): void

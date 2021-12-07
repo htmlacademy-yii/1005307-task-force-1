@@ -215,9 +215,9 @@ JS;
 <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js"></script>
 
+<?php $session = Yii::$app->session;
+$city = Cities::findOne($session->get('city')); ?>
 <script type="text/javascript">
-    <?php $session = Yii::$app->session;
-    $city = Cities::findOne($session->get('city'));?>
     $("#address").suggestions({
         token: "5e9234412c360c19d520220cc87dc076c8e65389",
         type: "ADDRESS",

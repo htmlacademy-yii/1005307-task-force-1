@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\sign;
 
-use frontend\models\users\{UserOptionSettings, Users};
 use frontend\models\account\SignForm;
+use frontend\models\users\{UserOptionSettings, Users};
 use Yii;
 use yii\base\Action;
 use yii\web\Response;
@@ -30,7 +30,6 @@ class IndexAction extends Action
                 'password' => Yii::$app->security->generatePasswordHash($signForm->password)
             ]);
             $user->save(false);
-
             $userOptionSettings = new UserOptionSettings([
                 'is_hidden_account' => 0,
                 'is_hidden_contacts' => 0,

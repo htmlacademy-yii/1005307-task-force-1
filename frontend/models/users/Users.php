@@ -36,6 +36,7 @@ use yii\db\ActiveRecord;
  * @property string|null $skype
  * @property string|null $telegram
  * @property string $user_role
+ * @property int|null $vk_id
  *
  * @property Cities $city
  * @property Favourites[] $favourites
@@ -53,6 +54,9 @@ use yii\db\ActiveRecord;
 class Users extends ActiveRecord
 {
     const SCENARIO_UPDATE = 'update';
+    private $city_id;
+    private $avatar;
+    private $user_role;
 
     public static function tableName(): string
     {
@@ -63,11 +67,11 @@ class Users extends ActiveRecord
     {
         return [
             [['about', 'avatar', 'birthday', 'dt_add', 'email', 'last_activity_time', 'name', 'password', 'phone', 'skype', 'telegram', 'user_role'], 'string', 'max' => 255],
-            [['city_id', 'created_tasks', 'done_tasks', 'failed_tasks', 'opinions_count'], 'integer'],
+            [['city_id', 'created_tasks', 'done_tasks', 'failed_tasks', 'opinions_count', 'vk_id'], 'integer'],
             [['rating'], 'number'],
             [['city_id', 'created_tasks', 'done_tasks', 'email', 'failed_tasks', 'name', 'opinions_count', 'password', 'user_role'], 'required'],
             [['email'], 'unique'],
-            [['created_tasks', 'done_tasks', 'dt_add', 'failed_tasks', 'last_activity_time', 'opinions_count', 'rating'], 'safe'],
+            [['created_tasks', 'done_tasks', 'dt_add', 'failed_tasks', 'last_activity_time', 'opinions_count', 'rating', 'vk_id'], 'safe'],
             [['about', 'avatar', 'birthday', 'city_id', 'email', 'name', 'password', 'phone', 'skype', 'telegram'], 'safe',
                 'on' => self::SCENARIO_UPDATE],
             [['city_id'], 'exist',
@@ -152,5 +156,15 @@ class Users extends ActiveRecord
         return Tasks::find()->where(['status_task' => 'На исполнении'])
             ->andWhere(['client_id' => $account_user_id])
             ->andWhere(['doer_id' => $user_id])->asArray()->all();
+    }
+
+    public function checkProperty(array $properties): bool
+    {
+        foreach ($properties as $property) {
+            if (property_exists($this, $property)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

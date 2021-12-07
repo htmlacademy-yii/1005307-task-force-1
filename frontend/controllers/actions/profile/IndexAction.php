@@ -6,6 +6,7 @@ namespace frontend\controllers\actions\profile;
 
 use frontend\models\account\ProfileForm;
 use frontend\models\users\PortfolioPhoto;
+use frontend\models\users\Users;
 use yii;
 use yii\base\Action;
 use yii\web\Response;
@@ -16,6 +17,7 @@ class IndexAction extends Action
 {
     public function run()
     {
+        $users = new Users();
         $profileForm = new ProfileForm();
         $request = \Yii::$app->request;
 
@@ -31,27 +33,32 @@ class IndexAction extends Action
         }
 
         if ($profileForm->load($request->post())) {
-            $profileForm->avatar = UploadedFile::getInstance($profileForm, 'avatar');
-            $profileForm->photo = UploadedFile::getInstances($profileForm, 'photo');
+            if (property_exists($profileForm, 'avatar') && property_exists($profileForm, 'photo')) {
+                $profileForm->avatar = UploadedFile::getInstance($profileForm, 'avatar');
+                $profileForm->photo = UploadedFile::getInstances($profileForm, 'photo');
 
-            if ($profileForm->validate()) {
-                $profileForm->saveProfileData($this->controller->user);
+                if ($profileForm->validate()) {
+                    $profileForm->saveProfileData($this->controller->user);
 
-                if ($profileForm->upload()) {
-                    PortfolioPhoto::deleteAll(['user_id' => $this->controller->user->id]);
-                    foreach ($profileForm->photo as $file) {
-                        $portfolioPhoto = new PortfolioPhoto([
-                            'photo' => '/uploads/' . $file,
-                            'user_id' => $this->controller->user->id]);
-                        $portfolioPhoto->save(false);
+                    if ($profileForm->upload()) {
+                        if (property_exists(new PortfolioPhoto, 'photo') && property_exists(new PortfolioPhoto(), 'user_id')) {
+                            PortfolioPhoto::deleteAll(['user_id' => $this->controller->user->id]);
+                            foreach ($profileForm->photo as $file) {
+                                $portfolioPhoto = new PortfolioPhoto([
+                                    'photo' => '/uploads/' . $file,
+                                    'user_id' => $this->controller->user->id]);
+                                $portfolioPhoto->save(false);
+                            }
+                        }
                     }
+                    $session = Yii::$app->session;
+
+                    $session->set('city', $this->controller->user->city_id);
+
+                    return $this->controller->redirect(['users/view', 'id' => $this->controller->user->id]);
                 }
-                $session = Yii::$app->session;
-
-                $session->set('city', $this->controller->user->city_id);
-
-                return $this->controller->redirect(['users/view', 'id' => $this->controller->user->id]);
             }
+
         }
 
         return $this->controller->render(

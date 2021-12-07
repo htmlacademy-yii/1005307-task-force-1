@@ -45,7 +45,7 @@ class m210502_170010_create_bd extends Migration
             'skype' => $this->string(255),
             'telegram' => $this->string(255),
             'user_role' => $this->string(255)->notNull(),
-
+            'vk_id' => $this->string(255)->notNull(),
         ]);
 
         $this->addForeignKey(
@@ -117,7 +117,6 @@ class m210502_170010_create_bd extends Migration
             'online' => $this->integer(11)->notNull(),
             'responses_count' => $this->integer(1)->defaultValue(0)->notNull(),
             'status_task' => $this->string(255)->notNull(),
-
         ]);
 
         $this->addForeignKey(

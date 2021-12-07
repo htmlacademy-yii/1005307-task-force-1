@@ -164,7 +164,7 @@ if ($user_show->rating > 0 && $user_show->id !== $task->client_id) {
                                     <?php endif; ?>
                                 </div>
                                 <span
-                                    class="new-task__time"><?= isset($task->dt_add) ? $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) : '' ?></span>
+                                    class="new-task__time"><?= isset($response->dt_add) ? $formatter->asRelativeTime($response->dt_add, strftime("%F %T")) : '' ?></span>
                             </div>
                             <div class="feedback-card__content">
                                 <p><?= isset($response->comment) ? htmlspecialchars($response->comment) : '' ?></p>
