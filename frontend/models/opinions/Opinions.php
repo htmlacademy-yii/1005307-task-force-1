@@ -25,6 +25,8 @@ use yii\db\ActiveRecord;
  */
 class Opinions extends ActiveRecord
 {
+    private $completion;
+
     public static function tableName(): string
     {
         return 'opinions';

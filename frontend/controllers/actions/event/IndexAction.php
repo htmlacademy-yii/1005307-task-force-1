@@ -13,13 +13,16 @@ class IndexAction extends Action
     public function run(View $view)
     {
         $user = \Yii::$app->user->getIdentity();
-        $notifications = Notifications::getVisibleNoticesByUser($user->id);
+        $notification = new Notifications();
+        $notifications = $notification->getVisibleNoticesByUser($user->id);
         $view->params['newEvents'] = $notifications;
 
         if ($view->params['newEvents']) {
-            foreach ($view->params['newEvents'] as $event) {
-                $event->visible = 0;
-                $event->save(false);
+            if (property_exists($notification, 'visible')) {
+                foreach ($view->params['newEvents'] as $event) {
+                    $event->visible = 0;
+                    $event->save(false);
+                }
             }
         }
     }

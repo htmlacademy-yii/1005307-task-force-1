@@ -111,7 +111,7 @@ class TaskSearchForm extends Tasks
             ->orderBy(['dt_add' => SORT_DESC])->asArray();
 
         if ($status_task === 'На исполнении') {
-            $this->query
+            $this->query = Tasks::find()
                 ->where(['expire' => null])
                 ->orwhere(['>=', 'expire', new Expression('NOW()')])
                 ->andWhere(['status_task' => 'На исполнении']);;

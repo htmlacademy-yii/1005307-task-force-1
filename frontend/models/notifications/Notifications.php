@@ -25,6 +25,7 @@ use yii\db\ActiveRecord;
 class Notifications extends ActiveRecord
 {
     public $subject;
+    private $visible;
 
     public static function tableName(): string
     {

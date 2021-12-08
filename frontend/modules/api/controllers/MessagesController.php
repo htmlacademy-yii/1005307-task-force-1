@@ -70,11 +70,13 @@ class MessagesController extends ActiveController
         $messages = $this->prepareDataProvider()->getModels();
 
         foreach ($messages as $key => $message) {
-            $message->is_mine = $userId === $message->writer_id ? 1 : 0;
-            $messages[$key] = $message;
-            if ($userId === $message->recipient_id) {
-                $message->unread = 0;
-                $message->save();
+            if (property_exists($message, 'is_mine') && property_exists($message, 'writer_id')) {
+                $message->is_mine = $userId === $message->writer_id ? 1 : 0;
+                $messages[$key] = $message;
+                if ($userId === $message->recipient_id) {
+                    $message->unread = 0;
+                    $message->save();
+                }
             }
         }
 
@@ -85,11 +87,12 @@ class MessagesController extends ActiveController
     {
         $post = json_decode(Yii::$app->request->getRawBody());
         $user_id = Yii::$app->user->id;
-        $newMessage = new $this->modelClass();
-        $newMessage->message = $post->message;
-        $newMessage->writer_id = $user_id;
-        $newMessage->task_id = $post->task_id;
-        $newMessage->unread = 1;
+        $newMessage = new $this->modelClass([
+            'message' => $post->message,
+            'writer_id' => $user_id,
+            'task_id' => $post->task_id,
+            'unread' => 1
+        ]);
 
         $user_id === $newMessage->task->doer_id ?
             $newMessage->recipient_id = $newMessage->task->client_id
@@ -101,7 +104,7 @@ class MessagesController extends ActiveController
                 $response->setStatusCode(201);
                 $user_set = UserOptionSettings::findOne($newMessage->recipient_id);
 
-                if ($user_set['is_subscribed_messages'] == 1) {
+                if (property_exists($user_set, 'is_subscribed_messages') && $user_set['is_subscribed_messages'] == 1) {
                     $notification = new Notifications([
                         'notification_category_id' => 2,
                         'task_id' => $newMessage->task_id,

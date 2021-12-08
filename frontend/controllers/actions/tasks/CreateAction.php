@@ -9,7 +9,6 @@ use frontend\models\tasks\FileTask;
 use frontend\models\tasks\Tasks;
 use Yii;
 use yii\base\Action;
-use yii\base\BaseObject;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -43,13 +42,11 @@ class CreateAction extends Action
                 $task->save(false);
 
                 if ($createTaskForm->upload()) {
-                    if (property_exists(new FileTask(), 'file_item') && property_exists(new FileTask(), 'task_id')) {
-                        foreach ($createTaskForm->file_item as $file) {
-                            $fileTask = new FileTask([
-                                'file_item' => $file,
-                                'task_id' => $task->id]);
-                            $fileTask->save(false);
-                        }
+                    foreach ($createTaskForm->file_item as $file) {
+                        $fileTask = new FileTask([
+                            'file_item' => $file,
+                            'task_id' => $task->id]);
+                        $fileTask->save(false);
                     }
                 }
 

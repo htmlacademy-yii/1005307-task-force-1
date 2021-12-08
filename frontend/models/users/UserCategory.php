@@ -21,6 +21,7 @@ class UserCategory extends ActiveRecord
 {
     private $category_id;
     private $user_id;
+
     public static function tableName(): string
     {
         return 'user_category';

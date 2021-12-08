@@ -57,6 +57,12 @@ class Users extends ActiveRecord
     private $city_id;
     private $avatar;
     private $user_role;
+    private $password;
+    private $created_tasks;
+    private $done_tasks;
+    private $failed_tasks;
+    private $rating;
+    private $opinions_count;
 
     public static function tableName(): string
     {
@@ -156,15 +162,5 @@ class Users extends ActiveRecord
         return Tasks::find()->where(['status_task' => 'На исполнении'])
             ->andWhere(['client_id' => $account_user_id])
             ->andWhere(['doer_id' => $user_id])->asArray()->all();
-    }
-
-    public function checkProperty(array $properties): bool
-    {
-        foreach ($properties as $property) {
-            if (property_exists($this, $property)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

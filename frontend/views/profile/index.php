@@ -152,7 +152,7 @@ $specializations = Categories::getCategories();
                         <?= $form->field($profileForm, 'password', [
                             'options' => ['class' => 'account__input'],
                             'inputOptions' => ['class' => 'input textarea']
-                        ])->passwordInput(['maxlength' => 6]); ?>
+                        ])->passwordInput(); ?>
                     </div>
                     <div class="account__input">
                         <?= $form->field($profileForm, 'password_repeat', [

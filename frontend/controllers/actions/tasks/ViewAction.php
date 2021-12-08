@@ -23,8 +23,8 @@ class ViewAction extends Action
             );
         }
 
-        if ($task->status_task !== 'Новое' && $task->status_task !== 'Выполнено') {
-            if ($this->controller->user->id !== $task->client_id && $this->controller->user->id !== $task->doer_id) {
+        if (property_exists($task, 'status_task') && $task->status_task !== 'Новое' && $task->status_task !== 'Выполнено') {
+            if (property_exists($task, 'client_id') && property_exists($task, 'doer_id') && $this->controller->user->id !== $task->client_id && $this->controller->user->id !== $task->doer_id) {
                 $this->controller->redirect('/tasks/');
             }
         }

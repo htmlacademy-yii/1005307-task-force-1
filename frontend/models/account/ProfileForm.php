@@ -134,26 +134,23 @@ class ProfileForm extends Model
 
     private function saveCategories(Users $user): void
     {
-        if (property_exists(new UserCategory(), 'user_id') && property_exists(new UserCategory(), 'category_id')) {
-            $this->existingSpecializations = Categories::getCategories();
-            foreach ($this->specializations ?? [] as $id) {
-                if (!UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id])) {
-                    $this->userCategory = new UserCategory(['category_id' => $id, 'user_id' => $user->id]);
-                    $this->userCategory->save();
-                }
-            }
-
-            foreach ($this->existingSpecializations as $id => $name) {
-                if (!in_array($id, $this->specializations ?? [])) {
-                    $this->specializationToBeDeleted = UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id]);
-
-                    if ($this->specializationToBeDeleted !== null) {
-                        $this->specializationToBeDeleted->delete();
-                    }
-                }
+        $this->existingSpecializations = Categories::getCategories();
+        foreach ($this->specializations ?? [] as $id) {
+            if (!UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id])) {
+                $this->userCategory = new UserCategory(['category_id' => $id, 'user_id' => $user->id]);
+                $this->userCategory->save();
             }
         }
 
+        foreach ($this->existingSpecializations as $id => $name) {
+            if (!in_array($id, $this->specializations ?? [])) {
+                $this->specializationToBeDeleted = UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id]);
+
+                if ($this->specializationToBeDeleted !== null) {
+                    $this->specializationToBeDeleted->delete();
+                }
+            }
+        }
     }
 
     private function saveCommonData(Users $user): void
@@ -163,9 +160,11 @@ class ProfileForm extends Model
         $user->setAttributes($this->attributes);
         $attributesToBeSaved = [];
 
-        if ($this->password) {
-            $user->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
-            $user->save(false, ['password']);
+        if (property_exists($user, 'password')) {
+            if ($this->password) {
+                $user->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+                $user->save(false, ['password']);
+            }
         }
 
         foreach ($user->attributes as $name => $value) {
@@ -179,7 +178,7 @@ class ProfileForm extends Model
 
     private function checkRole(Users $user): void
     {
-        if (property_exists(new Users(), 'user_role')) {
+        if (property_exists($user, 'user_role')) {
             if ($user->userCategories === []) {
                 $user->user_role = 'client';
             } else {

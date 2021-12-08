@@ -15,7 +15,7 @@ class ViewAction extends Action
     {
         $user = Users::find()->andWhere(['id' => $id])->one();
 
-        if (!$user || $this->controller->user->id !== $user->id && $user->user_role !== 'doer') {
+        if (property_exists(new Users(), 'user_role') && !$user || $this->controller->user->id !== $user->id && $user->user_role !== 'doer') {
             throw new HttpException(
                 404,
                 'Страницы этого исполнителя не найдено'

@@ -89,8 +89,6 @@ class CreateTaskForm extends Model
             $this->address = explode (' ', $this->address, 3);
             $this->address = $this->address[2];
             $this->online = 0;
-            $cache  = Yii::$app->cache;
-            $cache->set('address', $this->address, 86400);
         }
     }
 

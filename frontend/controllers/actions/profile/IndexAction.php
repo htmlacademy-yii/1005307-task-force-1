@@ -51,9 +51,11 @@ class IndexAction extends Action
                             }
                         }
                     }
-                    $session = Yii::$app->session;
 
-                    $session->set('city', $this->controller->user->city_id);
+                    if (property_exists($this->controller->user, 'city_id')) {
+                        $session = Yii::$app->session;
+                        $session->set('city', $this->controller->user->city_id);
+                    }
 
                     return $this->controller->redirect(['users/view', 'id' => $this->controller->user->id]);
                 }

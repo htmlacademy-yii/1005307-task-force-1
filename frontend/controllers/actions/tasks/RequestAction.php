@@ -39,22 +39,26 @@ class RequestAction extends Action
                 $opinions = Opinions::find()->where(['doer_id' => $user_doer->id]);
                 $task = Tasks::findOne($opinion->task_id);
 
-                $opinion->completion == 1 ?
-                    $task->status_task = 'Выполнено' :
-                    $task->status_task = 'Провалено';
-                $task->save();
+                if (property_exists($opinion, 'completion') && property_exists($task, 'status_task')) {
+                    $opinion->completion == 1 ?
+                        $task->status_task = 'Выполнено' :
+                        $task->status_task = 'Провалено';
+                    $task->save();
+                }
 
-                $user_doer->rating = $opinions->select('AVG(rate) as rating');
-                $tasks = new Tasks();
-                $user_doer->done_tasks = $tasks->countUsersTasks('Выполнено', 'doer', $user_doer);
-                $user_doer->failed_tasks = $tasks->countUsersTasks('Провалено', 'doer', $user_doer);
-                $user_client->created_tasks = $tasks->countUsersTasks('Выполнено', 'client', $user_client);
-                $user_doer->opinions_count = $opinions->count();
-                $user_doer->save(false);
-                $user_client->save(false);
-                $user_set = UserOptionSettings::findOne($task->doer_id);
+                if (property_exists($user_doer, 'rating') && property_exists($user_doer, 'done_tasks') &&property_exists($user_doer, 'failed_tasks') && property_exists($user_client, 'created_tasks') && property_exists($user_doer, 'opinions_count')) {
+                    $user_doer->rating = $opinions->select('AVG(rate) as rating');
+                    $tasks = new Tasks();
+                    $user_doer->done_tasks = $tasks->countUsersTasks('Выполнено', 'doer', $user_doer);
+                    $user_doer->failed_tasks = $tasks->countUsersTasks('Провалено', 'doer', $user_doer);
+                    $user_client->created_tasks = $tasks->countUsersTasks('Выполнено', 'client', $user_client);
+                    $user_doer->opinions_count = $opinions->count();
+                    $user_doer->save(false);
+                    $user_client->save(false);
+                }
+                    $user_set = UserOptionSettings::findOne($task->doer_id);
 
-                if ($user_set['is_subscribed_reviews'] == 1) {
+                if (property_exists($user_set, 'is_subscribed_reviews') && $user_set['is_subscribed_reviews'] == 1) {
                     $notification = new Notifications([
                         'notification_category_id' => 5,
                         'task_id' => $task->id,

@@ -26,6 +26,7 @@ use yii\db\ActiveRecord;
 class Messages extends ActiveRecord
 {
     public $is_mine;
+    private $writer_id;
 
     public static function tableName(): string
     {

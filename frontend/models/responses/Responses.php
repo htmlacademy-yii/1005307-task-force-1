@@ -23,6 +23,7 @@ use yii\db\ActiveRecord;
  */
 class Responses extends ActiveRecord
 {
+    private $is_refused;
 
     public static function tableName(): string
     {
