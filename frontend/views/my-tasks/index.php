@@ -54,7 +54,7 @@ use yii\widgets\ListView;
                         </a>
                     </li>
                 <?php endif; ?>
-                <li class="menu-toggle__item <?= $status_task === 'На исполнении' ? 'menu_toggle__item--current' : '' ?> menu-toggle__item--active">
+                <li class="menu-toggle__item <?= $status_task == 'На исполнении' ? 'menu_toggle__item--current' : '' ?> menu-toggle__item--active">
                     <div class="menu-toggle__svg-wrapper">
                         <svg width="21" height="19" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path <?php if (isset($status_task) && $status_task === 'На исполнении'): ?> fill="white" <?php endif; ?>

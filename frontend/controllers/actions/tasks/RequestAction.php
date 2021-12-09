@@ -58,7 +58,7 @@ class RequestAction extends Action
                 }
                     $user_set = UserOptionSettings::findOne($task->doer_id);
 
-                if (property_exists($user_set, 'is_subscribed_reviews') && $user_set['is_subscribed_reviews'] == 1) {
+                if (property_exists(new UserOptionSettings(), 'is_subscribed_reviews') && $user_set['is_subscribed_reviews'] == 1) {
                     $notification = new Notifications([
                         'notification_category_id' => 5,
                         'task_id' => $task->id,

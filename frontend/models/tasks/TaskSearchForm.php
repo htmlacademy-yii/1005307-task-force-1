@@ -110,15 +110,14 @@ class TaskSearchForm extends Tasks
             ->groupBy('tasks.id')
             ->orderBy(['dt_add' => SORT_DESC])->asArray();
 
-        if ($status_task === 'На исполнении') {
-            $this->query = Tasks::find()
-                ->where(['expire' => null])
-                ->orwhere(['>=', 'expire', new Expression('NOW()')])
-                ->andWhere(['status_task' => 'На исполнении']);;
-        }
-
         if ($status_task == 'Новое' || $status_task == 'Выполнено') {
             $this->query->where(['status_task' => $status_task]);
+        }
+
+        if ($status_task == 'На исполнении') {
+            $this->query->orWhere(['expire' => null])
+                ->orWhere(['>=', 'expire', new Expression('NOW()')])
+                ->andWhere(['status_task' => 'На исполнении']);
         }
 
         if ($status_task == 'Просроченное') {
@@ -131,10 +130,10 @@ class TaskSearchForm extends Tasks
                 ->orFilterWhere(['status_task' => 'Провалено']);
         }
 
-        $user_role == 'client' ?
-            $this->query->andWhere(['client_id' => $user_id])
+        $user_role === 'client' ?
+            $this->query->andFilterWhere(['client_id' => $user_id])
                 ->joinWith('doer') :
-            $this->query->andWhere(['doer_id' => $user_id])
+            $this->query->andFilterWhere(['doer_id' => $user_id])
                 ->joinWith('client');
 
         return $this->dataProvider;
