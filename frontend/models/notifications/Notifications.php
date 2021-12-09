@@ -79,12 +79,11 @@ class Notifications extends ActiveRecord
     {
         $user = Users::findOne($this->user_id);
         $task = Tasks::findOne($this->task_id);
-        $this->subject = $this['notificationsCategory']['name'];
-        Yii::$app->mailer->compose()
-            ->setTo('anyakulikova111@gmail.com')
-            ->setFrom('keks@phpdemo.ru')
-            ->setSubject($this->subject)
-            ->setHtmlBody($user->name . 'У вас новое уведомление:' . $this->subject . '<a href="#">' . $task->name . '</a>')
+        $subject = $this['notificationsCategory']['name'];
+        Yii::$app->mailer->compose('@frontend/views/site/email', ['user' => $user, 'subject' => $subject, 'task' => $task])
+            ->setTo($user->email)
+            ->setFrom('a79c030412-38d7b6@inbox.mailtrap.io')
+            ->setSubject($subject)
             ->send();
     }
 

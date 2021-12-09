@@ -56,11 +56,11 @@ return [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.mailtrap.io',
-                'username' => '75f3c8c888f4c0',
-                'password' => 'd3bf00f9a2376d',
+                'username' => 'aa01c1350e1b2c',
+                'password' => 'd27f3eee25710e',
                 'port' => '2525',
                 'encryption' => 'tls',
-            ]
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
