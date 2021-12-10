@@ -3,82 +3,42 @@ declare(strict_types=1);
 
 namespace frontend\models\account;
 
-use frontend\models\{
-    categories\Categories,
-    cities\Cities,
-    users\UserCategory,
-    users\UserOptionSettings,
-    users\Users
-};
-
+use frontend\models\{categories\Categories, users\UserCategory, users\Users};
 use Yii;
 use yii\base\Model;
-use yii\helpers\ArrayHelper;
 
 class ProfileForm extends Model
 {
-    public $name;
+    public $about;
+    public $avatar;
+    public $birthday;
+    public $city_id;
     public $email;
+    public $existingSpecializations;
+    public $name;
+    public $optionSet;
     public $password;
     public $password_repeat;
-    public $user;
-    public $bd;
-    public $avatar;
-    public $about;
     public $phone;
-    public $skype;
-    public $telegram;
-    public $city_id;
-    public $specializations;
-    public $optionSet;
     public $photo;
-    private $cities;
-    private $existingSpecializations;
-
-    public function getExistingSpecializations(): array
-    {
-        if (!isset($this->existingSpecializations)) {
-            $this->existingSpecializations = ArrayHelper::map(Categories::getAll(), 'id', 'name');
-        }
-
-        return $this->existingSpecializations;
-    }
-
-    public function getCities(): array
-    {
-        if (!isset($this->cities)) {
-            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
-        }
-
-        return $this->cities;
-    }
-
-    public function attributeLabels(): array
-    {
-        return [
-            'avatar' => 'Сменить аватар',
-            'name' => 'Ваше имя',
-            'email' => 'email',
-            'password' => 'Новый пароль',
-            'password_repeat' => 'Повтор пароля',
-            'city_id' => 'Город',
-            'bd' => 'День рождения',
-            'about' => 'Информация о себе',
-            'photo' => 'Выбрать фотографии',
-        ];
-    }
+    public $skype;
+    public $specializations;
+    public $specializationToBeDeleted;
+    public $telegram;
+    public $user;
+    public $userCategory;
 
     public function rules(): array
     {
         return [
-            [['avatar'], 'image',
+            ['avatar', 'file',
                 'extensions' => 'jpeg, png, jpg',
                 'message' => 'Загружаемый файл должен быть изображением'],
-            ['bd', 'date', 'format' => 'yyyy*MM*dd',
+            ['birthday', 'date', 'format' => 'yyyy*MM*dd',
                 'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['email'], 'required',
+            ['email', 'required',
                 'message' => "Это поле необходимо заполнить"],
-            [['email'], 'email',
+            ['email', 'email',
                 'message' => "Введите корректный email"],
             ['email', 'unique',
                 'targetAttribute' => 'email',
@@ -92,6 +52,7 @@ class ProfileForm extends Model
                 'message' => 'Должен совпадать с паролем из поля «НОВЫЙ ПАРОЛЬ»'],
             ['password', 'compare',
                 'message' => 'Должен совпадать с паролем из поля «ПОВТОР ПАРОЛЯ»'],
+            [['about', 'email', 'phone', 'photo', 'skype', 'telegram'], 'trim'],
             [['photo'], 'file',
                 'extensions' => "jpeg, png, jpg",
                 'maxFiles' => 6,
@@ -102,7 +63,22 @@ class ProfileForm extends Model
             ['skype', 'match',
                 'pattern' => "/^[a-zA-Z0-9]{3,}$/",
                 'message' => 'Значение должно состоять из латинских символов и цифр, от 3-х знаков в длину'],
-            [['avatar', 'email', 'password', 'password_repeat', 'about', 'city_id', 'bd', 'phone', 'skype', 'telegram', 'specializations', 'optionSet', 'photo'], 'safe'],
+            [['about', 'avatar', 'birthday', 'city_id', 'email', 'name', 'optionSet', 'password', 'password_repeat', 'phone', 'photo', 'skype', 'specializations', 'telegram'], 'safe'],
+        ];
+    }
+
+    public function attributeLabels(): array
+    {
+        return [
+            'about' => 'Информация о себе',
+            'avatar' => 'Сменить аватар',
+            'birthday' => 'День рождения',
+            'city_id' => 'Город',
+            'email' => 'email',
+            'name' => 'Ваше имя',
+            'password' => 'Новый пароль',
+            'password_repeat' => 'Повтор пароля',
+            'photo' => 'Выбрать фотографии',
         ];
     }
 
@@ -126,24 +102,69 @@ class ProfileForm extends Model
         $this->password = $password;
     }
 
-    public function saveProfileData(Users $user)
+    public function saveProfileData(Users $user): void
     {
         $this->saveAvatar();
         $this->saveCategories($user);
+        $this->saveCommonData($user);
         $this->checkRole($user);
         $this->saveOptionSet($user);
-        $this->saveCommonData($user);
+    }
+
+    public function upload(): bool
+    {
+        if (!empty($this->photo && $this->validate($this->photo))) {
+            foreach ($this->photo as $file) {
+                $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private function saveAvatar(): void
+    {
+        if (property_exists(new Users, 'avatar')) {
+            if (!empty($this->avatar)) {
+                $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
+                $this->avatar = '/uploads/' . $this->avatar;
+            }
+        }
+    }
+
+    private function saveCategories(Users $user): void
+    {
+        $this->existingSpecializations = Categories::getCategories();
+        foreach ($this->specializations ?? [] as $id) {
+            if (!UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id])) {
+                $this->userCategory = new UserCategory(['category_id' => $id, 'user_id' => $user->id]);
+                $this->userCategory->save();
+            }
+        }
+
+        foreach ($this->existingSpecializations as $id => $name) {
+            if (!in_array($id, $this->specializations ?? [])) {
+                $this->specializationToBeDeleted = UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id]);
+
+                if ($this->specializationToBeDeleted !== null) {
+                    $this->specializationToBeDeleted->delete();
+                }
+            }
+        }
     }
 
     private function saveCommonData(Users $user): void
     {
         $user->setScenario(Users::SCENARIO_UPDATE);
+
         $user->setAttributes($this->attributes);
         $attributesToBeSaved = [];
 
-        if (isset($this->password)) {
-            $user->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
-            $user->save(false, ['password']);
+        if (property_exists($user, 'password')) {
+            if ($this->password) {
+                $user->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+                $user->save(false, ['password']);
+            }
         }
 
         foreach ($user->attributes as $name => $value) {
@@ -155,42 +176,16 @@ class ProfileForm extends Model
         $user->save(false, $attributesToBeSaved);
     }
 
-    private function saveAvatar(): void
-    {
-        if (!empty($this->avatar)) {
-            $this->avatar->saveAs('uploads/' . $this->avatar->baseName . '.' . $this->avatar->extension);
-            $this->avatar = '/uploads/' . $this->avatar;
-        }
-    }
-
-    private function saveCategories(Users $user): void
-    {
-        foreach ($this->specializations ?? [] as $id) {
-            if (!UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id])) {
-                $userCategory = new UserCategory(['category_id' => $id, 'user_id' => $user->id]);
-                $userCategory->save();
-            }
-        }
-
-        foreach ($this->getExistingSpecializations() as $id => $name) {
-            if (!in_array($id, $this->specializations ?? [])) {
-                $specializationToBeDeleted = UserCategory::findOne(['user_id' => $user->id, 'category_id' => $id]);
-
-                if ($specializationToBeDeleted !== null) {
-                    $specializationToBeDeleted->delete();
-                }
-            }
-        }
-    }
-
     private function checkRole(Users $user): void
     {
-        if ($user->userCategories === []) {
-            $user->user_role = 'client';
-        } else {
-            $user->user_role = 'doer';
+        if (property_exists($user, 'user_role')) {
+            if ($user->userCategories === []) {
+                $user->user_role = 'client';
+            } else {
+                $user->user_role = 'doer';
+            }
+            $user->save(false, ['user_role']);
         }
-        $user->save(false, ['user_role']);
     }
 
     private function saveOptionSet(Users $user): void
@@ -210,16 +205,5 @@ class ProfileForm extends Model
         }
 
         $optionSet->save(false);
-    }
-
-    public function upload(): bool
-    {
-        if (!empty($this->photo)) {
-            foreach ($this->photo as $file) {
-                $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
-            }
-            return true;
-        }
-        return false;
     }
 }

@@ -1,6 +1,8 @@
 <?php
-use yii\widgets\ActiveForm;
+
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
 ?>
 
 <section class="modal completion-form form-modal" id="complete-form">
@@ -71,13 +73,13 @@ use yii\helpers\Html;
     ]) ?>
     <p class="form-modal-description">
         Оценка
-        <div class="feedback-card__top--name completion-form-star">
-            <span class="star-disabled"></span>
-            <span class="star-disabled"></span>
-            <span class="star-disabled"></span>
-            <span class="star-disabled"></span>
-            <span class="star-disabled"></span>
-        </div>
+    <div class="feedback-card__top--name completion-form-star">
+        <span class="star-disabled"></span>
+        <span class="star-disabled"></span>
+        <span class="star-disabled"></span>
+        <span class="star-disabled"></span>
+        <span class="star-disabled"></span>
+    </div>
     </p>
     <?= Html::submitButton('Отправить',
         ['class' => 'button modal-button']) ?>

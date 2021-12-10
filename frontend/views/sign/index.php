@@ -1,9 +1,11 @@
 <?php
-$this->title = 'Регистрация аккаунта';
-$cities = $signForm->getCities();
 
+use frontend\models\cities\Cities;
 use yii\widgets\ActiveForm;
 
+$this->title = 'Регистрация аккаунта';
+$cities = new Cities();
+$cities = $cities->getCities();
 ?>
 
 <div class="main-container page-container">
@@ -23,12 +25,11 @@ use yii\widgets\ActiveForm;
                         'class' => 'input textarea',
                         'style' => 'width: 100%; margin-top: 12px; margin-bottom: 0px;',
                     ],
-                    'errorOptions' => ['tag' => 'span',
+                    'errorOptions' => [
+                        'tag' => 'span',
                         'style' => 'color: red'
                     ],
-                    'labelOptions' => ['class' => null],
                 ]]) ?>
-
             <?= $form->field($signForm, 'user_role', [
                 'inputOptions' => [
                     'value' => 'client',
@@ -38,29 +39,26 @@ use yii\widgets\ActiveForm;
             <?= $form->field($signForm, "email", [
                 'inputOptions' => [
                     'id' => 16,
-                    'rows' => 1
+                    'rows' => 1,
                 ]
             ])->textArea() ?>
-
             <?= $form->field($signForm, "name", [
                 'inputOptions' => [
                     'id' => 17,
                     'rows' => 1
                 ]
             ])->textArea() ?>
-
-            <?= $form->field($signForm, "city_id")->dropDownList($cities, [
-                'class' => 'multiple-select input town-select registration-town',
-                'size' => 1,
-                'id' => 18,
-                'style' => 'width: 360px; margin-top: 12px; margin-bottom: 0px;'
-            ]); ?>
-
+            <?= $form->field($signForm, "city_id")
+                ->dropDownList($cities, [
+                    'class' => 'multiple-select input town-select registration-town',
+                    'size' => 1,
+                    'id' => 18
+                ]); ?>
             <?= $form->field($signForm, "password", [
                 'inputOptions' => [
                     'id' => 19
                 ]
-            ])->passwordInput()?>
+            ])->passwordInput() ?>
             <button class="button button__registration" type="submit">Cоздать аккаунт</button>
 
             <?php ActiveForm::end(); ?>

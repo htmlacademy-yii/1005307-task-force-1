@@ -1,15 +1,13 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\users;
 
 use frontend\models\tasks\Tasks;
-
 use yii\db\ActiveQuery;
 
 class UsersQuery extends ActiveQuery
 {
-
     public function categoriesFilter($targetSpecializations): self
     {
         $subQuery = UserCategory::find()
@@ -30,7 +28,7 @@ class UsersQuery extends ActiveQuery
             ->select(['doer_id'])
             ->andFilterWhere(['=', 'status_task', 'На исполнении']);
 
-        return $this->andFilterWhere(['not', ['users.id' => $subQuery]]);
+        return $this->andWhere(['not', ['users.id' => $subQuery]]);
     }
 
     public function isFavouriteFilter(): self
@@ -38,7 +36,7 @@ class UsersQuery extends ActiveQuery
         $subQuery = Favourites::find()
             ->select(['favourite_person_id']);
 
-        return $this->where(['users.id' => $subQuery]);
+        return $this->andWhere(['users.id' => $subQuery]);
     }
 
     public function isOnlineNowFilter(): self
@@ -51,7 +49,7 @@ class UsersQuery extends ActiveQuery
         ]);
     }
 
-    public function nameSearch($name): UsersQuery
+    public function nameSearch($name): self
     {
         return $this->andFilterWhere(['like', 'users.name', $name]);
     }

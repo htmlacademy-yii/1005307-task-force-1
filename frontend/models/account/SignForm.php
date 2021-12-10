@@ -3,37 +3,22 @@ declare(strict_types=1);
 
 namespace frontend\models\account;
 
-use frontend\models\{
-    cities\Cities,
-    users\Users
-};
-
+use frontend\models\{cities\Cities, users\Users};
 use yii\base\Model;
-use yii\helpers\ArrayHelper;
 
 class SignForm extends Model
 {
-    public $name;
-    public $email;
-    public $password;
     public $city_id;
+    public $email;
+    public $name;
+    public $password;
     public $user_role;
-    public $failed_tasks;
-    private $cities;
-
-    public function getCities(): array
-    {
-        if (!isset($this->cities)) {
-            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
-        }
-
-        return $this->cities;
-    }
 
     public function rules(): array
     {
         return [
-            [['city_id', 'name', 'email', 'password', 'user_role'], 'required',
+            [['user_role'], 'required'],
+            [['city_id', 'email', 'name', 'password'], 'required',
                 'message' => "Поле «{attribute}» не может быть пустым"],
             [['email', 'name'], 'trim'],
             [['city_id'], 'integer',
@@ -41,18 +26,18 @@ class SignForm extends Model
             [['password'], 'string',
                 'min' => 8,
                 'message' => "Длина пароля от 8 символов"],
-            [['city_id'], 'exist',
-                'skipOnError' => true,
-                'targetClass' => Cities::class,
-                'targetAttribute' => ['city_id' => 'id'],
-                'message' => "Выбран несуществующий город"],
             [['email'], 'email',
                 'message' => 'Введите валидный адрес электронной почты'],
             [['email'], 'unique',
                 'targetAttribute' => 'email',
                 'targetClass' => Users::class,
                 'message' => "Пользователь с еmail «{value}» уже зарегистрирован"],
-            [['city_id', 'name', 'email', 'password', 'user_role', 'failed_tasks'], 'safe']
+            [['city_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Cities::class,
+                'targetAttribute' => ['city_id' => 'id'],
+                'message' => "Выбран несуществующий город"],
+            [['city_id', 'email', 'name', 'password', 'user_role'], 'safe']
         ];
     }
 
@@ -63,7 +48,6 @@ class SignForm extends Model
             'email' => 'Электронная почта',
             'name' => 'Ваше имя',
             'password' => 'Пароль',
-            'failed_tasks' => 'Проваленные задания',
         ];
     }
 }

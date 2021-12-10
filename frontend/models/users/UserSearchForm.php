@@ -2,29 +2,22 @@
 
 namespace frontend\models\users;
 
-use frontend\models\categories\Categories;
-
 use yii\data\ActiveDataProvider;
 
 class UserSearchForm extends Users
 {
-    public $searchedCategories = [];
-    public $searchName;
-    public $isFreeNow;
-    public $isOnlineNow;
     public $hasOpinions;
     public $isFavourite;
+    public $isFreeNow;
+    public $isOnlineNow;
+    public $searchedCategories = [];
+    public $searchName;
 
     public function rules(): array
     {
         return [
-            [['searchedCategories', 'searchName', 'isFreeNow', 'isOnlineNow', 'hasOpinions', 'isFavourite'], 'safe'],
+            [['hasOpinions', 'isFavourite', 'isFreeNow', 'isOnlineNow', 'searchedCategories', 'searchName'], 'safe'],
         ];
-    }
-
-    public function getCategoriesFilter(): array
-    {
-        return Categories::getCategoriesFilters();
     }
 
     public function search($params): ActiveDataProvider
@@ -43,39 +36,47 @@ class UserSearchForm extends Users
             return $dataProvider;
         }
 
-        $query->where(['user_role' => 'doer'])
-            ->with('userCategories')
+        $query->with('userCategories')
             ->with('favourites')
             ->with('portfolioPhotos')
             ->joinWith('optionSet')
-            ->andWhere(['is_hidden_account' => 0])
             ->groupBy('users.id')
             ->orderBy(['dt_add' => SORT_DESC])
             ->asArray();
 
-        if ($this->searchedCategories) {
-            $query->categoriesFilter($this->searchedCategories);
-        }
-
-        if ($this->isFreeNow) {
-            $query->isFreeNowFilter();
-        }
-
-        if ($this->isOnlineNow) {
-            $query->isOnlineNowFilter();
-        }
-
-        if ($this->hasOpinions) {
-            $query->withOpinionsFilter(0);
-        }
-
-        if ($this->isFavourite) {
-            $query->isFavouriteFilter();
-        }
-
         if ($this->searchName) {
-            $query->nameSearch($this->searchName);
+            $this->hasOpinions = null;
+            $this->isFavourite = null;
+            $this->isFreeNow = null;
+            $this->isOnlineNow = null;
+            $this->searchedCategories = [];
+            $query->andFilterWhere(['like', 'name', $this->searchName]);
         }
+
+        if(!$this->searchName) {
+            if ($this->searchedCategories) {
+                $query->categoriesFilter($this->searchedCategories);
+            }
+
+            if ($this->isFreeNow) {
+                $query->isFreeNowFilter();
+            }
+
+            if ($this->isOnlineNow) {
+                $query->isOnlineNowFilter();
+            }
+
+            if ($this->hasOpinions) {
+                $query->withOpinionsFilter(0);
+            }
+
+            if ($this->isFavourite) {
+                $query->isFavouriteFilter();
+            }
+        }
+
+        $query->andWhere(['is_hidden_account' => 0])
+            ->andWhere(['user_role' => 'doer']);
 
         return $dataProvider;
     }

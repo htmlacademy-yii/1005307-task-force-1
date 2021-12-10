@@ -1,14 +1,14 @@
 <?php
 $this->title = 'Редактирование настроек пользователя';
 
+use frontend\models\categories\Categories;
+use frontend\models\cities\Cities;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
-$cities = $profileForm->getCities();
-$specializations = $profileForm->getExistingSpecializations();
-
-//$categories = $createTaskForm->getCategories();
+$cities = new Cities();
+$cities = $cities->getCities();
+$specializations = Categories::getCategories();
 
 ?>
 <main class="page-main">
@@ -28,7 +28,7 @@ $specializations = $profileForm->getExistingSpecializations();
                 'action' => '/profile/index',
                 'validateOnBlur' => true,
                 'validateOnChange' => true,
-                'validateOnSubmit' => false,
+                'validateOnSubmit' => true,
                 'fieldConfig' => [
                     'template' => "{label}\n{input}\n{error}",
                     'options' => [
@@ -49,8 +49,8 @@ $specializations = $profileForm->getExistingSpecializations();
                 <h3 class="div-line">Настройки аккаунта</h3>
                 <div class="account__redaction-section-wrapper">
                     <div class="account__redaction-avatar">
-                        <?= $user['avatar']
-                            ? Html::img(Yii::$app->request->baseUrl . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '156', 'height' => '156'])
+                        <?= isset($user['avatar'])
+                            ? Html::img(Yii::$app->request->baseUrl . strip_tags($user['avatar']), ['alt' => 'Аватар пользователя', 'width' => '156', 'height' => '156'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '156', 'height' => '156']) ?>
                         <?= $form->field($profileForm, 'avatar', [
                             'inputOptions' => [
@@ -76,7 +76,6 @@ $specializations = $profileForm->getExistingSpecializations();
                             <?= $form->field($profileForm, 'name', [
                                 'inputOptions' => [
                                     'class' => 'input textarea',
-                                    'placeholder' => $user['name'],
                                     'id' => '200',
                                     'type' => 'text',
                                     'style' => 'margin-top: 0',
@@ -106,7 +105,7 @@ $specializations = $profileForm->getExistingSpecializations();
                                 ]) ?>
                         </div>
                         <div class="account__input account__input--date">
-                            <?= $form->field($profileForm, 'bd', [
+                            <?= $form->field($profileForm, 'birthday', [
                                 'inputOptions' => [
                                     'class' => 'input-middle input input-date',
                                     'id' => '203',
@@ -122,6 +121,7 @@ $specializations = $profileForm->getExistingSpecializations();
                                     'placeholder' => 'Place your text',
                                     'id' => '201',
                                     'type' => 'text',
+                                    'value' => htmlspecialchars($user['about'])
                                 ]
                             ])->textArea() ?>
                         </div>
@@ -152,7 +152,7 @@ $specializations = $profileForm->getExistingSpecializations();
                         <?= $form->field($profileForm, 'password', [
                             'options' => ['class' => 'account__input'],
                             'inputOptions' => ['class' => 'input textarea']
-                        ])->passwordInput(['maxlength' => 6]); ?>
+                        ])->passwordInput(); ?>
                     </div>
                     <div class="account__input">
                         <?= $form->field($profileForm, 'password_repeat', [
@@ -165,7 +165,7 @@ $specializations = $profileForm->getExistingSpecializations();
                 <div class="account__redaction-section-wrapper account__redaction">
                     <span class="dropzone">
                         <?php foreach ($user->portfolioPhotos as $photo): ?>
-                            <a><?= Html::img(Yii::$app->request->baseUrl . $photo->photo, ['width' => '65', 'height' => '65']) ?> </a>
+                            <a><?= isset($photo->photo) ? Html::img(Yii::$app->request->baseUrl . strip_tags($photo->photo), ['width' => '65', 'height' => '65']) : ''?> </a>
                         <?php endforeach; ?>
                         <?= $form->field($profileForm, 'photo[]', [
                             'inputOptions' => [
@@ -249,14 +249,14 @@ JS;
                             'tag' => false,
                             'unselect' => null,
                             'item' => function ($index, $label, $name, $checked, $value) {
-                                return ($index == 0 ? '<div class="search-task__categories account_checkbox--bottom">' : '')
+                                return ($index === 0 ? '<div class="search-task__categories account_checkbox--bottom">' : '')
                                     . '<input id="' . $value . '" name="' . $name . '" value="' . $value . '" '
                                     . 'type="checkbox" class="visually-hidden checkbox__input" '
                                     . ($checked ? 'checked ' : '') . '>'
                                     . '<label for="' . $value . '">' . $label . '</label>'
-                                    . ($index == 2 ? '</div><div class="search-task__categories account_checkbox '
+                                    . ($index === 2 ? '</div><div class="search-task__categories account_checkbox '
                                         . 'account_checkbox--secrecy">' : '')
-                                    . ($index == 4 ? '</div>' : '');
+                                    . ($index === 4 ? '</div>' : '');
                             }
                         ]); ?>
                 </div>

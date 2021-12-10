@@ -1,7 +1,7 @@
 <?php
 
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 ?>
 
@@ -15,7 +15,6 @@ use yii\helpers\Html;
     <?php $form = ActiveForm::begin([
         'method' => 'post',
         'action' => '/tasks/refuse']) ?>
-
     <?= $form->field($model, 'task_id', [
         'inputOptions' => [
             'value' => $this->params['task_id'],

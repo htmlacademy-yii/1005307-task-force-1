@@ -2,7 +2,6 @@
 
 use frontend\assets\AppAsset;
 use frontend\models\account\LoginForm;
-
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -26,7 +25,7 @@ AppAsset::register($this);
     <header class=" page-header--index">
         <div class="main-container page-header__container page-header__container--index">
             <div class="page-header__logo--index">
-                <a href="<?= Url::to(['landing/index']) ?>">
+                <a href="<?= Url::to(['landing/']) ?>">
                     <svg class="logo-image--index" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1634 646.35">
                         <title>taskforce_logo2-01</title>
                         <g>
@@ -107,19 +106,19 @@ AppAsset::register($this);
             <div class="page-footer__links">
                 <ul class="links__list">
                     <li class="links__item">
-                        <a href="">Задания</a>
+                        <a href="<?=Url::to(['tasks/'])?>">Задания</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Мой профиль</a>
+                        <a href="<?= Url::to(['sign/'])?>">Мой профиль</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Исполнители</a>
+                        <a href="<?= Url::to(['users/']) ?>">Исполнители</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Регистрация</a>
+                        <a href="<?= Url::to(['sign/']) ?>">Регистрация</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Создать задание</a>
+                        <a href="<?= Url::to(['tasks/create']) ?>">Создать задание</a>
                     </li>
                     <li class="links__item">
                         <a href="">Справка</a>
@@ -139,7 +138,6 @@ AppAsset::register($this);
     <?= $this->render('//modals/_login_form', ['model' => new LoginForm]); ?>
 </div>
 <div class="overlay"></div>
-<script src="js/main.js"></script>
 <?php $this->endBody() ?>
 </body>
 </html>

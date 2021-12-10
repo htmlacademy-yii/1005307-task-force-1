@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\notifications;
 
@@ -12,7 +12,6 @@ use yii\db\ActiveRecord;
  * @property int $name
  * @property int $type
  */
-
 class NotificationsCategories extends ActiveRecord
 {
     public static function tableName(): string
@@ -23,8 +22,9 @@ class NotificationsCategories extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'type'], 'required'],
             [['name', 'type'], 'string', 'max' => 255],
+            [['name', 'type'], 'required'],
+            [['name', 'type'], 'safe'],
         ];
     }
 

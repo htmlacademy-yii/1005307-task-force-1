@@ -3,51 +3,30 @@ declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
-use frontend\models\{
-    categories\Categories,
-    cities\Cities
-};
+use frontend\models\categories\Categories;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\{BadResponseException, ServerException};
+use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use yii;
 use yii\base\Model;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\{
-    BadResponseException,
-    ServerException
-};
-use GuzzleHttp\Psr7\Request as GuzzleRequest;
-use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 class CreateTaskForm extends Model
 {
-    public $name;
-    public $description;
-    public $budget;
-    public $expire;
-    public $client_id;
-    public $category_id;
-    public $status_task;
-    public $file_item;
     public $address;
+    public $budget;
+    public $category_id;
+    public $city_id;
+    public $client_id;
+    public $description;
+    public $expire;
+    public $file_item;
     public $latitude;
     public $longitude;
-    public $city_id;
-    private $cities;
-    public $task_id;
-
-    public function getCities(): array
-    {
-        if (!isset($this->cities)) {
-            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
-        }
-
-        return $this->cities;
-    }
-
-
-    public function getCategories(): array
-    {
-        return Categories::getCategoriesFilters();
-    }
+    public $name;
+    public $online;
+    public $status_task;
+    private $coordinates;
 
     public function rules(): array
     {
@@ -76,33 +55,59 @@ class CreateTaskForm extends Model
                 'skipOnError' => true,
                 'targetClass' => Categories::class,
                 'targetAttribute' => ['category_id' => 'id'],
-                'message' => "Выбрана несуществующая категория"],
-            ['category_id', 'validateCat'],
-            ['expire', 'validateDate'],
-            ['expire', 'date',
-                'format' => 'yyyy*MM*dd',
-                'message' => 'Необходимый формат «гггг.мм.дд»'],
-            [['client_id', 'name', 'description', 'category_id', 'budget', 'expire', 'status_task', 'address', 'file_item', 'task_id'], 'safe']
+                'message' => "Выбрана несуществующая категория"
+            ],
+            ['expire', 'date', 'when' => function ($model) {
+                return strtotime($model->expire) < time();
+            }, 'message' => 'Срок исполнения должен быть больще текущей даты'],
+            [['address', 'budget', 'category_id', 'client_id', 'description', 'expire', 'file_item', 'name', 'online', 'status_task'], 'safe']
         ];
     }
 
-    public function validateCat()
+    public function attributeLabels(): array
     {
-        if ($this->category_id == 0) {
-            $this->addError('category_id', 'Выберите категорию');
+        return [
+            'address' => 'Локация',
+            'budget' => 'Бюджет',
+            'category_id' => 'Категория',
+            'client_id' => 'Заказчик',
+            'description' => 'Подробности задания',
+            'expire' => 'Срок исполнения',
+            'name' => 'Мне нужно',
+        ];
+    }
+
+    public function getAddress(): void
+    {
+        $session = Yii::$app->session;
+        $this->online = 1;
+        if ($this->address ?? null) {
+            $this->coordinates = $this->getCoordinates($this->address);
+            $this->longitude = $this->coordinates[0] ?? null;
+            $this->latitude = $this->coordinates[1] ?? null;
+            $this->city_id = $session->get('city');
+            $this->address = explode (' ', $this->address, 3);
+            $this->address = $this->address[2];
+            $this->online = 0;
         }
     }
 
-    public function validateDate()
+    public function upload(): bool
     {
-        $currentDate = date('Y-m-d H:i:s');
-
-        if ($currentDate > $this->expire) {
-            $this->addError('expire', '"Срок исполнения", не может быть раньше текущей даты');
+        if (!empty($this->file_item)) {
+            $this->file_item = UploadedFile::getInstances($this, 'file_item');
+            if ($this->validate()) {
+                foreach ($this->file_item as $file) {
+                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+                }
+            }
+            return true;
         }
+
+        return false;
     }
 
-    public function getGeoData(string $address): ?array
+    private function getGeoData(string $address): ?array
     {
         $client = new Client(['base_uri' => 'https://geocode-maps.yandex.ru/']);
         $request = new GuzzleRequest('GET', '1.x');
@@ -134,46 +139,15 @@ class CreateTaskForm extends Model
         return $responseData;
     }
 
-    public function getCoordinates($address)
+    private function getCoordinates($address): array
     {
-        $coordinates = null;
+        $this->coordinates = null;
         $responseData = $this->getGeoData($address);
 
         if ($responseData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'] ?? null) {
-            $coordinates = explode(' ', $responseData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']);
+            $this->coordinates = explode(' ', $responseData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']);
         }
 
-        return $coordinates;
-    }
-
-    public function upload(): bool
-    {
-        if (!empty($this->file_item)) {
-
-            if (!$this->validate()) {
-                $errors = $this->getErrors();
-            }
-            if ($this->validate()) {
-                foreach ($this->file_item as $file) {
-                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
-                }
-            }
-            return true;
-        }
-
-        return false;
-    }
-
-    public function attributeLabels(): array
-    {
-        return [
-            'client_id' => 'Заказчик',
-            'name' => 'Мне нужно',
-            'description' => 'Подробности задания',
-            'budget' => 'Бюджет',
-            'expire' => 'Срок исполнения',
-            'category_id' => 'Категория',
-            'address' => 'Локация',
-        ];
+        return $this->coordinates;
     }
 }

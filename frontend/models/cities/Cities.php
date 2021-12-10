@@ -1,14 +1,9 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\cities;
 
-use frontend\models\{
-    tasks\Tasks,
-    users\Users
-};
-
-use yii\db\ActiveQuery;
+use frontend\models\{tasks\Tasks, users\Users};
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -19,33 +14,18 @@ use yii\helpers\ArrayHelper;
  * @property string $city
  * @property string $latitude
  * @property string $longitude
+ * @property string $value
  *
  * @property Tasks[] $tasks
  * @property Users[] $users
  */
-
 class Cities extends ActiveRecord
 {
+    private $cities;
+
     public static function tableName(): string
     {
         return 'cities';
-    }
-
-    public function rules(): array
-    {
-        return [
-            [['city', 'latitude', 'longitude'], 'required'],
-            [['city', 'latitude', 'longitude'], 'string', 'max' => 255],
-        ];
-    }
-
-    public function getCities(): array
-    {
-        if (!isset($this->cities)) {
-            $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
-        }
-
-        return $this->cities;
     }
 
     public function attributeLabels(): array
@@ -55,22 +35,24 @@ class Cities extends ActiveRecord
             'city' => 'City',
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
+            'value' => 'Value',
         ];
     }
 
-    public function getTasks(): ActiveQuery
+    public function rules(): array
     {
-        return $this->hasMany(Tasks::class, ['city_id' => 'id']);
+        return [
+            [['city', 'latitude', 'longitude', 'value'], 'required'],
+            [['city', 'latitude', 'longitude', 'value'], 'string', 'max' => 255],
+            [['city', 'latitude', 'longitude', 'value'], 'safe']
+        ];
     }
 
-    public function getUsers(): ActiveQuery
+    public function getCities(): array
     {
-        return $this->hasMany(Users::class, ['city_id' => 'id']);
-    }
+        $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
 
-    public static function find(): CitiesQuery
-    {
-        return new CitiesQuery(get_called_class());
+        return $this->cities;
     }
 
     final public static function getAll(): array

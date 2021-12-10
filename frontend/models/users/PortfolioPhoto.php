@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace frontend\models\users;
 
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -14,9 +14,11 @@ use yii\db\ActiveRecord;
  *
  * @property Users $user
  */
-
 class PortfolioPhoto extends ActiveRecord
 {
+    private $photo;
+    private $user_id;
+
     public static function tableName(): string
     {
         return 'portfolio_photo';
@@ -25,9 +27,10 @@ class PortfolioPhoto extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['photo', 'user_id'], 'required'],
             [['user_id'], 'integer'],
             [['photo'], 'string', 'max' => 255],
+            [['photo', 'user_id'], 'required'],
+            [['photo', 'user_id'], 'safe'],
             [['user_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Users::class,
@@ -42,15 +45,5 @@ class PortfolioPhoto extends ActiveRecord
             'photo' => 'Photo',
             'user_id' => 'User ID',
         ];
-    }
-
-    public function getUser(): ActiveQuery
-    {
-        return $this->hasOne(Users::class, ['id' => 'user_id']);
-    }
-
-    public static function find(): PortfolioPhotoQuery
-    {
-        return new PortfolioPhotoQuery(get_called_class());
     }
 }

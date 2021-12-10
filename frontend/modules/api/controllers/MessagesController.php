@@ -2,16 +2,16 @@
 
 namespace frontend\modules\api\controllers;
 
-use yii\base\BaseObject;
-use yii\data\ActiveDataProvider;
-use yii\rest\ActiveController;
 use frontend\models\messages\Messages;
 use frontend\models\notifications\Notifications;
+use frontend\models\users\UserOptionSettings;
 use frontend\models\users\Users;
-use yii\web\ServerErrorHttpException;
-use yii\filters\ContentNegotiator;
-use yii\web\Response;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\filters\ContentNegotiator;
+use yii\rest\ActiveController;
+use yii\web\Response;
+use yii\web\ServerErrorHttpException;
 
 /**
  * Default controller for the `api` module
@@ -70,11 +70,13 @@ class MessagesController extends ActiveController
         $messages = $this->prepareDataProvider()->getModels();
 
         foreach ($messages as $key => $message) {
-            $message->is_mine = $userId === $message->writer_id ? 1 : 0;
-            $messages[$key] = $message;
-            if ($userId === $message->recipient_id) {
-                $message->unread = 0;
-                $message->save();
+            if (property_exists($message, 'is_mine') && property_exists($message, 'writer_id')) {
+                $message->is_mine = $userId === $message->writer_id ? 1 : 0;
+                $messages[$key] = $message;
+                if ($userId === $message->recipient_id) {
+                    $message->unread = 0;
+                    $message->save();
+                }
             }
         }
 
@@ -85,11 +87,12 @@ class MessagesController extends ActiveController
     {
         $post = json_decode(Yii::$app->request->getRawBody());
         $user_id = Yii::$app->user->id;
-        $newMessage = new $this->modelClass();
-        $newMessage->message = $post->message;
-        $newMessage->writer_id = $user_id;
-        $newMessage->task_id = $post->task_id;
-        $newMessage->unread = 1;
+        $newMessage = new $this->modelClass([
+            'message' => $post->message,
+            'writer_id' => $user_id,
+            'task_id' => $post->task_id,
+            'unread' => 1
+        ]);
 
         $user_id === $newMessage->task->doer_id ?
             $newMessage->recipient_id = $newMessage->task->client_id
@@ -99,18 +102,24 @@ class MessagesController extends ActiveController
             if ($newMessage->save()) {
                 $response = Yii::$app->getResponse();
                 $response->setStatusCode(201);
+                $user_set = UserOptionSettings::findOne($newMessage->recipient_id);
+
+                if (property_exists($user_set, 'is_subscribed_messages') && $user_set['is_subscribed_messages'] == 1) {
+                    $notification = new Notifications([
+                        'notification_category_id' => 2,
+                        'task_id' => $newMessage->task_id,
+                        'visible' => 1,
+                        'user_id' => $newMessage->recipient_id
+                    ]);
+                    $notification->save(false);
+                    $notification->addNotification();
+                }
             } elseif (!$newMessage->hasErrors()) {
                 throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
             }
         } else {
             throw new ServerErrorHttpException('Не удалось создать сообщение чата по неизвестным причинам.');
         }
-        $notification = new Notifications();
-        $notification->notification_category_id = 2;
-        $notification->task_id = $newMessage->task_id;
-        $notification->visible = 1;
-        $notification->user_id = $newMessage->recipient_id;
-        $notification->save();
 
         return json_encode($newMessage->toArray());
     }

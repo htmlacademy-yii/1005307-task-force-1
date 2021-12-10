@@ -1,9 +1,8 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -15,9 +14,9 @@ use yii\db\ActiveRecord;
  *
  * @property Tasks $task
  */
-
 class FileTask extends ActiveRecord
 {
+
     public static function tableName(): string
     {
         return 'file_task';
@@ -26,9 +25,10 @@ class FileTask extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['file_item', 'task_id'], 'required'],
             [['task_id'], 'integer'],
             [['file_item'], 'string', 'max' => 255],
+            [['file_item', 'task_id'], 'required'],
+            [['file_item', 'task_id'], 'safe'],
             [['task_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Tasks::class,
@@ -43,15 +43,5 @@ class FileTask extends ActiveRecord
             'file_item' => 'File Item',
             'task_id' => 'Task ID',
         ];
-    }
-
-    public function getTask(): ActiveQuery
-    {
-        return $this->hasOne(Tasks::class, ['id' => 'task_id']);
-    }
-
-    public static function find(): FileTaskQuery
-    {
-        return new FileTaskQuery(get_called_class());
     }
 }

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace frontend\models\responses;
 
@@ -7,11 +7,11 @@ use yii\base\Model;
 
 class ResponseForm extends Model
 {
-    public $doer_id;
-    public $task_id;
     public $budget;
     public $comment;
+    public $doer_id;
     public $is_refused;
+    public $task_id;
 
     public function rules(): array
     {
@@ -20,24 +20,21 @@ class ResponseForm extends Model
             [['budget', 'comment'], 'required',
                 'message' => 'Это поле должно быть заполнено',
             ],
-            ['budget', 'integer',
-                'min' => 1,
-                'message' => 'Значение должно быть целым положительным числом',
-            ],
-            [['comment'], 'string', 'min' => 10],
+            ['budget', 'integer', 'min' => 1],
+            ['comment', 'string'],
             ['comment', 'trim'],
-            [['doer_id', 'task_id', 'budget', 'comment', 'is_refused'], 'safe']
+            [['budget', 'comment', 'doer_id', 'is_refused', 'task_id'], 'safe']
         ];
     }
 
     public function attributeLabels(): array
     {
         return [
-            'doer_id' => 'Исполнитель',
-            'task_id' => 'Задание',
-            'is_refused' => 'Отклонено',
             'budget' => 'Ваша цена',
             'comment' => 'Комментарий',
+            'doer_id' => 'Исполнитель',
+            'is_refused' => 'Отклонено',
+            'task_id' => 'Задание',
         ];
     }
 }

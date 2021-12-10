@@ -34,14 +34,14 @@ return [
             'enableStrictParsing' => false,
             'rules' => [
                 '/' => 'landing/index',
+                'sign/' => 'sign/index',
                 'tasks/' => 'tasks/index',
                 'users/' => 'users/index',
-                'tasks/<page:\d+>' => 'tasks/index',
-                'users/<page:\d+>' => 'users/index',
+                'profile/' => 'profile/index',
+                'my-tasks/' => 'my-tasks/index',
                 'task/view/<id>' => 'tasks/view/',
                 'user/view/<id>' => 'users/view/',
                 'task/create/' => 'tasks/create/',
-                'sign/' => 'sign/index',
                 ['class' => 'yii\rest\UrlRule',
                     'controller' => 'api/messages',
                     'pluralize' => false]
@@ -49,6 +49,18 @@ return [
         ],
         'session' => [
             'name' => 'advanced-frontend',
+        ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.mailtrap.io',
+                'username' => 'aa01c1350e1b2c',
+                'password' => 'd27f3eee25710e',
+                'port' => '2525',
+                'encryption' => 'tls',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -61,6 +73,22 @@ return [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'vkontakte' => [
+                    'class' => 'yii\authclient\clients\VKontakte',
+                    'clientId' => '7990872',
+                    'clientSecret' => 'SOB0UHXK50eEJLIX91M5',
+                    'returnUrl' => 'https://yii-taskforce/sign/auth?authclient=vkontakte',
+                    'apiVersion' => '5.130',
+                    'scope' => 'email',
+                ],
+            ],
+        ],
+        'cache' => [
+            'class' => 'yii\redis\Cache',
         ],
         'yandexMapsApi' => [
             'class' => 'mirocow\yandexmaps\Api',

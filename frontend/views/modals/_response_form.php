@@ -1,6 +1,8 @@
 <?php
-use yii\widgets\ActiveForm;
+
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
 ?>
 
 <section class="modal response-form form-modal" id="response-form">
@@ -62,7 +64,7 @@ use yii\helpers\Html;
         'inputOptions' => [
             'class' => 'input textarea',
             'id' => 'response-comment',
-            'rows' => 4
+            'rows' => 4,
         ]
     ])->textArea() ?>
     <?= Html::submitButton('Отправить',

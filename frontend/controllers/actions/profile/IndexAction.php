@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\profile;
 
-use frontend\models\{
-    account\ProfileForm,
-    users\PortfolioPhoto,
-    users\Users
-};
-
+use frontend\models\account\ProfileForm;
+use frontend\models\users\PortfolioPhoto;
+use frontend\models\users\Users;
 use yii;
 use yii\base\Action;
 use yii\web\Response;
@@ -18,24 +15,14 @@ use yii\widgets\ActiveForm;
 
 class IndexAction extends Action
 {
-    public $user;
-
-    public function init()
-    {
-        parent::init();
-        if (!empty(\Yii::$app->user)) {
-            $this->user = \Yii::$app->user->getIdentity();
-        }
-    }
-
     public function run()
     {
+        $users = new Users();
         $profileForm = new ProfileForm();
         $request = \Yii::$app->request;
-        $user = Users::findOne($this->user->id);
 
         if (!$profileForm->load($request->post())) {
-            $profileForm->loadCurrentUserData($user);
+            $profileForm->loadCurrentUserData($this->controller->user);
         }
 
         if ($request->isAjax && $profileForm->load($request->post())) {
@@ -46,31 +33,40 @@ class IndexAction extends Action
         }
 
         if ($profileForm->load($request->post())) {
-            $profileForm->avatar = UploadedFile::getInstance($profileForm, 'avatar');
-            $profileForm->photo = UploadedFile::getInstances($profileForm, 'photo');
+            if (property_exists($profileForm, 'avatar') && property_exists($profileForm, 'photo')) {
+                $profileForm->avatar = UploadedFile::getInstance($profileForm, 'avatar');
+                $profileForm->photo = UploadedFile::getInstances($profileForm, 'photo');
 
-            if ($profileForm->validate()) {
-                if ($profileForm->upload()) {
-                    PortfolioPhoto::deleteAll(['user_id' => $user->id]);
+                if ($profileForm->validate()) {
+                    $profileForm->saveProfileData($this->controller->user);
 
-                    foreach ($profileForm->photo as $photo) {
-                        $portfolioPhoto = new PortfolioPhoto([
-                            'photo' => '/uploads/' . $photo,
-                            'user_id' => $user->id]);
-                        $portfolioPhoto->save(false);
+                    if ($profileForm->upload()) {
+                        if (property_exists(new PortfolioPhoto, 'photo') && property_exists(new PortfolioPhoto(), 'user_id')) {
+                            PortfolioPhoto::deleteAll(['user_id' => $this->controller->user->id]);
+                            foreach ($profileForm->photo as $file) {
+                                $portfolioPhoto = new PortfolioPhoto([
+                                    'photo' => '/uploads/' . $file,
+                                    'user_id' => $this->controller->user->id]);
+                                $portfolioPhoto->save(false);
+                            }
+                        }
                     }
+
+                    if (property_exists($this->controller->user, 'city_id')) {
+                        $session = Yii::$app->session;
+                        $session->set('city', $this->controller->user->city_id);
+                    }
+
+                    return $this->controller->redirect(['users/view', 'id' => $this->controller->user->id]);
                 }
-
-                $profileForm->saveProfileData($user);
-
-                return $this->controller->redirect(['users/view', 'id' => $user->id]);
             }
+
         }
 
         return $this->controller->render(
-            '/profile/index',
+            'index',
             [
-                'user' => $user,
+                'user' => $this->controller->user,
                 'profileForm' => $profileForm,
             ]
         );

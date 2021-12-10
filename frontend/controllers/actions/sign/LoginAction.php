@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\sign;
 
 use frontend\models\account\LoginForm;
-use yii\base\Action;
-
+use frontend\models\users\Users;
 use Yii;
+use yii\base\Action;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -28,6 +28,11 @@ class LoginAction extends Action
             if ($loginForm->validate()) {
                 $user = $loginForm->getUser();
                 Yii::$app->user->login($user);
+                $users = Users::findOne($user->id);
+                if (property_exists($this->controller->user, 'city_id')) {
+                    $session = Yii::$app->session;
+                    $session->set('city', $users['city_id']);
+                }
 
                 return $this->controller->redirect(['tasks/']);
             }

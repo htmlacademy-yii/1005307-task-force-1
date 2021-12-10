@@ -2,7 +2,6 @@
 
 namespace frontend\models\users;
 
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -10,13 +9,12 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property string $dt_add
- * @property int $user_id
  * @property int $favourite_person_id
+ * @property int $user_id
  *
  * @property Users $favouritePerson
  * @property Users $user
  */
-
 class Favourites extends ActiveRecord
 {
 
@@ -28,14 +26,15 @@ class Favourites extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['dt_add'], 'safe'],
-            [['user_id', 'favourite_person_id'], 'required'],
-            [['user_id', 'favourite_person_id'], 'integer'],
-            [['favourite_person_id'], 'exist',
+            [['favourite_person_id', 'user_id'], 'integer'],
+            [['dt_add'], 'string'],
+            [['dt_add', 'favourite_person_id', 'user_id'], 'required'],
+            [['dt_add', 'favourite_person_id', 'user_id'], 'safe'],
+            ['favourite_person_id', 'exist',
                 'skipOnError' => true,
                 'targetClass' => Users::class,
                 'targetAttribute' => ['favourite_person_id' => 'id']],
-            [['user_id'], 'exist',
+            ['user_id', 'exist',
                 'skipOnError' => true,
                 'targetClass' => Users::class,
                 'targetAttribute' => ['user_id' => 'id']],
@@ -47,23 +46,8 @@ class Favourites extends ActiveRecord
         return [
             'id' => 'ID',
             'dt_add' => 'Dt Add',
-            'user_id' => 'User ID',
             'favourite_person_id' => 'Favourite Person ID',
+            'user_id' => 'User ID',
         ];
-    }
-
-    public function getFavouritePerson(): ActiveQuery
-    {
-        return $this->hasOne(Users::class, ['id' => 'favourite_person_id']);
-    }
-
-    public function getUser(): ActiveQuery
-    {
-        return $this->hasOne(Users::class, ['id' => 'user_id']);
-    }
-
-    public static function find(): FavouritesQuery
-    {
-        return new FavouritesQuery(get_called_class());
     }
 }

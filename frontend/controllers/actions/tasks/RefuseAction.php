@@ -3,14 +3,16 @@
 declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
-use frontend\models\tasks\Tasks;
-use frontend\models\users\Users;
-use Yii;
 
+use frontend\models\notifications\Notifications;
 use frontend\models\tasks\RefuseForm;
+use frontend\models\tasks\Tasks;
+use frontend\models\users\UserOptionSettings;
+use Yii;
+use yii\base\Action;
 use yii\web\Response;
 
-class RefuseAction extends BaseAction
+class RefuseAction extends Action
 {
     public function run(): Response
     {
@@ -18,19 +20,33 @@ class RefuseAction extends BaseAction
 
         if ($refuseForm->load(Yii::$app->request->post())) {
             $task = Tasks::findOne($refuseForm->task_id);
-            $task->status_task = 'Провалено';
-            $task->save(false);
-            $user_doer = Users::findOne($this->user->id);
-            $user_doer->failed_tasks = Tasks::find()
-                ->where(['doer_id' => $this->user->id])
-                ->andWhere(['status_task' => 'Провалено'])->count();
-            $user_doer->save(false);
-            Yii::$app->runAction('event/add-notification', ['task_id' => $task->id, 'notification_category' => 3, 'user_id' => $task->client_id]);
+            if (property_exists($task, 'status_task')) {
+                $task->status_task = 'Провалено';
+                $task->save(false);
+
+                $tasks = new Tasks();
+                $this->controller->user->failed_tasks = $tasks->countUsersTasks($task->status_task, 'doer', $this->controller->user);
+                $this->controller->user->save(false);
+                $user_set = UserOptionSettings::findOne($task->client_id);
+
+                if (property_exists($user_set, 'is_subscribed_actions') && $user_set['is_subscribed_actions'] == 1) {
+                    $notification = new Notifications([
+                        'notification_category_id' => 3,
+                        'task_id' => $task->id,
+                        'user_id' => $task->client_id,
+                        'visible' => 1
+                    ]);
+
+                    $notification->save(false);
+                    $notification->addNotification();
+                }
+            }
         }
 
         return $this->controller->redirect([
             'tasks/view',
             'id' => $task->id
         ]);
+
     }
 }

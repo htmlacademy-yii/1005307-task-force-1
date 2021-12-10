@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
 
-use frontend\models\tasks\Tasks;
 use frontend\models\tasks\CreateTaskForm;
 use frontend\models\tasks\FileTask;
-use yii\widgets\ActiveForm;
-use yii\web\Response;
-use yii\web\UploadedFile;
+use frontend\models\tasks\Tasks;
 use Yii;
+use yii\base\Action;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
-class CreateAction extends BaseAction
+class CreateAction extends Action
 {
-    public $fileUploadForm;
     public function run()
     {
         $createTaskForm = new CreateTaskForm();
         $request = Yii::$app->request;
         $session = Yii::$app->session;
 
-        if ($this->user->user_role == 'doer') {
+        if ($this->controller->user->user_role == 'doer') {
             return $this->controller->redirect(['tasks/index']);
         }
 
@@ -37,24 +36,18 @@ class CreateAction extends BaseAction
                     'validate',
                     true
                 );
+
+                $createTaskForm->getAddress();
                 $task = new Tasks(['attributes' => $createTaskForm->attributes]);
+                $task->save(false);
 
-                if ($task->address ?? null) {
-                    $coordinates = $createTaskForm->getCoordinates($task->address);
-                    $task->longitude = $coordinates[0] ?? null;
-                    $task->latitude = $coordinates[1] ?? null;
-                    $task->city_id = $this->user->city_id;
-                }
-
-                $task->save();
-                $createTaskForm->file_item = UploadedFile::getInstances($createTaskForm, 'file_item');
-                $createTaskForm->upload();
-
-                foreach ($createTaskForm->file_item as $fileItem) {
-                    $fileTask = new FileTask([
-                        'file_item' => $fileItem,
-                        'task_id' => $task->id]);
-                    $fileTask->save(false);
+                if ($createTaskForm->upload()) {
+                    foreach ($createTaskForm->file_item as $file) {
+                        $fileTask = new FileTask([
+                            'file_item' => $file,
+                            'task_id' => $task->id]);
+                        $fileTask->save(false);
+                    }
                 }
 
                 return $this->controller->redirect(['tasks/view', 'id' => $task->id]);
@@ -70,6 +63,10 @@ class CreateAction extends BaseAction
             }
         }
 
-        return $this->controller->render('create', ['createTaskForm' => $createTaskForm, 'user' => $this->user]);
+        return $this->controller->render('create', [
+                'createTaskForm' => $createTaskForm,
+                'user' => $this->controller->user
+            ]
+        );
     }
 }

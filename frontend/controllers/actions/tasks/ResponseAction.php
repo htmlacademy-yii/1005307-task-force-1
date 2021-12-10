@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\tasks;
 
+use frontend\models\notifications\Notifications;
 use frontend\models\responses\ResponseForm;
 use frontend\models\responses\Responses;
 use frontend\models\tasks\Tasks;
-use yii\widgets\ActiveForm;
-use yii\web\Response;
+use frontend\models\users\UserOptionSettings;
 use Yii;
+use yii\base\Action;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
-class ResponseAction extends BaseAction
+class ResponseAction extends Action
 {
     public function run()
     {
@@ -28,8 +31,27 @@ class ResponseAction extends BaseAction
             if ($responseForm->validate()) {
                 $response = new Responses(['attributes' => $responseForm->attributes]);
                 $response->save(false);
+
                 $task = Tasks::findOne($response->task_id);
-                Yii::$app->runAction('event/add-notification', ['task_id' => $responseForm->task_id, 'notification_category' => 1, 'user_id' => $task->client_id]);
+                if (property_exists($task, 'responses_count')) {
+                    $task->responses_count = Responses::find()
+                        ->where(['task_id' => $response->task_id])->count();
+                    $task->save();
+                }
+
+                $user_set = UserOptionSettings::findOne($task->client_id);
+
+                if (property_exists($user_set, 'is_subscribed_actions') && $user_set['is_subscribed_actions'] == 1) {
+                    $notification = new Notifications([
+                        'notification_category_id' => 1,
+                        'task_id' => $task->id,
+                        'user_id' => $task->client_id,
+                        'visible' => 1
+                    ]);
+
+                    $notification->save(false);
+                    $notification->addNotification();
+                }
             }
         }
 

@@ -15,17 +15,18 @@ use yii\db\ActiveRecord;
  * This is the model class for table "messages".
  *
  * @property int $id
+ * @property int $is_mine
  * @property string $message
  * @property string $published_at
- * @property int $writer_id
  * @property int $recipient_id
  * @property int $task_id
- * @property int $is_mine
  * @property int $unread
+ * @property int $writer_id
  */
 class Messages extends ActiveRecord
 {
     public $is_mine;
+    private $writer_id;
 
     public static function tableName(): string
     {
@@ -37,7 +38,7 @@ class Messages extends ActiveRecord
         return [
             [['message', 'task_id', 'unread'], 'required'],
             [['message'], 'string'],
-            [['published_at', 'message', 'writer_id', 'recipient_id', 'task_id', 'is_mine', 'unread'], 'safe'],
+            [['is_mine', 'message', 'published_at', 'recipient_id', 'task_id', 'unread', 'writer_id'], 'safe'],
             [['writer_id', 'task_id'], 'integer'],
             [['task_id'],
                 'exist',

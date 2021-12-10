@@ -3,15 +3,14 @@ declare(strict_types=1);
 
 namespace frontend\models\tasks;
 
-use frontend\models\{cities\Cities,
-    categories\Categories,
+use frontend\models\{categories\Categories,
+    cities\Cities,
     messages\Messages,
     notifications\Notifications,
     opinions\Opinions,
     responses\Responses,
     users\Users
 };
-
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -19,33 +18,39 @@ use yii\db\ActiveRecord;
  * This is the model class for table "tasks".
  *
  * @property int $id
- * @property string $dt_add
- * @property int|null $category_id
- * @property int|null $city_id
- * @property int|null $doer_id
- * @property int $client_id
- * @property string $name
- * @property string $description
- * @property string|null $expire
  * @property string|null $address
  * @property int|null $budget
+ * @property int $category_id
+ * @property int|null $city_id
+ * @property int $client_id
+ * @property string $description
+ * @property int|null $doer_id
+ * @property string $dt_add
+ * @property string|null $expire
  * @property string|null $latitude
  * @property string|null $longitude
- * @property string|null $location_comment
+ * @property string $name
+ * @property int $online
+ * @property int $responses_count
  * @property string $status_task
  *
+ * @property Categories $category
+ * @property Cities $city
  * @property FileTask[] $fileTasks
  * @property Messages[] $messages
  * @property Notifications[] $notifications
  * @property Opinions[] $opinions
  * @property Responses[] $Responses
- * @property Categories $category
- * @property Cities $city
  * @property Users $client
  * @property Users $doer
  */
 class Tasks extends ActiveRecord
 {
+    private $status_task;
+    private $responses_count;
+    private $doer_id;
+    private $client_id;
+
     public static function tableName(): string
     {
         return 'tasks';
@@ -54,11 +59,10 @@ class Tasks extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['dt_add', 'expire'], 'safe'],
-            [['category_id', 'budget', 'city_id', 'doer_id', 'client_id'], 'integer'],
-            [['description', 'name', 'client_id'], 'required'],
-            [['description'], 'string'],
-            [['name', 'address', 'latitude', 'longitude', 'location_comment', 'status_task'], 'string', 'max' => 255],
+            [['budget', 'category_id', 'city_id', 'client_id', 'doer_id', 'online', 'responses_count'], 'integer'],
+            [['address', 'description', 'dt_add', 'expire', 'latitude', 'longitude', 'name', 'status_task'], 'string', 'max' => 255],
+            [['category_id', 'client_id', 'description', 'dt_add', 'name', 'online', 'responses_count', 'status_task'], 'required'],
+            [['address', 'budget', 'category_id', 'city_id', 'client_id', 'description', 'doer_id', 'dt_add', 'expire', 'latitude', 'longitude', 'name', 'online', 'responses_count', 'status_task'], 'safe'],
             [['category_id'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Categories::class,
@@ -82,46 +86,22 @@ class Tasks extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'dt_add' => 'Dt Add',
-            'category_id' => 'Category ID',
-            'description' => 'Description',
-            'expire' => 'Expire',
-            'name' => 'Name',
             'address' => 'Address',
             'budget' => 'Budget',
+            'category_id' => 'Category ID',
+            'city_id' => 'City ID',
+            'client_id' => 'Client ID',
+            'description' => 'Description',
+            'doer_id' => 'Doer ID',
+            'dt_add' => 'Dt Add',
+            'expire' => 'Expire',
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
-            'location_comment' => 'Location Comment',
-            'city_id' => 'City ID',
-            'doer_id' => 'Doer ID',
-            'client_id' => 'Client ID',
+            'name' => 'Name',
+            'online' => 'Online',
+            'responses_count' => 'Responses Count',
             'status_task' => 'Status Task',
         ];
-    }
-
-    public function getFileTasks(): ActiveQuery
-    {
-        return $this->hasMany(FileTask::class, ['task_id' => 'id']);
-    }
-
-    public function getMessages(): ActiveQuery
-    {
-        return $this->hasMany(Messages::class, ['task_id' => 'id']);
-    }
-
-    public function getNotifications(): ActiveQuery
-    {
-        return $this->hasMany(Notifications::class, ['task_id' => 'id']);
-    }
-
-    public function getOpinions(): ActiveQuery
-    {
-        return $this->hasMany(Opinions::class, ['task_id' => 'id']);
-    }
-
-    public function getResponses(): ActiveQuery
-    {
-        return $this->hasMany(Responses::class, ['task_id' => 'id']);
     }
 
     public function getCategory(): ActiveQuery
@@ -144,26 +124,51 @@ class Tasks extends ActiveRecord
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
     }
 
+    public function getFileTasks(): ActiveQuery
+    {
+        return $this->hasMany(FileTask::class, ['task_id' => 'id']);
+    }
+
+    public function getResponses(): ActiveQuery
+    {
+        return $this->hasMany(Responses::class, ['task_id' => 'id']);
+    }
+
     public static function find(): TasksQuery
     {
         return new TasksQuery(get_called_class());
     }
 
-    final public static function getLastTasks(): array
-    {
-        $query = self::find()
-            ->andwhere(['status_task' => 'Новое'])
-            ->with('category')
-            ->with('city')
-            ->limit(4)
-            ->groupBy('tasks.id')
-            ->orderBy(['dt_add' => SORT_DESC])
-            ->all();
-        return $query;
-    }
-
     final public static function getOneTask($id): Tasks
     {
         return self::findOne($id);
+    }
+
+    public function countUsersTasks($status, $user_role, $user): string
+    {
+        switch ($user_role) {
+            case 'doer':
+                return Tasks::find()
+                    ->where(['doer_id' => $user->id])
+                    ->andWhere(['status_task' => $status])->count();
+            case 'client':
+                return Tasks::find()
+                    ->where(['client_id' => $user->id])
+                    ->andWhere(['status_task' => $status])->count();
+        }
+
+        return '';
+    }
+
+    public function nextAction($currentStatus, $role): array
+    {
+        switch ($currentStatus) {
+            case 'Новое':
+                return $role == 'doer' ? ['title' => 'response', 'name' => 'Откликнуться', 'data' => 'response'] : [];
+            case 'На исполнении':
+                return $role == 'doer' ? ['title' => 'refusal', 'name' => 'Отказаться', 'data' => 'refuse'] : ['title' => 'request', 'name' => 'Завершить', 'data' => 'complete'];
+        }
+
+        return [];
     }
 }

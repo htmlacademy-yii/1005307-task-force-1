@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\landing;
 
-use frontend\models\tasks\Tasks;
-use yii\data\ArrayDataProvider;
+use frontend\models\tasks\TaskSearchForm;
 use yii\base\Action;
+use yii\data\ArrayDataProvider;
 
 class IndexAction extends Action
 {
     public function run()
     {
-        $data = Tasks::getLastTasks();
+        $taskForm = new TaskSearchForm;
+        $data = $taskForm->getLastTasks(\Yii::$app->request->queryParams);
         $dataProvider = new ArrayDataProvider(['allModels' => $data]);
 
-        return $this->controller->render('index', ['dataProvider' => $dataProvider]);
+        return $this->controller->render('index', [
+            'dataProvider' => $dataProvider
+        ]);
     }
 }
+

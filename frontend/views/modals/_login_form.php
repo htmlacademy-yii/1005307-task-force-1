@@ -1,13 +1,13 @@
 <?php
 
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\url;
+use yii\widgets\ActiveForm;
 
 ?>
 
 <section class="modal enter-form form-modal" id="enter-form">
     <h2>Вход на сайт</h2>
-
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
         'method' => 'post',
@@ -43,17 +43,20 @@ use yii\helpers\Html;
             'type' => 'hidden',
         ]
     ])->label(false); ?>
-    <?= $form->field($model, 'email',
-        ['enableAjaxValidation' => true])
+    <?= $form->field($model, 'email')
         ->textInput([
             'id' => 'enter-email',
             'type' => 'email'
         ]) ?>
-    <?= $form->field($model, "password",
-        ['enableAjaxValidation' => true])
+    <?= $form->field($model, "password")
         ->passwordInput([
             'id' => 'enter-password'
         ]) ?>
+    <a class="button button-vk"
+       href="<?= Url::toRoute(['sign/auth', 'authclient' => 'vkontakte']) ?>"
+       style="width: 116px; height: 16.5px; display: inline-block; padding-top: 8px; padding-bottom: 22px; padding-left: 10px; padding-right: 10px; text-align: center">
+        Вход через ВК
+    </a>
     <?= Html::submitButton('Войти',
         ['class' => 'button']) ?>
     <?php ActiveForm::end(); ?>

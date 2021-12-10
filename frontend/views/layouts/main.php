@@ -1,31 +1,35 @@
 <?php
 
-/* @var $this \yii\web\View */
-
-/* @var $content string */
-
-use yii\helpers\Html;
 use frontend\assets\AppAsset;
-use yii\helpers\Url;
-use frontend\models\cities\Cities;
-use yii\widgets\Menu;
-use frontend\models\users\Users;
-use frontend\models\notifications\Notifications;
-use frontend\models\cities\SetCitiesForm;
-use yii\web\Session;
-use yii\widgets\ActiveForm;
-
-use frontend\models\{
-    responses\ResponseForm,
+use frontend\models\{cities\Cities,
+    cities\SetCityForm,
+    notifications\Notifications,
     opinions\RequestForm,
-    tasks\RefuseForm
+    responses\ResponseForm,
+    tasks\RefuseForm,
+    users\Users
 };
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+use yii\widgets\Menu;
 
 AppAsset::register($this);
 $this->registerJsFile('/js/lightbulb.js');
 $users = \Yii::$app->user->getIdentity();
 
 AppAsset::register($this);
+
+if ($users) {
+    $session = Yii::$app->session;
+    $cities = new Cities();
+    $citiesList = $cities->getCities();
+    $user = Users::getOneUser($users->id);
+    $cityForm = new SetCityForm();
+    $notifications = new Notifications();
+    $user_notifications = $notifications->getVisibleNoticesByUser($users->id);
+}
+
 ?>
 
 <?php $this->beginPage() ?>
@@ -40,7 +44,7 @@ AppAsset::register($this);
 
     <title><?= Html::encode($this->title) ?></title>
 
-    <?php if ($this->title === 'Просмотр задания'): ?>
+    <?php if (isset($this->title) ? $this->title === 'Просмотр задания' : ''): ?>
         <script src="https://api-maps.yandex.ru/2.1/?apikey=e666f398-c983-4bde-8f14-e3fec900592a&lang=ru_RU"
                 type="text/javascript">
         </script>
@@ -59,12 +63,6 @@ AppAsset::register($this);
             }
         </script>
     <?php endif; ?>
-    <script>
-        var lightbulb = document.getElementsByClassName('header__lightbulb')[0];
-        lightbulb.addEventListener('mouseover', function () {
-            fetch('/index.php?r=event/index');
-        });
-    </script>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -72,7 +70,7 @@ AppAsset::register($this);
     <header class="page-header">
         <div class="main-container page-header__container">
             <div class="page-header__logo">
-                <a href="<?= Url::to(['tasks/']) ?>">
+                <a href="<?= Url::to(['landing/']) ?>">
                     <svg class="page-header__logo-image" id="Layer_2" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 1634 646.35">
                         <title>taskforce_logo2-01</title>
@@ -125,70 +123,82 @@ AppAsset::register($this);
                     </svg>
                 </a>
             </div>
-            <div class="header__nav">
-                <?=
-                Menu::widget([
-                    'items' => [
-                        ['label' => 'Задания', 'url' => ['tasks/index']],
-                        ['label' => 'Исполнители', 'url' => ['users/index']],
-                        ['label' => 'Создать задание', 'url' => ['tasks/create'], 'visible' => $users['user_role'] === 'client'],
-                        ['label' => 'Мой профиль', 'url' => ['users/view', 'id' => $users->id]],
-                    ],
-                    'options' => [
-                        'class' => 'header-nav__list site-list',
-                    ],
-                    'activeCssClass' => 'site-list__item--active',
-                    'itemOptions' => ['class' => 'site-list__item'],
-                ]);
-                ?>
-            </div>
             <?php if (!Yii::$app->user->isGuest): ?>
-                <div class="header__town">
-                    <?php $cities = Cities::getAll();
-                    $user = Users::getOneUser($users->id);?>
-                    <select class="multiple-select input town-select" size="1" name="town[]">
-                        <?php foreach ($cities as $city): ?>
-                            <option value="<?= $city['value'] ?>"><?= $city['city'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                <div class="header__nav">
+                    <?=
+                    Menu::widget([
+                        'items' => [
+                            ['label' => 'Задания', 'url' => ['tasks/index']],
+                            ['label' => 'Исполнители', 'url' => ['users/index']],
+                            ['label' => 'Создать задание', 'url' => ['tasks/create'], 'visible' => $users['user_role'] === 'client'],
+                            ['label' => 'Мой профиль', 'url' => ['users/view', 'id' => $users->id]],
+                        ],
+                        'options' => [
+                            'class' => 'header-nav__list site-list',
+                        ],
+                        'activeCssClass' => 'site-list__item--active',
+                        'itemOptions' => ['class' => 'site-list__item'],
+                    ]);
+                    ?>
                 </div>
-                <?php $notifications = new Notifications();
-            $user_notifications = $notifications->getVisibleNoticesByUser(Yii::$app->user->id) ?>
+                <div class="header__town">
+                    <?php $form = ActiveForm::begin([
+                        'id' => 'city-form',
+                        'method' => 'post',
+                        'action' => '/site/set-city',
+                        'enableAjaxValidation' => true,
+                    ]); ?>
+                    <?= $form->field($cityForm, "city")
+                        ->dropDownList($citiesList, [
+                            'class' => 'multiple-select input multiple-select-big',
+                            'size' => 1,
+                            'id' => 220,
+                            'options' =>
+                                [$session['city'] => ['Selected' => true]],
+                        ])->label(false) ?>
+                    <?php ActiveForm::end(); ?>
+                </div>
                 <div style="position: relative">
                     <div class="header__lightbulb"
                          <?php if ($user_notifications): ?>style="background-image: url('/img/lightbulb-white.png')" <?php endif ?>></div>
                     <div class="lightbulb__pop-up" style="left: -100%; top: 58px">
                         <h3>Новые события</h3>
                         <?php foreach ($user_notifications as $notice): ?>
-                            <p class="lightbulb__new-task lightbulb__new-task--<?= $notice['notificationsCategory']['type'] ?>">
-                        <span class="label label-primary"
-                              style="display: block; margin-bottom: 2px; padding-top: 3px"><?= Html::encode($notice['notificationsCategory']['name']) ?></span>
-                                <a href="<?= Url::to(['tasks/view', 'id' => $notice['task']['id']]) ?>"
-                                   class="link-regular">«<?= $notice['task']['name'] ?>»</a>
+                            <p class="lightbulb__new-task lightbulb__new-task--<?= isset($notice->notificationsCategory->type) ? $notice->notificationsCategory->type : '' ?>">
+                                <span class="label label-primary"
+                                      style="display: block; margin-bottom: 2px; padding-top: 3px">
+                                    <?= isset($notice->notificationsCategory->name) ? Html::encode($notice->notificationsCategory->name) : '' ?>
+                                </span>
+                                <a href="<?= isset($notice->task->id) ? Url::to(['tasks/view', 'id' => $notice->task->id]) : '' ?>"
+                                   class="link-regular">
+                                    «<?= isset($notice->task->name) ? strip_tags($notice->task->name) : '' ?>»
+                                </a>
                             </p>
                         <?php endforeach; ?>
                     </div>
                 </div>
                 <div class="header__account">
                     <a class="header__account-photo">
-                        <?= $user['avatar']
-                            ? Html::img(Yii::$app->request->baseUrl . $user['avatar'], ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44'])
+                        <?= isset($user->avatar)
+                            ? Html::img(Yii::$app->request->baseUrl . strip_tags($user->avatar), ['alt' => 'Аватар пользователя', 'width' => '43', 'height' => '44'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['width' => '43', 'height' => '44'])
                         ?>
                     </a>
                     <span class="header__account-name">
-               <?= $user['name'] ?>
-             </span>
+                        <?= isset($user->name) ? strip_tags($user['name']) : '' ?>
+                    </span>
                 </div>
                 <div class="account__pop-up">
                     <ul class="account__pop-up-list">
+                        <?php if (isset($user->user_role)): ?>
+                            <li>
+                                <a href="<?= $user->user_role === 'client'
+                                    ? Url::to(['my-tasks/', 'status_task' => 'Новое'])
+                                    : Url::to(['my-tasks/', 'status_task' => 'На исполнении']) ?>">Мои задания</a>
+                            </li>
+                        <?php endif; ?>
                         <li>
-                            <a href="<?= $user['user_role'] == 'client'
-                                ? Url::to(['my-tasks/index', 'status_task' => 'Новое'])
-                                : Url::to(['my-tasks/index', 'status_task' => 'На исполнении']) ?>">Мои задания</a>
-                        </li>
-                        <li>
-                            <a href="<?= Url::toRoute('profile/index') ?>">Настройки</a>
+                            <a href="<?= Url::toRoute('profile/') ?>">Настройки</a>
                         </li>
                         <li>
                             <a href="<?= Url::toRoute('sign/logout') ?>">Выход</a>
@@ -214,19 +224,21 @@ AppAsset::register($this);
             <div class="page-footer__links">
                 <ul class="links__list">
                     <li class="links__item">
-                        <a href="">Задания</a>
+                        <a href="<?= Url::to(['tasks/']) ?>">Задания</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Мой профиль</a>
+                        <a href="<?= $users ?
+                            Url::to(['users/view', 'id' => $user['id']]) :
+                            Url::to(['sign/']) ?>">Мой профиль</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Исполнители</a>
+                        <a href="<?= Url::to(['users/']) ?>">Исполнители</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Регистрация</a>
+                        <a href="<?= Url::to(['sign/']) ?>">Регистрация</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Создать задание</a>
+                        <a href="<?= Url::to(['tasks/create']) ?>">Создать задание</a>
                     </li>
                     <li class="links__item">
                         <a href="">Справка</a>
@@ -264,39 +276,6 @@ AppAsset::register($this);
     <?php endif; ?>
 </div>
 <div class="overlay"></div>
-<script src="/js/main.js"></script>
-<script src="/js/messenger.js"></script>
-<?php if ($this->title === 'Публикация нового задания'): ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js"></script>
-
-    <script type="text/javascript">
-        $("#address").suggestions({
-            token: "5e9234412c360c19d520220cc87dc076c8e65389",
-            type: "ADDRESS",
-            constraints: {
-                locations: {region: "<?= $user['city']['city'] ?>"},
-            },
-            restrict_value: true
-        })
-    </script>
-<?php endif; ?>
-<script type="text/javascript">
-    function openImageWindow(src) {
-        var image = new Image();
-        image.src = src;
-        var width = image.width;
-        var height = image.height;
-        window.open(src, "Image", "width=" + width + ",height=" + height);
-    }
-</script>
-<script type="text/javascript">
-    var lightbulb = document.getElementsByClassName('header__lightbulb')[0];
-    lightbulb.addEventListener('mouseover', function () {
-        fetch('/index.php?r=events/index');
-    });
-</script>
 <?php $this->endBody() ?>
 </body>
 </html>

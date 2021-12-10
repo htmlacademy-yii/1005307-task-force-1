@@ -4,42 +4,34 @@ declare(strict_types=1);
 
 namespace frontend\controllers\actions\users;
 
-use frontend\models\users\Users;
 use frontend\models\users\Favourites;
-use yii\base\BaseObject;
-use yii\web\NotFoundHttpException;
 use yii\base\Action;
-use yii\web\View;
 
-class AddFavouriteAction extends BaseAction
+class AddFavouriteAction extends Action
 {
     public $favourite;
-    public function run($isFavouriteValue, $id)
+
+    public function run($isFavouriteValue, $id): \yii\web\Response
     {
-        $user = Users::getOneUser($id);
-
-        if (!$user) {
-            throw new NotFoundHttpException("Страница не найдена");
-        }
-
         if (!$isFavouriteValue) {
-            $this->favourite = new Favourites;
-            $this->favourite->favourite_person_id = $user->id;
-            $this->favourite->user_id = $this->user->id;
-            $this->favourite->save();
+            $this->favourite = new Favourites([
+                'favourite_person_id' => $id,
+                'user_id' => $this->controller->user->id
+            ]);
+            $this->favourite->save(false);
         }
 
         if ($isFavouriteValue) {
-            $this->favourite = Favourites::find()->where(['user_id' => $this->user->id])->andWhere(['favourite_person_id' => $user->id])->all();
-            foreach ($this->favourite as $favourites) {
-                $favourites->delete();
-            }
-
+            $this->favourite = Favourites::find()
+                ->where(['user_id' => $this->controller->user->id])
+                ->andWhere(['favourite_person_id' => $id])
+                ->one();
+            $this->favourite->delete();
         }
 
         return $this->controller->redirect([
             'users/view',
-            'id' => $user->id
+            'id' => $id
         ]);
     }
 }

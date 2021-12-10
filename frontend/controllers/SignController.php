@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace frontend\controllers;
-
+use frontend\models\account\UserIdentity;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 
@@ -15,7 +15,7 @@ class SignController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'login'],
+                        'actions' => ['index', 'login', 'auth'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -25,14 +25,7 @@ class SignController extends Controller
                         'roles' => ['@'],
                     ],
                 ],
-                'denyCallback' => function ($rule, $action) {
-                    if ($action->actionMethod === 'actionLogout') {
-                        return $this->redirect(['landing/index']);
-                    } else {
-                        return $this->goHome();
-                    }
-                }
-            ],
+            ]
         ];
     }
 
@@ -42,6 +35,11 @@ class SignController extends Controller
             'index' => \frontend\controllers\actions\sign\IndexAction::class,
             'login' => \frontend\controllers\actions\sign\LoginAction::class,
             'logout' => \frontend\controllers\actions\sign\LogoutAction::class,
+            'on-auth-success' => \frontend\controllers\actions\sign\OnAuthSuccessAction::class,
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'onAuthSuccess'],
+            ],
         ];
     }
 }

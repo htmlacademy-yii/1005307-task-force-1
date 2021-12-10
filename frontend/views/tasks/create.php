@@ -1,11 +1,12 @@
 <?php
 $this->title = 'Публикация нового задания';
 
+use frontend\models\categories\Categories;
+use frontend\models\cities\Cities;
 use yii\widgets\ActiveForm;
-use frontend\models\users\Users;
 
-$categories = $createTaskForm->getCategories();
-$user = Users::findOne($user->id);
+$categories = new Categories();
+$categories = $categories->getCategories();
 
 ?>
 
@@ -67,7 +68,7 @@ $user = Users::findOne($user->id);
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 10,
-                    'rows' => 1,
+                    'rows' => 1
                 ],
                 'options' => [
                     'tag' => false,
@@ -77,7 +78,7 @@ $user = Users::findOne($user->id);
                 'inputOptions' => [
                     'class' => 'input textarea',
                     'id' => 11,
-                    'rows' => 7,
+                    'rows' => 7
                 ],
                 'options' => [
                     'tag' => false,
@@ -210,3 +211,19 @@ JS;
         <button form="task-form" class="button" type="submit">Опубликовать</button>
     </section>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js"></script>
+
+<?php $session = Yii::$app->session;
+$city = Cities::findOne($session->get('city')); ?>
+<script type="text/javascript">
+    $("#address").suggestions({
+        token: "5e9234412c360c19d520220cc87dc076c8e65389",
+        type: "ADDRESS",
+        constraints: {
+            locations: {region: "<?= $city['city'] ?>"},
+        },
+        restrict_value: false
+    })
+</script>
