@@ -33,7 +33,7 @@ class ResponseAction extends Action
                 $response->save(false);
 
                 $task = Tasks::findOne($response->task_id);
-                if (property_exists($task, 'responses_count')) {
+                if (property_exists(new Tasks(), 'responses_count')) {
                     $task->responses_count = Responses::find()
                         ->where(['task_id' => $response->task_id])->count();
                     $task->save();
@@ -41,7 +41,7 @@ class ResponseAction extends Action
 
                 $user_set = UserOptionSettings::findOne($task->client_id);
 
-                if (property_exists($user_set, 'is_subscribed_actions') && $user_set['is_subscribed_actions'] == 1) {
+                if (property_exists(new UserOptionSettings(), 'is_subscribed_actions') && $user_set['is_subscribed_actions'] == 1) {
                     $notification = new Notifications([
                         'notification_category_id' => 1,
                         'task_id' => $task->id,

@@ -162,7 +162,7 @@ class TaskSearchForm extends Tasks
         $session = Yii::$app->session;
         $this->query
             ->andWhere(['city_id' => $session->get('city')])
-            ->orFilterWhere(['online' => 1]);
+            ->orWhere(['online' => 1]);
     }
 
     private function getDataProvider(): void
