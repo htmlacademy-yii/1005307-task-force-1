@@ -29,7 +29,7 @@ class LoginAction extends Action
                 $user = $loginForm->getUser();
                 Yii::$app->user->login($user);
                 $users = Users::findOne($user->id);
-                if (property_exists($this->controller->user, 'city_id')) {
+                if (property_exists(new Users(), 'city_id')) {
                     $session = Yii::$app->session;
                     $session->set('city', $users['city_id']);
                 }
