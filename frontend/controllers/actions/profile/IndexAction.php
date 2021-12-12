@@ -7,7 +7,7 @@ namespace frontend\controllers\actions\profile;
 use frontend\models\account\ProfileForm;
 use frontend\models\users\PortfolioPhoto;
 use frontend\models\users\Users;
-use yii;
+use Yii;
 use yii\base\Action;
 use yii\web\Response;
 use yii\web\UploadedFile;

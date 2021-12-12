@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace frontend\models\notifications;
 
 use frontend\models\{tasks\Tasks, users\Users};
-use yii;
+use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
