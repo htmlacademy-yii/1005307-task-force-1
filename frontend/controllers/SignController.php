@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 namespace frontend\controllers;
-use frontend\models\account\UserIdentity;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 

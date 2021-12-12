@@ -2,7 +2,7 @@
 
 namespace frontend\components;
 
-use \yii\i18n\formatter;
+use \yii\i18n\Formatter;
 
 class MyFormatter extends Formatter
 {
