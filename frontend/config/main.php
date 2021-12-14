@@ -52,14 +52,14 @@ return [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => true,
+            'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.mailtrap.io',
-                'username' => 'aa01c1350e1b2c',
-                'password' => 'd27f3eee25710e',
-                'port' => '2525',
-                'encryption' => 'tls',
+                'host' => 'smtp.yandex.com',
+                'username' => 'anyakulikova111@yandex.ru',
+                'password' => 'adkjvkfnv',
+                'port' => '465',
+                'encryption' => 'ssl',
             ],
         ],
         'log' => [
