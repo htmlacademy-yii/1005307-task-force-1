@@ -59,7 +59,7 @@ class ResponseAction extends Action
         }
 
         return $this->controller->redirect([
-            'tasks/view',
+            'task/view',
             'id' => $this->task->id
         ]);
     }

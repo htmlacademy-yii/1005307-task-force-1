@@ -2,11 +2,9 @@
 declare(strict_types=1);
 
 namespace frontend\controllers;
-use yii\filters\AccessControl;
 
 class TasksController extends SecuredController
 {
-
     public function actions(): array
     {
         return [

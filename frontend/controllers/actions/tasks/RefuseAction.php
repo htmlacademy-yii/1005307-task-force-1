@@ -20,7 +20,7 @@ class RefuseAction extends Action
 
         if ($refuseForm->load(Yii::$app->request->post())) {
             $task = Tasks::findOne($refuseForm->task_id);
-            if (property_exists($task, 'status_task')) {
+            if (property_exists(new Tasks,'status_task')) {
                 $task->status_task = 'Провалено';
                 $task->save(false);
 
