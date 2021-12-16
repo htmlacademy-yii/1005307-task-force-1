@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
 class ResponseAction extends Action
 {
+    public $task;
+
     public function run()
     {
         $responseForm = new ResponseForm();
@@ -28,24 +30,25 @@ class ResponseAction extends Action
         }
 
         if ($responseForm->load($request->post())) {
+            $responseForm->validate();
             if ($responseForm->validate()) {
                 $response = new Responses(['attributes' => $responseForm->attributes]);
                 $response->save(false);
 
-                $task = Tasks::findOne($response->task_id);
+                $this->task = Tasks::findOne($response->task_id);
                 if (property_exists(new Tasks(), 'responses_count')) {
-                    $task->responses_count = Responses::find()
+                    $this->task->responses_count = Responses::find()
                         ->where(['task_id' => $response->task_id])->count();
-                    $task->save();
+                    $this->task->save();
                 }
 
-                $user_set = UserOptionSettings::findOne($task->client_id);
+                $user_set = UserOptionSettings::findOne($this->task->client_id);
 
                 if (property_exists(new UserOptionSettings(), 'is_subscribed_actions') && $user_set['is_subscribed_actions'] == 1) {
                     $notification = new Notifications([
                         'notification_category_id' => 1,
-                        'task_id' => $task->id,
-                        'user_id' => $task->client_id,
+                        'task_id' => $this->task->id,
+                        'user_id' => $this->task->client_id,
                         'visible' => 1
                     ]);
 
@@ -56,8 +59,8 @@ class ResponseAction extends Action
         }
 
         return $this->controller->redirect([
-            'tasks/view',
-            'id' => $responseForm->task_id
+            'task/view',
+            'id' => $this->task->id
         ]);
     }
 }

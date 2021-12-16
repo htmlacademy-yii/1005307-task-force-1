@@ -18,9 +18,9 @@ abstract class SecuredController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@']
-                    ]
-                ]
+                        'roles' => ['@'],
+                    ],
+                ],
             ]
         ];
     }
@@ -28,7 +28,7 @@ abstract class SecuredController extends Controller
     public function init()
     {
         parent::init();
-        if (!empty(\Yii::$app->user)) {
+        if (!empty(\Yii::$app->user->getIdentity())) {
             $user = \Yii::$app->user->getIdentity();
             $this->user = Users::findOne($user->id);
             if ($this->user) {
@@ -36,5 +36,6 @@ abstract class SecuredController extends Controller
                 $this->user->save(false, ['last_activity_time']);
             }
         }
+        return $this->user;
     }
 }

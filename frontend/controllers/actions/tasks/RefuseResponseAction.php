@@ -14,7 +14,7 @@ class RefuseResponseAction extends Action
     {
         $response = Responses::findOne($responseId);
 
-        if (property_exists($response, 'is_refused')) {
+        if (property_exists(new Responses(), 'is_refused')) {
             $response->is_refused = 1;
             $response->save(false);
         }
