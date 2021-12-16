@@ -74,8 +74,10 @@ if ($task->status_task !== 'Новое' && !$isClient) {
     $possibleActions = $taskActions->nextAction($task['status_task'], 'doer');
 }
 
-if ($user_show->rating > 0 && $user_show->id !== $task->client_id) {
-    $show_rating = true;
+if (!empty($user_show)) {
+    if ($user_show->rating > 0 && $user_show->id !== $task->client_id) {
+        $show_rating = true;
+    }
 }
 
 ?>
@@ -91,13 +93,14 @@ if ($user_show->rating > 0 && $user_show->id !== $task->client_id) {
                            <a href="<?= isset($task->category_id) ? Url::to(['tasks/filter', 'category_id' => $task->category_id]) : '' ?>"
                               class="link-regular"><?= isset($task->category->name) ? $task->category->name : '' ?></a>
                            <?= isset($task->dt_add) ? $formatter->asRelativeTime($task->dt_add, strftime("%F %T")) : '' ?>
-                           (<?= isset($task->status_task) ? $task->status_task : ''?>)
+                           (<?= isset($task->status_task) ? $task->status_task : '' ?>)
                         </span>
                     </div>
                     <b class="new-task__price new-task__price--<?= isset($task->category->icon) ? $task->category->icon : '' ?> content-view-price">
                         <?= strip_tags($task->budget) ?>
                         <b> ₽</b></b>
-                    <div class="new-task__icon new-task__icon--<?= isset($task->category->icon) ? $task->category->icon : '' ?> content-view-icon"></div>
+                    <div
+                        class="new-task__icon new-task__icon--<?= isset($task->category->icon) ? $task->category->icon : '' ?> content-view-icon"></div>
                 </div>
                 <div class="content-view__description">
                     <h3 class="content-view__h3">Общее описание</h3>
@@ -117,7 +120,8 @@ if ($user_show->rating > 0 && $user_show->id !== $task->client_id) {
                         <div class="content-view__location-wrapper">
                             <div id="map" style="width: 361px; height: 292px" class="content-view__map"></div>
                             <div class="content-view__address">
-                                <span class="address__town"><?= isset($task->city->city) ? $task->city->city : '' ?></span><br>
+                                <span
+                                    class="address__town"><?= isset($task->city->city) ? $task->city->city : '' ?></span><br>
                                 <span><?= isset($task->address) ? strip_tags($task->address) : '' ?></span>
                             </div>
                         </div>
@@ -127,8 +131,10 @@ if ($user_show->rating > 0 && $user_show->id !== $task->client_id) {
         </div>
         <?php if ($possibleActions): ?>
             <div class="content-view__action-buttons">
-                <button class=" button button__big-color <?= isset($possibleActions['title']) ? $possibleActions['title'] : '' ?>-button open-modal"
-                        type="button" data-for="<?= isset($possibleActions['data']) ? $possibleActions['data'] : '' ?>-form">
+                <button
+                    class=" button button__big-color <?= isset($possibleActions['title']) ? $possibleActions['title'] : '' ?>-button open-modal"
+                    type="button"
+                    data-for="<?= isset($possibleActions['data']) ? $possibleActions['data'] : '' ?>-form">
                     <?= isset($possibleActions['name']) ? $possibleActions['name'] : '' ?>
                 </button>
             </div>
@@ -154,7 +160,8 @@ if ($user_show->rating > 0 && $user_show->id !== $task->client_id) {
                                 </a>
                                 <div class="feedback-card__top--name">
                                     <p><a href="<?= Url::to(['users/view', 'id' => $doer->id]) ?>"
-                                          class="link-regular"><?= isset($doer->name) ? strip_tags($doer->name) : '' ?></a></p>
+                                          class="link-regular"><?= isset($doer->name) ? strip_tags($doer->name) : '' ?></a>
+                                    </p>
                                     <?php if (isset($doer->rating) ? $doer->rating > 0 : ''):
                                         $starCount = round($doer['rating']);
                                         for ($i = 1; $i <= 5; $i++):?>
@@ -194,7 +201,7 @@ if ($user_show->rating > 0 && $user_show->id !== $task->client_id) {
                             ? Html::img(Yii::$app->request->baseUrl . strip_tags($user_show->avatar), ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62'])
                             : Html::img(Yii::$app->request->baseUrl . '/img/no-avatar.png', ['alt' => 'Аватар заказчика', 'width' => '62', 'height' => '62']) ?>
                         <div class="profile-mini__name five-stars__rate">
-                            <p><?= isset($user_show->name) ? strip_tags($user_show->name) : ''?></p>
+                            <p><?= isset($user_show->name) ? strip_tags($user_show->name) : '' ?></p>
                             <?php if ($show_rating): ?>
                                 <div class="profile-mini__name five-stars__rate">
                                     <?php $starCount = isset($user_show->rating) ? round($user_show->rating) : '' ?>
@@ -214,7 +221,8 @@ if ($user_show->rating > 0 && $user_show->id !== $task->client_id) {
                         <?php endif; ?>
                         <?php if (!$isClient && isset($user_show->created_tasks)): ?>
                             <span>Создано <?= $user_show->created_tasks ?> <?= $formatter->getNounPluralForm($user_show->created_tasks, 'задание', 'задания', 'заданий') ?></span>
-                            <span class="last-"><?= isset($user_show->dt_add) ? $formatter->getPeriodTime($user_show->dt_add) : '' ?></span>
+                            <span
+                                class="last-"><?= isset($user_show->dt_add) ? $formatter->getPeriodTime($user_show->dt_add) : '' ?></span>
                         <?php endif; ?>
                     </p>
                     <a href="<?= Url::to(['users/view', 'id' => $user_show->id]) ?>" class="link-regular">

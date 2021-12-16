@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace frontend\controllers;
+
 use yii\filters\AccessControl;
 use yii\web\Controller;
 

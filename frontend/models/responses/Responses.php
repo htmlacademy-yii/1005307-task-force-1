@@ -27,7 +27,7 @@ class Responses extends ActiveRecord
 
     public static function tableName(): string
     {
-        return 'Responses';
+        return 'responses';
     }
 
     public function rules(): array
