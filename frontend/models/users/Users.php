@@ -163,4 +163,11 @@ class Users extends ActiveRecord
             ->andWhere(['client_id' => $account_user_id])
             ->andWhere(['doer_id' => $user_id])->asArray()->all();
     }
+
+    public function getDoerOfActiveTask($user_id, $account_user_id): array
+    {
+        return Tasks::find()->where(['status_task' => 'На исполнении'])
+            ->andWhere(['client_id' => $user_id])
+            ->andWhere(['doer_id' => $account_user_id])->asArray()->all();
+    }
 }
