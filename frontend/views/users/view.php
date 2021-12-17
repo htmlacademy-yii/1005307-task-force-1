@@ -30,8 +30,9 @@ foreach ($favourites as $favourite) {
 $optionSettings = $user['optionSet'];
 $hiddenContacts = true;
 $activeTask = $users->getClientOfActiveTask($user->id, $user_account->id);
+$activeTaskOfClient = $users->getDoerOfActiveTask($user->id, $user_account->id);
 
-if ($optionSettings['is_hidden_contacts'] == 0 || $activeTask) {
+if ($optionSettings['is_hidden_contacts'] == 0 || $activeTask || $activeTaskOfClient) {
     $hiddenContacts = false;
 }
 
