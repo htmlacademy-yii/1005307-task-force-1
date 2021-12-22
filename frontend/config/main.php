@@ -53,14 +53,6 @@ return [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => true,
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.mailtrap.io',
-                'username' => 'aa01c1350e1b2c',
-                'password' => 'd27f3eee25710e',
-                'port' => '2525',
-                'encryption' => 'tls',
-            ],
         ],
         'redis' => [
             'class' => 'yii\redis\Connection',

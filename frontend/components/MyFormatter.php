@@ -92,4 +92,5 @@ class MyFormatter extends Formatter
 
         return 'new';
     }
+
 }
