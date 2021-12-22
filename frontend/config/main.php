@@ -62,15 +62,6 @@ return [
                 'encryption' => 'tls',
             ],
         ],
-        'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
-        ],
         'redis' => [
             'class' => 'yii\redis\Connection',
             'hostname' => 'localhost',
@@ -103,10 +94,11 @@ return [
     'defaultRoute' => 'landing/index',
     'params' => [
         'params' => $params,
+        'apiKey' => 'e666f398-c983-4bde-8f14-e3fec900592a'
     ],
     'modules' => [
         'api' => [
-            'class' => 'frontend\modules\api\Module'
+            'class' => 'frontend\modules\api\Module',
         ]
     ],
 ];

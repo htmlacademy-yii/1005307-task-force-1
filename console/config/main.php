@@ -19,15 +19,8 @@ return [
             'namespace' => 'common\fixtures',
         ],
     ],
-    'components' => [
-        'log' => [
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
-        ],
-    ],
-    'params' => $params,
+    'params' => [
+        'apiKey' => 'e666f398-c983-4bde-8f14-e3fec900592a',
+        'params' => $params
+    ]
 ];

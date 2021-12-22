@@ -104,7 +104,7 @@ class Notifications extends ActiveRecord
         $subject = $this['notificationsCategory']['name'];
         Yii::$app->mailer->compose('@frontend/views/site/email', ['user' => $user, 'subject' => $subject, 'task' => $task])
             ->setTo($user->email)
-            ->setFrom('anyakulikova111@yandex.ru')
+            ->setFrom(Yii::$app->params['email'])
             ->setSubject($subject)
             ->send();
     }
