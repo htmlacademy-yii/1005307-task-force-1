@@ -14,9 +14,6 @@ class RequestForm extends Model
     public $rate;
     public $task_id;
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -27,9 +24,6 @@ class RequestForm extends Model
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels(): array
     {
         return [

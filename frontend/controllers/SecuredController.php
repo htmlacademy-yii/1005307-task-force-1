@@ -6,17 +6,10 @@ use frontend\models\users\Users;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 
-/**
- * Class SecuredController
- * @package frontend\controllers
- */
 abstract class SecuredController extends Controller
 {
     public $user;
 
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors(): array
     {
         return [
@@ -32,11 +25,6 @@ abstract class SecuredController extends Controller
         ];
     }
 
-    /**
-     * Get authorised user and chages his last time visit
-     *
-     * {@inheritdoc}
-     */
     public function init()
     {
         parent::init();

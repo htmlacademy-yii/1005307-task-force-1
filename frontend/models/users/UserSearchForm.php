@@ -4,10 +4,6 @@ namespace frontend\models\users;
 
 use yii\data\ActiveDataProvider;
 
-/**
- * Class UserSearchForm
- * @package frontend\models\users
- */
 class UserSearchForm extends Users
 {
     public $hasOpinions;
@@ -17,9 +13,6 @@ class UserSearchForm extends Users
     public $searchedCategories = [];
     public $searchName;
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -27,12 +20,6 @@ class UserSearchForm extends Users
         ];
     }
 
-    /**
-     * Searches users by categories, online now, name etc.
-     *
-     * @param $params
-     * @return ActiveDataProvider
-     */
     public function search($params): ActiveDataProvider
     {
         $query = Users::find();

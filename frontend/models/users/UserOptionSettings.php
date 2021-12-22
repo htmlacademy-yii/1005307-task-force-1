@@ -26,17 +26,11 @@ class UserOptionSettings extends ActiveRecord
     private $is_subscribed_reviews;
     private $user_id;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName(): string
     {
         return 'user_option_set';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -51,9 +45,6 @@ class UserOptionSettings extends ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels(): array
     {
         return [

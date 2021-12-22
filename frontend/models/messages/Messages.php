@@ -28,17 +28,11 @@ class Messages extends ActiveRecord
     public $is_mine;
     private $writer_id;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName(): string
     {
         return 'messages';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -64,9 +58,6 @@ class Messages extends ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels(): array
     {
         return [
@@ -78,9 +69,6 @@ class Messages extends ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function fields()
     {
         return [
@@ -94,33 +82,16 @@ class Messages extends ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Task]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getTask(): ActiveQuery
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getUser(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'writer_id']);
     }
 
-    /**
-     * get all messages for user
-     *
-     * @param $task_id
-     * @param $user_id
-     * @return array
-     */
     public static function getUserMessages($task_id, $user_id): array
     {
         return self::find()->where(['task_id' => $task_id])
@@ -128,10 +99,6 @@ class Messages extends ActiveRecord
             ->andWhere(['unread' => 1])->asArray()->all();
     }
 
-    /**
-     * {@inheritdoc}
-     * @return MessagesQuery the active query used by this AR class.
-     */
     public static function find(): MessagesQuery
     {
         return new MessagesQuery(get_called_class());

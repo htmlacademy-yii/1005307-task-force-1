@@ -7,10 +7,6 @@ use frontend\models\{categories\Categories, users\UserCategory, users\Users};
 use Yii;
 use yii\base\Model;
 
-/**
- * Class ProfileForm
- * @package frontend\models\account
- */
 class ProfileForm extends Model
 {
     public $about;
@@ -32,10 +28,6 @@ class ProfileForm extends Model
     public $user;
     public $userCategory;
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -75,10 +67,6 @@ class ProfileForm extends Model
         ];
     }
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels(): array
     {
         return [
@@ -94,11 +82,6 @@ class ProfileForm extends Model
         ];
     }
 
-    /**
-     * Loads current user data
-     *
-     * @params $user user model whose data loads
-     */
     public function loadCurrentUserData(Users $user): void
     {
         $this->attributes = $user->attributes;
@@ -119,10 +102,6 @@ class ProfileForm extends Model
         $this->password = $password;
     }
 
-    /**
-     * Saves user data
-     * @param Users $user whose data save
-     */
     public function saveProfileData(Users $user): void
     {
         $this->saveAvatar();
@@ -132,11 +111,6 @@ class ProfileForm extends Model
         $this->saveOptionSet($user);
     }
 
-    /**
-     * Uploads file
-     *
-     * @return bool whether file was uploaded
-     */
     public function upload(): bool
     {
         if (!empty($this->photo && $this->validate($this->photo))) {
@@ -148,9 +122,6 @@ class ProfileForm extends Model
         return false;
     }
 
-    /**
-     * Uploads avatar
-     */
     private function saveAvatar(): void
     {
         if (property_exists(new Users, 'avatar')) {
@@ -161,13 +132,6 @@ class ProfileForm extends Model
         }
     }
 
-    /**
-     * Save categories where user works
-     *
-     * @param Users $user
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
-     */
     private function saveCategories(Users $user): void
     {
         $this->existingSpecializations = Categories::getCategories();
@@ -189,11 +153,6 @@ class ProfileForm extends Model
         }
     }
 
-    /**
-     * Save common data - password, name, etc.
-     * @param Users $user
-     * @throws \yii\base\Exception
-     */
     private function saveCommonData(Users $user): void
     {
         $user->setScenario(Users::SCENARIO_UPDATE);
@@ -217,10 +176,6 @@ class ProfileForm extends Model
         $user->save(false, $attributesToBeSaved);
     }
 
-    /**
-     * Check role if user has categories
-     * @param Users $user
-     */
     private function checkRole(Users $user): void
     {
         if (property_exists($user, 'user_role')) {
@@ -233,10 +188,6 @@ class ProfileForm extends Model
         }
     }
 
-    /**
-     * Saves user settings
-     * @param Users $user
-     */
     private function saveOptionSet(Users $user): void
     {
         $optionSet = $user->optionSet;

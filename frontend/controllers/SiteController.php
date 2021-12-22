@@ -3,15 +3,8 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
-/**
- * Class SiteController
- * @package frontend\controllers
- */
 class SiteController extends SecuredController
 {
-    /**
-     * {@inheritdoc}
-     */
     public function actions(): array
     {
         return [

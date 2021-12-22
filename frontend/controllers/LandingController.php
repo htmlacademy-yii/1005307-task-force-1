@@ -6,17 +6,10 @@ namespace frontend\controllers;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 
-/**
- * Class LandingController
- * @package frontend\controllers
- */
 class LandingController extends Controller
 {
     public $layout = 'anon';
 
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors(): array
     {
         return [
@@ -36,9 +29,6 @@ class LandingController extends Controller
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function actions(): array
     {
         return [

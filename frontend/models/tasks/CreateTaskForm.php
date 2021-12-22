@@ -11,10 +11,6 @@ use yii;
 use yii\base\Model;
 use yii\web\UploadedFile;
 
-/**
- * Class CreateTaskForm
- * @package frontend\models\tasks
- */
 class CreateTaskForm extends Model
 {
     public $address;
@@ -32,9 +28,6 @@ class CreateTaskForm extends Model
     public $status_task;
     private $coordinates;
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -71,9 +64,6 @@ class CreateTaskForm extends Model
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels(): array
     {
         return [
@@ -87,9 +77,6 @@ class CreateTaskForm extends Model
         ];
     }
 
-    /**
-     * Gets values for form - coordinates, city, address
-     */
     public function getAddress(): void
     {
         $session = Yii::$app->session;
@@ -105,11 +92,6 @@ class CreateTaskForm extends Model
         }
     }
 
-    /**
-     * Uploads file
-     *
-     * @return bool if file uploaded
-     */
     public function upload(): bool
     {
         if (!empty($this->file_item)) {
@@ -124,14 +106,6 @@ class CreateTaskForm extends Model
 
         return false;
     }
-
-    /**
-     * Connects to geocode and gets its params
-     *
-     * @param string $address
-     * @return array|null
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
 
     private function getGeoData(string $address): ?array
     {
@@ -164,14 +138,6 @@ class CreateTaskForm extends Model
 
         return $responseData;
     }
-
-    /**
-     * Gets coordinates from geocoder
-     *
-     * @param $address
-     * @return array|null
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
 
     private function getCoordinates($address): array
     {

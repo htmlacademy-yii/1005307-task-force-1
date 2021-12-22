@@ -6,15 +6,8 @@ namespace frontend\controllers;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 
-/**
- * Class SignController
- * @package frontend\controllers
- */
 class SignController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors(): array
     {
         return [
@@ -36,9 +29,6 @@ class SignController extends Controller
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function actions(): array
     {
         return [

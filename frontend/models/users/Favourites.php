@@ -17,17 +17,12 @@ use yii\db\ActiveRecord;
  */
 class Favourites extends ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+
     public static function tableName(): string
     {
         return 'favourites';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -46,9 +41,6 @@ class Favourites extends ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels(): array
     {
         return [

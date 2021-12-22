@@ -16,17 +16,12 @@ use yii\db\ActiveRecord;
  */
 class FileTask extends ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+
     public static function tableName(): string
     {
         return 'file_task';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -41,9 +36,6 @@ class FileTask extends ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels(): array
     {
         return [

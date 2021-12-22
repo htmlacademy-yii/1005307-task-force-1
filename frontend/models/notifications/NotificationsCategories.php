@@ -14,17 +14,11 @@ use yii\db\ActiveRecord;
  */
 class NotificationsCategories extends ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName(): string
     {
         return 'notifications_categories';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -34,9 +28,6 @@ class NotificationsCategories extends ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels(): array
     {
         return [

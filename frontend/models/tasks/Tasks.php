@@ -4,9 +4,7 @@ declare(strict_types=1);
 namespace frontend\models\tasks;
 
 use frontend\models\{categories\Categories,
-    categories\CategoriesQuery,
     cities\Cities,
-    cities\CitiesQuery,
     messages\Messages,
     notifications\Notifications,
     opinions\Opinions,
@@ -53,17 +51,11 @@ class Tasks extends ActiveRecord
     private $doer_id;
     private $client_id;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName(): string
     {
         return 'tasks';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -90,9 +82,6 @@ class Tasks extends ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels(): array
     {
         return [
@@ -115,94 +104,46 @@ class Tasks extends ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Category]].
-     *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
-     */
     public function getCategory(): ActiveQuery
     {
         return $this->hasOne(Categories::class, ['id' => 'category_id']);
     }
 
-    /**
-     * Gets query for [[City]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getCity(): ActiveQuery
     {
         return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
-    /**
-     * Gets query for [[Client]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getClient(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'client_id']);
     }
 
-    /**
-     * Gets query for [[Doer]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getDoer(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
     }
 
-    /**
-     * Gets query for [[FileTasks]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getFileTasks(): ActiveQuery
     {
         return $this->hasMany(FileTask::class, ['task_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Responses]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getResponses(): ActiveQuery
     {
         return $this->hasMany(Responses::class, ['task_id' => 'id']);
     }
 
-    /**
-     * {@inheritdoc}
-     * @return TasksQuery the active query used by this AR class.
-     */
     public static function find(): TasksQuery
     {
         return new TasksQuery(get_called_class());
     }
 
-    /**
-     * Gets one task
-     *
-     * @param $id
-     * @return Tasks
-     */
     final public static function getOneTask($id): Tasks
     {
         return self::findOne($id);
     }
 
-    /**
-     * Counts user task depending in role and status
-     *
-     * @param $status
-     * @param $user_role
-     * @param $user
-     * @return string
-     */
     public function countUsersTasks($status, $user_role, $user): string
     {
         switch ($user_role) {
@@ -219,13 +160,6 @@ class Tasks extends ActiveRecord
         return '';
     }
 
-    /**
-     * Get title and name for button in view
-     *
-     * @param $currentStatus
-     * @param $role
-     * @return array|string[]
-     */
     public function nextAction($currentStatus, $role): array
     {
         switch ($currentStatus) {

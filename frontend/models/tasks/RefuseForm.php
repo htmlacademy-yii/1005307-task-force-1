@@ -9,9 +9,6 @@ class RefuseForm extends Model
 {
     public $task_id;
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -19,9 +16,6 @@ class RefuseForm extends Model
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels(): array
     {
         return [

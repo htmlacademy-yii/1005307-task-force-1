@@ -25,17 +25,11 @@ class Responses extends ActiveRecord
 {
     private $is_refused;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName(): string
     {
         return 'responses';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
@@ -54,9 +48,6 @@ class Responses extends ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels(): array
     {
         return [
@@ -69,32 +60,16 @@ class Responses extends ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     * @return ResponsesQuery the active query used by this AR class.
-     */
     public static function find(): ResponsesQuery
     {
         return new ResponsesQuery(get_called_class());
     }
 
-    /**
-     * Gets query for [[Doer]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getDoer(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'doer_id']);
     }
 
-    /**
-     * Gets user responses
-     *
-     * @param $id - user id
-     * @param $task_id
-     * @return array
-     */
     public function getUserResponse($id, $task_id): array
     {
         return self::find()->where(['doer_id' => $id])->andWhere(['task_id' => $task_id])->all();
