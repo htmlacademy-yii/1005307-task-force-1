@@ -13,6 +13,9 @@ class ResponseForm extends Model
     public $is_refused;
     public $task_id;
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
@@ -27,6 +30,9 @@ class ResponseForm extends Model
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels(): array
     {
         return [

@@ -6,6 +6,10 @@ namespace frontend\models\account;
 use frontend\models\{cities\Cities, users\Users};
 use yii\base\Model;
 
+/**
+ * Class SignForm
+ * @package frontend\models\account
+ */
 class SignForm extends Model
 {
     public $city_id;
@@ -14,6 +18,9 @@ class SignForm extends Model
     public $password;
     public $user_role;
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
@@ -41,6 +48,9 @@ class SignForm extends Model
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels(): array
     {
         return [

@@ -54,11 +54,6 @@ class Task
         $this->currentStatus = $currentStatus;
     }
 
-    private function isClientOrDoer(): bool
-    {
-        return $this->idUser === $this->idClient or $this->idUser === $this->idDoer;
-    }
-
     public function getStatusAll(): array
     {
         return [
@@ -108,5 +103,10 @@ class Task
             return new $this->nextAction[$currentStatus][$role]($this->idDoer, $this->idClient, $this->idUser);
         }
         return null;
+    }
+
+    private function isClientOrDoer(): bool
+    {
+        return $this->idUser === $this->idClient or $this->idUser === $this->idDoer;
     }
 }

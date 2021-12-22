@@ -64,11 +64,17 @@ class Users extends ActiveRecord
     private $rating;
     private $opinions_count;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function tableName(): string
     {
         return 'users';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
@@ -87,6 +93,9 @@ class Users extends ActiveRecord
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels(): array
     {
         return [
@@ -112,51 +121,105 @@ class Users extends ActiveRecord
         ];
     }
 
+    /**
+     * Gets query for [[Cities]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getCity(): ActiveQuery
     {
         return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
+
+    /**
+     * Gets query for [[Favourites]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getFavourites(): ActiveQuery
     {
         return $this->hasMany(Favourites::class, ['favourite_person_id' => 'id']);
     }
 
+    /**
+     * Gets query for [[Opinions]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getOpinions(): ActiveQuery
     {
         return $this->hasMany(Opinions::class, ['doer_id' => 'id']);
     }
 
+    /**
+     * Gets query for [[OptionSet]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getOptionSet(): ActiveQuery
     {
         return $this->hasOne(UserOptionSettings::class, ['user_id' => 'id']);
     }
 
+    /**
+     * Gets query for [[Portfolio photo]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getPortfolioPhotos(): ActiveQuery
     {
         return $this->hasMany(PortfolioPhoto::class, ['user_id' => 'id']);
     }
 
+    /**
+     * Gets query for [[UserCategory]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getUserCategories(): ActiveQuery
     {
         return $this->hasMany(Categories::class, ['id' => 'category_id'])->viaTable('user_category', ['user_id' => 'id']);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return UsersQuery the active query used by this AR class.
+     */
     public static function find(): UsersQuery
     {
         return new UsersQuery(get_called_class());
     }
 
+    /**
+     * Gets one user
+     *
+     * @param $id
+     * @return Users
+     */
     final public static function getOneUser($id): Users
     {
         return self::findOne($id);
     }
 
+    /**
+     * Gets model
+     *
+     * @return Users
+     */
     public function findModel(): Users
     {
         return self::findOne(\Yii::$app->user->identity->getId());
     }
 
+    /**
+     * Checks if current user is client of executant task
+     *
+     * @param $user_id
+     * @param $account_user_id
+     * @return array
+     */
     public function getClientOfActiveTask($user_id, $account_user_id): array
     {
         return Tasks::find()->where(['status_task' => 'На исполнении'])
@@ -164,6 +227,13 @@ class Users extends ActiveRecord
             ->andWhere(['doer_id' => $user_id])->asArray()->all();
     }
 
+    /**
+     * Checks if current user is doer of executant task
+     *
+     * @param $user_id
+     * @param $account_user_id
+     * @return array
+     */
     public function getDoerOfActiveTask($user_id, $account_user_id): array
     {
         return Tasks::find()->where(['status_task' => 'На исполнении'])

@@ -23,11 +23,17 @@ class Cities extends ActiveRecord
 {
     private $cities;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function tableName(): string
     {
         return 'cities';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels(): array
     {
         return [
@@ -39,6 +45,9 @@ class Cities extends ActiveRecord
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
@@ -48,6 +57,11 @@ class Cities extends ActiveRecord
         ];
     }
 
+    /**
+     * Get all cities
+     *
+     * @returns array
+     */
     public function getCities(): array
     {
         $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
@@ -55,6 +69,11 @@ class Cities extends ActiveRecord
         return $this->cities;
     }
 
+    /**
+     * Get all cities
+     *
+     * @returns array
+     */
     final public static function getAll(): array
     {
         return self::find()->asArray()->all();

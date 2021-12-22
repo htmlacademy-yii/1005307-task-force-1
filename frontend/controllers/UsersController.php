@@ -3,8 +3,15 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
+/**
+ * Class UsersController
+ * @package frontend\controllers
+ */
 class UsersController extends SecuredController
 {
+    /**
+     * {@inheritdoc}
+     */
     public function actions(): array
     {
         return [
