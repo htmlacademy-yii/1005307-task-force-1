@@ -20,6 +20,11 @@ class MessagesController extends ActiveController
 {
     public $modelClass = Messages::class;
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return array[]
+     */
     public function behaviors(): array
     {
         return [
@@ -34,11 +39,21 @@ class MessagesController extends ActiveController
         ];
     }
 
+    /**
+     * checks access for action
+     * @param string $action
+     * @param null $model
+     * @param array $params
+     * @return bool
+     */
     public function checkAccess($action, $model = null, $params = []): bool
     {
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actions(): array
     {
         $actions = parent::actions();
@@ -49,6 +64,11 @@ class MessagesController extends ActiveController
         return $actions;
     }
 
+    /**
+     * Shows messages
+     *
+     * {@inheritdoc}
+     */
     public function prepareDataProvider(): ActiveDataProvider
     {
         $taskId = Yii::$app->request->get('task_id');
@@ -64,6 +84,10 @@ class MessagesController extends ActiveController
         return $messages;
     }
 
+    /**
+     * Shows messages && makes them read
+     * @return array
+     */
     public function actionView(): array
     {
         $userId = Yii::$app->user->getId();
@@ -83,6 +107,12 @@ class MessagesController extends ActiveController
         return $messages;
     }
 
+    /**
+     * Creates message
+     *
+     * @return false|string
+     * @throws ServerErrorHttpException
+     */
     public function actionCreate()
     {
         $post = json_decode(Yii::$app->request->getRawBody());
