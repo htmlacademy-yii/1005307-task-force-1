@@ -5,6 +5,9 @@ namespace frontend\models\account;
 
 use yii\base\Model;
 
+/**
+ * LoginForm
+ */
 class LoginForm extends Model
 {
     public $err;
@@ -12,6 +15,9 @@ class LoginForm extends Model
     public $password;
     public $user;
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
@@ -30,6 +36,9 @@ class LoginForm extends Model
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels(): array
     {
         return [
@@ -38,6 +47,11 @@ class LoginForm extends Model
         ];
     }
 
+    /**
+     * Validates password
+     *
+     * @return void
+     */
     public function validatePassword($attribute): void
     {
         $this->user = $this->getUser();
@@ -49,6 +63,11 @@ class LoginForm extends Model
         }
     }
 
+    /**
+     * get user
+     *
+     * @return UserIdentity|null
+     */
     public function getUser(): ?UserIdentity
     {
         if ($this->user === null) {

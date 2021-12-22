@@ -5,10 +5,17 @@ namespace frontend\models\cities;
 
 use yii\base\Model;
 
+/**
+ * Class SetCityForm
+ * @package frontend\models\cities
+ */
 class SetCityForm extends Model
 {
     public $city;
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [

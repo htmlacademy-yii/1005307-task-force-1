@@ -21,11 +21,17 @@ class UserCategory extends ActiveRecord
     private $category_id;
     private $user_id;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function tableName(): string
     {
         return 'user_category';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
@@ -43,6 +49,9 @@ class UserCategory extends ActiveRecord
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels(): array
     {
         return [
