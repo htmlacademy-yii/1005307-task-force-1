@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace frontend\models\account;
 
-use frontend\models\{categories\Categories, users\UserCategory, users\Users};
+use frontend\models\{categories\Categories, users\PortfolioPhoto, users\UserCategory, users\Users};
 use Yii;
 use yii\base\Model;
+use yii\web\UploadedFile;
 
 /**
  * Class ProfileForm
@@ -130,22 +131,25 @@ class ProfileForm extends Model
         $this->saveCommonData($user);
         $this->checkRole($user);
         $this->saveOptionSet($user);
+        $this->upload($user);
     }
 
     /**
      * Uploads file
-     *
-     * @return bool whether file was uploaded
      */
-    public function upload(): bool
+    private function upload($user): void
     {
+        $this->photo = UploadedFile::getInstances($this, 'photo');
         if (!empty($this->photo && $this->validate($this->photo))) {
+            PortfolioPhoto::deleteAll(['user_id' => $user->id]);
             foreach ($this->photo as $file) {
+                $portfolioPhoto = new PortfolioPhoto([
+                    'photo' => '/uploads/' . $file,
+                    'user_id' => $user->id]);
+                $portfolioPhoto->save(false);
                 $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
             }
-            return true;
         }
-        return false;
     }
 
     /**

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace frontend\controllers\actions\profile;
 
 use frontend\models\account\ProfileForm;
-use frontend\models\users\PortfolioPhoto;
+use frontend\models\cities\Cities;
 use frontend\models\users\Users;
 use Yii;
 use yii\base\Action;
@@ -39,30 +39,13 @@ class IndexAction extends Action
 
                 if ($profileForm->validate()) {
                     $profileForm->saveProfileData($this->controller->user);
-
-                    if ($profileForm->upload()) {
-                        if (property_exists(new PortfolioPhoto, 'photo') && property_exists(new PortfolioPhoto(), 'user_id')) {
-                            PortfolioPhoto::deleteAll(['user_id' => $this->controller->user->id]);
-                            foreach ($profileForm->photo as $file) {
-                                $portfolioPhoto = new PortfolioPhoto([
-                                    'photo' => '/uploads/' . $file,
-                                    'user_id' => $this->controller->user->id]);
-                                $portfolioPhoto->save(false);
-                            }
-                        }
-                    }
-
-                    if (property_exists($this->controller->user, 'city_id')) {
-                        $session = Yii::$app->session;
-                        $session->set('city', $this->controller->user->city_id);
-                    }
+                    $city = new Cities();
+                    $city->setSessionCity($this->controller->user);
 
                     return $this->controller->redirect(['users/view', 'id' => $this->controller->user->id]);
                 }
             }
-
         }
-
         return $this->controller->render(
             'index',
             [

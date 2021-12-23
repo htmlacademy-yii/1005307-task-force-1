@@ -63,19 +63,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'authClientCollection' => [
-            'class' => 'yii\authclient\Collection',
-            'clients' => [
-                'vkontakte' => [
-                    'class' => 'yii\authclient\clients\VKontakte',
-                    'clientId' => '7990872',
-                    'clientSecret' => 'SOB0UHXK50eEJLIX91M5',
-                    'returnUrl' => 'https://yii-taskforce/sign/auth?authclient=vkontakte',
-                    'apiVersion' => '5.130',
-                    'scope' => 'email',
-                ],
-            ],
-        ],
         'cache' => [
             'class' => 'yii\redis\Cache',
         ],
@@ -86,7 +73,8 @@ return [
     'defaultRoute' => 'landing/index',
     'params' => [
         'params' => $params,
-        'apiKey' => 'e666f398-c983-4bde-8f14-e3fec900592a'
+        'apiKey' => 'e666f398-c983-4bde-8f14-e3fec900592a',
+        'email' => 'anyakulikova111@yandex.ru'
     ],
     'modules' => [
         'api' => [

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace frontend\models\cities;
 
 use frontend\models\{tasks\Tasks, users\Users};
+use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -67,6 +68,14 @@ class Cities extends ActiveRecord
         $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
 
         return $this->cities;
+    }
+
+    public function setSessionCity($user)
+    {
+        if (property_exists($user, 'city_id')) {
+            $session = Yii::$app->session;
+            $session->set('city', $user->city_id);
+        }
     }
 
     /**
