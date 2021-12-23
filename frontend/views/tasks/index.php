@@ -37,9 +37,10 @@ $periodFilter = $searchForm->getPeriodFilter();
                 'pageCssClass' => 'pagination__item',
                 'prevPageCssClass' => 'pagination__item',
                 'nextPageCssClass' => 'pagination__item',
-                'nextPageLabel' => '',
-                'prevPageLabel' => '',
+                'nextPageLabel' => '.',
+                'prevPageLabel' => '.',
                 'activePageCssClass' => 'pagination__item pagination__item--current',
+                'maxButtonCount' => 5,
             ],
         ])
         ?>

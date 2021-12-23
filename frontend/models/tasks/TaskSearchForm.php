@@ -8,6 +8,10 @@ use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\db\Query;
 
+/**
+ * Class TaskSearchForm
+ * @package frontend\models\tasks
+ */
 class TaskSearchForm extends Tasks
 {
     public $dataProvider;
@@ -18,6 +22,9 @@ class TaskSearchForm extends Tasks
     public $searchName;
     private $query;
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
@@ -25,6 +32,9 @@ class TaskSearchForm extends Tasks
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPeriodFilter(): array
     {
         return [
@@ -34,6 +44,12 @@ class TaskSearchForm extends Tasks
         ];
     }
 
+    /**
+     * Get 4 last tasks for landing page
+     *
+     * @param $params
+     * @return array
+     */
     public function getLastTasks($params): array
     {
         $this->query = Tasks::find();
@@ -43,6 +59,12 @@ class TaskSearchForm extends Tasks
         return $this->query->all();
     }
 
+    /**
+     * Search all new tasks in session city and filters by categories, no responses,etc
+     *
+     * @param $params
+     * @return ActiveDataProvider
+     */
     public function searchByFilters($params): ActiveDataProvider
     {
         $this->query = (new Query());
@@ -87,6 +109,13 @@ class TaskSearchForm extends Tasks
         return $this->dataProvider;
     }
 
+    /**
+     * Search all new tasks in session city and filters by categories
+     *
+     * @param $params
+     * @param $category
+     * @return ActiveDataProvider
+     */
     public function searchByCategories($params, $category): ActiveDataProvider
     {
         $this->query = (new Query());
@@ -100,6 +129,15 @@ class TaskSearchForm extends Tasks
         return $this->dataProvider;
     }
 
+    /**
+     * Gets user's tasks and filters by status
+     *
+     * @param $params
+     * @param $user_id
+     * @param $user_role
+     * @param $status_task
+     * @return ActiveDataProvider
+     */
     public function searchByStatus($params, $user_id, $user_role, $status_task): ActiveDataProvider
     {
         $this->query = Tasks::find();
@@ -139,6 +177,10 @@ class TaskSearchForm extends Tasks
         return $this->dataProvider;
     }
 
+    /**
+     * Gets all tasks, joins with other models, groups and order
+     * @param $params
+     */
     private function getTasks($params): void
     {
         $this->load($params);
@@ -157,6 +199,9 @@ class TaskSearchForm extends Tasks
             ->orderBy(['dt_add' => SORT_DESC]);
     }
 
+    /**
+     * Gets all tasks by session city
+     */
     private function getTasksByCity(): void
     {
         $session = Yii::$app->session;
@@ -165,6 +210,9 @@ class TaskSearchForm extends Tasks
             ->orWhere(['online' => 1]);
     }
 
+    /**
+     * Gets data provider for list view & pagination
+     */
     private function getDataProvider(): void
     {
         $this->dataProvider = new ActiveDataProvider([

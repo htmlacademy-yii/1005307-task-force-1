@@ -27,11 +27,17 @@ class Opinions extends ActiveRecord
 {
     private $completion;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function tableName(): string
     {
         return 'opinions';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
@@ -54,6 +60,9 @@ class Opinions extends ActiveRecord
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels(): array
     {
         return [
@@ -68,10 +77,21 @@ class Opinions extends ActiveRecord
         ];
     }
 
+    /**
+     * Gets query for [[Client]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getClient(): ActiveQuery
     {
         return $this->hasOne(Users::class, ['id' => 'client_id']);
     }
+
+    /**
+     * Gets query for [[Task]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
 
     public function getTask(): ActiveQuery
     {

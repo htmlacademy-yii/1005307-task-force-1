@@ -3,8 +3,15 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
+/**
+ * Class TasksController
+ * @package frontend\controllers
+ */
 class TasksController extends SecuredController
 {
+    /**
+     * {@inheritdoc}
+     */
     public function actions(): array
     {
         return [

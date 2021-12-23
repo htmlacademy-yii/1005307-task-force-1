@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace frontend\models\cities;
 
 use frontend\models\{tasks\Tasks, users\Users};
+use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -23,11 +24,17 @@ class Cities extends ActiveRecord
 {
     private $cities;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function tableName(): string
     {
         return 'cities';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels(): array
     {
         return [
@@ -39,6 +46,9 @@ class Cities extends ActiveRecord
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
@@ -48,6 +58,11 @@ class Cities extends ActiveRecord
         ];
     }
 
+    /**
+     * Get all cities
+     *
+     * @returns array
+     */
     public function getCities(): array
     {
         $this->cities = ArrayHelper::map(Cities::getAll(), 'id', 'city');
@@ -55,6 +70,19 @@ class Cities extends ActiveRecord
         return $this->cities;
     }
 
+    public function setSessionCity($user)
+    {
+        if (property_exists($user, 'city_id')) {
+            $session = Yii::$app->session;
+            $session->set('city', $user->city_id);
+        }
+    }
+
+    /**
+     * Get all cities
+     *
+     * @returns array
+     */
     final public static function getAll(): array
     {
         return self::find()->asArray()->all();

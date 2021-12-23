@@ -27,11 +27,17 @@ class Notifications extends ActiveRecord
     public $subject;
     private $visible;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function tableName(): string
     {
         return 'notifications';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
@@ -53,6 +59,9 @@ class Notifications extends ActiveRecord
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels(): array
     {
         return [
@@ -65,16 +74,29 @@ class Notifications extends ActiveRecord
         ];
     }
 
+    /**
+     * Gets query for [[NotificationsCategory]].
+     *
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     */
     public function getNotificationsCategory(): ActiveQuery
     {
         return $this->hasOne(NotificationsCategories::class, ['id' => 'notification_category_id']);
     }
 
+    /**
+     * Gets query for [[Task]].
+     *
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     */
     public function getTask(): ActiveQuery
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
     }
 
+    /**
+     * Sends email notice to user
+     */
     public function addNotification(): void
     {
         $user = Users::findOne($this->user_id);
@@ -82,11 +104,16 @@ class Notifications extends ActiveRecord
         $subject = $this['notificationsCategory']['name'];
         Yii::$app->mailer->compose('@frontend/views/site/email', ['user' => $user, 'subject' => $subject, 'task' => $task])
             ->setTo($user->email)
-            ->setFrom('anyakulikova111@yandex.ru')
+            ->setFrom(Yii::$app->params['email'])
             ->setSubject($subject)
             ->send();
     }
 
+    /**
+     * Gets all notifications for user
+     * @param $id
+     * @return array
+     */
     public static function getVisibleNoticesByUser($id): array
     {
         $query = self::find()

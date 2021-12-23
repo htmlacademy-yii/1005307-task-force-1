@@ -53,39 +53,15 @@ return [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => true,
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.mailtrap.io',
-                'username' => 'aa01c1350e1b2c',
-                'password' => 'd27f3eee25710e',
-                'port' => '2525',
-                'encryption' => 'tls',
-            ],
         ],
-        'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => 'localhost',
+            'port' => 6379,
+            'database' => 0,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
-        ],
-        'authClientCollection' => [
-            'class' => 'yii\authclient\Collection',
-            'clients' => [
-                'vkontakte' => [
-                    'class' => 'yii\authclient\clients\VKontakte',
-                    'clientId' => '7990872',
-                    'clientSecret' => 'SOB0UHXK50eEJLIX91M5',
-                    'returnUrl' => 'https://yii-taskforce/sign/auth?authclient=vkontakte',
-                    'apiVersion' => '5.130',
-                    'scope' => 'email',
-                ],
-            ],
         ],
         'cache' => [
             'class' => 'yii\redis\Cache',
@@ -97,10 +73,12 @@ return [
     'defaultRoute' => 'landing/index',
     'params' => [
         'params' => $params,
+        'apiKey' => 'e666f398-c983-4bde-8f14-e3fec900592a',
+        'email' => 'anyakulikova111@yandex.ru'
     ],
     'modules' => [
         'api' => [
-            'class' => 'frontend\modules\api\Module'
+            'class' => 'frontend\modules\api\Module',
         ]
     ],
 ];

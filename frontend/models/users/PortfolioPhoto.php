@@ -19,11 +19,17 @@ class PortfolioPhoto extends ActiveRecord
     private $photo;
     private $user_id;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function tableName(): string
     {
         return 'portfolio_photo';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
@@ -38,6 +44,9 @@ class PortfolioPhoto extends ActiveRecord
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels(): array
     {
         return [

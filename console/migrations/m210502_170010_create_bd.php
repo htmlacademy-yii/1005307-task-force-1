@@ -45,7 +45,7 @@ class m210502_170010_create_bd extends Migration
             'skype' => $this->string(255),
             'telegram' => $this->string(255),
             'user_role' => $this->string(255)->notNull(),
-            'vk_id' => $this->string(255),
+            'vk_id' => $this->integer(11),
         ]);
 
         $this->addForeignKey(
@@ -89,7 +89,7 @@ class m210502_170010_create_bd extends Migration
             'is_subscribed_messages' => $this->integer(1)->notNull(),
             'is_subscribed_reviews' => $this->integer(1)->notNull(),
             'user_id' => $this->integer(11)->notNull(),
-            ]);
+        ]);
 
         $this->addForeignKey(
             'user_opt_id',
