@@ -32,7 +32,7 @@ class LoginAction extends Action
                 Yii::$app->user->login($user);
                 $users = Users::findOne($user->id);
                 $city = new Cities();
-                $city->setSessionCity($this->controller->user);
+                $city->setSessionCity($users);
 
                 return $this->controller->redirect(['tasks/']);
             }
@@ -41,4 +41,3 @@ class LoginAction extends Action
         return $this->controller->redirect(['landing/index']);
     }
 }
-
