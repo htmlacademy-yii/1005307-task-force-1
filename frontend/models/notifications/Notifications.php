@@ -101,8 +101,9 @@ class Notifications extends ActiveRecord
     {
         $user = Users::findOne($this->user_id);
         $task = Tasks::findOne($this->task_id);
+        Yii::$app->mailer->htmlLayout = '@frontend/views/mail/layout';
         $subject = $this['notificationsCategory']['name'];
-        Yii::$app->mailer->compose('@frontend/views/site/email', ['user' => $user, 'subject' => $subject, 'task' => $task])
+        Yii::$app->mailer->compose('@frontend/views/mail/email', ['user' => $user, 'subject' => $subject, 'task' => $task])
             ->setTo($user->email)
             ->setFrom(Yii::$app->params['email'])
             ->setSubject($subject)
